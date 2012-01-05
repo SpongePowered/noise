@@ -81,15 +81,26 @@ public class Utils {
 	public static double GetMax(double a, double b){
 		return (a > b)? a : b;
 	}
-	
+
 	public static double GetMin(double a, double b){
 		return (a < b)? a: b;
 	}
 	public static int GetMin(int a, int b){
 		return (a < b)? a: b;
 	}
-	
-	
+
+	public static double MakeInt32Range (double n)
+	{
+		if (n >= 1073741824.0) {
+			return (2.0 * n % 1073741824.0) - 1073741824.0;
+		} else if (n <= -1073741824.0) {
+			return (2.0 * n % 1073741824.0) + 1073741824.0;
+		} else {
+			return n;
+		}
+	}
+
+
 
 	/**
 	 * 
