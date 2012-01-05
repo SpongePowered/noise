@@ -90,40 +90,40 @@ public class Billow extends Module {
 
 	@Override
 	public double GetValue(double x, double y, double z) {
-		  double value = 0.0;
-		  double signal = 0.0;
-		  double curPersistence = 1.0;
-		  double nx, ny, nz;
-		  int seed;
+		double value = 0.0;
+		double signal = 0.0;
+		double curPersistence = 1.0;
+		double nx, ny, nz;
+		int seed;
 
-		  x *= frequency;
-		  y *= frequency;
-		  z *= frequency;
+		x *= frequency;
+		y *= frequency;
+		z *= frequency;
 
-		  for (int curOctave = 0; curOctave < octaveCount; curOctave++) {
+		for (int curOctave = 0; curOctave < octaveCount; curOctave++) {
 
-		    // Make sure that these floating-point values have the same range as a 32-
-		    // bit integer so that we can pass them to the coherent-noise functions.
-		    nx = Utils.MakeInt32Range (x);
-		    ny = Utils.MakeInt32Range (y);
-		    nz = Utils.MakeInt32Range (z);
+			// Make sure that these floating-point values have the same range as a 32-
+			// bit integer so that we can pass them to the coherent-noise functions.
+			nx = Utils.MakeInt32Range (x);
+			ny = Utils.MakeInt32Range (y);
+			nz = Utils.MakeInt32Range (z);
 
-		    // Get the coherent-noise value from the input value and add it to the
-		    // final result.
-		    seed = (this.seed + curOctave) & 0xffffffff;
-		    signal = Noise.GradientCoherentNoise3D (nx, ny, nz, seed, quality);
-		    signal = 2.0 * Math.abs(signal) - 1.0;
-		    value += signal * curPersistence;
+			// Get the coherent-noise value from the input value and add it to the
+			// final result.
+			seed = (this.seed + curOctave) & 0xffffffff;
+			signal = Noise.GradientCoherentNoise3D (nx, ny, nz, seed, quality);
+			signal = 2.0 * Math.abs(signal) - 1.0;
+			value += signal * curPersistence;
 
-		    // Prepare the next octave.
-		    x *= lacunarity;
-		    y *= lacunarity;
-		    z *= lacunarity;
-		    curPersistence *= persistence;
-		  }
-		  value += 0.5;
+			// Prepare the next octave.
+			x *= lacunarity;
+			y *= lacunarity;
+			z *= lacunarity;
+			curPersistence *= persistence;
+		}
+		value += 0.5;
 
-		  return value;
+		return value;
 	}
 
 
