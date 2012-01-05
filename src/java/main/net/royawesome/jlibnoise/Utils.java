@@ -3,6 +3,7 @@ package net.royawesome.jlibnoise;
 public class Utils {
 	public static final double PI = 3.1415926535897932385;
 	public static final double SQRT_2 = 1.4142135623730950488;
+	public static final double SQRT_3 = 1.7320508075688772935;
 	public static final double DEG_TO_RAD = PI / 180.0;
 	public static final double RAD_TO_DEG = 1.0 / DEG_TO_RAD;
 
