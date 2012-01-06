@@ -18,9 +18,10 @@
 
 */
 
-package net.royawesome.jlibnoise.module;
+package net.royawesome.jlibnoise.module.noise;
 
 import net.royawesome.jlibnoise.Utils;
+import net.royawesome.jlibnoise.module.Module;
 
 public class Checkerboard extends Module {
 

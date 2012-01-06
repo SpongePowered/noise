@@ -18,12 +18,13 @@
 
 */
 
-package net.royawesome.jlibnoise.module;
+package net.royawesome.jlibnoise.module.modifier;
 
 import java.util.ArrayList;
 
 import net.royawesome.jlibnoise.Utils;
 import net.royawesome.jlibnoise.exception.NoModuleException;
+import net.royawesome.jlibnoise.module.Module;
 
 public class Curve extends Module {
 	public class ControlPoint {

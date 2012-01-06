@@ -17,9 +17,11 @@
  This is a port of libnoise ( http://libnoise.sourceforge.net/index.html ).  Original implementation by Jason Bevins
 
 */
-package net.royawesome.jlibnoise.module;
+package net.royawesome.jlibnoise.module.combiner;
 
 import net.royawesome.jlibnoise.exception.NoModuleException;
+import net.royawesome.jlibnoise.module.Module;
+import net.royawesome.jlibnoise.module.noise.Perlin;
 
 public class Turbulence extends Module {
 	/// Default frequency for the noise::module::Turbulence noise module.

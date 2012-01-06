@@ -18,37 +18,49 @@
 
 */
 
-package net.royawesome.jlibnoise.module;
+package net.royawesome.jlibnoise.module.combiner;
 
+import net.royawesome.jlibnoise.Utils;
 import net.royawesome.jlibnoise.exception.NoModuleException;
+import net.royawesome.jlibnoise.module.Module;
 
-public class Exponent extends Module {
-	public static final double DEFAULT_EXPONENT = 1.0;
-	protected double exponent = DEFAULT_EXPONENT;
+public class Blend extends Module {
 
-	public Exponent() {
-		super(1);
+	public Blend() {
+		super(3);
 	}
 
-	public double getExponent() {
-		return exponent;
+	public Module getControlModule() {
+		if (SourceModule[2] == null)
+			throw new NoModuleException();
+		return SourceModule[2];
 	}
 
-	public void setExponent(double exponent) {
-		this.exponent = exponent;
+	public void setControlModule(Module module) {
+		if (module == null)
+			throw new IllegalArgumentException("Control Module cannot be null");
+		SourceModule[2] = module;
 	}
 
 	@Override
 	public int GetSourceModuleCount() {
-		return 1;
+		return 3;
 	}
 
 	@Override
 	public double GetValue(double x, double y, double z) {
 		if (SourceModule[0] == null)
 			throw new NoModuleException();
-		double value = SourceModule[0].GetValue(x, y, z);
-		return (Math.pow(Math.abs((value + 1.0) / 2.0), exponent) * 2.0 - 1.0);
+		if (SourceModule[1] == null)
+			throw new NoModuleException();
+		if (SourceModule[2] == null)
+			throw new NoModuleException();
+
+		double v0 = SourceModule[0].GetValue(x, y, z);
+		double v1 = SourceModule[1].GetValue(x, y, z);
+		double alpha = (SourceModule[2].GetValue(x, y, z) + 1.0) / 2.0;
+		return Utils.LinearInterp(v0, v1, alpha);
+
 	}
 
 }

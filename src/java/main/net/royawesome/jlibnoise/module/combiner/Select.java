@@ -17,10 +17,11 @@
  This is a port of libnoise ( http://libnoise.sourceforge.net/index.html ).  Original implementation by Jason Bevins
 
 */
-package net.royawesome.jlibnoise.module;
+package net.royawesome.jlibnoise.module.combiner;
 
 import net.royawesome.jlibnoise.Utils;
 import net.royawesome.jlibnoise.exception.NoModuleException;
+import net.royawesome.jlibnoise.module.Module;
 
 public class Select extends Module {
 	/// Default edge-falloff value for the noise::module::Select noise module.

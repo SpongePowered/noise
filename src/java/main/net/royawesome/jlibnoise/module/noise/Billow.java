@@ -18,55 +18,49 @@
 
 */
 
-package net.royawesome.jlibnoise.module;
+package net.royawesome.jlibnoise.module.noise;
 
 import net.royawesome.jlibnoise.Noise;
 import net.royawesome.jlibnoise.NoiseQuality;
 import net.royawesome.jlibnoise.Utils;
+import net.royawesome.jlibnoise.module.Module;
 
-public class Perlin extends Module {
+public class Billow extends Module {
 
-	/// Default frequency for the noise::module::Perlin noise module.
-	public static final double DEFAULT_PERLIN_FREQUENCY = 1.0;
+	public static double DEFAULT_BILLOW_FREQUENCY = 1.0;
 
-	/// Default lacunarity for the noise::module::Perlin noise module.
-	public static final double DEFAULT_PERLIN_LACUNARITY = 2.0;
+	public static final double DEFAULT_BILLOW_LACUNARITY = 2.0;
 
-	/// Default number of octaves for the noise::module::Perlin noise module.
-	public static final int DEFAULT_PERLIN_OCTAVE_COUNT = 6;
+	public static final int DEFAULT_BILLOW_OCTAVE_COUNT = 6;
 
-	/// Default persistence value for the noise::module::Perlin noise module.
-	public static final double DEFAULT_PERLIN_PERSISTENCE = 0.5;
+	public static final double DEFAULT_BILLOW_PERSISTENCE = 0.5;
 
-	/// Default noise quality for the noise::module::Perlin noise module.
-	public static final NoiseQuality DEFAULT_PERLIN_QUALITY = NoiseQuality.STANDARD;
+	public static final NoiseQuality DEFAULT_BILLOW_QUALITY = NoiseQuality.STANDARD;
 
-	/// Default noise seed for the noise::module::Perlin noise module.
-	public static final int DEFAULT_PERLIN_SEED = 0;
+	public static final int DEFAULT_BILLOW_SEED = 0;
 
-	/// Maximum number of octaves for the noise::module::Perlin noise module.
-	public static final int PERLIN_MAX_OCTAVE = 30;
+	public static final int BILLOW_MAX_OCTAVE = 30;
 
-	/// Frequency of the first octave.
-	double frequency = DEFAULT_PERLIN_FREQUENCY;
+	protected double frequency = DEFAULT_BILLOW_FREQUENCY;
+	protected double lacunarity = DEFAULT_BILLOW_LACUNARITY;
+	protected NoiseQuality quality = DEFAULT_BILLOW_QUALITY;
+	protected double persistence = DEFAULT_BILLOW_PERSISTENCE;
+	protected int seed = DEFAULT_BILLOW_SEED;
+	protected int octaveCount;
 
-	/// Frequency multiplier between successive octaves.
-	double lacunarity = DEFAULT_PERLIN_LACUNARITY;
-
-	/// Quality of the Perlin noise.
-	NoiseQuality noiseQuality = DEFAULT_PERLIN_QUALITY;
-
-	/// Total number of octaves that generate the Perlin noise.
-	int octaveCount = DEFAULT_PERLIN_OCTAVE_COUNT;
-
-	/// Persistence of the Perlin noise.
-	double persistence = DEFAULT_PERLIN_PERSISTENCE;
-
-	/// Seed value used by the Perlin-noise function.
-	int seed = DEFAULT_PERLIN_SEED;
-
-	public Perlin() {
+	public Billow() {
 		super(0);
+	}
+
+	public int getOctaveCount() {
+		return octaveCount;
+	}
+
+	public void setOctaveCount(int octaveCount) {
+		if (octaveCount < 1 || octaveCount > BILLOW_MAX_OCTAVE) {
+			throw new IllegalArgumentException("octaveCount must be between 1 and BILLOW_MAX_OCTAVE: " + BILLOW_MAX_OCTAVE);
+		}
+		this.octaveCount = octaveCount;
 	}
 
 	public double getFrequency() {
@@ -85,32 +79,20 @@ public class Perlin extends Module {
 		this.lacunarity = lacunarity;
 	}
 
-	public NoiseQuality getNoiseQuality() {
-		return noiseQuality;
+	public NoiseQuality getQuality() {
+		return quality;
 	}
 
-	public void setNoiseQuality(NoiseQuality noiseQuality) {
-		this.noiseQuality = noiseQuality;
-	}
-
-	public int getOctaveCount() {
-		return octaveCount;
-	}
-
-	public void setOctaveCount(int octaveCount) {
-		if (octaveCount < 1 || octaveCount > PERLIN_MAX_OCTAVE) {
-			throw new IllegalArgumentException("octaveCount must be between 1 and MAX OCTAVE: " + PERLIN_MAX_OCTAVE);
-		}
-
-		this.octaveCount = octaveCount;
+	public void setQuality(NoiseQuality quality) {
+		this.quality = quality;
 	}
 
 	public double getPersistence() {
 		return persistence;
 	}
 
-	public void setPersistence(double persistence) {
-		this.persistence = persistence;
+	public void setPersistence(double persistance) {
+		this.persistence = persistance;
 	}
 
 	public int getSeed() {
@@ -149,7 +131,8 @@ public class Perlin extends Module {
 			// Get the coherent-noise value from the input value and add it to the
 			// final result.
 			seed = (this.seed + curOctave) & 0xffffffff;
-			signal = Noise.GradientCoherentNoise3D(nx, ny, nz, seed, noiseQuality);
+			signal = Noise.GradientCoherentNoise3D(nx, ny, nz, seed, quality);
+			signal = 2.0 * Math.abs(signal) - 1.0;
 			value += signal * curPersistence;
 
 			// Prepare the next octave.
@@ -158,9 +141,9 @@ public class Perlin extends Module {
 			z *= lacunarity;
 			curPersistence *= persistence;
 		}
+		value += 0.5;
 
 		return value;
-
 	}
 
 }

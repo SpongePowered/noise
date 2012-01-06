@@ -17,10 +17,11 @@
  This is a port of libnoise ( http://libnoise.sourceforge.net/index.html ).  Original implementation by Jason Bevins
 
 */
-package net.royawesome.jlibnoise.module;
+package net.royawesome.jlibnoise.module.noise;
 
 import net.royawesome.jlibnoise.Noise;
 import net.royawesome.jlibnoise.Utils;
+import net.royawesome.jlibnoise.module.Module;
 
 public class Voronoi extends Module {
 

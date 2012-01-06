@@ -18,13 +18,15 @@
 
 */
 
-package net.royawesome.jlibnoise.module;
+package net.royawesome.jlibnoise.module.combiner;
 
+import net.royawesome.jlibnoise.Utils;
 import net.royawesome.jlibnoise.exception.NoModuleException;
+import net.royawesome.jlibnoise.module.Module;
 
-public class Add extends Module {
+public class Max extends Module {
 
-	public Add() {
+	public Max() {
 		super(2);
 	}
 
@@ -39,7 +41,10 @@ public class Add extends Module {
 			throw new NoModuleException();
 		if (SourceModule[1] == null)
 			throw new NoModuleException();
-		return SourceModule[0].GetValue(x, y, z) + SourceModule[1].GetValue(x, y, z);
+
+		double v0 = SourceModule[0].GetValue(x, y, z);
+		double v1 = SourceModule[1].GetValue(x, y, z);
+		return Utils.GetMax(v0, v1);
 	}
 
 }

@@ -17,9 +17,10 @@
  This is a port of libnoise ( http://libnoise.sourceforge.net/index.html ).  Original implementation by Jason Bevins
 
 */
-package net.royawesome.jlibnoise.module;
+package net.royawesome.jlibnoise.module.modifier;
 
 import net.royawesome.jlibnoise.exception.NoModuleException;
+import net.royawesome.jlibnoise.module.Module;
 
 public class ScalePoint extends Module {
 

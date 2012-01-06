@@ -17,55 +17,31 @@
  This is a port of libnoise ( http://libnoise.sourceforge.net/index.html ).  Original implementation by Jason Bevins
 
 */
-package net.royawesome.jlibnoise.module;
+
+package net.royawesome.jlibnoise.module.combiner;
 
 import net.royawesome.jlibnoise.exception.NoModuleException;
+import net.royawesome.jlibnoise.module.Module;
 
-public class ScaleBias extends Module {
-	/// Default bias for the noise::module::ScaleBias noise module.
-	public static final double DEFAULT_BIAS = 0.0;
+public class Multiply extends Module {
 
-	/// Default scale for the noise::module::ScaleBias noise module.
-	public static final double DEFAULT_SCALE = 1.0;
-
-	/// Bias to apply to the scaled output value from the source module.
-	double bias = DEFAULT_BIAS;
-
-	/// Scaling factor to apply to the output value from the source
-	/// module.
-	double scale = DEFAULT_SCALE;
-
-	public ScaleBias() {
-		super(1);
-	}
-
-	public double getBias() {
-		return bias;
-	}
-
-	public void setBias(double bias) {
-		this.bias = bias;
-	}
-
-	public double getScale() {
-		return scale;
-	}
-
-	public void setScale(double scale) {
-		this.scale = scale;
+	public Multiply() {
+		super(2);
 	}
 
 	@Override
 	public int GetSourceModuleCount() {
-		return 1;
+		return 2;
 	}
 
 	@Override
 	public double GetValue(double x, double y, double z) {
 		if (SourceModule[0] == null)
 			throw new NoModuleException();
+		if (SourceModule[1] == null)
+			throw new NoModuleException();
 
-		return SourceModule[0].GetValue(x, y, z) * scale + bias;
+		return SourceModule[0].GetValue(x, y, z) * SourceModule[1].GetValue(x, y, z);
 	}
 
 }

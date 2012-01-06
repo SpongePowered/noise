@@ -18,29 +18,33 @@
 
 */
 
-package net.royawesome.jlibnoise.module;
+package net.royawesome.jlibnoise.module.noise;
 
-import net.royawesome.jlibnoise.exception.NoModuleException;
+import net.royawesome.jlibnoise.module.Module;
 
-public class Multiply extends Module {
+public class Const extends Module {
+	double value = 0.0;
 
-	public Multiply() {
-		super(2);
+	public Const() {
+		super(0);
+	}
+
+	public double getValue() {
+		return value;
+	}
+
+	public void setValue(double value) {
+		this.value = value;
 	}
 
 	@Override
 	public int GetSourceModuleCount() {
-		return 2;
+		return 0;
 	}
 
 	@Override
 	public double GetValue(double x, double y, double z) {
-		if (SourceModule[0] == null)
-			throw new NoModuleException();
-		if (SourceModule[1] == null)
-			throw new NoModuleException();
-
-		return SourceModule[0].GetValue(x, y, z) * SourceModule[1].GetValue(x, y, z);
+		return value;
 	}
 
 }

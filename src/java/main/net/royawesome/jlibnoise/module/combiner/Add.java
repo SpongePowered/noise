@@ -17,46 +17,30 @@
  This is a port of libnoise ( http://libnoise.sourceforge.net/index.html ).  Original implementation by Jason Bevins
 
 */
-package net.royawesome.jlibnoise.module;
 
-import net.royawesome.jlibnoise.Utils;
+package net.royawesome.jlibnoise.module.combiner;
 
-public class Spheres extends Module {
-	/// Default frequency value for the noise::module::Spheres noise module.
-	public static final double DEFAULT_SPHERES_FREQUENCY = 1.0;
+import net.royawesome.jlibnoise.exception.NoModuleException;
+import net.royawesome.jlibnoise.module.Module;
 
-	/// Frequency of the concentric spheres.
-	double frequency = DEFAULT_SPHERES_FREQUENCY;
+public class Add extends Module {
 
-	public Spheres() {
-		super(0);
-	}
-
-	public double getFrequency() {
-		return frequency;
-	}
-
-	public void setFrequency(double frequency) {
-		this.frequency = frequency;
+	public Add() {
+		super(2);
 	}
 
 	@Override
 	public int GetSourceModuleCount() {
-		return 0;
+		return 2;
 	}
 
 	@Override
 	public double GetValue(double x, double y, double z) {
-		x *= frequency;
-		y *= frequency;
-		z *= frequency;
-
-		double distFromCenter = Math.sqrt(x * x + y * y + z * z);
-		double distFromSmallerSphere = distFromCenter - Math.floor(distFromCenter);
-		double distFromLargerSphere = 1.0 - distFromSmallerSphere;
-		double nearestDist = Utils.GetMin(distFromSmallerSphere, distFromLargerSphere);
-		return 1.0 - (nearestDist * 4.0); // Puts it in the -1.0 to +1.0 range.
-
+		if (SourceModule[0] == null)
+			throw new NoModuleException();
+		if (SourceModule[1] == null)
+			throw new NoModuleException();
+		return SourceModule[0].GetValue(x, y, z) + SourceModule[1].GetValue(x, y, z);
 	}
 
 }

@@ -18,32 +18,27 @@
 
 */
 
-package net.royawesome.jlibnoise.module;
+package net.royawesome.jlibnoise.module.modifier;
 
-import net.royawesome.jlibnoise.Utils;
 import net.royawesome.jlibnoise.exception.NoModuleException;
+import net.royawesome.jlibnoise.module.Module;
 
-public class Max extends Module {
+public class Invert extends Module {
 
-	public Max() {
-		super(2);
+	public Invert() {
+		super(1);
 	}
 
 	@Override
 	public int GetSourceModuleCount() {
-		return 2;
+		return 1;
 	}
 
 	@Override
 	public double GetValue(double x, double y, double z) {
 		if (SourceModule[0] == null)
 			throw new NoModuleException();
-		if (SourceModule[1] == null)
-			throw new NoModuleException();
-
-		double v0 = SourceModule[0].GetValue(x, y, z);
-		double v1 = SourceModule[1].GetValue(x, y, z);
-		return Utils.GetMax(v0, v1);
+		return -(SourceModule[0].GetValue(x, y, z));
 	}
 
 }

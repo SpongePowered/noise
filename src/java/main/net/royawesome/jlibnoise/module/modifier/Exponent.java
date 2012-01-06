@@ -18,32 +18,38 @@
 
 */
 
-package net.royawesome.jlibnoise.module;
+package net.royawesome.jlibnoise.module.modifier;
 
-import net.royawesome.jlibnoise.Utils;
 import net.royawesome.jlibnoise.exception.NoModuleException;
+import net.royawesome.jlibnoise.module.Module;
 
-public class Min extends Module {
+public class Exponent extends Module {
+	public static final double DEFAULT_EXPONENT = 1.0;
+	protected double exponent = DEFAULT_EXPONENT;
 
-	public Min() {
-		super(2);
+	public Exponent() {
+		super(1);
+	}
+
+	public double getExponent() {
+		return exponent;
+	}
+
+	public void setExponent(double exponent) {
+		this.exponent = exponent;
 	}
 
 	@Override
 	public int GetSourceModuleCount() {
-		return 2;
+		return 1;
 	}
 
 	@Override
 	public double GetValue(double x, double y, double z) {
 		if (SourceModule[0] == null)
 			throw new NoModuleException();
-		if (SourceModule[1] == null)
-			throw new NoModuleException();
-
-		double v0 = SourceModule[0].GetValue(x, y, z);
-		double v1 = SourceModule[1].GetValue(x, y, z);
-		return Utils.GetMin(v0, v1);
+		double value = SourceModule[0].GetValue(x, y, z);
+		return (Math.pow(Math.abs((value + 1.0) / 2.0), exponent) * 2.0 - 1.0);
 	}
 
 }

@@ -18,43 +18,33 @@
 
 */
 
-package net.royawesome.jlibnoise.module;
+package net.royawesome.jlibnoise.module.combiner;
 
 import net.royawesome.jlibnoise.Utils;
+import net.royawesome.jlibnoise.exception.NoModuleException;
+import net.royawesome.jlibnoise.module.Module;
 
-public class Cylinders extends Module {
-	public static final double DEFAULT_CYLINDERS_FREQUENCY = 1.0;
+public class Min extends Module {
 
-	double frequency = DEFAULT_CYLINDERS_FREQUENCY;
-
-	public Cylinders() {
-		super(0);
-	}
-
-	public double getFrequency() {
-		return frequency;
-	}
-
-	public void setFrequency(double frequency) {
-		this.frequency = frequency;
+	public Min() {
+		super(2);
 	}
 
 	@Override
 	public int GetSourceModuleCount() {
-		return 0;
+		return 2;
 	}
 
 	@Override
 	public double GetValue(double x, double y, double z) {
-		x *= frequency;
-		z *= frequency;
+		if (SourceModule[0] == null)
+			throw new NoModuleException();
+		if (SourceModule[1] == null)
+			throw new NoModuleException();
 
-		double distFromCenter = Math.sqrt(x * x + z * z);
-		double distFromSmallerSphere = distFromCenter - Math.floor(distFromCenter);
-		double distFromLargerSphere = 1.0 - distFromSmallerSphere;
-		double nearestDist = Utils.GetMin(distFromSmallerSphere, distFromLargerSphere);
-		return 1.0 - (nearestDist * 4.0); // Puts it in the -1.0 to +1.0 range.
-
+		double v0 = SourceModule[0].GetValue(x, y, z);
+		double v1 = SourceModule[1].GetValue(x, y, z);
+		return Utils.GetMin(v0, v1);
 	}
 
 }

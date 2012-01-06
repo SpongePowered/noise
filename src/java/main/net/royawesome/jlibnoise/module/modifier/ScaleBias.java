@@ -17,49 +17,56 @@
  This is a port of libnoise ( http://libnoise.sourceforge.net/index.html ).  Original implementation by Jason Bevins
 
 */
+package net.royawesome.jlibnoise.module.modifier;
 
-package net.royawesome.jlibnoise.module;
-
-import net.royawesome.jlibnoise.Utils;
 import net.royawesome.jlibnoise.exception.NoModuleException;
+import net.royawesome.jlibnoise.module.Module;
 
-public class Blend extends Module {
+public class ScaleBias extends Module {
+	/// Default bias for the noise::module::ScaleBias noise module.
+	public static final double DEFAULT_BIAS = 0.0;
 
-	public Blend() {
-		super(3);
+	/// Default scale for the noise::module::ScaleBias noise module.
+	public static final double DEFAULT_SCALE = 1.0;
+
+	/// Bias to apply to the scaled output value from the source module.
+	double bias = DEFAULT_BIAS;
+
+	/// Scaling factor to apply to the output value from the source
+	/// module.
+	double scale = DEFAULT_SCALE;
+
+	public ScaleBias() {
+		super(1);
 	}
 
-	public Module getControlModule() {
-		if (SourceModule[2] == null)
-			throw new NoModuleException();
-		return SourceModule[2];
+	public double getBias() {
+		return bias;
 	}
 
-	public void setControlModule(Module module) {
-		if (module == null)
-			throw new IllegalArgumentException("Control Module cannot be null");
-		SourceModule[2] = module;
+	public void setBias(double bias) {
+		this.bias = bias;
+	}
+
+	public double getScale() {
+		return scale;
+	}
+
+	public void setScale(double scale) {
+		this.scale = scale;
 	}
 
 	@Override
 	public int GetSourceModuleCount() {
-		return 3;
+		return 1;
 	}
 
 	@Override
 	public double GetValue(double x, double y, double z) {
 		if (SourceModule[0] == null)
 			throw new NoModuleException();
-		if (SourceModule[1] == null)
-			throw new NoModuleException();
-		if (SourceModule[2] == null)
-			throw new NoModuleException();
 
-		double v0 = SourceModule[0].GetValue(x, y, z);
-		double v1 = SourceModule[1].GetValue(x, y, z);
-		double alpha = (SourceModule[2].GetValue(x, y, z) + 1.0) / 2.0;
-		return Utils.LinearInterp(v0, v1, alpha);
-
+		return SourceModule[0].GetValue(x, y, z) * scale + bias;
 	}
 
 }
