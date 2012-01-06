@@ -35,8 +35,10 @@ public class Add extends Module {
 
 	@Override
 	public double GetValue(double x, double y, double z) {
-		if(SourceModule[0] == null) throw new NoModuleException();
-		if(SourceModule[1] == null) throw new NoModuleException();
+		if (SourceModule[0] == null)
+			throw new NoModuleException();
+		if (SourceModule[1] == null)
+			throw new NoModuleException();
 		return SourceModule[0].GetValue(x, y, z) + SourceModule[1].GetValue(x, y, z);
 	}
 

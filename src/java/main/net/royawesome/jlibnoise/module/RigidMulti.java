@@ -65,10 +65,9 @@ public class RigidMulti extends Module {
 	/// Seed value used by the ridged-multfractal-noise function.
 	int seed;
 
-
 	public RigidMulti() {
 		super(0);
-		CalcSpectralWeights ();
+		CalcSpectralWeights();
 	}
 
 	public double getFrequency() {
@@ -103,7 +102,6 @@ public class RigidMulti extends Module {
 		this.octaveCount = Utils.GetMin(octaveCount, RIDGED_MAX_OCTAVE);
 	}
 
-
 	public int getSeed() {
 		return seed;
 	}
@@ -112,7 +110,7 @@ public class RigidMulti extends Module {
 		this.seed = seed;
 	}
 
-	protected void CalcSpectralWeights(){
+	protected void CalcSpectralWeights() {
 		// This exponent parameter should be user-defined; it may be exposed in a
 		// future version of libnoise.
 		double h = 1.0;
@@ -120,7 +118,7 @@ public class RigidMulti extends Module {
 		double frequency = 1.0;
 		for (int i = 0; i < RIDGED_MAX_OCTAVE; i++) {
 			// Compute weight for each frequency.
-			SpectralWeights[i] = Math.pow (frequency, -h);
+			SpectralWeights[i] = Math.pow(frequency, -h);
 			frequency *= lacunarity;
 		}
 
@@ -138,7 +136,7 @@ public class RigidMulti extends Module {
 		z *= frequency;
 
 		double signal = 0.0;
-		double value  = 0.0;
+		double value = 0.0;
 		double weight = 1.0;
 
 		// These parameters should be user-defined; they may be exposed in a
@@ -151,13 +149,13 @@ public class RigidMulti extends Module {
 			// Make sure that these floating-point values have the same range as a 32-
 			// bit integer so that we can pass them to the coherent-noise functions.
 			double nx, ny, nz;
-			nx = Utils.MakeInt32Range (x);
-			ny = Utils.MakeInt32Range (y);
-			nz = Utils.MakeInt32Range (z);
+			nx = Utils.MakeInt32Range(x);
+			ny = Utils.MakeInt32Range(y);
+			nz = Utils.MakeInt32Range(z);
 
 			// Get the coherent-noise value.
 			int seed = (this.seed + curOctave) & 0x7fffffff;
-			signal = Noise.GradientCoherentNoise3D (nx, ny, nz, seed, noiseQuality);
+			signal = Noise.GradientCoherentNoise3D(nx, ny, nz, seed, noiseQuality);
 
 			// Make the ridges.
 			signal = Math.abs(signal);

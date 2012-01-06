@@ -45,8 +45,9 @@ public class Exponent extends Module {
 
 	@Override
 	public double GetValue(double x, double y, double z) {
-		if(SourceModule[0] == null) throw new NoModuleException();
-		double value = SourceModule[0].GetValue (x, y, z);
+		if (SourceModule[0] == null)
+			throw new NoModuleException();
+		double value = SourceModule[0].GetValue(x, y, z);
 		return (Math.pow(Math.abs((value + 1.0) / 2.0), exponent) * 2.0 - 1.0);
 	}
 

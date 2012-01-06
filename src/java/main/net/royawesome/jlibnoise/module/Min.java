@@ -36,12 +36,14 @@ public class Min extends Module {
 
 	@Override
 	public double GetValue(double x, double y, double z) {
-		if(SourceModule[0] == null) throw new NoModuleException();
-		if(SourceModule[1] == null) throw new NoModuleException();
-		
-		double v0 = SourceModule[0].GetValue (x, y, z);
-		double v1 = SourceModule[1].GetValue (x, y, z);
-		return Utils.GetMin (v0, v1);
+		if (SourceModule[0] == null)
+			throw new NoModuleException();
+		if (SourceModule[1] == null)
+			throw new NoModuleException();
+
+		double v0 = SourceModule[0].GetValue(x, y, z);
+		double v1 = SourceModule[1].GetValue(x, y, z);
+		return Utils.GetMin(v0, v1);
 	}
 
 }

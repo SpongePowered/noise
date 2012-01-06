@@ -39,8 +39,6 @@ public class Cache extends Module {
 	/// @a z coordinate of the cached input value.
 	double zCache;
 
-
-
 	public Cache() {
 		super(1);
 	}
@@ -51,17 +49,18 @@ public class Cache extends Module {
 	}
 
 	@Override
-	public void SetSourceModule(int index, Module sourceModule){
+	public void SetSourceModule(int index, Module sourceModule) {
 		super.SetSourceModule(index, sourceModule);
 		isCached = false;
 	}
 
 	@Override
 	public double GetValue(double x, double y, double z) {
-		if(SourceModule[0] == null) throw new NoModuleException();
-		
+		if (SourceModule[0] == null)
+			throw new NoModuleException();
+
 		if (!(isCached && x == xCache && y == yCache && z == zCache)) {
-			cachedValue = SourceModule[0].GetValue (x, y, z);
+			cachedValue = SourceModule[0].GetValue(x, y, z);
 			xCache = x;
 			yCache = y;
 			zCache = z;

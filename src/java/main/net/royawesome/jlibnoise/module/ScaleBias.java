@@ -35,7 +35,6 @@ public class ScaleBias extends Module {
 	/// module.
 	double scale = DEFAULT_SCALE;
 
-
 	public ScaleBias() {
 		super(1);
 	}
@@ -63,9 +62,10 @@ public class ScaleBias extends Module {
 
 	@Override
 	public double GetValue(double x, double y, double z) {
-		if(SourceModule[0] == null) throw new NoModuleException();
+		if (SourceModule[0] == null)
+			throw new NoModuleException();
 
-		return SourceModule[0].GetValue (x, y, z) * scale + bias;
+		return SourceModule[0].GetValue(x, y, z) * scale + bias;
 	}
 
 }

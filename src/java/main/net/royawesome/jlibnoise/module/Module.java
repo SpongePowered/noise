@@ -25,7 +25,7 @@ import net.royawesome.jlibnoise.exception.NoModuleException;
 public abstract class Module {
 	protected Module[] SourceModule;
 
-	public Module(int sourceModuleCount){
+	public Module(int sourceModuleCount) {
 		SourceModule = null;
 
 		// Create an array of pointers to all source modules required by this
@@ -41,24 +41,24 @@ public abstract class Module {
 
 	}
 
-	public Module getSourceModule(int index){
-		if (index >= GetSourceModuleCount () || index < 0 || SourceModule[index] == null) {
+	public Module getSourceModule(int index) {
+		if (index >= GetSourceModuleCount() || index < 0 || SourceModule[index] == null) {
 			throw new NoModuleException();
 		}
 		return (SourceModule[index]);
 
 	}
 
-	public void SetSourceModule (int index,  Module sourceModule)
-	{
-		if(SourceModule == null) return;
+	public void SetSourceModule(int index, Module sourceModule) {
+		if (SourceModule == null)
+			return;
 		if (index >= GetSourceModuleCount() || index < 0) {
 			throw new IllegalArgumentException("Index must be between 0 and GetSourceMoudleCount()");
 		}
 		SourceModule[index] = sourceModule;
 	}
 
-
 	public abstract int GetSourceModuleCount();
-	public abstract double GetValue (double x, double y, double z);
+
+	public abstract double GetValue(double x, double y, double z);
 }

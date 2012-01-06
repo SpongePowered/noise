@@ -36,7 +36,6 @@ public class Voronoi extends Module {
 	/// noise module.
 	public static final int DEFAULT_VORONOI_SEED = 0;
 
-
 	/// Scale of the random displacement to apply to each Voronoi cell.
 	double displacement = DEFAULT_VORONOI_DISPLACEMENT;
 
@@ -50,8 +49,6 @@ public class Voronoi extends Module {
 	/// Seed value used by the coherent-noise function to determine the
 	/// positions of the seed points.
 	int seed = DEFAULT_VORONOI_SEED;
-
-
 
 	public Voronoi() {
 		super(0);
@@ -103,9 +100,9 @@ public class Voronoi extends Module {
 		y *= frequency;
 		z *= frequency;
 
-		int xInt = (x > 0.0? (int)x: (int)x - 1);
-		int yInt = (y > 0.0? (int)y: (int)y - 1);
-		int zInt = (z > 0.0? (int)z: (int)z - 1);
+		int xInt = (x > 0.0 ? (int) x : (int) x - 1);
+		int yInt = (y > 0.0 ? (int) y : (int) y - 1);
+		int zInt = (z > 0.0 ? (int) z : (int) z - 1);
 
 		double minDist = 2147483647.0;
 		double xCandidate = 0;
@@ -121,7 +118,7 @@ public class Voronoi extends Module {
 
 					// Calculate the position and distance to the seed point inside of
 					// this unit cube.
-					double xPos = xCur + Noise.ValueNoise3D(xCur, yCur, zCur, seed    );
+					double xPos = xCur + Noise.ValueNoise3D(xCur, yCur, zCur, seed);
 					double yPos = yCur + Noise.ValueNoise3D(xCur, yCur, zCur, seed + 1);
 					double zPos = zCur + Noise.ValueNoise3D(xCur, yCur, zCur, seed + 2);
 					double xDist = xPos - x;
@@ -153,8 +150,7 @@ public class Voronoi extends Module {
 		}
 
 		// Return the calculated distance with the displacement value applied.
-		return value + (displacement * (double)Noise.ValueNoise3D((int)(Math.floor(xCandidate)),
-				(int)(Math.floor(yCandidate)),(int)(Math.floor(zCandidate)), seed));
+		return value + (displacement * (double) Noise.ValueNoise3D((int) (Math.floor(xCandidate)), (int) (Math.floor(yCandidate)), (int) (Math.floor(zCandidate)), seed));
 
 	}
 

@@ -22,6 +22,7 @@ package net.royawesome.jlibnoise.module;
 
 public class Const extends Module {
 	double value = 0.0;
+
 	public Const() {
 		super(0);
 	}

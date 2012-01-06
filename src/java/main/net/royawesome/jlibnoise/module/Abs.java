@@ -35,7 +35,8 @@ public class Abs extends Module {
 
 	@Override
 	public double GetValue(double x, double y, double z) {
-		if(SourceModule == null) throw new NoModuleException();
+		if (SourceModule == null)
+			throw new NoModuleException();
 		return Math.abs(SourceModule[0].GetValue(x, y, z));
 	}
 

@@ -142,14 +142,14 @@ public class Perlin extends Module {
 
 			// Make sure that these floating-point values have the same range as a 32-
 			// bit integer so that we can pass them to the coherent-noise functions.
-			nx = Utils.MakeInt32Range (x);
-			ny = Utils.MakeInt32Range (y);
-			nz = Utils.MakeInt32Range (z);
+			nx = Utils.MakeInt32Range(x);
+			ny = Utils.MakeInt32Range(y);
+			nz = Utils.MakeInt32Range(z);
 
 			// Get the coherent-noise value from the input value and add it to the
 			// final result.
 			seed = (this.seed + curOctave) & 0xffffffff;
-			signal = Noise.GradientCoherentNoise3D (nx, ny, nz, seed, noiseQuality);
+			signal = Noise.GradientCoherentNoise3D(nx, ny, nz, seed, noiseQuality);
 			value += signal * curPersistence;
 
 			// Prepare the next octave.

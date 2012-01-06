@@ -50,9 +50,9 @@ public class Cylinders extends Module {
 		z *= frequency;
 
 		double distFromCenter = Math.sqrt(x * x + z * z);
-		double distFromSmallerSphere = distFromCenter - Math.floor (distFromCenter);
+		double distFromSmallerSphere = distFromCenter - Math.floor(distFromCenter);
 		double distFromLargerSphere = 1.0 - distFromSmallerSphere;
-		double nearestDist = Utils.GetMin (distFromSmallerSphere, distFromLargerSphere);
+		double nearestDist = Utils.GetMin(distFromSmallerSphere, distFromLargerSphere);
 		return 1.0 - (nearestDist * 4.0); // Puts it in the -1.0 to +1.0 range.
 
 	}

@@ -40,7 +40,6 @@ public class RotatePoint extends Module {
 	double yAngle = DEFAULT_ROTATE_Y;
 	double zAngle = DEFAULT_ROTATE_Z;
 
-
 	/// An entry within the 3x3 rotation matrix used for rotating the
 	/// input value.
 	double x1Matrix;
@@ -82,14 +81,14 @@ public class RotatePoint extends Module {
 		setAngles(DEFAULT_ROTATE_X, DEFAULT_ROTATE_Y, DEFAULT_ROTATE_Z);
 	}
 
-	public void setAngles(double x, double y, double z){
+	public void setAngles(double x, double y, double z) {
 		double xCos, yCos, zCos, xSin, ySin, zSin;
-		xCos = Math.cos (x * Utils.DEG_TO_RAD);
-		yCos = Math.cos (y * Utils.DEG_TO_RAD);
-		zCos = Math.cos (z * Utils.DEG_TO_RAD);
-		xSin = Math.sin (x * Utils.DEG_TO_RAD);
-		ySin = Math.sin (y * Utils.DEG_TO_RAD);
-		zSin = Math.sin (z * Utils.DEG_TO_RAD);
+		xCos = Math.cos(x * Utils.DEG_TO_RAD);
+		yCos = Math.cos(y * Utils.DEG_TO_RAD);
+		zCos = Math.cos(z * Utils.DEG_TO_RAD);
+		xSin = Math.sin(x * Utils.DEG_TO_RAD);
+		ySin = Math.sin(y * Utils.DEG_TO_RAD);
+		zSin = Math.sin(z * Utils.DEG_TO_RAD);
 
 		x1Matrix = ySin * xSin * zSin + yCos * zCos;
 		y1Matrix = xCos * zSin;
@@ -138,12 +137,13 @@ public class RotatePoint extends Module {
 
 	@Override
 	public double GetValue(double x, double y, double z) {
-		if(SourceModule[0] == null) throw new NoModuleException();
-		
+		if (SourceModule[0] == null)
+			throw new NoModuleException();
+
 		double nx = (x1Matrix * x) + (y1Matrix * y) + (z1Matrix * z);
 		double ny = (x2Matrix * x) + (y2Matrix * y) + (z2Matrix * z);
 		double nz = (x3Matrix * x) + (y3Matrix * y) + (z3Matrix * z);
-		return SourceModule[0].GetValue (nx, ny, nz);
+		return SourceModule[0].GetValue(nx, ny, nz);
 
 	}
 

@@ -33,11 +33,9 @@ public class Terrace extends Module {
 	/// Array that stores the control points.
 	double[] ControlPoints;
 
-
 	public Terrace() {
 		super(1);
 	}
-
 
 	public boolean isInvertTerraces() {
 		return invertTerraces;
@@ -55,35 +53,36 @@ public class Terrace extends Module {
 		return ControlPoints;
 	}
 
-	public void AddControlPoint(double value){
+	public void AddControlPoint(double value) {
 		int insertionPos = FindInsertionPos(value);
 		InsertAtPos(insertionPos, value);
 	}
 
-	public void ClearAllControlPoints(){
+	public void ClearAllControlPoints() {
 		ControlPoints = null;
 		controlPointCount = 0;
 
 	}
-	public void MakeControlPoints(int controlPointCount){
+
+	public void MakeControlPoints(int controlPointCount) {
 		if (controlPointCount < 2) {
 			throw new IllegalArgumentException("Must have more than 2 control points");
 		}
 
 		ClearAllControlPoints();
 
-		double terraceStep = 2.0 / ((double)controlPointCount - 1.0);
+		double terraceStep = 2.0 / ((double) controlPointCount - 1.0);
 		double curValue = -1.0;
-		for (int i = 0; i < (int)controlPointCount; i++) {
-			AddControlPoint (curValue);
+		for (int i = 0; i < (int) controlPointCount; i++) {
+			AddControlPoint(curValue);
 			curValue += terraceStep;
 		}
 
 	}
 
-	protected int FindInsertionPos(double value){
+	protected int FindInsertionPos(double value) {
 		int insertionPos;
-		for (insertionPos = 0; insertionPos <controlPointCount; insertionPos++) {
+		for (insertionPos = 0; insertionPos < controlPointCount; insertionPos++) {
 			if (value < ControlPoints[insertionPos]) {
 				// We found the array index in which to insert the new control point.
 				// Exit now.
@@ -98,7 +97,7 @@ public class Terrace extends Module {
 
 	}
 
-	protected void InsertAtPos(int insertionPos, double value){
+	protected void InsertAtPos(int insertionPos, double value) {
 		// Make room for the new control point at the specified position within
 		// the control point array.  The position is determined by the value of
 		// the control point; the control points must be sorted by value within
@@ -128,10 +127,11 @@ public class Terrace extends Module {
 
 	@Override
 	public double GetValue(double x, double y, double z) {
-		if(SourceModule[0] == null) throw new NoModuleException();
+		if (SourceModule[0] == null)
+			throw new NoModuleException();
 
 		// Get the output value from the source module.
-		double sourceModuleValue = SourceModule[0].GetValue (x, y, z);
+		double sourceModuleValue = SourceModule[0].GetValue(x, y, z);
 
 		// Find the first element in the control point array that has a value
 		// larger than the output value from the source module.
@@ -144,8 +144,8 @@ public class Terrace extends Module {
 
 		// Find the two nearest control points so that we can map their values
 		// onto a quadratic curve.
-		int index0 = Utils.ClampValue (indexPos - 1, 0, controlPointCount - 1);
-		int index1 = Utils.ClampValue (indexPos    , 0, controlPointCount - 1);
+		int index0 = Utils.ClampValue(indexPos - 1, 0, controlPointCount - 1);
+		int index1 = Utils.ClampValue(indexPos, 0, controlPointCount - 1);
 
 		// If some control points are missing (which occurs if the output value from
 		// the source module is greater than the largest value or less than the
@@ -170,7 +170,7 @@ public class Terrace extends Module {
 		alpha *= alpha;
 
 		// Now perform the linear interpolation given the alpha value.
-		return Utils.LinearInterp (value0, value1, alpha);
+		return Utils.LinearInterp(value0, value1, alpha);
 
 	}
 

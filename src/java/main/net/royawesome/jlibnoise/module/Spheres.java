@@ -28,21 +28,17 @@ public class Spheres extends Module {
 	/// Frequency of the concentric spheres.
 	double frequency = DEFAULT_SPHERES_FREQUENCY;
 
-
 	public Spheres() {
 		super(0);
 	}
-
 
 	public double getFrequency() {
 		return frequency;
 	}
 
-
 	public void setFrequency(double frequency) {
 		this.frequency = frequency;
 	}
-
 
 	@Override
 	public int GetSourceModuleCount() {

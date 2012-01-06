@@ -34,7 +34,6 @@ public class TranslatePoint extends Module {
 	/// noise::module::TranslatePoint noise module.
 	public static final double DEFAULT_TRANSLATE_POINT_Z = 0.0;
 
-
 	/// Translation amount applied to the @a x coordinate of the input
 	/// value.
 	double xTranslation;
@@ -46,7 +45,6 @@ public class TranslatePoint extends Module {
 	/// Translation amount applied to the @a z coordinate of the input
 	/// value.
 	double zTranslation;
-
 
 	public TranslatePoint() {
 		super(1);
@@ -76,12 +74,11 @@ public class TranslatePoint extends Module {
 		this.zTranslation = zTranslation;
 	}
 
-	public void setTranslations(double x, double y, double z){
+	public void setTranslations(double x, double y, double z) {
 		setXTranslation(x);
 		setYTranslation(y);
 		setZTranslation(z);
 	}
-
 
 	@Override
 	public int GetSourceModuleCount() {
@@ -90,10 +87,10 @@ public class TranslatePoint extends Module {
 
 	@Override
 	public double GetValue(double x, double y, double z) {
-		if(SourceModule[0] == null) throw new NoModuleException();
+		if (SourceModule[0] == null)
+			throw new NoModuleException();
 
-		return SourceModule[0].GetValue (x + xTranslation, y + yTranslation,
-				z + zTranslation);
+		return SourceModule[0].GetValue(x + xTranslation, y + yTranslation, z + zTranslation);
 	}
 
 }
