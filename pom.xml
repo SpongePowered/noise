@@ -1,6 +1,82 @@
+<!--
+  Maven build file for jlibnoise
+
+	Copyright (c) 2011 Garrett Fleenor <kylegar@kylegar.net>
+	jlibnoise is licensed under GNU LESSER GENERAL PUBLIC LICENSE Version 3
+-->
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>jlibnoise</groupId>
-  <artifactId>jlibnoise</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+	<modelVersion>4.0.0</modelVersion>
+
+	<!-- Project information -->
+	<groupId>net.royawesome</groupId>
+	<artifactId>jlibnoise</artifactId>
+	<version>dev-SNAPSHOT</version>
+	<name>jlibnoise</name>
+	<description>A straight port of libnoise to Java.</description>
+
+	<!-- License -->
+	<licenses>
+		<license>
+			<name>GNU LESSER GENERAL PUBLIC LICENSE Version 3</name>
+			<url>http://www.gnu.org/licenses/lgpl.html</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<!-- Source code -->
+	<scm>
+		<developerConnection>scm:git:git@github.com:RoyAwesome/${project.name}.git</developerConnection>
+		<connection>scm:git:git://github.com/RoyAwesome/${project.name}.git</connection>
+		<url>https://github.com/RoyAwesome/${project.name}</url>
+	</scm>
+
+	<!-- Continuous integration -->
+	<ciManagement>
+		<system>jenkins</system>
+		<url>http://ci.getspout.org</url>
+	</ciManagement>
+
+	<!-- Repository locations -->
+	<repositories>
+		<repository>
+			<id>spout-repo</id>
+			<url>http://repo.getspout.org</url>
+		</repository>
+	</repositories>
+
+	<build>
+		<defaultGoal>clean install</defaultGoal>
+		<!-- Resources -->
+		<resources>
+			<resource>
+				<targetPath>.</targetPath>
+				<filtering>false</filtering>
+				<directory>${basedir}</directory>
+				<includes>
+					<include>LICENSE</include>
+				</includes>
+			</resource>
+		</resources>
+		<!-- Plugins -->
+		<plugins>
+			<!-- Compile plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>1.5</source>
+					<target>1.5</target>
+				</configuration>
+			</plugin>
+			<!-- JAR creation plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.3.2</version>
+			</plugin>
+		</plugins>
+	</build>
+
 </project>
