@@ -45,18 +45,18 @@ public class Noise {
 		// coordinates of the cube's outer-lower-left vertex onto an S-curve.
 		double xs = 0, ys = 0, zs = 0;
 		if (quality == NoiseQuality.FAST) {
-			xs = (x - (double) x0);
-			ys = (y - (double) y0);
-			zs = (z - (double) z0);
+			xs = (x - x0);
+			ys = (y - y0);
+			zs = (z - z0);
 		} else if (quality == NoiseQuality.STANDARD) {
-			xs = Utils.SCurve3(x - (double) x0);
-			ys = Utils.SCurve3(y - (double) y0);
-			zs = Utils.SCurve3(z - (double) z0);
+			xs = Utils.SCurve3(x - x0);
+			ys = Utils.SCurve3(y - y0);
+			zs = Utils.SCurve3(z - z0);
 		} else {
 
-			xs = Utils.SCurve5(x - (double) x0);
-			ys = Utils.SCurve5(y - (double) y0);
-			zs = Utils.SCurve5(z - (double) z0);
+			xs = Utils.SCurve5(x - x0);
+			ys = Utils.SCurve5(y - y0);
+			zs = Utils.SCurve5(z - z0);
 
 		}
 
@@ -98,9 +98,9 @@ public class Noise {
 
 		// Set up us another vector equal to the distance between the two vectors
 		// passed to this function.
-		double xvPoint = (fx - (double) ix);
-		double yvPoint = (fy - (double) iy);
-		double zvPoint = (fz - (double) iz);
+		double xvPoint = (fx - ix);
+		double yvPoint = (fy - iy);
+		double zvPoint = (fz - iz);
 
 		// Now compute the dot product of the gradient vector with the distance
 		// vector.  The resulting value is gradient noise.  Apply a scaling value
@@ -131,18 +131,18 @@ public class Noise {
 		// coordinates of the cube's outer-lower-left vertex onto an S-curve.
 		double xs = 0, ys = 0, zs = 0;
 		if (quality == NoiseQuality.FAST) {
-			xs = (x - (double) x0);
-			ys = (y - (double) y0);
-			zs = (z - (double) z0);
+			xs = (x - x0);
+			ys = (y - y0);
+			zs = (z - z0);
 		} else if (quality == NoiseQuality.STANDARD) {
-			xs = Utils.SCurve3(x - (double) x0);
-			ys = Utils.SCurve3(y - (double) y0);
-			zs = Utils.SCurve3(z - (double) z0);
+			xs = Utils.SCurve3(x - x0);
+			ys = Utils.SCurve3(y - y0);
+			zs = Utils.SCurve3(z - z0);
 		} else {
 
-			xs = Utils.SCurve5(x - (double) x0);
-			ys = Utils.SCurve5(y - (double) y0);
-			zs = Utils.SCurve5(z - (double) z0);
+			xs = Utils.SCurve5(x - x0);
+			ys = Utils.SCurve5(y - y0);
+			zs = Utils.SCurve5(z - z0);
 
 		}
 
@@ -170,7 +170,7 @@ public class Noise {
 	}
 
 	public static double ValueNoise3D(int x, int y, int z, int seed) {
-		return 1.0 - ((double) IntValueNoise3D(x, y, z, seed) / 1073741824.0);
+		return 1.0 - (IntValueNoise3D(x, y, z, seed) / 1073741824.0);
 
 	}
 

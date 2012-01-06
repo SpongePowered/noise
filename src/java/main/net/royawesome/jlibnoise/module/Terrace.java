@@ -71,9 +71,9 @@ public class Terrace extends Module {
 
 		ClearAllControlPoints();
 
-		double terraceStep = 2.0 / ((double) controlPointCount - 1.0);
+		double terraceStep = 2.0 / (controlPointCount - 1.0);
 		double curValue = -1.0;
-		for (int i = 0; i < (int) controlPointCount; i++) {
+		for (int i = 0; i < controlPointCount; i++) {
 			AddControlPoint(curValue);
 			curValue += terraceStep;
 		}

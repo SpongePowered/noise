@@ -150,7 +150,7 @@ public class Voronoi extends Module {
 		}
 
 		// Return the calculated distance with the displacement value applied.
-		return value + (displacement * (double) Noise.ValueNoise3D((int) (Math.floor(xCandidate)), (int) (Math.floor(yCandidate)), (int) (Math.floor(zCandidate)), seed));
+		return value + (displacement * Noise.ValueNoise3D((int) (Math.floor(xCandidate)), (int) (Math.floor(yCandidate)), (int) (Math.floor(zCandidate)), seed));
 
 	}
 
