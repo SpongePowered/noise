@@ -17,19 +17,18 @@
  This is a port of libnoise ( http://libnoise.sourceforge.net/index.html ).  Original implementation by Jason Bevins
 
 */
-package net.royawesome.jlibnoise.module.noise;
+
+package net.royawesome.jlibnoise.module.source;
 
 import net.royawesome.jlibnoise.Utils;
 import net.royawesome.jlibnoise.module.Module;
 
-public class Spheres extends Module {
-	/// Default frequency value for the noise::module::Spheres noise module.
-	public static final double DEFAULT_SPHERES_FREQUENCY = 1.0;
+public class Cylinders extends Module {
+	public static final double DEFAULT_CYLINDERS_FREQUENCY = 1.0;
 
-	/// Frequency of the concentric spheres.
-	double frequency = DEFAULT_SPHERES_FREQUENCY;
+	double frequency = DEFAULT_CYLINDERS_FREQUENCY;
 
-	public Spheres() {
+	public Cylinders() {
 		super(0);
 	}
 
@@ -49,10 +48,9 @@ public class Spheres extends Module {
 	@Override
 	public double GetValue(double x, double y, double z) {
 		x *= frequency;
-		y *= frequency;
 		z *= frequency;
 
-		double distFromCenter = Math.sqrt(x * x + y * y + z * z);
+		double distFromCenter = Math.sqrt(x * x + z * z);
 		double distFromSmallerSphere = distFromCenter - Math.floor(distFromCenter);
 		double distFromLargerSphere = 1.0 - distFromSmallerSphere;
 		double nearestDist = Utils.GetMin(distFromSmallerSphere, distFromLargerSphere);

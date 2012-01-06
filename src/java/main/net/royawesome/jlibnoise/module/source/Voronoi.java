@@ -17,7 +17,7 @@
  This is a port of libnoise ( http://libnoise.sourceforge.net/index.html ).  Original implementation by Jason Bevins
 
 */
-package net.royawesome.jlibnoise.module.noise;
+package net.royawesome.jlibnoise.module.source;
 
 import net.royawesome.jlibnoise.Noise;
 import net.royawesome.jlibnoise.Utils;

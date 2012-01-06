@@ -21,7 +21,7 @@ package net.royawesome.jlibnoise.module.combiner;
 
 import net.royawesome.jlibnoise.exception.NoModuleException;
 import net.royawesome.jlibnoise.module.Module;
-import net.royawesome.jlibnoise.module.noise.Perlin;
+import net.royawesome.jlibnoise.module.source.Perlin;
 
 public class Turbulence extends Module {
 	/// Default frequency for the noise::module::Turbulence noise module.

@@ -18,7 +18,7 @@
 
 */
 
-package net.royawesome.jlibnoise.module.noise;
+package net.royawesome.jlibnoise.module.source;
 
 import net.royawesome.jlibnoise.Noise;
 import net.royawesome.jlibnoise.NoiseQuality;
