@@ -27,6 +27,23 @@ public class Noise {
 	public static final int SEED_NOISE_GEN = 1013;
 	public static final int SHIFT_NOISE_GEN = 8;
 
+	/**
+	 * Generates a gradient-coherent-noise value from the coordinates of a
+	 * three-dimensional input value.
+	 * 
+	 * @param x The @a x coordinate of the input value.
+	 * @param y The @a y coordinate of the input value.
+	 * @param z The @a z coordinate of the input value.
+	 * @param seed The random number seed.
+	 * @param noiseQuality The quality of the coherent-noise.
+	 * @return The generated gradient-coherent-noise value.
+	 * 
+	 *         The return value ranges from -1.0 to +1.0.
+	 * 
+	 *         For an explanation of the difference between <i>gradient</i>
+	 *         noise and <i>value</i> noise, see the comments for the
+	 *         GradientNoise3D() function.
+	 */
 	public static double GradientCoherentNoise3D(double x, double y, double z, int seed, NoiseQuality quality) {
 
 		// Create a unit-length cube aligned along an integer boundary.  This cube
@@ -84,6 +101,44 @@ public class Noise {
 
 	}
 
+	/**
+	 * Generates a gradient-noise value from the coordinates of a
+	 * three-dimensional input value and the integer coordinates of a nearby
+	 * three-dimensional value.
+	 * 
+	 * @param fx The floating-point @a x coordinate of the input value.
+	 * @param fy The floating-point @a y coordinate of the input value.
+	 * @param fz The floating-point @a z coordinate of the input value.
+	 * @param ix The integer @a x coordinate of a nearby value.
+	 * @param iy The integer @a y coordinate of a nearby value.
+	 * @param iz The integer @a z coordinate of a nearby value.
+	 * @param seed The random number seed.
+	 * @return The generated gradient-noise value.
+	 * 
+	 *         The difference between fx and ix must be less than or equal to
+	 *         one. The difference between @a fy and @a iy must be less than or
+	 *         equal to one. The difference between @a fz and @a iz must be less
+	 *         than or equal to one.
+	 * 
+	 *         A <i>gradient</i>-noise function generates better-quality noise
+	 *         than a <i>value</i>-noise function. Most noise modules use
+	 *         gradient noise for this reason, although it takes much longer to
+	 *         calculate.
+	 * 
+	 *         The return value ranges from -1.0 to +1.0.
+	 * 
+	 *         This function generates a gradient-noise value by performing the
+	 *         following steps: - It first calculates a random normalized vector
+	 *         based on the nearby integer value passed to this function. - It
+	 *         then calculates a new value by adding this vector to the nearby
+	 *         integer value passed to this function. - It then calculates the
+	 *         dot product of the above-generated value and the floating-point
+	 *         input value passed to this function.
+	 * 
+	 *         A noise function differs from a random-number generator because
+	 *         it always returns the same output value if the same input value
+	 *         is passed to it.
+	 */
 	public static double GradientNoise3D(double fx, double fy, double fz, int ix, int iy, int iz, int seed) {
 		// Randomly generate a gradient vector given the integer coordinates of the
 		// input value.  This implementation generates a random number and uses it
@@ -108,6 +163,22 @@ public class Noise {
 		return ((xvGradient * xvPoint) + (yvGradient * yvPoint) + (zvGradient * zvPoint)) * 2.12;
 	}
 
+	/**
+	 * Generates an integer-noise value from the coordinates of a
+	 * three-dimensional input value.
+	 * 
+	 * @param x The integer @a x coordinate of the input value.
+	 * @param y The integer @a y coordinate of the input value.
+	 * @param z The integer @a z coordinate of the input value.
+	 * @param seed A random number seed.
+	 * @return The generated integer-noise value.
+	 * 
+	 *         The return value ranges from 0 to 2147483647.
+	 * 
+	 *         A noise function differs from a random-number generator because
+	 *         it always returns the same output value if the same input value
+	 *         is passed to it.
+	 */
 	public static int IntValueNoise3D(int x, int y, int z, int seed) {
 		// All constants are primes and must remain prime in order for this noise
 		// function to work correctly.
@@ -117,6 +188,23 @@ public class Noise {
 
 	}
 
+	/**
+	 * Generates a value-coherent-noise value from the coordinates of a
+	 * three-dimensional input value.
+	 * 
+	 * @param x The @a x coordinate of the input value.
+	 * @param y The @a y coordinate of the input value.
+	 * @param z The @a z coordinate of the input value.
+	 * @param seed The random number seed.
+	 * @param noiseQuality The quality of the coherent-noise.
+	 * @return The generated value-coherent-noise value.
+	 * 
+	 *         The return value ranges from -1.0 to +1.0.
+	 * 
+	 *         For an explanation of the difference between <i>gradient</i>
+	 *         noise and <i>value</i> noise, see the comments for the
+	 *         GradientNoise3D() function.
+	 */
 	public static double ValueCoherentNoise3D(double x, double y, double z, int seed, NoiseQuality quality) {
 		// Create a unit-length cube aligned along an integer boundary.  This cube
 		// surrounds the input point.
@@ -169,6 +257,22 @@ public class Noise {
 
 	}
 
+	/**
+	 * Generates a value-noise value from the coordinates of a three-dimensional
+	 * input value.
+	 * 
+	 * @param x The @a x coordinate of the input value.
+	 * @param y The @a y coordinate of the input value.
+	 * @param z The @a z coordinate of the input value.
+	 * @param seed A random number seed.
+	 * @return The generated value-noise value.
+	 * 
+	 *         The return value ranges from -1.0 to +1.0.
+	 * 
+	 *         A noise function differs from a random-number generator because
+	 *         it always returns the same output value if the same input value
+	 *         is passed to it.
+	 */
 	public static double ValueNoise3D(int x, int y, int z, int seed) {
 		return 1.0 - (IntValueNoise3D(x, y, z, seed) / 1073741824.0);
 

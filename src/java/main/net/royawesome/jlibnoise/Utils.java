@@ -117,6 +117,26 @@ public class Utils {
 		return (a < b) ? a : b;
 	}
 
+	/**
+	 * Modifies a floating-point value so that it can be stored in a
+	 * noise::int32 variable.
+	 * 
+	 * @param n A floating-point number.
+	 * @return The modified floating-point number.
+	 * 
+	 *         This function does not modify @a n.
+	 * 
+	 *         In libnoise, the noise-generating algorithms are all
+	 *         integer-based; they use variables of type noise::int32. Before
+	 *         calling a noise function, pass the @a x, @a y, and @a z
+	 *         coordinates to this function to ensure that these coordinates can
+	 *         be cast to a noise::int32 value.
+	 * 
+	 *         Although you could do a straight cast from double to
+	 *         noise::int32, the resulting value may differ between platforms.
+	 *         By using this function, you ensure that the resulting value is
+	 *         identical between platforms.
+	 */
 	public static double MakeInt32Range(double n) {
 		if (n >= 1073741824.0) {
 			return (2.0 * n % 1073741824.0) - 1073741824.0;
