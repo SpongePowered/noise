@@ -16,7 +16,7 @@
 
  This is a port of libnoise ( http://libnoise.sourceforge.net/index.html ).  Original implementation by Jason Bevins
 
-*/
+ */
 
 package net.royawesome.jlibnoise;
 
@@ -49,31 +49,32 @@ public class Noise {
 		// Create a unit-length cube aligned along an integer boundary.  This cube
 		// surrounds the input point.
 
-		int x0 = (x > 0.0) ? (int) x : (int) x - 1;
+		int x0 = ((x > 0.0) ? (int) x : (int) x - 1);
 		int x1 = x0 + 1;
 
-		int y0 = (y > 0.0) ? (int) y : (int) y - 1;
+		int y0 = ((y > 0.0) ? (int) y : (int) y - 1);
 		int y1 = y0 + 1;
 
-		int z0 = (z > 0.0) ? (int) z : (int) z - 1;
+		int z0 = ((z > 0.0) ? (int) z : (int) z - 1);
 		int z1 = z0 + 1;
 
 		// Map the difference between the coordinates of the input value and the
 		// coordinates of the cube's outer-lower-left vertex onto an S-curve.
 		double xs = 0, ys = 0, zs = 0;
 		if (quality == NoiseQuality.FAST) {
-			xs = (x - x0);
-			ys = (y - y0);
-			zs = (z - z0);
+			xs = ((double)x - (double)x0);
+			ys = ((double)y - (double)y0);
+			zs = ((double)z - (double)z0);
+
 		} else if (quality == NoiseQuality.STANDARD) {
-			xs = Utils.SCurve3(x - x0);
-			ys = Utils.SCurve3(y - y0);
-			zs = Utils.SCurve3(z - z0);
+			xs = Utils.SCurve3((double)x - (double)x0);
+			ys = Utils.SCurve3((double)y - (double)y0);
+			zs = Utils.SCurve3((double)z - (double)z0);
 		} else {
 
-			xs = Utils.SCurve5(x - x0);
-			ys = Utils.SCurve5(y - y0);
-			zs = Utils.SCurve5(z - z0);
+			xs = Utils.SCurve5((double)x - (double)x0);
+			ys = Utils.SCurve5((double)y - (double)y0);
+			zs = Utils.SCurve5((double)z - (double)z0);
 
 		}
 
@@ -85,6 +86,7 @@ public class Noise {
 		n0 = GradientNoise3D(x, y, z, x0, y0, z0, seed);
 		n1 = GradientNoise3D(x, y, z, x1, y0, z0, seed);
 		ix0 = Utils.LinearInterp(n0, n1, xs);
+
 		n0 = GradientNoise3D(x, y, z, x0, y1, z0, seed);
 		n1 = GradientNoise3D(x, y, z, x1, y1, z0, seed);
 		ix1 = Utils.LinearInterp(n0, n1, xs);
@@ -96,7 +98,6 @@ public class Noise {
 		n1 = GradientNoise3D(x, y, z, x1, y1, z1, seed);
 		ix1 = Utils.LinearInterp(n0, n1, xs);
 		iy1 = Utils.LinearInterp(ix0, ix1, ys);
-
 		return Utils.LinearInterp(iy0, iy1, zs);
 
 	}

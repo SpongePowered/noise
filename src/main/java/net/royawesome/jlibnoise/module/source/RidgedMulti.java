@@ -25,7 +25,7 @@ import net.royawesome.jlibnoise.NoiseQuality;
 import net.royawesome.jlibnoise.Utils;
 import net.royawesome.jlibnoise.module.Module;
 
-public class RigidMulti extends Module {
+public class RidgedMulti extends Module {
 
 	/// Default frequency for the noise::module::RidgedMulti noise module.
 	public static final double DEFAULT_RIDGED_FREQUENCY = 1.0;
@@ -48,25 +48,25 @@ public class RigidMulti extends Module {
 	/// module.
 	public static final int RIDGED_MAX_OCTAVE = 30;
 
-	double frequency;
+	double frequency = DEFAULT_RIDGED_FREQUENCY;
 
 	/// Frequency multiplier between successive octaves.
-	double lacunarity;
+	double lacunarity = DEFAULT_RIDGED_LACUNARITY;
 
 	/// Quality of the ridged-multifractal noise.
-	NoiseQuality noiseQuality;
+	NoiseQuality noiseQuality = DEFAULT_RIDGED_QUALITY;
 
 	/// Total number of octaves that generate the ridged-multifractal
 	/// noise.
-	int octaveCount;
+	int octaveCount = DEFAULT_RIDGED_OCTAVE_COUNT;
 
 	/// Contains the spectral weights for each octave.
 	double[] SpectralWeights;
 
 	/// Seed value used by the ridged-multfractal-noise function.
-	int seed;
+	int seed = DEFAULT_RIDGED_SEED;
 
-	public RigidMulti() {
+	public RidgedMulti() {
 		super(0);
 		CalcSpectralWeights();
 	}
@@ -117,6 +117,7 @@ public class RigidMulti extends Module {
 		double h = 1.0;
 
 		double frequency = 1.0;
+		SpectralWeights = new double[RIDGED_MAX_OCTAVE];
 		for (int i = 0; i < RIDGED_MAX_OCTAVE; i++) {
 			// Compute weight for each frequency.
 			SpectralWeights[i] = Math.pow(frequency, -h);
