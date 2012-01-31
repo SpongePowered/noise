@@ -40,7 +40,7 @@ import net.royawesome.jlibnoise.module.Module;
 public class Line {
 	// A flag that specifies whether the value is to be attenuated
 	// (moved toward 0.0) as the ends of the line segment are approached.
-	boolean attenuate;
+	boolean attenuate = false;
 
 	// A pointer to the noise module used to generate the output values.
 	Module module;

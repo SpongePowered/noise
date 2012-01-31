@@ -60,21 +60,21 @@ public class Noise {
 
 		// Map the difference between the coordinates of the input value and the
 		// coordinates of the cube's outer-lower-left vertex onto an S-curve.
-		double xs = 0, ys = 0, zs = 0;
+		double xs, ys, zs;
 		if (quality == NoiseQuality.FAST) {
-			xs = ((double)x - (double)x0);
-			ys = ((double)y - (double)y0);
-			zs = ((double)z - (double)z0);
+			xs = (x - (double)x0);
+			ys = (y - (double)y0);
+			zs = (z - (double)z0);
 
 		} else if (quality == NoiseQuality.STANDARD) {
-			xs = Utils.SCurve3((double)x - (double)x0);
-			ys = Utils.SCurve3((double)y - (double)y0);
-			zs = Utils.SCurve3((double)z - (double)z0);
+			xs = Utils.SCurve3(x - (double)x0);
+			ys = Utils.SCurve3(y - (double)y0);
+			zs = Utils.SCurve3(z - (double)z0);
 		} else {
 
-			xs = Utils.SCurve5((double)x - (double)x0);
-			ys = Utils.SCurve5((double)y - (double)y0);
-			zs = Utils.SCurve5((double)z - (double)z0);
+			xs = Utils.SCurve5(x - (double)x0);
+			ys = Utils.SCurve5(y - (double)y0);
+			zs = Utils.SCurve5(z - (double)z0);
 
 		}
 
@@ -144,7 +144,7 @@ public class Noise {
 		// Randomly generate a gradient vector given the integer coordinates of the
 		// input value.  This implementation generates a random number and uses it
 		// as an index into a normalized-vector lookup table.
-		int vectorIndex = (X_NOISE_GEN * ix + Y_NOISE_GEN * iy + Z_NOISE_GEN * iz + SEED_NOISE_GEN * seed) & 0xffffffff;
+		int vectorIndex = (X_NOISE_GEN * ix + Y_NOISE_GEN * iy + Z_NOISE_GEN * iz + SEED_NOISE_GEN * seed);
 		vectorIndex ^= (vectorIndex >> SHIFT_NOISE_GEN);
 		vectorIndex &= 0xff;
 
@@ -218,7 +218,7 @@ public class Noise {
 
 		// Map the difference between the coordinates of the input value and the
 		// coordinates of the cube's outer-lower-left vertex onto an S-curve.
-		double xs = 0, ys = 0, zs = 0;
+		double xs, ys, zs;
 		if (quality == NoiseQuality.FAST) {
 			xs = (x - x0);
 			ys = (y - y0);

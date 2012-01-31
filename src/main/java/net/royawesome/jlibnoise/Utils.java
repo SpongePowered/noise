@@ -42,9 +42,8 @@ public class Utils {
 		double p = (n3 - n2) - (n0 - n1);
 		double q = (n0 - n1) - p;
 		double r = n2 - n0;
-		double s = n1;
 
-		return p * a * a * a + q * a * a + r * a + s;
+		return p * a * a * a + q * a * a + r * a + n1;
 	}
 
 	/**

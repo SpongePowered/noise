@@ -33,7 +33,7 @@ public class Curve extends Module {
 		public double outputValue;
 	}
 
-	ArrayList<ControlPoint> controlPoints;
+	ArrayList<ControlPoint> controlPoints = new ArrayList<ControlPoint>();
 
 	public Curve() {
 		super(1);

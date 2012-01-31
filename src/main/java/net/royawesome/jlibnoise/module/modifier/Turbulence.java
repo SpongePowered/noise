@@ -37,16 +37,16 @@ public class Turbulence extends Module {
 	public static final int DEFAULT_TURBULENCE_SEED = Perlin.DEFAULT_PERLIN_SEED;
 
 	/// The power (scale) of the displacement.
-	double power;
+	double power = DEFAULT_TURBULENCE_POWER;
 
 	/// Noise module that displaces the @a x coordinate.
-	Perlin xDistortModule;
+    final Perlin xDistortModule;
 
 	/// Noise module that displaces the @a y coordinate.
-	Perlin yDistortModule;
+    final Perlin yDistortModule;
 
 	/// Noise module that displaces the @a z coordinate.
-	Perlin zDistortModule;
+    final Perlin zDistortModule;
 
 	public Turbulence() {
 		super(1);

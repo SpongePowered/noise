@@ -127,41 +127,44 @@ public class Perlin extends Module {
 		return 0;
 	}
 
-	@Override
-	public double GetValue(double x, double y, double z) {
-		double value = 0.0;
-		double signal = 0.0;
-		double curPersistence = 1.0;
-		double nx, ny, nz;
-		int seed;
+    @Override
+    public double GetValue(double x, double y, double z) {
+        double x1 = x;
+        double y1 = y;
+        double z1 = z;
+        double value = 0.0;
+        double signal;
+        double curPersistence = 1.0;
+        double nx, ny, nz;
+        int seed;
 
-		x *= frequency;
-		y *= frequency;
-		z *= frequency;
+        x1 *= frequency;
+        y1 *= frequency;
+        z1 *= frequency;
 
-		for (int curOctave = 0; curOctave < octaveCount; curOctave++) {
+        for (int curOctave = 0; curOctave < octaveCount; curOctave++) {
 
-			// Make sure that these floating-point values have the same range as a 32-
-			// bit integer so that we can pass them to the coherent-noise functions.
-			nx = Utils.MakeInt32Range(x);
-			ny = Utils.MakeInt32Range(y);
-			nz = Utils.MakeInt32Range(z);
+            // Make sure that these floating-point values have the same range as a 32-
+            // bit integer so that we can pass them to the coherent-noise functions.
+            nx = Utils.MakeInt32Range(x1);
+            ny = Utils.MakeInt32Range(y1);
+            nz = Utils.MakeInt32Range(z1);
 
-			// Get the coherent-noise value from the input value and add it to the
-			// final result.
-			seed = (this.seed + curOctave) & 0xffffffff;
-			signal = Noise.GradientCoherentNoise3D(nx, ny, nz, seed, noiseQuality);
-			value += signal * curPersistence;
+            // Get the coherent-noise value from the input value and add it to the
+            // final result.
+            seed = (this.seed + curOctave);
+            signal = Noise.GradientCoherentNoise3D(nx, ny, nz, seed, noiseQuality);
+            value += signal * curPersistence;
 
-			// Prepare the next octave.
-			x *= lacunarity;
-			y *= lacunarity;
-			z *= lacunarity;
-			curPersistence *= persistence;
-		}
+            // Prepare the next octave.
+            x1 *= lacunarity;
+            y1 *= lacunarity;
+            z1 *= lacunarity;
+            curPersistence *= persistence;
+        }
 
-		return value;
+        return value;
 
-	}
+    }
 
 }

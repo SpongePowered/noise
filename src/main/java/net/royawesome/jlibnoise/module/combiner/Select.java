@@ -36,7 +36,7 @@ public class Select extends Module {
 	public static final double DEFAULT_SELECT_UPPER_BOUND = 1.0;
 
 	/// Edge-falloff value.
-	double edgeFalloff = DEFAULT_SELECT_EDGE_FALLOFF;
+    double edgeFalloff = DEFAULT_SELECT_EDGE_FALLOFF;
 
 	/// Lower bound of the selection range.
 	double lowerBound = DEFAULT_SELECT_LOWER_BOUND;
@@ -65,12 +65,12 @@ public class Select extends Module {
 		return edgeFalloff;
 	}
 
-	public void setEdgeFalloff(double edgeFalloff) {
-		// Make sure that the edge falloff curves do not overlap.
-		double boundSize = upperBound - lowerBound;
-		edgeFalloff = (edgeFalloff > boundSize / 2) ? boundSize / 2 : edgeFalloff;
+    public void setEdgeFalloff(double edgeFalloff) {
+        // Make sure that the edge falloff curves do not overlap.
+        double boundSize = upperBound - lowerBound;
+        this.edgeFalloff = (edgeFalloff > boundSize / 2) ? boundSize / 2 : edgeFalloff;
 
-	}
+    }
 
 	public double getLowerBound() {
 		return lowerBound;

@@ -131,66 +131,70 @@ public class RidgedMulti extends Module {
 		return 0;
 	}
 
-	@Override
-	public double GetValue(double x, double y, double z) {
-		x *= frequency;
-		y *= frequency;
-		z *= frequency;
+    @Override
+    public double GetValue(double x, double y, double z) {
+        double x1 = x;
+        double y1 = y;
+        double z1 = z;
+        x1 *= frequency;
+        y1 *= frequency;
+        z1 *= frequency;
 
-		double signal = 0.0;
-		double value = 0.0;
-		double weight = 1.0;
+        double signal;
+        double value = 0.0;
+        double weight = 1.0;
 
-		// These parameters should be user-defined; they may be exposed in a
-		// future version of libnoise.
-		double offset = 1.0;
-		double gain = 2.0;
+        // These parameters should be user-defined; they may be exposed in a
+        // future version of libnoise.
+        double offset = 1.0;
+        double gain = 2.0;
 
-		for (int curOctave = 0; curOctave < octaveCount; curOctave++) {
+        for (int curOctave = 0; curOctave < octaveCount; curOctave++) {
 
-			// Make sure that these floating-point values have the same range as a 32-
-			// bit integer so that we can pass them to the coherent-noise functions.
-			double nx, ny, nz;
-			nx = Utils.MakeInt32Range(x);
-			ny = Utils.MakeInt32Range(y);
-			nz = Utils.MakeInt32Range(z);
+            // Make sure that these floating-point values have the same range as a 32-
+            // bit integer so that we can pass them to the coherent-noise functions.
+            double nx, ny, nz;
+            nx = Utils.MakeInt32Range(x1);
+            ny = Utils.MakeInt32Range(y1);
+            nz = Utils.MakeInt32Range(z1);
 
-			// Get the coherent-noise value.
-			int seed = (this.seed + curOctave) & 0x7fffffff;
-			signal = Noise.GradientCoherentNoise3D(nx, ny, nz, seed, noiseQuality);
+            // Get the coherent-noise value.
+            int seed = (this.seed + curOctave) & 0x7fffffff;
+            signal = Noise.GradientCoherentNoise3D(nx, ny, nz, seed, noiseQuality);
 
-			// Make the ridges.
-			signal = Math.abs(signal);
-			signal = offset - signal;
+            // Make the ridges.
+            signal = Math.abs(signal);
+            signal = offset - signal;
 
-			// Square the signal to increase the sharpness of the ridges.
-			signal *= signal;
+            // Square the signal to increase the sharpness of the ridges.
+            //noinspection UnusedAssignment
+            signal *= signal;
 
-			// The weighting from the previous octave is applied to the signal.
-			// Larger values have higher weights, producing sharp points along the
-			// ridges.
-			signal *= weight;
+            // The weighting from the previous octave is applied to the signal.
+            // Larger values have higher weights, producing sharp points along the
+            // ridges.
+            signal *= weight;
 
-			// Weight successive contributions by the previous signal.
-			weight = signal * gain;
-			if (weight > 1.0) {
-				weight = 1.0;
-			}
-			if (weight < 0.0) {
-				weight = 0.0;
-			}
+            // Weight successive contributions by the previous signal.
+            weight = signal * gain;
+            if (weight > 1.0) {
+                weight = 1.0;
+            }
+            if (weight < 0.0) {
+                weight = 0.0;
+            }
 
-			// Add the signal to the output value.
-			value += (signal * SpectralWeights[curOctave]);
+            // Add the signal to the output value.
+            value += (signal * SpectralWeights[curOctave]);
 
-			// Go to the next octave.
-			x *= lacunarity;
-			y *= lacunarity;
-			z *= lacunarity;
-		}
+            // Go to the next octave.
+            x1 *= lacunarity;
+            y1 *= lacunarity;
+            z1 *= lacunarity;
+        }
 
-		return (value * 1.25) - 1.0;
+        return (value * 1.25) - 1.0;
 
-	}
+    }
 
 }

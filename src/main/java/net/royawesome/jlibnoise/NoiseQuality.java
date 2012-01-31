@@ -44,5 +44,5 @@ public enum NoiseQuality {
 	 * and second derivatives of that function are continuous at integer
 	 * boundaries.
 	 */
-	BEST;
+	BEST
 }

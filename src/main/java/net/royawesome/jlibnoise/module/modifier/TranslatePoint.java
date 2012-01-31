@@ -37,15 +37,15 @@ public class TranslatePoint extends Module {
 
 	/// Translation amount applied to the @a x coordinate of the input
 	/// value.
-	double xTranslation;
+	double xTranslation = DEFAULT_TRANSLATE_POINT_X;
 
 	/// Translation amount applied to the @a y coordinate of the input
 	/// value.
-	double yTranslation;
+	double yTranslation = DEFAULT_TRANSLATE_POINT_Y;
 
 	/// Translation amount applied to the @a z coordinate of the input
 	/// value.
-	double zTranslation;
+	double zTranslation = DEFAULT_TRANSLATE_POINT_Z;
 
 	public TranslatePoint() {
 		super(1);

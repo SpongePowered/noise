@@ -25,14 +25,14 @@ import net.royawesome.jlibnoise.module.Module;
 
 public class Terrace extends Module {
 	/// Number of control points stored in this noise module.
-	int controlPointCount;
+	int controlPointCount = 0;
 
 	/// Determines if the terrace-forming curve between all control points
 	/// is inverted.
-	boolean invertTerraces;
+	boolean invertTerraces = false;
 
 	/// Array that stores the control points.
-	double[] ControlPoints;
+	double[] ControlPoints = new double[0];
 
 	public Terrace() {
 		super(1);

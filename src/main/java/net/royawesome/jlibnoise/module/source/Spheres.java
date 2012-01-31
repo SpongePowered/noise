@@ -46,18 +46,21 @@ public class Spheres extends Module {
 		return 0;
 	}
 
-	@Override
-	public double GetValue(double x, double y, double z) {
-		x *= frequency;
-		y *= frequency;
-		z *= frequency;
+    @Override
+    public double GetValue(double x, double y, double z) {
+        double x1 = x;
+        double y1 = y;
+        double z1 = z;
+        x1 *= frequency;
+        y1 *= frequency;
+        z1 *= frequency;
 
-		double distFromCenter = Math.sqrt(x * x + y * y + z * z);
-		double distFromSmallerSphere = distFromCenter - Math.floor(distFromCenter);
-		double distFromLargerSphere = 1.0 - distFromSmallerSphere;
-		double nearestDist = Utils.GetMin(distFromSmallerSphere, distFromLargerSphere);
-		return 1.0 - (nearestDist * 4.0); // Puts it in the -1.0 to +1.0 range.
+        double distFromCenter = Math.sqrt(x1 * x1 + y1 * y1 + z1 * z1);
+        double distFromSmallerSphere = distFromCenter - Math.floor(distFromCenter);
+        double distFromLargerSphere = 1.0 - distFromSmallerSphere;
+        double nearestDist = Utils.GetMin(distFromSmallerSphere, distFromLargerSphere);
+        return 1.0 - (nearestDist * 4.0); // Puts it in the -1.0 to +1.0 range.
 
-	}
+    }
 
 }
