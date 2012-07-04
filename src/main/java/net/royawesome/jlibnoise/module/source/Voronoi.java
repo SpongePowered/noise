@@ -19,6 +19,7 @@
 */
 package net.royawesome.jlibnoise.module.source;
 
+import net.royawesome.jlibnoise.MathHelper;
 import net.royawesome.jlibnoise.Noise;
 import net.royawesome.jlibnoise.Utils;
 import net.royawesome.jlibnoise.module.Module;
@@ -148,13 +149,13 @@ public class Voronoi extends Module {
             double xDist = xCandidate - x1;
             double yDist = yCandidate - y1;
             double zDist = zCandidate - z1;
-            value = (Math.sqrt(xDist * xDist + yDist * yDist + zDist * zDist)) * Utils.SQRT_3 - 1.0;
+            value = (MathHelper.sqrt(xDist * xDist + yDist * yDist + zDist * zDist)) * Utils.SQRT_3 - 1.0;
         } else {
             value = 0.0;
         }
 
         // Return the calculated distance with the displacement value applied.
-        return value + (displacement * Noise.ValueNoise3D((int) (Math.floor(xCandidate)), (int) (Math.floor(yCandidate)), (int) (Math.floor(zCandidate)), seed));
+        return value + (displacement * Noise.ValueNoise3D((int) (MathHelper.floor(xCandidate)), (int) (MathHelper.floor(yCandidate)), (int) (MathHelper.floor(zCandidate)), seed));
 
     }
 

@@ -20,6 +20,7 @@
 
 package net.royawesome.jlibnoise.model;
 
+import net.royawesome.jlibnoise.MathHelper;
 import net.royawesome.jlibnoise.Utils;
 import net.royawesome.jlibnoise.exception.NoModuleException;
 import net.royawesome.jlibnoise.module.Module;
@@ -99,9 +100,9 @@ public class Cylinder {
 			throw new NoModuleException();
 
 		double x, y, z;
-		x = Math.cos(angle * Utils.DEG_TO_RAD);
+		x = MathHelper.cos(angle * Utils.DEG_TO_RAD);
 		y = height;
-		z = Math.sin(angle * Utils.DEG_TO_RAD);
+		z = MathHelper.sin(angle * Utils.DEG_TO_RAD);
 		return module.GetValue(x, y, z);
 
 	}

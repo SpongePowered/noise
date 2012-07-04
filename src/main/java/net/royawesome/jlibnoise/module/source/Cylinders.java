@@ -20,6 +20,7 @@
 
 package net.royawesome.jlibnoise.module.source;
 
+import net.royawesome.jlibnoise.MathHelper;
 import net.royawesome.jlibnoise.Utils;
 import net.royawesome.jlibnoise.module.Module;
 
@@ -52,8 +53,8 @@ public class Cylinders extends Module {
         x1 *= frequency;
         z1 *= frequency;
 
-        double distFromCenter = Math.sqrt(x1 * x1 + z1 * z1);
-        double distFromSmallerSphere = distFromCenter - Math.floor(distFromCenter);
+        double distFromCenter = MathHelper.sqrt(x1 * x1 + z1 * z1);
+        double distFromSmallerSphere = distFromCenter - MathHelper.floor(distFromCenter);
         double distFromLargerSphere = 1.0 - distFromSmallerSphere;
         double nearestDist = Utils.GetMin(distFromSmallerSphere, distFromLargerSphere);
         return 1.0 - (nearestDist * 4.0); // Puts it in the -1.0 to +1.0 range.

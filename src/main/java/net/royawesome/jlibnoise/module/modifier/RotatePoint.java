@@ -19,6 +19,7 @@
 */
 package net.royawesome.jlibnoise.module.modifier;
 
+import net.royawesome.jlibnoise.MathHelper;
 import net.royawesome.jlibnoise.Utils;
 import net.royawesome.jlibnoise.exception.NoModuleException;
 import net.royawesome.jlibnoise.module.Module;
@@ -84,12 +85,12 @@ public class RotatePoint extends Module {
 
 	public void setAngles(double x, double y, double z) {
 		double xCos, yCos, zCos, xSin, ySin, zSin;
-		xCos = Math.cos(x * Utils.DEG_TO_RAD);
-		yCos = Math.cos(y * Utils.DEG_TO_RAD);
-		zCos = Math.cos(z * Utils.DEG_TO_RAD);
-		xSin = Math.sin(x * Utils.DEG_TO_RAD);
-		ySin = Math.sin(y * Utils.DEG_TO_RAD);
-		zSin = Math.sin(z * Utils.DEG_TO_RAD);
+		xCos = MathHelper.cos(x * Utils.DEG_TO_RAD);
+		yCos = MathHelper.cos(y * Utils.DEG_TO_RAD);
+		zCos = MathHelper.cos(z * Utils.DEG_TO_RAD);
+		xSin = MathHelper.sin(x * Utils.DEG_TO_RAD);
+		ySin = MathHelper.sin(y * Utils.DEG_TO_RAD);
+		zSin = MathHelper.sin(z * Utils.DEG_TO_RAD);
 
 		x1Matrix = ySin * xSin * zSin + yCos * zCos;
 		y1Matrix = xCos * zSin;

@@ -83,10 +83,10 @@ public class Utils {
 	}
 
 	public static double[] LatLonToXYZ(double latitude, double longitude) {
-		double r = Math.cos(Math.toRadians(latitude));
-		double x = r * Math.cos(Math.toRadians(longitude));
-		double y = Math.sin(Math.toRadians(latitude));
-		double z = r * Math.sin(Math.toRadians(longitude));
+		double r = MathHelper.cos(Math.toRadians(latitude));
+		double x = r * MathHelper.cos(Math.toRadians(longitude));
+		double y = MathHelper.sin(Math.toRadians(latitude));
+		double z = r * MathHelper.sin(Math.toRadians(longitude));
 		return new double[] {x, y, z};
 	}
 
