@@ -100,7 +100,7 @@ public class Sphere {
 	 *      Use a negative longitude if the input value is located on the
 	 *      western hemisphere.
 	 */
-	double getValue(double lat, double log) {
+	public double getValue(double lat, double log) {
 		if (module == null)
 			throw new NoModuleException();
 		double[] vec = Utils.LatLonToXYZ(lat, log);
