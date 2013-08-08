@@ -1,82 +1,154 @@
-<!--
-  Maven build file for jlibnoise
-
-	Copyright (c) 2011 Garrett Fleenor <kylegar@kylegar.net>
-	jlibnoise is licensed under GNU LESSER GENERAL PUBLIC LICENSE Version 3
--->
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<!-- Project information -->
+	<name>jlibnoise</name>
 	<groupId>net.royawesome</groupId>
 	<artifactId>jlibnoise</artifactId>
-	<version>dev-SNAPSHOT</version>
-	<name>jlibnoise</name>
-	<description>A straight port of libnoise to Java.</description>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
+	<url>http://www.spout.org</url>
+	<inceptionYear>2011</inceptionYear>
+	<description>Java port of the libnoise coherent noise-generating library.</description>
 
-	<!-- License -->
+	<!-- Parent information -->
+	<parent>
+		<groupId>org.spout</groupId>
+		<artifactId>shared-parent</artifactId>
+		<version>1</version>
+	</parent>
+
+	<!-- Build properties -->
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<buildNumber>0</buildNumber>
+	</properties>
+
+	<!-- Project developers -->
+	<developers>
+		<developer>
+			<id>RoyAwesome</id>
+			<name>Garrett Fleenor</name>
+			<email>kylegar@kylegar.net</email>
+		</developer>
+		<developer>
+			<id>Wulfspider</id>
+			<name>Luke Spragg</name>
+			<email>the@wulf.im</email>
+		</developer>
+	</developers>
+
+	<!-- License information -->
 	<licenses>
 		<license>
-			<name>GNU LESSER GENERAL PUBLIC LICENSE Version 3</name>
+			<name>GNU Lesser General Public License Version 3</name>
 			<url>http://www.gnu.org/licenses/lgpl.html</url>
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
 
-	<!-- Source code -->
+	<!-- Source code access -->
 	<scm>
-		<developerConnection>scm:git:git@github.com:RoyAwesome/${project.name}.git</developerConnection>
-		<connection>scm:git:git://github.com/RoyAwesome/${project.name}.git</connection>
-		<url>https://github.com/RoyAwesome/${project.name}</url>
+		<connection>scm:git:git://github.com/SpoutDev/jlibnoise.git</connection>
+		<developerConnection>scm:git:git@github.com:SpoutDev/jlibnoise.git</developerConnection>
+		<url>https://github.com/SpoutDev/jlibnoise</url>
 	</scm>
 
 	<!-- Continuous integration -->
 	<ciManagement>
-		<system>jenkins</system>
-		<url>http://ci.getspout.org</url>
+		<system>travis</system>
+		<url>https://travis-ci.org/SpoutDev/jlibnoise</url>
 	</ciManagement>
 
-	<!-- Repository locations -->
+	<!-- Issue management -->
+	<issueManagement>
+		<system>jira</system>
+		<url>http://spoutdev.atlassian.net/browse/JLIBNOISE</url>
+	</issueManagement>
+
+	<!-- Dependency repositories -->
 	<repositories>
 		<repository>
 			<id>spout-repo</id>
-			<url>http://repo.getspout.org</url>
+			<url>http://nexus.spout.org/content/groups/public</url>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+			</snapshots>
 		</repository>
 	</repositories>
 
+	<!-- Build configuration -->
 	<build>
 		<defaultGoal>clean install</defaultGoal>
-		<!-- Resources -->
+
+		<!-- Resources to include -->
 		<resources>
+			<!-- Static resources -->
 			<resource>
-				<targetPath>.</targetPath>
 				<filtering>false</filtering>
-				<directory>${basedir}</directory>
+				<directory>.</directory>
+				<targetPath>.</targetPath>
 				<includes>
-					<include>LICENSE</include>
+					<include>LICENSE.txt</include>
 				</includes>
 			</resource>
 		</resources>
-		<!-- Plugins -->
+
+		<!-- Build plugins -->
 		<plugins>
-			<!-- Compile plugin -->
+			<!-- License header plugin -->
+			<plugin>
+				<groupId>com.mycila.maven-license-plugin</groupId>
+				<artifactId>maven-license-plugin</artifactId>
+				<version>1.10.b1</version>
+				<executions>
+					<execution>
+						<configuration>
+							<properties>
+								<name>${project.name}</name>
+								<url>${project.organization.url}</url>
+								<inceptionYear>${project.inceptionYear}</inceptionYear>
+							</properties>
+							<quiet>true</quiet>
+							<encoding>UTF-8</encoding>
+							<strictCheck>true</strictCheck>
+							<header>HEADER.txt</header>
+							<mapping>
+								<java>SLASHSTAR_STYLE</java>
+							</mapping>
+							<keywords>
+								<keyword>${project.name}</keyword>
+								<keyword>license</keyword>
+							</keywords>
+							<includes>
+								<include>src/main/java/**</include>
+								<include>src/test/java/**</include>
+							</includes>
+						</configuration>
+						<phase>clean</phase>
+						<goals>
+							<goal>format</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- Source compiler plugin -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
+				<version>3.1</version>
 				<configuration>
-					<source>1.5</source>
-					<target>1.5</target>
+					<source>1.7</source>
+					<target>1.7</target>
+					<compilerArguments>
+						<O>-Xlint:all</O>
+						<O>-Xlint:-path</O>
+					</compilerArguments>
+					<showWarnings>true</showWarnings>
+					<showDeprecation>true</showDeprecation>
 				</configuration>
-			</plugin>
-			<!-- JAR creation plugin -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<version>2.3.2</version>
 			</plugin>
 		</plugins>
 	</build>
-
 </project>
