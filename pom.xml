@@ -3,26 +3,43 @@
 
 	<!-- Project information -->
 	<name>jlibnoise</name>
-	<groupId>net.royawesome</groupId>
+	<groupId>org.spout</groupId>
 	<artifactId>jlibnoise</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<url>http://www.spout.org</url>
 	<inceptionYear>2011</inceptionYear>
+	<url>https://github.com/SpoutDev/jlibnoise</url>
 	<description>Java port of the libnoise coherent noise-generating library.</description>
 
 	<!-- Parent information -->
 	<parent>
-		<groupId>org.spout</groupId>
-		<artifactId>shared-parent</artifactId>
-		<version>1</version>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
 	</parent>
 
 	<!-- Build properties -->
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<buildNumber>0</buildNumber>
+		<ciSystem>unknown</ciSystem>
+		<commit>unknown</commit>
 	</properties>
+
+	<!-- License information -->
+	<licenses>
+		<license>
+			<name>GNU Lesser General Public License Version 3</name>
+			<url>http://www.gnu.org/licenses/lgpl.html</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<!-- Organization information -->
+	<organization>
+		<name>Spout LLC</name>
+		<url>http://www.spout.org</url>
+	</organization>
 
 	<!-- Project developers -->
 	<developers>
@@ -37,15 +54,6 @@
 			<email>the@wulf.im</email>
 		</developer>
 	</developers>
-
-	<!-- License information -->
-	<licenses>
-		<license>
-			<name>GNU Lesser General Public License Version 3</name>
-			<url>http://www.gnu.org/licenses/lgpl.html</url>
-			<distribution>repo</distribution>
-		</license>
-	</licenses>
 
 	<!-- Source code access -->
 	<scm>
@@ -69,14 +77,34 @@
 	<!-- Dependency repositories -->
 	<repositories>
 		<repository>
-			<id>spout-repo</id>
-			<url>http://nexus.spout.org/content/groups/public</url>
+			<id>sonatype-nexus-releases</id>
+			<url>https://oss.sonatype.org/content/repositories/releases</url>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>sonatype-nexus-snapshots</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
 			<snapshots>
 				<enabled>true</enabled>
 				<updatePolicy>always</updatePolicy>
 			</snapshots>
 		</repository>
 	</repositories>
+
+	<!-- Build plugin repositories -->
+	<pluginRepositories>
+		<pluginRepository>
+			<id>sonatype-nexus-releases</id>
+			<url>https://oss.sonatype.org/content/repositories/releases</url>
+		</pluginRepository>
+		<pluginRepository>
+			<id>sonatype-nexus-snapshots</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</pluginRepository>
+	</pluginRepositories>
 
 	<!-- Build configuration -->
 	<build>
@@ -107,7 +135,7 @@
 						<configuration>
 							<properties>
 								<name>${project.name}</name>
-								<url>${project.organization.url}</url>
+								<url>${project.url}</url>
 								<inceptionYear>${project.inceptionYear}</inceptionYear>
 							</properties>
 							<quiet>true</quiet>
