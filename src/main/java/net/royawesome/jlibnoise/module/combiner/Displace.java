@@ -1,30 +1,29 @@
-/* Copyright (C) 2011 Garrett Fleenor
-
- This library is free software; you can redistribute it and/or modify it
- under the terms of the GNU Lesser General Public License as published by
- the Free Software Foundation; either version 3.0 of the License, or (at
- your option) any later version.
-
- This library is distributed in the hope that it will be useful, but WITHOUT
- ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
- License (COPYING.txt) for more details.
-
- You should have received a copy of the GNU Lesser General Public License
- along with this library; if not, write to the Free Software Foundation,
- Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
- This is a port of libnoise ( http://libnoise.sourceforge.net/index.html ).  Original implementation by Jason Bevins
-
-*/
-
+/*
+ * This file is part of jlibnoise.
+ * Original libnoise by Jason Bevins <http://libnoise.sourceforge.net/>
+ *
+ * Copyright (c) 2011 Garrett Fleenor <http://www.spout.org/>
+ * jlibnoise is licensed under the GNU Lesser General Public License.
+ *
+ * jlibnoise is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * jlibnoise is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package net.royawesome.jlibnoise.module.combiner;
 
 import net.royawesome.jlibnoise.exception.NoModuleException;
 import net.royawesome.jlibnoise.module.Module;
 
 public class Displace extends Module {
-
 	public Displace() {
 		super(4);
 	}
@@ -56,20 +55,23 @@ public class Displace extends Module {
 	}
 
 	public void SetXDisplaceModule(Module x) {
-		if (x == null)
+		if (x == null) {
 			throw new IllegalArgumentException("x cannot be null");
+		}
 		SourceModule[1] = x;
 	}
 
 	public void SetYDisplaceModule(Module y) {
-		if (y == null)
+		if (y == null) {
 			throw new IllegalArgumentException("y cannot be null");
+		}
 		SourceModule[2] = y;
 	}
 
 	public void SetZDisplaceModule(Module z) {
-		if (z == null)
+		if (z == null) {
 			throw new IllegalArgumentException("z cannot be null");
+		}
 		SourceModule[3] = z;
 	}
 
@@ -81,14 +83,18 @@ public class Displace extends Module {
 
 	@Override
 	public double GetValue(double x, double y, double z) {
-		if (SourceModule[0] == null)
+		if (SourceModule[0] == null) {
 			throw new NoModuleException();
-		if (SourceModule[1] == null)
+		}
+		if (SourceModule[1] == null) {
 			throw new NoModuleException();
-		if (SourceModule[2] == null)
+		}
+		if (SourceModule[2] == null) {
 			throw new NoModuleException();
-		if (SourceModule[3] == null)
+		}
+		if (SourceModule[3] == null) {
 			throw new NoModuleException();
+		}
 
 		// Get the output values from the three displacement modules.  Add each
 		// value to the corresponding coordinate in the input value.
@@ -99,7 +105,5 @@ public class Displace extends Module {
 		// Retrieve the output value using the offsetted input value instead of
 		// the original input value.
 		return SourceModule[0].GetValue(xDisplace, yDisplace, zDisplace);
-
 	}
-
 }

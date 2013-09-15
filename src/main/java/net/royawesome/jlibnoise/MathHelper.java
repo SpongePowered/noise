@@ -1,21 +1,22 @@
-/* Copyright (C) 2011 Garrett Fleenor
-
- This library is free software; you can redistribute it and/or modify it
- under the terms of the GNU Lesser General Public License as published by
- the Free Software Foundation; either version 3.0 of the License, or (at
- your option) any later version.
-
- This library is distributed in the hope that it will be useful, but WITHOUT
- ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
- License (COPYING.txt) for more details.
-
- You should have received a copy of the GNU Lesser General Public License
- along with this library; if not, write to the Free Software Foundation,
- Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
- This file relicensed with permission from the Spout Project (www.github.com/SpoutDev)
-
+/*
+ * This file is part of jlibnoise.
+ * Original libnoise by Jason Bevins <http://libnoise.sourceforge.net/>
+ *
+ * Copyright (c) 2011 Garrett Fleenor <http://www.spout.org/>
+ * jlibnoise is licensed under the GNU Lesser General Public License.
+ *
+ * jlibnoise is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * jlibnoise is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package net.royawesome.jlibnoise;
 
@@ -29,30 +30,19 @@ public class MathHelper {
 	 * A "close to zero" double epsilon value for use
 	 */
 	public static final double DBL_EPSILON = Double.longBitsToDouble(0x3cb0000000000000L);
-
 	/**
 	 * A "close to zero" float epsilon value for use
 	 */
 	public static final float FLT_EPSILON = Float.intBitsToFloat(0x34000000);
-
 	public static final double PI = Math.PI;
-
 	public static final double SQUARED_PI = PI * PI;
-
 	public static final double HALF_PI = 0.5 * PI;
-
 	public static final double QUARTER_PI = 0.5 * HALF_PI;
-
 	public static final double TWO_PI = 2.0 * PI;
-
 	public static final double THREE_PI_HALVES = TWO_PI - HALF_PI;
-
 	public static final double DEGTORAD = PI / 180.0;
-
 	public static final double RADTODEG = 180.0 / PI;
-
 	public static final double SQRTOFTWO = Math.sqrt(2.0);
-
 	public static final double HALF_SQRTOFTWO = 0.5 * SQRTOFTWO;
 
 	/**
@@ -80,11 +70,8 @@ public class MathHelper {
 	}
 
 	/**
-	 * Gets the difference between two angles
-	 * This value is always positive (0 - 180)
+	 * Gets the difference between two angles This value is always positive (0 - 180)
 	 *
-	 * @param angle1
-	 * @param angle2
 	 * @return the positive angle difference
 	 */
 	public static float getAngleDifference(float angle1, float angle2) {
@@ -92,11 +79,8 @@ public class MathHelper {
 	}
 
 	/**
-	 * Gets the difference between two radians
-	 * This value is always positive (0 - PI)
+	 * Gets the difference between two radians This value is always positive (0 - PI)
 	 *
-	 * @param radian1
-	 * @param radian2
 	 * @return the positive radian difference
 	 */
 	public static double getRadianDifference(double radian1, double radian2) {
@@ -122,7 +106,7 @@ public class MathHelper {
 
 	/**
 	 * Wraps a byte between 0 and 256
-	 * 
+	 *
 	 * @param value to wrap
 	 * @return 0 >= byte < 256
 	 */
@@ -133,7 +117,7 @@ public class MathHelper {
 		}
 		return (byte) value;
 	}
-	
+
 	/**
 	 * Wraps the radian between -PI and PI
 	 *
@@ -164,53 +148,28 @@ public class MathHelper {
 	}
 
 	/**
-	 * Calculates the linear interpolation between a and b with the given
-	 * percent
-	 *
-	 * @param a
-	 * @param b
-	 * @param percent
-	 * @return
+	 * Calculates the linear interpolation between a and b with the given percent
 	 */
 	public static double lerp(double a, double b, double percent) {
 		return (1 - percent) * a + percent * b;
 	}
 
 	/**
-	 * Calculates the linear interpolation between a and b with the given
-	 * percent
-	 *
-	 * @param a
-	 * @param b
-	 * @param percent
-	 * @return
+	 * Calculates the linear interpolation between a and b with the given percent
 	 */
 	public static float lerp(float a, float b, float percent) {
 		return (1 - percent) * a + percent * b;
 	}
 
 	/**
-	 * Calculates the linear interpolation between a and b with the given
-	 * percent
-	 *
-	 * @param a
-	 * @param b
-	 * @param percent
-	 * @return
+	 * Calculates the linear interpolation between a and b with the given percent
 	 */
 	public static int lerp(int a, int b, double percent) {
 		return (int) ((1 - percent) * a + percent * b);
 	}
 
-
 	/**
-	 * Calculates the linear interpolation between a and b with the given
-	 * percent
-	 *
-	 * @param a
-	 * @param b
-	 * @param percent
-	 * @return
+	 * Calculates the linear interpolation between a and b with the given percent
 	 */
 	public static Color lerp(Color a, Color b, double percent) {
 		int red = lerp(a.getRed(), b.getRed(), percent);
@@ -221,10 +180,10 @@ public class MathHelper {
 	}
 
 	public static Color blend(Color a, Color b) {
-		int red = lerp(a.getRed(), b.getRed(), (a.getAlpha()/255.0));
-		int blue = lerp(a.getBlue(), b.getBlue(), (a.getAlpha()/255.0));
-		int green = lerp(a.getGreen(), b.getGreen(), (a.getAlpha()/255.0));
-		int alpha = lerp(a.getAlpha(), b.getAlpha(), (a.getAlpha()/255.0));
+		int red = lerp(a.getRed(), b.getRed(), (a.getAlpha() / 255.0));
+		int blue = lerp(a.getBlue(), b.getBlue(), (a.getAlpha() / 255.0));
+		int green = lerp(a.getGreen(), b.getGreen(), (a.getAlpha() / 255.0));
+		int alpha = lerp(a.getAlpha(), b.getAlpha(), (a.getAlpha() / 255.0));
 		return new Color(red, green, blue, alpha);
 	}
 
@@ -285,19 +244,12 @@ public class MathHelper {
 	}
 
 	private static final double sin_a = -4 / SQUARED_PI;
-
 	private static final double sin_b = 4 / PI;
-
 	private static final double sin_p = 9d / 40;
-
 	private final static double asin_a = -0.0481295276831013447d;
-
 	private final static double asin_b = -0.343835993947915197d;
-
 	private final static double asin_c = 0.962761848425913169d;
-
 	private final static double asin_d = 1.00138940860107040d;
-
 	private final static double atan_a = 0.280872d;
 
 	// Integer Maths
@@ -320,9 +272,7 @@ public class MathHelper {
 
 	/**
 	 * Gets the maximum byte value from two values
-	 * 
-	 * @param value1
-	 * @param value2
+	 *
 	 * @return the maximum value
 	 */
 	public static byte max(byte value1, byte value2) {
@@ -332,7 +282,6 @@ public class MathHelper {
 	/**
 	 * Rounds an integer up to the next power of 2.
 	 *
-	 * @param x
 	 * @return the lowest power of 2 greater or equal to x
 	 */
 	public static int roundUpPow2(int x) {
@@ -354,9 +303,6 @@ public class MathHelper {
 
 	/**
 	 * Casts a value to a float. May return null.
-	 *
-	 * @param o
-	 * @return
 	 */
 	public static Float castFloat(Object o) {
 		if (o == null) {
@@ -376,9 +322,6 @@ public class MathHelper {
 
 	/**
 	 * Casts a value to a byte. May return null.
-	 *
-	 * @param o
-	 * @return
 	 */
 	public static Byte castByte(Object o) {
 		if (o == null) {
@@ -386,7 +329,7 @@ public class MathHelper {
 		}
 
 		if (o instanceof Number) {
-			return ((Number)o).byteValue();
+			return ((Number) o).byteValue();
 		}
 
 		try {
@@ -398,9 +341,6 @@ public class MathHelper {
 
 	/**
 	 * Casts a value to a short. May return null.
-	 *
-	 * @param o
-	 * @return
 	 */
 	public static Short castShort(Object o) {
 		if (o == null) {
@@ -408,7 +348,7 @@ public class MathHelper {
 		}
 
 		if (o instanceof Number) {
-			return ((Number)o).shortValue();
+			return ((Number) o).shortValue();
 		}
 
 		try {
@@ -420,9 +360,6 @@ public class MathHelper {
 
 	/**
 	 * Casts a value to an integer. May return null.
-	 *
-	 * @param o
-	 * @return
 	 */
 	public static Integer castInt(Object o) {
 		if (o == null) {
@@ -430,7 +367,7 @@ public class MathHelper {
 		}
 
 		if (o instanceof Number) {
-			return ((Number)o).intValue();
+			return ((Number) o).intValue();
 		}
 
 		try {
@@ -442,9 +379,6 @@ public class MathHelper {
 
 	/**
 	 * Casts a value to a double. May return null.
-	 *
-	 * @param o
-	 * @return
 	 */
 	public static Double castDouble(Object o) {
 		if (o == null) {
@@ -452,7 +386,7 @@ public class MathHelper {
 		}
 
 		if (o instanceof Number) {
-			return ((Number)o).doubleValue();
+			return ((Number) o).doubleValue();
 		}
 
 		try {
@@ -464,9 +398,6 @@ public class MathHelper {
 
 	/**
 	 * Casts a value to a long. May return null.
-	 *
-	 * @param o
-	 * @return
 	 */
 	public static Long castLong(Object o) {
 		if (o == null) {
@@ -474,7 +405,7 @@ public class MathHelper {
 		}
 
 		if (o instanceof Number) {
-			return ((Number)o).longValue();
+			return ((Number) o).longValue();
 		}
 
 		try {
@@ -486,9 +417,6 @@ public class MathHelper {
 
 	/**
 	 * Casts a value to a boolean. May return null.
-	 *
-	 * @param o
-	 * @return
 	 */
 	public static Boolean castBoolean(Object o) {
 		if (o == null) {
@@ -519,7 +447,7 @@ public class MathHelper {
 		for (int v : values) {
 			sum += v;
 		}
-		return sum/values.length;
+		return sum / values.length;
 	}
 
 	/**
@@ -532,6 +460,6 @@ public class MathHelper {
 		for (double v : values) {
 			sum += v;
 		}
-		return sum/values.length;
+		return sum / values.length;
 	}
 }

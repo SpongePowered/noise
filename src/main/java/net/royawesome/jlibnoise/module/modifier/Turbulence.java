@@ -1,22 +1,23 @@
-/* Copyright (C) 2011 Garrett Fleenor
-
- This library is free software; you can redistribute it and/or modify it
- under the terms of the GNU Lesser General Public License as published by
- the Free Software Foundation; either version 3.0 of the License, or (at
- your option) any later version.
-
- This library is distributed in the hope that it will be useful, but WITHOUT
- ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
- License (COPYING.txt) for more details.
-
- You should have received a copy of the GNU Lesser General Public License
- along with this library; if not, write to the Free Software Foundation,
- Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
- This is a port of libnoise ( http://libnoise.sourceforge.net/index.html ).  Original implementation by Jason Bevins
-
-*/
+/*
+ * This file is part of jlibnoise.
+ * Original libnoise by Jason Bevins <http://libnoise.sourceforge.net/>
+ *
+ * Copyright (c) 2011 Garrett Fleenor <http://www.spout.org/>
+ * jlibnoise is licensed under the GNU Lesser General Public License.
+ *
+ * jlibnoise is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * jlibnoise is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package net.royawesome.jlibnoise.module.modifier;
 
 import net.royawesome.jlibnoise.exception.NoModuleException;
@@ -24,29 +25,22 @@ import net.royawesome.jlibnoise.module.Module;
 import net.royawesome.jlibnoise.module.source.Perlin;
 
 public class Turbulence extends Module {
-	/// Default frequency for the noise::module::Turbulence noise module.
+	// Default frequency for the noise::module::Turbulence noise module.
 	public static final double DEFAULT_TURBULENCE_FREQUENCY = Perlin.DEFAULT_PERLIN_FREQUENCY;
-
-	/// Default power for the noise::module::Turbulence noise module.
+	// Default power for the noise::module::Turbulence noise module.
 	public static final double DEFAULT_TURBULENCE_POWER = 1.0;
-
-	/// Default roughness for the noise::module::Turbulence noise module.
+	// Default roughness for the noise::module::Turbulence noise module.
 	public static final int DEFAULT_TURBULENCE_ROUGHNESS = 3;
-
-	/// Default noise seed for the noise::module::Turbulence noise module.
+	// Default noise seed for the noise::module::Turbulence noise module.
 	public static final int DEFAULT_TURBULENCE_SEED = Perlin.DEFAULT_PERLIN_SEED;
-
-	/// The power (scale) of the displacement.
+	// The power (scale) of the displacement.
 	double power = DEFAULT_TURBULENCE_POWER;
-
-	/// Noise module that displaces the @a x coordinate.
-    final Perlin xDistortModule;
-
-	/// Noise module that displaces the @a y coordinate.
-    final Perlin yDistortModule;
-
-	/// Noise module that displaces the @a z coordinate.
-    final Perlin zDistortModule;
+	// Noise module that displaces the @a x coordinate.
+	final Perlin xDistortModule;
+	// Noise module that displaces the @a y coordinate.
+	final Perlin yDistortModule;
+	// Noise module that displaces the @a z coordinate.
+	final Perlin zDistortModule;
 
 	public Turbulence() {
 		super(1);
@@ -100,8 +94,9 @@ public class Turbulence extends Module {
 
 	@Override
 	public double GetValue(double x, double y, double z) {
-		if (SourceModule[0] == null)
+		if (SourceModule[0] == null) {
 			throw new NoModuleException();
+		}
 
 		// Get the values from the three noise::module::Perlin noise modules and
 		// add each value to each coordinate of the input value.  There are also
@@ -129,7 +124,5 @@ public class Turbulence extends Module {
 		// Retrieve the output value at the offsetted input value instead of the
 		// original input value.
 		return SourceModule[0].GetValue(xDistort, yDistort, zDistort);
-
 	}
-
 }

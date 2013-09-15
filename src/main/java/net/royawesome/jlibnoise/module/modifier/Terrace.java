@@ -1,22 +1,23 @@
-/* Copyright (C) 2011 Garrett Fleenor
-
- This library is free software; you can redistribute it and/or modify it
- under the terms of the GNU Lesser General Public License as published by
- the Free Software Foundation; either version 3.0 of the License, or (at
- your option) any later version.
-
- This library is distributed in the hope that it will be useful, but WITHOUT
- ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
- License (COPYING.txt) for more details.
-
- You should have received a copy of the GNU Lesser General Public License
- along with this library; if not, write to the Free Software Foundation,
- Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
- This is a port of libnoise ( http://libnoise.sourceforge.net/index.html ).  Original implementation by Jason Bevins
-
-*/
+/*
+ * This file is part of jlibnoise.
+ * Original libnoise by Jason Bevins <http://libnoise.sourceforge.net/>
+ *
+ * Copyright (c) 2011 Garrett Fleenor <http://www.spout.org/>
+ * jlibnoise is licensed under the GNU Lesser General Public License.
+ *
+ * jlibnoise is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * jlibnoise is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package net.royawesome.jlibnoise.module.modifier;
 
 import net.royawesome.jlibnoise.Utils;
@@ -24,14 +25,12 @@ import net.royawesome.jlibnoise.exception.NoModuleException;
 import net.royawesome.jlibnoise.module.Module;
 
 public class Terrace extends Module {
-	/// Number of control points stored in this noise module.
+	// Number of control points stored in this noise module.
 	int controlPointCount = 0;
-
-	/// Determines if the terrace-forming curve between all control points
-	/// is inverted.
+	// Determines if the terrace-forming curve between all control points
+	// is inverted.
 	boolean invertTerraces = false;
-
-	/// Array that stores the control points.
+	// Array that stores the control points.
 	double[] ControlPoints = new double[0];
 
 	public Terrace() {
@@ -62,7 +61,6 @@ public class Terrace extends Module {
 	public void ClearAllControlPoints() {
 		ControlPoints = null;
 		controlPointCount = 0;
-
 	}
 
 	public void MakeControlPoints(int controlPointCount) {
@@ -78,7 +76,6 @@ public class Terrace extends Module {
 			AddControlPoint(curValue);
 			curValue += terraceStep;
 		}
-
 	}
 
 	protected int FindInsertionPos(double value) {
@@ -95,7 +92,6 @@ public class Terrace extends Module {
 			}
 		}
 		return insertionPos;
-
 	}
 
 	protected void InsertAtPos(int insertionPos, double value) {
@@ -118,7 +114,6 @@ public class Terrace extends Module {
 		// Now that we've made room for the new control point within the array,
 		// add the new control point.
 		ControlPoints[insertionPos] = value;
-
 	}
 
 	@Override
@@ -128,8 +123,9 @@ public class Terrace extends Module {
 
 	@Override
 	public double GetValue(double x, double y, double z) {
-		if (SourceModule[0] == null)
+		if (SourceModule[0] == null) {
 			throw new NoModuleException();
+		}
 
 		// Get the output value from the source module.
 		double sourceModuleValue = SourceModule[0].GetValue(x, y, z);
@@ -172,7 +168,5 @@ public class Terrace extends Module {
 
 		// Now perform the linear interpolation given the alpha value.
 		return Utils.LinearInterp(value0, value1, alpha);
-
 	}
-
 }

@@ -1,23 +1,23 @@
-/* Copyright (C) 2011 Garrett Fleenor
-
- This library is free software; you can redistribute it and/or modify it
- under the terms of the GNU Lesser General Public License as published by
- the Free Software Foundation; either version 3.0 of the License, or (at
- your option) any later version.
-
- This library is distributed in the hope that it will be useful, but WITHOUT
- ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
- License (COPYING.txt) for more details.
-
- You should have received a copy of the GNU Lesser General Public License
- along with this library; if not, write to the Free Software Foundation,
- Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
- This is a port of libnoise ( http://libnoise.sourceforge.net/index.html ).  Original implementation by Jason Bevins
-
-*/
-
+/*
+ * This file is part of jlibnoise.
+ * Original libnoise by Jason Bevins <http://libnoise.sourceforge.net/>
+ *
+ * Copyright (c) 2011 Garrett Fleenor <http://www.spout.org/>
+ * jlibnoise is licensed under the GNU Lesser General Public License.
+ *
+ * jlibnoise is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * jlibnoise is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package net.royawesome.jlibnoise.module.modifier;
 
 import java.util.ArrayList;
@@ -29,7 +29,6 @@ import net.royawesome.jlibnoise.module.Module;
 public class Curve extends Module {
 	public class ControlPoint {
 		public double inputValue;
-
 		public double outputValue;
 	}
 
@@ -37,7 +36,6 @@ public class Curve extends Module {
 
 	public Curve() {
 		super(1);
-
 	}
 
 	public void AddControlPoint(double inputValue, double outputValue) {
@@ -67,7 +65,6 @@ public class Curve extends Module {
 			}
 		}
 		return insertionPos;
-
 	}
 
 	protected void InsertAtPos(int insertionPos, double inputValue, double outputValue) {
@@ -84,10 +81,12 @@ public class Curve extends Module {
 
 	@Override
 	public double GetValue(double x, double y, double z) {
-		if (SourceModule[0] == null)
+		if (SourceModule[0] == null) {
 			throw new NoModuleException();
-		if (controlPoints.size() >= 4)
+		}
+		if (controlPoints.size() >= 4) {
 			throw new RuntimeException("must have 4 or less control points");
+		}
 
 		// Get the output value from the source module.
 		double sourceModuleValue = SourceModule[0].GetValue(x, y, z);
@@ -123,7 +122,5 @@ public class Curve extends Module {
 
 		// Now perform the cubic interpolation given the alpha value.
 		return Utils.CubicInterp(controlPoints.get(index0).outputValue, controlPoints.get(index1).outputValue, controlPoints.get(index2).outputValue, controlPoints.get(index3).outputValue, alpha);
-
 	}
-
 }
