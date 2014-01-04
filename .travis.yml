@@ -1,23 +1,32 @@
-# Source language and JDK version to use.
+# Source language and JDK version to use
 language: java
 jdk: oraclejdk7
 
-# Compile and package JAR and set build properties.
-install: mvn package -DbuildNumber=$TRAVIS_BUILD_NUMBER -DciSystem=travis -Dcommit=${TRAVIS_COMMIT:0:7}
-after_success:
-  # Get files for use with build, namely the custom Maven settings.xml.
-  - "git clone https://github.com/SpoutDev/travis-ci-resources.git target/travis"
-  # Check if commit s not a pull request, if git repo is official, and if branch is master. If checks pass, deploy artifacts to Maven repository.
-  - "[[ $TRAVIS_PULL_REQUEST == false ]] && [[ $TRAVIS_REPO_SLUG == SpoutDev/jlibnoise ]] && [[ $TRAVIS_BRANCH == master ]] && mvn deploy --settings target/travis/settings.xml"
+# Compile and package JAR and set build properties
+install: mvn package -DbuildNumber=$TRAVIS_BUILD_NUMBER -Dci=travis -Dcommit=${TRAVIS_COMMIT:0:7}
 
+# Perform steps after compilation/test success
+after_success:
+  # Generate Javadocs and Cobertura report for Coveralls.io
+  - "mvn javadoc:javadoc cobertura:cobertura coveralls:cobertura -DserviceJobId=$TRAVIS_JOB_ID"
+  # Get files for use with build, namely the custom Maven settings.xml
+  - "git clone https://github.com/flow/travis-ci-resources.git target/travis"
+  # Check if commit is not a pull request, if git repo is official, and if branch is master, then deploy artifacts to Maven repository
+  - "[[ $TRAVIS_PULL_REQUEST == false ]] && [[ $TRAVIS_REPO_SLUG == flow/flow-noise ]] && [[ $TRAVIS_BRANCH == master ]] && mvn deploy --settings target/travis/settings.xml"
+
+# Notification services
 notifications:
-  # Disable build status email notifications, until the issue with forks is fixed.
+  # Disable build status email notifications, until the issue with forks is fixed
   email: false
   webhooks:
     # Send build information and status to Notifico.
-    - http://n.tkte.ch/h/492/fumvQsHD6rhc5krt9Osjw40L
+    - http://n.tkte.ch/h/1811/ZyVWsOhdmoZ_TXqTpB5Pu1MP
 
+# Environmental system variables
 env:
   global:
-    - secure: "NyQYXczPwdh8y97euQMsGP7FF+0wiskKUd6UGFjN6U2vhHI4BtjZvoYcxbg6AW6mPO3z7XoU4ljjxVn7xtLvrOUs56hOuQbsrtEVFSis1Gi2b5AMNaHjjsEP5+TreT0nlu9nVi64QcQSd7fj2NsDwWQYXXGvMsK7ezxMA+m3+oo="
-    - secure: "eqAYJ7UmJg7jpYNYhzT8epCvWQcY5aEvjIIDyooCoAjMLio9pbRLU1lRSub8klfXVXs5QjSaDDF/RVOizNmuUjiVtcrOzg6GQ+5/yU9mHH1t44eDalHtL13aTu/0wXjWcJPG1QqA8aj5JCrr76b4boY+g9xDRmAiONuftevZtPA="
+    # Make the log output cleaner
+    - TERM=dumb
+    # Super secure, encrypted variables! Ssssh!
+    - secure: "u9VCe4d8N1r/WYGzOaLAYy/ACzUJNiG0YGmyJfSXRUPcK3eTcorxDVDzofjqdlf8Q3v5SCeqO4YmFtMo0CN51Dd0iEFeEROm3uSlEkQ7QHbOpro8+nDt/I1UKSxXMzUS3Rp24gOtjLwTrqwXJ/Z27Ll9OOuMznnw0lXgNxRYcA0="
+    - secure: "lOVAHwPlVQiy5Idd6whhKlxWvVJxEhs+hwqEaeKIzvwpRP0w38JOXAl5CSZOj8HwH8lPCARbTKO2iOZzqXiMpgmNNiAiMOPGKOyZJmLehcC4oed53CyW2g5qp2XJtKMRxlxh19EwdLtdsU38vF0Ww31gruIPbAe1C07uUGoaH0E="

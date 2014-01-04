@@ -1,22 +1,27 @@
 /*
- * This file is part of jlibnoise.
- * Original libnoise by Jason Bevins <http://libnoise.sourceforge.net/>
+ * This file is part of Flow Noise, licensed under the MIT License (MIT).
  *
- * Copyright (c) 2011 Garrett Fleenor <http://www.spout.org/>
- * jlibnoise is licensed under the GNU Lesser General Public License.
+ * Copyright (c) 2013 Spout LLC <http://www.spout.org/>
+ * Original libnoise in C++ by Jason Bevins <http://libnoise.sourceforge.net/>
+ * jlibnoise Java port by Garrett Fleenor <https://github.com/RoyAwesome/jlibnoise>
  *
- * jlibnoise is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * jlibnoise is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 package net.royawesome.jlibnoise.module.source;
 
@@ -25,37 +30,37 @@ import net.royawesome.jlibnoise.Utils;
 import net.royawesome.jlibnoise.module.Module;
 
 public class Cylinders extends Module {
-	public static final double DEFAULT_CYLINDERS_FREQUENCY = 1.0;
-	double frequency = DEFAULT_CYLINDERS_FREQUENCY;
+    public static final double DEFAULT_CYLINDERS_FREQUENCY = 1.0;
+    double frequency = DEFAULT_CYLINDERS_FREQUENCY;
 
-	public Cylinders() {
-		super(0);
-	}
+    public Cylinders() {
+        super(0);
+    }
 
-	public double getFrequency() {
-		return frequency;
-	}
+    public double getFrequency() {
+        return frequency;
+    }
 
-	public void setFrequency(double frequency) {
-		this.frequency = frequency;
-	}
+    public void setFrequency(double frequency) {
+        this.frequency = frequency;
+    }
 
-	@Override
-	public int GetSourceModuleCount() {
-		return 0;
-	}
+    @Override
+    public int GetSourceModuleCount() {
+        return 0;
+    }
 
-	@Override
-	public double GetValue(double x, double y, double z) {
-		double z1 = z;
-		double x1 = x;
-		x1 *= frequency;
-		z1 *= frequency;
+    @Override
+    public double GetValue(double x, double y, double z) {
+        double z1 = z;
+        double x1 = x;
+        x1 *= frequency;
+        z1 *= frequency;
 
-		double distFromCenter = MathHelper.sqrt(x1 * x1 + z1 * z1);
-		double distFromSmallerSphere = distFromCenter - MathHelper.floor(distFromCenter);
-		double distFromLargerSphere = 1.0 - distFromSmallerSphere;
-		double nearestDist = Utils.GetMin(distFromSmallerSphere, distFromLargerSphere);
-		return 1.0 - (nearestDist * 4.0); // Puts it in the -1.0 to +1.0 range.
-	}
+        double distFromCenter = MathHelper.sqrt(x1 * x1 + z1 * z1);
+        double distFromSmallerSphere = distFromCenter - MathHelper.floor(distFromCenter);
+        double distFromLargerSphere = 1.0 - distFromSmallerSphere;
+        double nearestDist = Utils.GetMin(distFromSmallerSphere, distFromLargerSphere);
+        return 1.0 - (nearestDist * 4.0); // Puts it in the -1.0 to +1.0 range.
+    }
 }

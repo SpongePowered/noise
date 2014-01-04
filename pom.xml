@@ -1,182 +1,214 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-	<!-- Project information -->
-	<name>jlibnoise</name>
-	<groupId>org.spout</groupId>
-	<artifactId>jlibnoise</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
-	<packaging>jar</packaging>
-	<inceptionYear>2011</inceptionYear>
-	<url>https://github.com/SpoutDev/jlibnoise</url>
-	<description>Java port of the libnoise coherent noise-generating library.</description>
+    <!-- Project information -->
+    <name>Flow Noise</name>
+    <groupId>com.flowpowered</groupId>
+    <artifactId>flow-noise</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <inceptionYear>2013</inceptionYear>
+    <url>http://flowpowered.com</url>
+    <description>Java port of the libnoise coherent noise-generating library for the Flow collection.</description>
 
-	<!-- Parent information -->
-	<parent>
-		<groupId>org.sonatype.oss</groupId>
-		<artifactId>oss-parent</artifactId>
-		<version>7</version>
-	</parent>
+    <!-- Parent information -->
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
+    </parent>
 
-	<!-- Build properties -->
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<buildNumber>0</buildNumber>
-		<ciSystem>unknown</ciSystem>
-		<commit>unknown</commit>
-	</properties>
+    <!-- Build properties -->
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <buildNumber>0</buildNumber>
+        <ciSystem>unknown</ciSystem>
+        <commit>unknown</commit>
+    </properties>
 
-	<!-- License information -->
-	<licenses>
-		<license>
-			<name>GNU Lesser General Public License Version 3</name>
-			<url>http://www.gnu.org/licenses/lgpl.html</url>
-			<distribution>repo</distribution>
-		</license>
-	</licenses>
+    <!-- License information -->
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>http://www.tldrlegal.com/license/mit-license</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 
-	<!-- Organization information -->
-	<organization>
-		<name>Spout LLC</name>
-		<url>http://www.spout.org</url>
-	</organization>
+    <!-- Organization information -->
+    <organization>
+        <name>Spout LLC</name>
+        <url>http://www.spout.org</url>
+    </organization>
 
-	<!-- Project developers -->
-	<developers>
-		<developer>
-			<id>RoyAwesome</id>
-			<name>Garrett Fleenor</name>
-			<email>kylegar@kylegar.net</email>
-		</developer>
-		<developer>
-			<id>Wulfspider</id>
-			<name>Luke Spragg</name>
-			<email>the@wulf.im</email>
-		</developer>
-	</developers>
+    <!-- Project developers -->
+    <developers>
+        <developer>
+            <id>RoyAwesome</id>
+            <name>Garrett Fleenor</name>
+            <email>kylegar@kylegar.net</email>
+        </developer>
+        <developer>
+            <id>Wulfspider</id>
+            <name>Luke Spragg</name>
+            <email>the@wulf.im</email>
+        </developer>
+    </developers>
 
-	<!-- Source code access -->
-	<scm>
-		<connection>scm:git:git://github.com/SpoutDev/jlibnoise.git</connection>
-		<developerConnection>scm:git:git@github.com:SpoutDev/jlibnoise.git</developerConnection>
-		<url>https://github.com/SpoutDev/jlibnoise</url>
-	</scm>
+    <!-- Source code access -->
+    <scm>
+        <connection>scm:git:git://github.com/flow/flow-noise.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com:flow/flow-noise.git</developerConnection>
+        <url>https://github.com/flow/flow-noise</url>
+    </scm>
 
-	<!-- Continuous integration -->
-	<ciManagement>
-		<system>travis</system>
-		<url>https://travis-ci.org/SpoutDev/jlibnoise</url>
-	</ciManagement>
+    <!-- Continuous integration -->
+    <ciManagement>
+        <system>travis</system>
+        <url>https://travis-ci.org/flow/flow-noise</url>
+    </ciManagement>
 
-	<!-- Issue management -->
-	<issueManagement>
-		<system>jira</system>
-		<url>http://spoutdev.atlassian.net/browse/JLIBNOISE</url>
-	</issueManagement>
+    <!-- Issue management -->
+    <issueManagement>
+        <system>github</system>
+        <url>https://github.com/flow/flow-noise/issues</url>
+    </issueManagement>
 
-	<!-- Dependency repositories -->
-	<repositories>
-		<repository>
-			<id>sonatype-nexus-releases</id>
-			<url>https://oss.sonatype.org/content/repositories/releases</url>
-		</repository>
-		<repository>
-			<id>sonatype-nexus-snapshots</id>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-			<snapshots>
-				<enabled>true</enabled>
-				<updatePolicy>always</updatePolicy>
-			</snapshots>
-		</repository>
-	</repositories>
+    <!-- Dependency repositories -->
+    <repositories>
+        <repository>
+            <id>sonatype-nexus-releases</id>
+            <url>https://oss.sonatype.org/content/repositories/releases</url>
+        </repository>
+        <repository>
+            <id>sonatype-nexus-snapshots</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+    </repositories>
 
-	<!-- Build plugin repositories -->
-	<pluginRepositories>
-		<pluginRepository>
-			<id>sonatype-nexus-releases</id>
-			<url>https://oss.sonatype.org/content/repositories/releases</url>
-		</pluginRepository>
-		<pluginRepository>
-			<id>sonatype-nexus-snapshots</id>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-			<snapshots>
-				<enabled>true</enabled>
-				<updatePolicy>always</updatePolicy>
-			</snapshots>
-		</pluginRepository>
-	</pluginRepositories>
+    <!-- Build plugin repositories -->
+    <pluginRepositories>
+        <pluginRepository>
+            <id>sonatype-nexus-releases</id>
+            <url>https://oss.sonatype.org/content/repositories/releases</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>sonatype-nexus-snapshots</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
 
-	<!-- Build configuration -->
-	<build>
-		<defaultGoal>clean install</defaultGoal>
+    <!-- Build configuration -->
+    <build>
+        <defaultGoal>clean install</defaultGoal>
 
-		<!-- Resources to include -->
-		<resources>
-			<!-- Static resources -->
-			<resource>
-				<filtering>false</filtering>
-				<directory>.</directory>
-				<targetPath>.</targetPath>
-				<includes>
-					<include>LICENSE.txt</include>
-				</includes>
-			</resource>
-		</resources>
+        <!-- Resources to include -->
+        <resources>
+            <!-- Static resources -->
+            <resource>
+                <filtering>false</filtering>
+                <directory>.</directory>
+                <targetPath>.</targetPath>
+                <includes>
+                    <include>LICENSE.txt</include>
+                </includes>
+            </resource>
+        </resources>
 
-		<!-- Build plugins -->
-		<plugins>
-			<!-- License header plugin -->
-			<plugin>
-				<groupId>com.mycila.maven-license-plugin</groupId>
-				<artifactId>maven-license-plugin</artifactId>
-				<version>1.10.b1</version>
-				<executions>
-					<execution>
-						<configuration>
-							<properties>
-								<name>${project.name}</name>
-								<url>${project.url}</url>
-								<inceptionYear>${project.inceptionYear}</inceptionYear>
-							</properties>
-							<quiet>true</quiet>
-							<encoding>UTF-8</encoding>
-							<strictCheck>true</strictCheck>
-							<header>HEADER.txt</header>
-							<mapping>
-								<java>SLASHSTAR_STYLE</java>
-							</mapping>
-							<keywords>
-								<keyword>${project.name}</keyword>
-								<keyword>license</keyword>
-							</keywords>
-							<includes>
-								<include>src/main/java/**</include>
-								<include>src/test/java/**</include>
-							</includes>
-						</configuration>
-						<phase>clean</phase>
-						<goals>
-							<goal>format</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<!-- Source compiler plugin -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.1</version>
-				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
-					<compilerArguments>
-						<O>-Xlint:all</O>
-						<O>-Xlint:-path</O>
-					</compilerArguments>
-					<showWarnings>true</showWarnings>
-					<showDeprecation>true</showDeprecation>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+        <!-- Build plugins -->
+        <plugins>
+            <!-- License header plugin -->
+            <plugin>
+                <groupId>com.mycila.maven-license-plugin</groupId>
+                <artifactId>maven-license-plugin</artifactId>
+                <version>1.10.b1</version>
+                <executions>
+                    <execution>
+                        <configuration>
+                            <properties>
+                                <project>${project.name}</project>
+                                <year>${project.inceptionYear}</year>
+                                <name>${project.organization.name}</name>
+                                <url>${project.organization.url}</url>
+                            </properties>
+                            <quiet>true</quiet>
+                            <encoding>UTF-8</encoding>
+                            <strictCheck>true</strictCheck>
+                            <header>HEADER.txt</header>
+                            <mapping>
+                                <java>SLASHSTAR_STYLE</java>
+                            </mapping>
+                            <keywords>
+                                <keyword>${project.name}</keyword>
+                                <keyword>license</keyword>
+                            </keywords>
+                            <includes>
+                                <include>src/main/java/**</include>
+                                <include>src/test/java/**</include>
+                            </includes>
+                        </configuration>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>format</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Source compiler plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                    <compilerArguments>
+                        <O>-Xlint:all</O>
+                        <O>-Xlint:-path</O>
+                    </compilerArguments>
+                    <showWarnings>true</showWarnings>
+                    <showDeprecation>true</showDeprecation>
+                </configuration>
+            </plugin>
+            <!-- JAR creation plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                            <Specification-Title>${project.name}</Specification-Title>
+                            <Specification-Version>${project.version}+${ciSystem}-b${buildNumber}.git-${commit}</Specification-Version>
+                            <Specification-Vendor>${project.organization.name}</Specification-Vendor>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+            <!-- Coveralls reporting plugin  -->
+            <plugin>
+                <groupId>org.eluder.coveralls</groupId>
+                <artifactId>coveralls-maven-plugin</artifactId>
+                <version>2.0.1</version>
+            </plugin>
+            <!-- Cobertura test coverage plugin -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>cobertura-maven-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <format>xml</format>
+                    <maxmem>256m</maxmem>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

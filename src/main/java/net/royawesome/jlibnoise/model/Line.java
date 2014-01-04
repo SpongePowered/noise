@@ -1,22 +1,27 @@
 /*
- * This file is part of jlibnoise.
- * Original libnoise by Jason Bevins <http://libnoise.sourceforge.net/>
+ * This file is part of Flow Noise, licensed under the MIT License (MIT).
  *
- * Copyright (c) 2011 Garrett Fleenor <http://www.spout.org/>
- * jlibnoise is licensed under the GNU Lesser General Public License.
+ * Copyright (c) 2013 Spout LLC <http://www.spout.org/>
+ * Original libnoise in C++ by Jason Bevins <http://libnoise.sourceforge.net/>
+ * jlibnoise Java port by Garrett Fleenor <https://github.com/RoyAwesome/jlibnoise>
  *
- * jlibnoise is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * jlibnoise is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 package net.royawesome.jlibnoise.model;
 
@@ -34,119 +39,119 @@ import net.royawesome.jlibnoise.module.Module;
  * segment.
  */
 public class Line {
-	// A flag that specifies whether the value is to be attenuated
-	// (moved toward 0.0) as the ends of the line segment are approached.
-	boolean attenuate = false;
-	// A pointer to the noise module used to generate the output values.
-	Module module;
-	// @a x coordinate of the start of the line segment.
-	double x0 = 0;
-	// @a x coordinate of the end of the line segment.
-	double x1 = 1;
-	// @a y coordinate of the start of the line segment.
-	double y0 = 0;
-	// @a y coordinate of the end of the line segment.
-	double y1 = 1;
-	// @a z coordinate of the start of the line segment.
-	double z0 = 0;
-	// @a z coordinate of the end of the line segment.
-	double z1 = 1;
+    // A flag that specifies whether the value is to be attenuated
+    // (moved toward 0.0) as the ends of the line segment are approached.
+    boolean attenuate = false;
+    // A pointer to the noise module used to generate the output values.
+    Module module;
+    // @a x coordinate of the start of the line segment.
+    double x0 = 0;
+    // @a x coordinate of the end of the line segment.
+    double x1 = 1;
+    // @a y coordinate of the start of the line segment.
+    double y0 = 0;
+    // @a y coordinate of the end of the line segment.
+    double y1 = 1;
+    // @a z coordinate of the start of the line segment.
+    double z0 = 0;
+    // @a z coordinate of the end of the line segment.
+    double z1 = 1;
 
-	/**
-	 * @param module The noise module that is used to generate the output values.
-	 */
-	public Line(Module module) {
-		if (module == null) {
-			throw new IllegalArgumentException("module cannot be null");
-		}
-		this.module = module;
-	}
+    /**
+     * @param module The noise module that is used to generate the output values.
+     */
+    public Line(Module module) {
+        if (module == null) {
+            throw new IllegalArgumentException("module cannot be null");
+        }
+        this.module = module;
+    }
 
-	/**
-	 * Returns a flag indicating whether the output value is to be attenuated (moved toward 0.0) as the ends of the line segment are approached by the input value.
-	 *
-	 * @return true if the value is to be attenuated false if not.
-	 */
-	public boolean attenuate() {
-		return this.attenuate;
-	}
+    /**
+     * Returns a flag indicating whether the output value is to be attenuated (moved toward 0.0) as the ends of the line segment are approached by the input value.
+     *
+     * @return true if the value is to be attenuated false if not.
+     */
+    public boolean attenuate() {
+        return this.attenuate;
+    }
 
-	/**
-	 * Sets a flag indicating that the output value is to be attenuated (moved toward 0.0) as the ends of the line segment are approached.
-	 *
-	 * @param att A flag that specifies whether the output value is to be attenuated.
-	 */
-	public void setAttenuate(boolean att) {
-		this.attenuate = att;
-	}
+    /**
+     * Sets a flag indicating that the output value is to be attenuated (moved toward 0.0) as the ends of the line segment are approached.
+     *
+     * @param att A flag that specifies whether the output value is to be attenuated.
+     */
+    public void setAttenuate(boolean att) {
+        this.attenuate = att;
+    }
 
-	/**
-	 * Sets the position ( @a x, @a y, @a z ) of the start of the line segment to choose values along.
-	 *
-	 * @param x x coordinate of the start position.
-	 * @param y y coordinate of the start position.
-	 * @param z z coordinate of the start position.
-	 */
-	public void setStartPoint(double x, double y, double z) {
-		this.x0 = x;
-		this.y0 = y;
-		this.z0 = z;
-	}
+    /**
+     * Sets the position ( @a x, @a y, @a z ) of the start of the line segment to choose values along.
+     *
+     * @param x x coordinate of the start position.
+     * @param y y coordinate of the start position.
+     * @param z z coordinate of the start position.
+     */
+    public void setStartPoint(double x, double y, double z) {
+        this.x0 = x;
+        this.y0 = y;
+        this.z0 = z;
+    }
 
-	/**
-	 * Sets the position ( @a x, @a y, @a z ) of the end of the line segment to choose values along.
-	 *
-	 * @param x x coordinate of the end position.
-	 * @param y y coordinate of the end position.
-	 * @param z z coordinate of the end position.
-	 */
-	public void setEndPoint(double x, double y, double z) {
-		this.x1 = x;
-		this.y1 = y;
-		this.z1 = z;
-	}
+    /**
+     * Sets the position ( @a x, @a y, @a z ) of the end of the line segment to choose values along.
+     *
+     * @param x x coordinate of the end position.
+     * @param y y coordinate of the end position.
+     * @param z z coordinate of the end position.
+     */
+    public void setEndPoint(double x, double y, double z) {
+        this.x1 = x;
+        this.y1 = y;
+        this.z1 = z;
+    }
 
-	/**
-	 * Returns the noise module that is used to generate the output values.
-	 */
-	public Module getModule() {
-		return module;
-	}
+    /**
+     * Returns the noise module that is used to generate the output values.
+     */
+    public Module getModule() {
+        return module;
+    }
 
-	/**
-	 * Sets the noise module that is used to generate the output values.
-	 *
-	 * @param module The noise module that is used to generate the output values.
-	 *
-	 * This noise module must exist for the lifetime of this object, until you pass a new noise module to this method.
-	 */
-	public void setModule(Module module) {
-		if (module == null) {
-			throw new IllegalArgumentException("module cannot be null");
-		}
-		this.module = module;
-	}
+    /**
+     * Sets the noise module that is used to generate the output values.
+     *
+     * @param module The noise module that is used to generate the output values.
+     *
+     * This noise module must exist for the lifetime of this object, until you pass a new noise module to this method.
+     */
+    public void setModule(Module module) {
+        if (module == null) {
+            throw new IllegalArgumentException("module cannot be null");
+        }
+        this.module = module;
+    }
 
-	/**
-	 * Returns the output value from the noise module given the one-dimensional coordinate of the specified input value located on the line segment.
-	 *
-	 * @param p The distance along the line segment (ranges from 0.0 to 1.0)
-	 * @return The output value from the noise module.
-	 */
-	public double getValue(double p) {
-		if (module == null) {
-			throw new NoModuleException();
-		}
+    /**
+     * Returns the output value from the noise module given the one-dimensional coordinate of the specified input value located on the line segment.
+     *
+     * @param p The distance along the line segment (ranges from 0.0 to 1.0)
+     * @return The output value from the noise module.
+     */
+    public double getValue(double p) {
+        if (module == null) {
+            throw new NoModuleException();
+        }
 
-		double x = (x1 - x0) * p + x0;
-		double y = (y1 - y0) * p + y0;
-		double z = (z1 - z0) * p + z0;
-		double value = module.GetValue(x, y, z);
+        double x = (x1 - x0) * p + x0;
+        double y = (y1 - y0) * p + y0;
+        double z = (z1 - z0) * p + z0;
+        double value = module.GetValue(x, y, z);
 
-		if (attenuate) {
-			return p * (1.0 - p) * 4 * value;
-		} else {
-			return value;
-		}
-	}
+        if (attenuate) {
+            return p * (1.0 - p) * 4 * value;
+        } else {
+            return value;
+        }
+    }
 }

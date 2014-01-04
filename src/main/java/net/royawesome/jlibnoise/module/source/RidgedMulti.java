@@ -1,22 +1,27 @@
 /*
- * This file is part of jlibnoise.
- * Original libnoise by Jason Bevins <http://libnoise.sourceforge.net/>
+ * This file is part of Flow Noise, licensed under the MIT License (MIT).
  *
- * Copyright (c) 2011 Garrett Fleenor <http://www.spout.org/>
- * jlibnoise is licensed under the GNU Lesser General Public License.
+ * Copyright (c) 2013 Spout LLC <http://www.spout.org/>
+ * Original libnoise in C++ by Jason Bevins <http://libnoise.sourceforge.net/>
+ * jlibnoise Java port by Garrett Fleenor <https://github.com/RoyAwesome/jlibnoise>
  *
- * jlibnoise is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * jlibnoise is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 package net.royawesome.jlibnoise.module.source;
 
@@ -26,156 +31,156 @@ import net.royawesome.jlibnoise.Utils;
 import net.royawesome.jlibnoise.module.Module;
 
 public class RidgedMulti extends Module {
-	// Default frequency for the noise::module::RidgedMulti noise module.
-	public static final double DEFAULT_RIDGED_FREQUENCY = 1.0;
-	// Default lacunarity for the noise::module::RidgedMulti noise module.
-	public static final double DEFAULT_RIDGED_LACUNARITY = 2.0;
-	// Default number of octaves for the noise::module::RidgedMulti noise module.
-	public static final int DEFAULT_RIDGED_OCTAVE_COUNT = 6;
-	// Default noise quality for the noise::module::RidgedMulti noise module.
-	public static final NoiseQuality DEFAULT_RIDGED_QUALITY = NoiseQuality.STANDARD;
-	// Default noise seed for the noise::module::RidgedMulti noise module.
-	public static final int DEFAULT_RIDGED_SEED = 0;
-	// Maximum number of octaves for the noise::module::RidgedMulti noise module.
-	public static final int RIDGED_MAX_OCTAVE = 30;
-	double frequency = DEFAULT_RIDGED_FREQUENCY;
-	// Frequency multiplier between successive octaves.
-	double lacunarity = DEFAULT_RIDGED_LACUNARITY;
-	// Quality of the ridged-multifractal noise.
-	NoiseQuality noiseQuality = DEFAULT_RIDGED_QUALITY;
-	// Total number of octaves that generate the ridged-multifractal noise.
-	int octaveCount = DEFAULT_RIDGED_OCTAVE_COUNT;
-	// Contains the spectral weights for each octave.
-	double[] SpectralWeights;
-	// Seed value used by the ridged-multfractal-noise function.
-	int seed = DEFAULT_RIDGED_SEED;
+    // Default frequency for the noise::module::RidgedMulti noise module.
+    public static final double DEFAULT_RIDGED_FREQUENCY = 1.0;
+    // Default lacunarity for the noise::module::RidgedMulti noise module.
+    public static final double DEFAULT_RIDGED_LACUNARITY = 2.0;
+    // Default number of octaves for the noise::module::RidgedMulti noise module.
+    public static final int DEFAULT_RIDGED_OCTAVE_COUNT = 6;
+    // Default noise quality for the noise::module::RidgedMulti noise module.
+    public static final NoiseQuality DEFAULT_RIDGED_QUALITY = NoiseQuality.STANDARD;
+    // Default noise seed for the noise::module::RidgedMulti noise module.
+    public static final int DEFAULT_RIDGED_SEED = 0;
+    // Maximum number of octaves for the noise::module::RidgedMulti noise module.
+    public static final int RIDGED_MAX_OCTAVE = 30;
+    double frequency = DEFAULT_RIDGED_FREQUENCY;
+    // Frequency multiplier between successive octaves.
+    double lacunarity = DEFAULT_RIDGED_LACUNARITY;
+    // Quality of the ridged-multifractal noise.
+    NoiseQuality noiseQuality = DEFAULT_RIDGED_QUALITY;
+    // Total number of octaves that generate the ridged-multifractal noise.
+    int octaveCount = DEFAULT_RIDGED_OCTAVE_COUNT;
+    // Contains the spectral weights for each octave.
+    double[] SpectralWeights;
+    // Seed value used by the ridged-multfractal-noise function.
+    int seed = DEFAULT_RIDGED_SEED;
 
-	public RidgedMulti() {
-		super(0);
-		CalcSpectralWeights();
-	}
+    public RidgedMulti() {
+        super(0);
+        CalcSpectralWeights();
+    }
 
-	public double getFrequency() {
-		return frequency;
-	}
+    public double getFrequency() {
+        return frequency;
+    }
 
-	public void setFrequency(double frequency) {
-		this.frequency = frequency;
-	}
+    public void setFrequency(double frequency) {
+        this.frequency = frequency;
+    }
 
-	public double getLacunarity() {
-		return lacunarity;
-	}
+    public double getLacunarity() {
+        return lacunarity;
+    }
 
-	public void setLacunarity(double lacunarity) {
-		this.lacunarity = lacunarity;
-	}
+    public void setLacunarity(double lacunarity) {
+        this.lacunarity = lacunarity;
+    }
 
-	public NoiseQuality getNoiseQuality() {
-		return noiseQuality;
-	}
+    public NoiseQuality getNoiseQuality() {
+        return noiseQuality;
+    }
 
-	public void setNoiseQuality(NoiseQuality noiseQuality) {
-		this.noiseQuality = noiseQuality;
-	}
+    public void setNoiseQuality(NoiseQuality noiseQuality) {
+        this.noiseQuality = noiseQuality;
+    }
 
-	public int getOctaveCount() {
-		return octaveCount;
-	}
+    public int getOctaveCount() {
+        return octaveCount;
+    }
 
-	public void setOctaveCount(int octaveCount) {
-		this.octaveCount = Utils.GetMin(octaveCount, RIDGED_MAX_OCTAVE);
-	}
+    public void setOctaveCount(int octaveCount) {
+        this.octaveCount = Utils.GetMin(octaveCount, RIDGED_MAX_OCTAVE);
+    }
 
-	public int getSeed() {
-		return seed;
-	}
+    public int getSeed() {
+        return seed;
+    }
 
-	public void setSeed(int seed) {
-		this.seed = seed;
-	}
+    public void setSeed(int seed) {
+        this.seed = seed;
+    }
 
-	protected void CalcSpectralWeights() {
-		// This exponent parameter should be user-defined; it may be exposed in a
-		// future version of libnoise.
-		double h = 1.0;
+    protected void CalcSpectralWeights() {
+        // This exponent parameter should be user-defined; it may be exposed in a
+        // future version of libnoise.
+        double h = 1.0;
 
-		double frequency = 1.0;
-		SpectralWeights = new double[RIDGED_MAX_OCTAVE];
-		for (int i = 0; i < RIDGED_MAX_OCTAVE; i++) {
-			// Compute weight for each frequency.
-			SpectralWeights[i] = Math.pow(frequency, -h);
-			frequency *= lacunarity;
-		}
-	}
+        double frequency = 1.0;
+        SpectralWeights = new double[RIDGED_MAX_OCTAVE];
+        for (int i = 0; i < RIDGED_MAX_OCTAVE; i++) {
+            // Compute weight for each frequency.
+            SpectralWeights[i] = Math.pow(frequency, -h);
+            frequency *= lacunarity;
+        }
+    }
 
-	@Override
-	public int GetSourceModuleCount() {
-		return 0;
-	}
+    @Override
+    public int GetSourceModuleCount() {
+        return 0;
+    }
 
-	@Override
-	public double GetValue(double x, double y, double z) {
-		double x1 = x;
-		double y1 = y;
-		double z1 = z;
-		x1 *= frequency;
-		y1 *= frequency;
-		z1 *= frequency;
+    @Override
+    public double GetValue(double x, double y, double z) {
+        double x1 = x;
+        double y1 = y;
+        double z1 = z;
+        x1 *= frequency;
+        y1 *= frequency;
+        z1 *= frequency;
 
-		double signal;
-		double value = 0.0;
-		double weight = 1.0;
+        double signal;
+        double value = 0.0;
+        double weight = 1.0;
 
-		// These parameters should be user-defined; they may be exposed in a
-		// future version of libnoise.
-		double offset = 1.0;
-		double gain = 2.0;
+        // These parameters should be user-defined; they may be exposed in a
+        // future version of libnoise.
+        double offset = 1.0;
+        double gain = 2.0;
 
-		for (int curOctave = 0; curOctave < octaveCount; curOctave++) {
+        for (int curOctave = 0; curOctave < octaveCount; curOctave++) {
 
-			// Make sure that these floating-point values have the same range as a 32-
-			// bit integer so that we can pass them to the coherent-noise functions.
-			double nx, ny, nz;
-			nx = Utils.MakeInt32Range(x1);
-			ny = Utils.MakeInt32Range(y1);
-			nz = Utils.MakeInt32Range(z1);
+            // Make sure that these floating-point values have the same range as a 32-
+            // bit integer so that we can pass them to the coherent-noise functions.
+            double nx, ny, nz;
+            nx = Utils.MakeInt32Range(x1);
+            ny = Utils.MakeInt32Range(y1);
+            nz = Utils.MakeInt32Range(z1);
 
-			// Get the coherent-noise value.
-			int seed = (this.seed + curOctave) & 0x7fffffff;
-			signal = Noise.GradientCoherentNoise3D(nx, ny, nz, seed, noiseQuality);
+            // Get the coherent-noise value.
+            int seed = (this.seed + curOctave) & 0x7fffffff;
+            signal = Noise.GradientCoherentNoise3D(nx, ny, nz, seed, noiseQuality);
 
-			// Make the ridges.
-			signal = Math.abs(signal);
-			signal = offset - signal;
+            // Make the ridges.
+            signal = Math.abs(signal);
+            signal = offset - signal;
 
-			// Square the signal to increase the sharpness of the ridges.
-			//noinspection UnusedAssignment
-			signal *= signal;
+            // Square the signal to increase the sharpness of the ridges.
+            //noinspection UnusedAssignment
+            signal *= signal;
 
-			// The weighting from the previous octave is applied to the signal.
-			// Larger values have higher weights, producing sharp points along the
-			// ridges.
-			signal *= weight;
+            // The weighting from the previous octave is applied to the signal.
+            // Larger values have higher weights, producing sharp points along the
+            // ridges.
+            signal *= weight;
 
-			// Weight successive contributions by the previous signal.
-			weight = signal * gain;
-			if (weight > 1.0) {
-				weight = 1.0;
-			}
-			if (weight < 0.0) {
-				weight = 0.0;
-			}
+            // Weight successive contributions by the previous signal.
+            weight = signal * gain;
+            if (weight > 1.0) {
+                weight = 1.0;
+            }
+            if (weight < 0.0) {
+                weight = 0.0;
+            }
 
-			// Add the signal to the output value.
-			value += (signal * SpectralWeights[curOctave]);
+            // Add the signal to the output value.
+            value += (signal * SpectralWeights[curOctave]);
 
-			// Go to the next octave.
-			x1 *= lacunarity;
-			y1 *= lacunarity;
-			z1 *= lacunarity;
-		}
+            // Go to the next octave.
+            x1 *= lacunarity;
+            y1 *= lacunarity;
+            z1 *= lacunarity;
+        }
 
-		return (value * 1.25) - 1.0;
-	}
+        return (value * 1.25) - 1.0;
+    }
 }

@@ -1,22 +1,27 @@
 /*
- * This file is part of jlibnoise.
- * Original libnoise by Jason Bevins <http://libnoise.sourceforge.net/>
+ * This file is part of Flow Noise, licensed under the MIT License (MIT).
  *
- * Copyright (c) 2011 Garrett Fleenor <http://www.spout.org/>
- * jlibnoise is licensed under the GNU Lesser General Public License.
+ * Copyright (c) 2013 Spout LLC <http://www.spout.org/>
+ * Original libnoise in C++ by Jason Bevins <http://libnoise.sourceforge.net/>
+ * jlibnoise Java port by Garrett Fleenor <https://github.com/RoyAwesome/jlibnoise>
  *
- * jlibnoise is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * jlibnoise is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 package net.royawesome.jlibnoise.module.source;
 
@@ -26,118 +31,118 @@ import net.royawesome.jlibnoise.Utils;
 import net.royawesome.jlibnoise.module.Module;
 
 public class Billow extends Module {
-	public static final double DEFAULT_BILLOW_FREQUENCY = 1.0;
-	public static final double DEFAULT_BILLOW_LACUNARITY = 2.0;
-	public static final int DEFAULT_BILLOW_OCTAVE_COUNT = 6;
-	public static final double DEFAULT_BILLOW_PERSISTENCE = 0.5;
-	public static final NoiseQuality DEFAULT_BILLOW_QUALITY = NoiseQuality.STANDARD;
-	public static final int DEFAULT_BILLOW_SEED = 0;
-	public static final int BILLOW_MAX_OCTAVE = 30;
-	protected double frequency = DEFAULT_BILLOW_FREQUENCY;
-	protected double lacunarity = DEFAULT_BILLOW_LACUNARITY;
-	protected NoiseQuality quality = DEFAULT_BILLOW_QUALITY;
-	protected double persistence = DEFAULT_BILLOW_PERSISTENCE;
-	protected int seed = DEFAULT_BILLOW_SEED;
-	protected int octaveCount = DEFAULT_BILLOW_OCTAVE_COUNT;
+    public static final double DEFAULT_BILLOW_FREQUENCY = 1.0;
+    public static final double DEFAULT_BILLOW_LACUNARITY = 2.0;
+    public static final int DEFAULT_BILLOW_OCTAVE_COUNT = 6;
+    public static final double DEFAULT_BILLOW_PERSISTENCE = 0.5;
+    public static final NoiseQuality DEFAULT_BILLOW_QUALITY = NoiseQuality.STANDARD;
+    public static final int DEFAULT_BILLOW_SEED = 0;
+    public static final int BILLOW_MAX_OCTAVE = 30;
+    protected double frequency = DEFAULT_BILLOW_FREQUENCY;
+    protected double lacunarity = DEFAULT_BILLOW_LACUNARITY;
+    protected NoiseQuality quality = DEFAULT_BILLOW_QUALITY;
+    protected double persistence = DEFAULT_BILLOW_PERSISTENCE;
+    protected int seed = DEFAULT_BILLOW_SEED;
+    protected int octaveCount = DEFAULT_BILLOW_OCTAVE_COUNT;
 
-	public Billow() {
-		super(0);
-	}
+    public Billow() {
+        super(0);
+    }
 
-	public int getOctaveCount() {
-		return octaveCount;
-	}
+    public int getOctaveCount() {
+        return octaveCount;
+    }
 
-	public void setOctaveCount(int octaveCount) {
-		if (octaveCount < 1 || octaveCount > BILLOW_MAX_OCTAVE) {
-			throw new IllegalArgumentException("octaveCount must be between 1 and BILLOW_MAX_OCTAVE: " + BILLOW_MAX_OCTAVE);
-		}
-		this.octaveCount = octaveCount;
-	}
+    public void setOctaveCount(int octaveCount) {
+        if (octaveCount < 1 || octaveCount > BILLOW_MAX_OCTAVE) {
+            throw new IllegalArgumentException("octaveCount must be between 1 and BILLOW_MAX_OCTAVE: " + BILLOW_MAX_OCTAVE);
+        }
+        this.octaveCount = octaveCount;
+    }
 
-	public double getFrequency() {
-		return frequency;
-	}
+    public double getFrequency() {
+        return frequency;
+    }
 
-	public void setFrequency(double frequency) {
-		this.frequency = frequency;
-	}
+    public void setFrequency(double frequency) {
+        this.frequency = frequency;
+    }
 
-	public double getLacunarity() {
-		return lacunarity;
-	}
+    public double getLacunarity() {
+        return lacunarity;
+    }
 
-	public void setLacunarity(double lacunarity) {
-		this.lacunarity = lacunarity;
-	}
+    public void setLacunarity(double lacunarity) {
+        this.lacunarity = lacunarity;
+    }
 
-	public NoiseQuality getQuality() {
-		return quality;
-	}
+    public NoiseQuality getQuality() {
+        return quality;
+    }
 
-	public void setQuality(NoiseQuality quality) {
-		this.quality = quality;
-	}
+    public void setQuality(NoiseQuality quality) {
+        this.quality = quality;
+    }
 
-	public double getPersistence() {
-		return persistence;
-	}
+    public double getPersistence() {
+        return persistence;
+    }
 
-	public void setPersistence(double persistance) {
-		this.persistence = persistance;
-	}
+    public void setPersistence(double persistance) {
+        this.persistence = persistance;
+    }
 
-	public int getSeed() {
-		return seed;
-	}
+    public int getSeed() {
+        return seed;
+    }
 
-	public void setSeed(int seed) {
-		this.seed = seed;
-	}
+    public void setSeed(int seed) {
+        this.seed = seed;
+    }
 
-	@Override
-	public int GetSourceModuleCount() {
-		return 0;
-	}
+    @Override
+    public int GetSourceModuleCount() {
+        return 0;
+    }
 
-	@Override
-	public double GetValue(double x, double y, double z) {
-		double z1 = z;
-		double y1 = y;
-		double x1 = x;
-		double value = 0.0;
-		double signal;
-		double curPersistence = 1.0;
-		double nx, ny, nz;
-		int seed;
+    @Override
+    public double GetValue(double x, double y, double z) {
+        double z1 = z;
+        double y1 = y;
+        double x1 = x;
+        double value = 0.0;
+        double signal;
+        double curPersistence = 1.0;
+        double nx, ny, nz;
+        int seed;
 
-		x1 *= frequency;
-		y1 *= frequency;
-		z1 *= frequency;
+        x1 *= frequency;
+        y1 *= frequency;
+        z1 *= frequency;
 
-		for (int curOctave = 0; curOctave < octaveCount; curOctave++) {
+        for (int curOctave = 0; curOctave < octaveCount; curOctave++) {
 
-			// Make sure that these floating-point values have the same range as a 32-
-			// bit integer so that we can pass them to the coherent-noise functions.
-			nx = Utils.MakeInt32Range(x1);
-			ny = Utils.MakeInt32Range(y1);
-			nz = Utils.MakeInt32Range(z1);
+            // Make sure that these floating-point values have the same range as a 32-
+            // bit integer so that we can pass them to the coherent-noise functions.
+            nx = Utils.MakeInt32Range(x1);
+            ny = Utils.MakeInt32Range(y1);
+            nz = Utils.MakeInt32Range(z1);
 
-			// Get the coherent-noise value from the input value and add it to the
-			// final result.
-			seed = (this.seed + curOctave);
-			signal = Noise.GradientCoherentNoise3D(nx, ny, nz, seed, quality);
-			signal = 2.0 * Math.abs(signal) - 1.0;
-			value += signal * curPersistence;
+            // Get the coherent-noise value from the input value and add it to the
+            // final result.
+            seed = (this.seed + curOctave);
+            signal = Noise.GradientCoherentNoise3D(nx, ny, nz, seed, quality);
+            signal = 2.0 * Math.abs(signal) - 1.0;
+            value += signal * curPersistence;
 
-			// Prepare the next octave.
-			x1 *= lacunarity;
-			y1 *= lacunarity;
-			z1 *= lacunarity;
-			curPersistence *= persistence;
-		}
-		value += 0.5;
+            // Prepare the next octave.
+            x1 *= lacunarity;
+            y1 *= lacunarity;
+            z1 *= lacunarity;
+            curPersistence *= persistence;
+        }
+        value += 0.5;
 
-		return value;
-	}
+        return value;
+    }
 }
