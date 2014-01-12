@@ -5,11 +5,12 @@
 # Binary files that should not be modified
 *.dat binary
 *.db binary
+*.gif binary
 *.icns binary
 *.ico binary
-*.key binary
 *.jks binary
 *.jpg binary
+*.key binary
 *.png binary
 *.ttf binary
 *.wav binary
