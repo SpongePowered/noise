@@ -7,8 +7,8 @@ install: mvn package -DbuildNumber=$TRAVIS_BUILD_NUMBER -Dci=travis -Dcommit=${T
 
 # Perform steps after compilation/test success
 after_success:
-  # Generate Javadocs and Cobertura report for Coveralls.io
-  - "mvn javadoc:javadoc cobertura:cobertura coveralls:cobertura -DserviceJobId=$TRAVIS_JOB_ID"
+  # Generate Javadocs, create Javadoc and source jars, and Cobertura report for Coveralls.io
+  - "mvn javadoc:jar source:jar cobertura:cobertura coveralls:cobertura -DserviceJobId=$TRAVIS_JOB_ID"
   # Get files for use with build, namely the custom Maven settings.xml
   - "git clone https://github.com/flow/travis-ci-resources.git target/travis"
   # Check if commit is not a pull request, if git repo is official, and if branch is master, then deploy artifacts to Maven repository
