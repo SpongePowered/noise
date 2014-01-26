@@ -3,7 +3,7 @@ language: java
 jdk: oraclejdk7
 
 # Compile and package JAR and set build properties
-install: mvn package -DbuildNumber=$TRAVIS_BUILD_NUMBER -Dci=travis -Dcommit=${TRAVIS_COMMIT:0:7}
+install: mvn package -DbuildNumber=$TRAVIS_BUILD_NUMBER -DciSystem=travis -Dcommit=${TRAVIS_COMMIT:0:7}
 
 # Perform steps after compilation/test success
 after_success:
@@ -18,7 +18,7 @@ notifications:
   email: false
   webhooks:
     # Send build information and status to Notifico.
-    - http://n.tkte.ch/h/1811/ZyVWsOhdmoZ_TXqTpB5Pu1MP
+    - http://n.tkte.ch/h/2040/i0jL-KG6oPfQS7zU3Gu2HpJU
 
 # Environmental system variables
 env:
