@@ -106,16 +106,16 @@
         </pluginRepository>
     </pluginRepositories>
 
-	<!-- Project dependencies -->
-	<dependencies>
-		<!-- Testing only -->
-		<dependency>
-			<groupId>com.flowpowered</groupId>
-			<artifactId>flow-math</artifactId>
-			<version>0.1.0-SNAPSHOT</version>
-			<scope>compile</scope>
-		</dependency>
-	</dependencies>
+    <!-- Project dependencies -->
+    <dependencies>
+        <!-- Testing only -->
+        <dependency>
+            <groupId>com.flowpowered</groupId>
+            <artifactId>flow-math</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
 
     <!-- Build configuration -->
     <build>
