@@ -30,11 +30,11 @@ import net.royawesome.jlibnoise.module.Module;
 
 /**
  * Model that defines the surface of a plane.
- *
+ * <p/>
  * This model returns an output value from a noise module given the coordinates of an input value located on the surface of an ( @a x,
  */
 public class Plane {
-    Module module;
+    private Module module;
 
     /**
      * Constructor
@@ -59,7 +59,7 @@ public class Plane {
      * Sets the noise module that is used to generate the output values.
      *
      * @param module The noise module that is used to generate the output values.
-     *
+     * <p/>
      * This noise module must exist for the lifetime of this object, until you pass a new noise module to this method.
      */
     public void setModule(Module module) {
@@ -76,10 +76,10 @@ public class Plane {
      * @param z The @a z coordinate of the input value.
      * @return The output value from the noise module.
      */
-    double getValue(double x, double z) {
+    public double getValue(double x, double z) {
         if (module == null) {
             throw new NoModuleException();
         }
-        return module.GetValue(x, 0, z);
+        return module.getValue(x, 0, z);
     }
 }

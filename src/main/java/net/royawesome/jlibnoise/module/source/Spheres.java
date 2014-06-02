@@ -25,15 +25,15 @@
  */
 package net.royawesome.jlibnoise.module.source;
 
-import net.royawesome.jlibnoise.MathHelper;
-import net.royawesome.jlibnoise.Utils;
+import com.flowpowered.math.GenericMath;
+
 import net.royawesome.jlibnoise.module.Module;
 
 public class Spheres extends Module {
     // Default frequency value for the noise::module::Spheres noise module.
     public static final double DEFAULT_SPHERES_FREQUENCY = 1.0;
     // Frequency of the concentric spheres.
-    double frequency = DEFAULT_SPHERES_FREQUENCY;
+    private double frequency = DEFAULT_SPHERES_FREQUENCY;
 
     public Spheres() {
         super(0);
@@ -48,12 +48,12 @@ public class Spheres extends Module {
     }
 
     @Override
-    public int GetSourceModuleCount() {
+    public int getSourceModuleCount() {
         return 0;
     }
 
     @Override
-    public double GetValue(double x, double y, double z) {
+    public double getValue(double x, double y, double z) {
         double x1 = x;
         double y1 = y;
         double z1 = z;
@@ -61,10 +61,10 @@ public class Spheres extends Module {
         y1 *= frequency;
         z1 *= frequency;
 
-        double distFromCenter = MathHelper.sqrt(x1 * x1 + y1 * y1 + z1 * z1);
-        double distFromSmallerSphere = distFromCenter - MathHelper.floor(distFromCenter);
+        double distFromCenter = Math.sqrt(x1 * x1 + y1 * y1 + z1 * z1);
+        double distFromSmallerSphere = distFromCenter - GenericMath.floor(distFromCenter);
         double distFromLargerSphere = 1.0 - distFromSmallerSphere;
-        double nearestDist = Utils.GetMin(distFromSmallerSphere, distFromLargerSphere);
+        double nearestDist = Math.min(distFromSmallerSphere, distFromLargerSphere);
         return 1.0 - (nearestDist * 4.0); // Puts it in the -1.0 to +1.0 range.
     }
 }

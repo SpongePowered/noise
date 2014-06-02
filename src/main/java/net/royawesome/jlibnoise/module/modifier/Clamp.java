@@ -29,8 +29,10 @@ import net.royawesome.jlibnoise.exception.NoModuleException;
 import net.royawesome.jlibnoise.module.Module;
 
 public class Clamp extends Module {
-    double lowerBound = 0.0;
-    double upperBound = 1.0;
+    public static final double DEFAULT_LOWER_BOUND = 0.0;
+    public static final double DEFAULT_UPPER_BOUND = 1.0;
+    private double lowerBound = DEFAULT_LOWER_BOUND;
+    private double upperBound = DEFAULT_UPPER_BOUND;
 
     public Clamp() {
         super(1);
@@ -53,17 +55,17 @@ public class Clamp extends Module {
     }
 
     @Override
-    public int GetSourceModuleCount() {
+    public int getSourceModuleCount() {
         return 1;
     }
 
     @Override
-    public double GetValue(double x, double y, double z) {
-        if (SourceModule[0] == null) {
+    public double getValue(double x, double y, double z) {
+        if (sourceModule[0] == null) {
             throw new NoModuleException();
         }
 
-        double value = SourceModule[0].GetValue(x, y, z);
+        double value = sourceModule[0].getValue(x, y, z);
         if (value < lowerBound) {
             return lowerBound;
         } else if (value > upperBound) {

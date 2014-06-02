@@ -46,17 +46,17 @@ public class Perlin extends Module {
     // Maximum number of octaves for the noise::module::Perlin noise module.
     public static final int PERLIN_MAX_OCTAVE = 30;
     // Frequency of the first octave.
-    double frequency = DEFAULT_PERLIN_FREQUENCY;
+    private double frequency = DEFAULT_PERLIN_FREQUENCY;
     // Frequency multiplier between successive octaves.
-    double lacunarity = DEFAULT_PERLIN_LACUNARITY;
+    private double lacunarity = DEFAULT_PERLIN_LACUNARITY;
     // Quality of the Perlin noise.
-    NoiseQuality noiseQuality = DEFAULT_PERLIN_QUALITY;
+    private NoiseQuality noiseQuality = DEFAULT_PERLIN_QUALITY;
     // Total number of octaves that generate the Perlin noise.
-    int octaveCount = DEFAULT_PERLIN_OCTAVE_COUNT;
+    private int octaveCount = DEFAULT_PERLIN_OCTAVE_COUNT;
     // Persistence of the Perlin noise.
-    double persistence = DEFAULT_PERLIN_PERSISTENCE;
+    private double persistence = DEFAULT_PERLIN_PERSISTENCE;
     // Seed value used by the Perlin-noise function.
-    int seed = DEFAULT_PERLIN_SEED;
+    private int seed = DEFAULT_PERLIN_SEED;
 
     public Perlin() {
         super(0);
@@ -115,12 +115,12 @@ public class Perlin extends Module {
     }
 
     @Override
-    public int GetSourceModuleCount() {
+    public int getSourceModuleCount() {
         return 0;
     }
 
     @Override
-    public double GetValue(double x, double y, double z) {
+    public double getValue(double x, double y, double z) {
         double x1 = x;
         double y1 = y;
         double z1 = z;
@@ -138,14 +138,14 @@ public class Perlin extends Module {
 
             // Make sure that these floating-point values have the same range as a 32-
             // bit integer so that we can pass them to the coherent-noise functions.
-            nx = Utils.MakeInt32Range(x1);
-            ny = Utils.MakeInt32Range(y1);
-            nz = Utils.MakeInt32Range(z1);
+            nx = Utils.makeInt32Range(x1);
+            ny = Utils.makeInt32Range(y1);
+            nz = Utils.makeInt32Range(z1);
 
             // Get the coherent-noise value from the input value and add it to the
             // final result.
             seed = (this.seed + curOctave);
-            signal = Noise.GradientCoherentNoise3D(nx, ny, nz, seed, noiseQuality);
+            signal = Noise.gradientCoherentNoise3D(nx, ny, nz, seed, noiseQuality);
             value += signal * curPersistence;
 
             // Prepare the next octave.

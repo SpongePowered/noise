@@ -25,7 +25,8 @@
  */
 package net.royawesome.jlibnoise.module.source;
 
-import net.royawesome.jlibnoise.MathHelper;
+import com.flowpowered.math.GenericMath;
+
 import net.royawesome.jlibnoise.Utils;
 import net.royawesome.jlibnoise.module.Module;
 
@@ -35,16 +36,16 @@ public class Checkerboard extends Module {
     }
 
     @Override
-    public int GetSourceModuleCount() {
+    public int getSourceModuleCount() {
 
         return 0;
     }
 
     @Override
-    public double GetValue(double x, double y, double z) {
-        int ix = (int) (MathHelper.floor(Utils.MakeInt32Range(x)));
-        int iy = (int) (MathHelper.floor(Utils.MakeInt32Range(y)));
-        int iz = (int) (MathHelper.floor(Utils.MakeInt32Range(z)));
+    public double getValue(double x, double y, double z) {
+        int ix = GenericMath.floor(Utils.makeInt32Range(x));
+        int iy = GenericMath.floor(Utils.makeInt32Range(y));
+        int iz = GenericMath.floor(Utils.makeInt32Range(z));
         return ((ix & 1 ^ iy & 1 ^ iz & 1) != 0) ? -1.0 : 1.0;
     }
 }

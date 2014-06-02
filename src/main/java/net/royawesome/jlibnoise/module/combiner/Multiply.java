@@ -34,19 +34,19 @@ public class Multiply extends Module {
     }
 
     @Override
-    public int GetSourceModuleCount() {
+    public int getSourceModuleCount() {
         return 2;
     }
 
     @Override
-    public double GetValue(double x, double y, double z) {
-        if (SourceModule[0] == null) {
+    public double getValue(double x, double y, double z) {
+        if (sourceModule[0] == null) {
             throw new NoModuleException();
         }
-        if (SourceModule[1] == null) {
+        if (sourceModule[1] == null) {
             throw new NoModuleException();
         }
 
-        return SourceModule[0].GetValue(x, y, z) * SourceModule[1].GetValue(x, y, z);
+        return sourceModule[0].getValue(x, y, z) * sourceModule[1].getValue(x, y, z);
     }
 }

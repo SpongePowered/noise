@@ -38,12 +38,12 @@ public class Billow extends Module {
     public static final NoiseQuality DEFAULT_BILLOW_QUALITY = NoiseQuality.STANDARD;
     public static final int DEFAULT_BILLOW_SEED = 0;
     public static final int BILLOW_MAX_OCTAVE = 30;
-    protected double frequency = DEFAULT_BILLOW_FREQUENCY;
-    protected double lacunarity = DEFAULT_BILLOW_LACUNARITY;
-    protected NoiseQuality quality = DEFAULT_BILLOW_QUALITY;
-    protected double persistence = DEFAULT_BILLOW_PERSISTENCE;
-    protected int seed = DEFAULT_BILLOW_SEED;
-    protected int octaveCount = DEFAULT_BILLOW_OCTAVE_COUNT;
+    private double frequency = DEFAULT_BILLOW_FREQUENCY;
+    private double lacunarity = DEFAULT_BILLOW_LACUNARITY;
+    private NoiseQuality quality = DEFAULT_BILLOW_QUALITY;
+    private double persistence = DEFAULT_BILLOW_PERSISTENCE;
+    private int seed = DEFAULT_BILLOW_SEED;
+    private int octaveCount = DEFAULT_BILLOW_OCTAVE_COUNT;
 
     public Billow() {
         super(0);
@@ -88,8 +88,8 @@ public class Billow extends Module {
         return persistence;
     }
 
-    public void setPersistence(double persistance) {
-        this.persistence = persistance;
+    public void setPersistence(double persistence) {
+        this.persistence = persistence;
     }
 
     public int getSeed() {
@@ -101,12 +101,12 @@ public class Billow extends Module {
     }
 
     @Override
-    public int GetSourceModuleCount() {
+    public int getSourceModuleCount() {
         return 0;
     }
 
     @Override
-    public double GetValue(double x, double y, double z) {
+    public double getValue(double x, double y, double z) {
         double z1 = z;
         double y1 = y;
         double x1 = x;
@@ -124,14 +124,14 @@ public class Billow extends Module {
 
             // Make sure that these floating-point values have the same range as a 32-
             // bit integer so that we can pass them to the coherent-noise functions.
-            nx = Utils.MakeInt32Range(x1);
-            ny = Utils.MakeInt32Range(y1);
-            nz = Utils.MakeInt32Range(z1);
+            nx = Utils.makeInt32Range(x1);
+            ny = Utils.makeInt32Range(y1);
+            nz = Utils.makeInt32Range(z1);
 
             // Get the coherent-noise value from the input value and add it to the
             // final result.
             seed = (this.seed + curOctave);
-            signal = Noise.GradientCoherentNoise3D(nx, ny, nz, seed, quality);
+            signal = Noise.gradientCoherentNoise3D(nx, ny, nz, seed, quality);
             signal = 2.0 * Math.abs(signal) - 1.0;
             value += signal * curPersistence;
 

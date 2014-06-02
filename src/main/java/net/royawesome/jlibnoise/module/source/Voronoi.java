@@ -25,12 +25,13 @@
  */
 package net.royawesome.jlibnoise.module.source;
 
-import net.royawesome.jlibnoise.MathHelper;
+import com.flowpowered.math.GenericMath;
+
 import net.royawesome.jlibnoise.Noise;
-import net.royawesome.jlibnoise.Utils;
 import net.royawesome.jlibnoise.module.Module;
 
 public class Voronoi extends Module {
+    private static final double SQRT_3 = 1.7320508075688772935;
     // Default displacement to apply to each cell for the
     // noise::module::Voronoi noise module.
     public static final double DEFAULT_VORONOI_DISPLACEMENT = 1.0;
@@ -41,15 +42,15 @@ public class Voronoi extends Module {
     // noise module.
     public static final int DEFAULT_VORONOI_SEED = 0;
     // Scale of the random displacement to apply to each Voronoi cell.
-    double displacement = DEFAULT_VORONOI_DISPLACEMENT;
+    private double displacement = DEFAULT_VORONOI_DISPLACEMENT;
     // Determines if the distance from the nearest seed point is applied to
     // the output value.
-    boolean enableDistance = false;
+    private boolean enableDistance = false;
     // Frequency of the seed points.
-    double frequency = DEFAULT_VORONOI_FREQUENCY;
+    private double frequency = DEFAULT_VORONOI_FREQUENCY;
     // Seed value used by the coherent-noise function to determine the
     // positions of the seed points.
-    int seed = DEFAULT_VORONOI_SEED;
+    private int seed = DEFAULT_VORONOI_SEED;
 
     public Voronoi() {
         super(0);
@@ -88,12 +89,12 @@ public class Voronoi extends Module {
     }
 
     @Override
-    public int GetSourceModuleCount() {
+    public int getSourceModuleCount() {
         return 0;
     }
 
     @Override
-    public double GetValue(double x, double y, double z) {
+    public double getValue(double x, double y, double z) {
         double x1 = x;
         double y1 = y;
         double z1 = z;
@@ -122,9 +123,9 @@ public class Voronoi extends Module {
 
                     // Calculate the position and distance to the seed point inside of
                     // this unit cube.
-                    double xPos = xCur + Noise.ValueNoise3D(xCur, yCur, zCur, seed);
-                    double yPos = yCur + Noise.ValueNoise3D(xCur, yCur, zCur, seed + 1);
-                    double zPos = zCur + Noise.ValueNoise3D(xCur, yCur, zCur, seed + 2);
+                    double xPos = xCur + Noise.valueNoise3D(xCur, yCur, zCur, seed);
+                    double yPos = yCur + Noise.valueNoise3D(xCur, yCur, zCur, seed + 1);
+                    double zPos = zCur + Noise.valueNoise3D(xCur, yCur, zCur, seed + 2);
                     double xDist = xPos - x1;
                     double yDist = yPos - y1;
                     double zDist = zPos - z1;
@@ -148,12 +149,12 @@ public class Voronoi extends Module {
             double xDist = xCandidate - x1;
             double yDist = yCandidate - y1;
             double zDist = zCandidate - z1;
-            value = (MathHelper.sqrt(xDist * xDist + yDist * yDist + zDist * zDist)) * Utils.SQRT_3 - 1.0;
+            value = (Math.sqrt(xDist * xDist + yDist * yDist + zDist * zDist)) * SQRT_3 - 1.0;
         } else {
             value = 0.0;
         }
 
         // Return the calculated distance with the displacement value applied.
-        return value + (displacement * Noise.ValueNoise3D((int) (MathHelper.floor(xCandidate)), (int) (MathHelper.floor(yCandidate)), (int) (MathHelper.floor(zCandidate)), seed));
+        return value + (displacement * Noise.valueNoise3D(GenericMath.floor(xCandidate), GenericMath.floor(yCandidate), GenericMath.floor(zCandidate), seed));
     }
 }

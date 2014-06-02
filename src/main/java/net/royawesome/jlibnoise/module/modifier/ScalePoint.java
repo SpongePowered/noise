@@ -39,51 +39,51 @@ public class ScalePoint extends Module {
     // noise::module::ScalePoint noise module.
     public static final double DEFAULT_SCALE_POINT_Z = 1.0;
     // Scaling factor applied to the @a x coordinate of the input value.
-    double xScale = DEFAULT_SCALE_POINT_X;
+    private double xScale = DEFAULT_SCALE_POINT_X;
     // Scaling factor applied to the @a y coordinate of the input value.
-    double yScale = DEFAULT_SCALE_POINT_Y;
+    private double yScale = DEFAULT_SCALE_POINT_Y;
     // Scaling factor applied to the @a z coordinate of the input value.
-    double zScale = DEFAULT_SCALE_POINT_Z;
+    private double zScale = DEFAULT_SCALE_POINT_Z;
 
     public ScalePoint() {
         super(1);
     }
 
-    public double getxScale() {
+    public double getXScale() {
         return xScale;
     }
 
-    public void setxScale(double xScale) {
+    public void setXScale(double xScale) {
         this.xScale = xScale;
     }
 
-    public double getyScale() {
+    public double getYScale() {
         return yScale;
     }
 
-    public void setyScale(double yScale) {
+    public void setYScale(double yScale) {
         this.yScale = yScale;
     }
 
-    public double getzScale() {
+    public double getZScale() {
         return zScale;
     }
 
-    public void setzScale(double zScale) {
+    public void setZScale(double zScale) {
         this.zScale = zScale;
     }
 
     @Override
-    public int GetSourceModuleCount() {
+    public int getSourceModuleCount() {
         return 1;
     }
 
     @Override
-    public double GetValue(double x, double y, double z) {
-        if (SourceModule[0] == null) {
+    public double getValue(double x, double y, double z) {
+        if (sourceModule[0] == null) {
             throw new NoModuleException();
         }
 
-        return SourceModule[0].GetValue(x * xScale, y * yScale, z * zScale);
+        return sourceModule[0].getValue(x * xScale, y * yScale, z * zScale);
     }
 }

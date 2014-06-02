@@ -25,7 +25,6 @@
  */
 package net.royawesome.jlibnoise.module.combiner;
 
-import net.royawesome.jlibnoise.Utils;
 import net.royawesome.jlibnoise.exception.NoModuleException;
 import net.royawesome.jlibnoise.module.Module;
 
@@ -35,21 +34,21 @@ public class Max extends Module {
     }
 
     @Override
-    public int GetSourceModuleCount() {
+    public int getSourceModuleCount() {
         return 2;
     }
 
     @Override
-    public double GetValue(double x, double y, double z) {
-        if (SourceModule[0] == null) {
+    public double getValue(double x, double y, double z) {
+        if (sourceModule[0] == null) {
             throw new NoModuleException();
         }
-        if (SourceModule[1] == null) {
+        if (sourceModule[1] == null) {
             throw new NoModuleException();
         }
 
-        double v0 = SourceModule[0].GetValue(x, y, z);
-        double v1 = SourceModule[1].GetValue(x, y, z);
-        return Utils.GetMax(v0, v1);
+        double v0 = sourceModule[0].getValue(x, y, z);
+        double v1 = sourceModule[1].getValue(x, y, z);
+        return Math.max(v0, v1);
     }
 }

@@ -25,8 +25,8 @@
  */
 package net.royawesome.jlibnoise.model;
 
-import net.royawesome.jlibnoise.MathHelper;
-import net.royawesome.jlibnoise.Utils;
+import com.flowpowered.math.TrigMath;
+
 import net.royawesome.jlibnoise.exception.NoModuleException;
 import net.royawesome.jlibnoise.module.Module;
 
@@ -34,10 +34,10 @@ import net.royawesome.jlibnoise.module.Module;
  * Model that defines the surface of a cylinder.
  */
 public class Cylinder {
-    Module module;
+    private Module module;
 
     /**
-     * @param module The noise module that is used to generate the output values.
+     * @param mod The noise module that is used to generate the output values.
      */
     public Cylinder(Module mod) {
         this.module = mod;
@@ -55,8 +55,8 @@ public class Cylinder {
     /**
      * Sets the noise module that is used to generate the output values.
      *
-     * @param module The noise module that is used to generate the output values.
-     *
+     * @param mod The noise module that is used to generate the output values.
+     * <p/>
      * This noise module must exist for the lifetime of this object, until you pass a new noise module to this method.
      */
     public void setModule(Module mod) {
@@ -73,15 +73,15 @@ public class Cylinder {
      * @param height The height along the @a y axis.
      * @return The output value from the noise module.
      */
-    double getValue(double angle, double height) {
+    public double getValue(double angle, double height) {
         if (module == null) {
             throw new NoModuleException();
         }
 
         double x, y, z;
-        x = MathHelper.cos(angle * Utils.DEG_TO_RAD);
+        x = TrigMath.cos(angle * TrigMath.DEG_TO_RAD);
         y = height;
-        z = MathHelper.sin(angle * Utils.DEG_TO_RAD);
-        return module.GetValue(x, y, z);
+        z = TrigMath.sin(angle * TrigMath.DEG_TO_RAD);
+        return module.getValue(x, y, z);
     }
 }

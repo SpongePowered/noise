@@ -30,7 +30,7 @@ import net.royawesome.jlibnoise.module.Module;
 
 public class Exponent extends Module {
     public static final double DEFAULT_EXPONENT = 1.0;
-    protected double exponent = DEFAULT_EXPONENT;
+    private double exponent = DEFAULT_EXPONENT;
 
     public Exponent() {
         super(1);
@@ -45,16 +45,16 @@ public class Exponent extends Module {
     }
 
     @Override
-    public int GetSourceModuleCount() {
+    public int getSourceModuleCount() {
         return 1;
     }
 
     @Override
-    public double GetValue(double x, double y, double z) {
-        if (SourceModule[0] == null) {
+    public double getValue(double x, double y, double z) {
+        if (sourceModule[0] == null) {
             throw new NoModuleException();
         }
-        double value = SourceModule[0].GetValue(x, y, z);
+        double value = sourceModule[0].getValue(x, y, z);
         return (Math.pow(Math.abs((value + 1.0) / 2.0), exponent) * 2.0 - 1.0);
     }
 }

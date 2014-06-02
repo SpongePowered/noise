@@ -33,7 +33,7 @@ import net.royawesome.jlibnoise.module.Module;
  * Model that defines the surface of a sphere.
  */
 public class Sphere {
-    Module module;
+   private Module module;
 
     /**
      * Constructor
@@ -75,11 +75,11 @@ public class Sphere {
      * @param lon The longitude of the input value, in degrees.
      * @return The output value from the noise module.
      */
-    public double getValue(double lat, double log) {
+    public double getValue(double lat, double lon) {
         if (module == null) {
             throw new NoModuleException();
         }
-        double[] vec = Utils.LatLonToXYZ(lat, log);
-        return module.GetValue(vec[0], vec[1], vec[2]);
+        double[] vec = Utils.latLonToXYZ(lat, lon);
+        return module.getValue(vec[0], vec[1], vec[2]);
     }
 }

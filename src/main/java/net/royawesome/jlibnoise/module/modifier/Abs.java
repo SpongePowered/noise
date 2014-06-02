@@ -34,15 +34,15 @@ public class Abs extends Module {
     }
 
     @Override
-    public int GetSourceModuleCount() {
+    public int getSourceModuleCount() {
         return 1;
     }
 
     @Override
-    public double GetValue(double x, double y, double z) {
-        if (SourceModule == null) {
+    public double getValue(double x, double y, double z) {
+        if (sourceModule == null) {
             throw new NoModuleException();
         }
-        return Math.abs(SourceModule[0].GetValue(x, y, z));
+        return Math.abs(sourceModule[0].getValue(x, y, z));
     }
 }

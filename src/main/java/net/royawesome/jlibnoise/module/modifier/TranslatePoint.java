@@ -40,13 +40,13 @@ public class TranslatePoint extends Module {
     public static final double DEFAULT_TRANSLATE_POINT_Z = 0.0;
     // Translation amount applied to the @a x coordinate of the input
     // value.
-    double xTranslation = DEFAULT_TRANSLATE_POINT_X;
+    private double xTranslation = DEFAULT_TRANSLATE_POINT_X;
     // Translation amount applied to the @a y coordinate of the input
     // value.
-    double yTranslation = DEFAULT_TRANSLATE_POINT_Y;
+    private double yTranslation = DEFAULT_TRANSLATE_POINT_Y;
     // Translation amount applied to the @a z coordinate of the input
     // value.
-    double zTranslation = DEFAULT_TRANSLATE_POINT_Z;
+    private double zTranslation = DEFAULT_TRANSLATE_POINT_Z;
 
     public TranslatePoint() {
         super(1);
@@ -83,16 +83,16 @@ public class TranslatePoint extends Module {
     }
 
     @Override
-    public int GetSourceModuleCount() {
+    public int getSourceModuleCount() {
         return 1;
     }
 
     @Override
-    public double GetValue(double x, double y, double z) {
-        if (SourceModule[0] == null) {
+    public double getValue(double x, double y, double z) {
+        if (sourceModule[0] == null) {
             throw new NoModuleException();
         }
 
-        return SourceModule[0].GetValue(x + xTranslation, y + yTranslation, z + zTranslation);
+        return sourceModule[0].getValue(x + xTranslation, y + yTranslation, z + zTranslation);
     }
 }

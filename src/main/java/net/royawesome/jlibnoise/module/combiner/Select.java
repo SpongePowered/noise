@@ -39,28 +39,28 @@ public class Select extends Module {
     // noise::module::Select noise module.
     public static final double DEFAULT_SELECT_UPPER_BOUND = 1.0;
     // Edge-falloff value.
-    double edgeFalloff = DEFAULT_SELECT_EDGE_FALLOFF;
+    private double edgeFalloff = DEFAULT_SELECT_EDGE_FALLOFF;
     // Lower bound of the selection range.
-    double lowerBound = DEFAULT_SELECT_LOWER_BOUND;
+    private double lowerBound = DEFAULT_SELECT_LOWER_BOUND;
     // Upper bound of the selection range.
-    double upperBound = DEFAULT_SELECT_UPPER_BOUND;
+    private double upperBound = DEFAULT_SELECT_UPPER_BOUND;
 
     public Select() {
         super(3);
     }
 
     public Module getControlModule() {
-        if (SourceModule == null || SourceModule[2] == null) {
+        if (sourceModule == null || sourceModule[2] == null) {
             throw new NoModuleException();
         }
-        return SourceModule[2];
+        return sourceModule[2];
     }
 
     public void setControlModule(Module m) {
         if (m == null) {
             throw new IllegalArgumentException("the module cannot be null");
         }
-        SourceModule[2] = m;
+        sourceModule[2] = m;
     }
 
     public double getEdgeFalloff() {
@@ -92,59 +92,59 @@ public class Select extends Module {
     }
 
     @Override
-    public int GetSourceModuleCount() {
+    public int getSourceModuleCount() {
         return 3;
     }
 
     @Override
-    public double GetValue(double x, double y, double z) {
-        if (SourceModule[0] == null) {
+    public double getValue(double x, double y, double z) {
+        if (sourceModule[0] == null) {
             throw new NoModuleException();
         }
-        if (SourceModule[1] == null) {
+        if (sourceModule[1] == null) {
             throw new NoModuleException();
         }
-        if (SourceModule[2] == null) {
+        if (sourceModule[2] == null) {
             throw new NoModuleException();
         }
 
-        double controlValue = SourceModule[2].GetValue(x, y, z);
+        double controlValue = sourceModule[2].getValue(x, y, z);
         double alpha;
         if (edgeFalloff > 0.0) {
             if (controlValue < (lowerBound - edgeFalloff)) {
                 // The output value from the control module is below the selector
                 // threshold; return the output value from the first source module.
-                return SourceModule[0].GetValue(x, y, z);
+                return sourceModule[0].getValue(x, y, z);
             } else if (controlValue < (lowerBound + edgeFalloff)) {
                 // The output value from the control module is near the lower end of the
                 // selector threshold and within the smooth curve. Interpolate between
                 // the output values from the first and second source modules.
                 double lowerCurve = (lowerBound - edgeFalloff);
                 double upperCurve = (lowerBound + edgeFalloff);
-                alpha = Utils.SCurve3((controlValue - lowerCurve) / (upperCurve - lowerCurve));
-                return Utils.LinearInterp(SourceModule[0].GetValue(x, y, z), SourceModule[1].GetValue(x, y, z), alpha);
+                alpha = Utils.sCurve3((controlValue - lowerCurve) / (upperCurve - lowerCurve));
+                return Utils.linearInterp(sourceModule[0].getValue(x, y, z), sourceModule[1].getValue(x, y, z), alpha);
             } else if (controlValue < (upperBound - edgeFalloff)) {
                 // The output value from the control module is within the selector
                 // threshold; return the output value from the second source module.
-                return SourceModule[1].GetValue(x, y, z);
+                return sourceModule[1].getValue(x, y, z);
             } else if (controlValue < (upperBound + edgeFalloff)) {
                 // The output value from the control module is near the upper end of the
                 // selector threshold and within the smooth curve. Interpolate between
                 // the output values from the first and second source modules.
                 double lowerCurve = (upperBound - edgeFalloff);
                 double upperCurve = (upperBound + edgeFalloff);
-                alpha = Utils.SCurve3((controlValue - lowerCurve) / (upperCurve - lowerCurve));
-                return Utils.LinearInterp(SourceModule[1].GetValue(x, y, z), SourceModule[0].GetValue(x, y, z), alpha);
+                alpha = Utils.sCurve3((controlValue - lowerCurve) / (upperCurve - lowerCurve));
+                return Utils.linearInterp(sourceModule[1].getValue(x, y, z), sourceModule[0].getValue(x, y, z), alpha);
             } else {
                 // Output value from the control module is above the selector threshold;
                 // return the output value from the first source module.
-                return SourceModule[0].GetValue(x, y, z);
+                return sourceModule[0].getValue(x, y, z);
             }
         } else {
             if (controlValue < lowerBound || controlValue > upperBound) {
-                return SourceModule[0].GetValue(x, y, z);
+                return sourceModule[0].getValue(x, y, z);
             } else {
-                return SourceModule[1].GetValue(x, y, z);
+                return sourceModule[1].getValue(x, y, z);
             }
         }
     }

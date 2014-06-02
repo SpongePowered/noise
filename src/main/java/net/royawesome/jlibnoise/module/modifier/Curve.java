@@ -26,37 +26,35 @@
 package net.royawesome.jlibnoise.module.modifier;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import com.flowpowered.math.GenericMath;
 
 import net.royawesome.jlibnoise.Utils;
 import net.royawesome.jlibnoise.exception.NoModuleException;
 import net.royawesome.jlibnoise.module.Module;
 
 public class Curve extends Module {
-    public class ControlPoint {
-        public double inputValue;
-        public double outputValue;
-    }
-
-    ArrayList<ControlPoint> controlPoints = new ArrayList<ControlPoint>();
+    private final List<ControlPoint> controlPoints = new ArrayList<>();
 
     public Curve() {
         super(1);
     }
 
-    public void AddControlPoint(double inputValue, double outputValue) {
+    public void addControlPoint(double inputValue, double outputValue) {
         int index = findInsertionPos(inputValue);
-        InsertAtPos(index, inputValue, outputValue);
+        insertAtPos(index, inputValue, outputValue);
     }
 
     public ControlPoint[] getControlPoints() {
         return (ControlPoint[]) controlPoints.toArray();
     }
 
-    public void ClearAllControlPoints() {
+    public void clearAllControlPoints() {
         controlPoints.clear();
     }
 
-    protected int findInsertionPos(double inputValue) {
+    private int findInsertionPos(double inputValue) {
         int insertionPos;
         for (insertionPos = 0; insertionPos < controlPoints.size(); insertionPos++) {
             if (inputValue < controlPoints.get(insertionPos).inputValue) {
@@ -72,7 +70,7 @@ public class Curve extends Module {
         return insertionPos;
     }
 
-    protected void InsertAtPos(int insertionPos, double inputValue, double outputValue) {
+    private void insertAtPos(int insertionPos, double inputValue, double outputValue) {
         ControlPoint newPoint = new ControlPoint();
         newPoint.inputValue = inputValue;
         newPoint.outputValue = outputValue;
@@ -80,13 +78,13 @@ public class Curve extends Module {
     }
 
     @Override
-    public int GetSourceModuleCount() {
+    public int getSourceModuleCount() {
         return 1;
     }
 
     @Override
-    public double GetValue(double x, double y, double z) {
-        if (SourceModule[0] == null) {
+    public double getValue(double x, double y, double z) {
+        if (sourceModule[0] == null) {
             throw new NoModuleException();
         }
         if (controlPoints.size() >= 4) {
@@ -94,7 +92,7 @@ public class Curve extends Module {
         }
 
         // Get the output value from the source module.
-        double sourceModuleValue = SourceModule[0].GetValue(x, y, z);
+        double sourceModuleValue = sourceModule[0].getValue(x, y, z);
 
         // Find the first element in the control point array that has an input value
         // larger than the output value from the source module.
@@ -107,10 +105,10 @@ public class Curve extends Module {
 
         // Find the four nearest control points so that we can perform cubic
         // interpolation.
-        int index0 = Utils.ClampValue(indexPos - 2, 0, controlPoints.size() - 1);
-        int index1 = Utils.ClampValue(indexPos - 1, 0, controlPoints.size() - 1);
-        int index2 = Utils.ClampValue(indexPos, 0, controlPoints.size() - 1);
-        int index3 = Utils.ClampValue(indexPos + 1, 0, controlPoints.size() - 1);
+        int index0 = GenericMath.clamp(indexPos - 2, 0, controlPoints.size() - 1);
+        int index1 = GenericMath.clamp(indexPos - 1, 0, controlPoints.size() - 1);
+        int index2 = GenericMath.clamp(indexPos, 0, controlPoints.size() - 1);
+        int index3 = GenericMath.clamp(indexPos + 1, 0, controlPoints.size() - 1);
 
         // If some control points are missing (which occurs if the value from the
         // source module is greater than the largest input value or less than the
@@ -126,6 +124,11 @@ public class Curve extends Module {
         double alpha = (sourceModuleValue - input0) / (input1 - input0);
 
         // Now perform the cubic interpolation given the alpha value.
-        return Utils.CubicInterp(controlPoints.get(index0).outputValue, controlPoints.get(index1).outputValue, controlPoints.get(index2).outputValue, controlPoints.get(index3).outputValue, alpha);
+        return Utils.cubicInterp(controlPoints.get(index0).outputValue, controlPoints.get(index1).outputValue, controlPoints.get(index2).outputValue, controlPoints.get(index3).outputValue, alpha);
+    }
+
+    public static class ControlPoint {
+        private double inputValue;
+        private double outputValue;
     }
 }

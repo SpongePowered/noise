@@ -34,10 +34,10 @@ public class ScaleBias extends Module {
     // Default scale for the noise::module::ScaleBias noise module.
     public static final double DEFAULT_SCALE = 1.0;
     // Bias to apply to the scaled output value from the source module.
-    double bias = DEFAULT_BIAS;
+    private double bias = DEFAULT_BIAS;
     // Scaling factor to apply to the output value from the source
     // module.
-    double scale = DEFAULT_SCALE;
+    private double scale = DEFAULT_SCALE;
 
     public ScaleBias() {
         super(1);
@@ -60,16 +60,16 @@ public class ScaleBias extends Module {
     }
 
     @Override
-    public int GetSourceModuleCount() {
+    public int getSourceModuleCount() {
         return 1;
     }
 
     @Override
-    public double GetValue(double x, double y, double z) {
-        if (SourceModule[0] == null) {
+    public double getValue(double x, double y, double z) {
+        if (sourceModule[0] == null) {
             throw new NoModuleException();
         }
 
-        return SourceModule[0].GetValue(x, y, z) * scale + bias;
+        return sourceModule[0].getValue(x, y, z) * scale + bias;
     }
 }

@@ -25,13 +25,13 @@
  */
 package net.royawesome.jlibnoise.module.source;
 
-import net.royawesome.jlibnoise.MathHelper;
-import net.royawesome.jlibnoise.Utils;
+import com.flowpowered.math.GenericMath;
+
 import net.royawesome.jlibnoise.module.Module;
 
 public class Cylinders extends Module {
     public static final double DEFAULT_CYLINDERS_FREQUENCY = 1.0;
-    double frequency = DEFAULT_CYLINDERS_FREQUENCY;
+    private double frequency = DEFAULT_CYLINDERS_FREQUENCY;
 
     public Cylinders() {
         super(0);
@@ -46,21 +46,21 @@ public class Cylinders extends Module {
     }
 
     @Override
-    public int GetSourceModuleCount() {
+    public int getSourceModuleCount() {
         return 0;
     }
 
     @Override
-    public double GetValue(double x, double y, double z) {
+    public double getValue(double x, double y, double z) {
         double z1 = z;
         double x1 = x;
         x1 *= frequency;
         z1 *= frequency;
 
-        double distFromCenter = MathHelper.sqrt(x1 * x1 + z1 * z1);
-        double distFromSmallerSphere = distFromCenter - MathHelper.floor(distFromCenter);
+        double distFromCenter = Math.sqrt(x1 * x1 + z1 * z1);
+        double distFromSmallerSphere = distFromCenter - GenericMath.floor(distFromCenter);
         double distFromLargerSphere = 1.0 - distFromSmallerSphere;
-        double nearestDist = Utils.GetMin(distFromSmallerSphere, distFromLargerSphere);
+        double nearestDist = Math.min(distFromSmallerSphere, distFromLargerSphere);
         return 1.0 - (nearestDist * 4.0); // Puts it in the -1.0 to +1.0 range.
     }
 }

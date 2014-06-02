@@ -43,21 +43,21 @@ public class RidgedMulti extends Module {
     public static final int DEFAULT_RIDGED_SEED = 0;
     // Maximum number of octaves for the noise::module::RidgedMulti noise module.
     public static final int RIDGED_MAX_OCTAVE = 30;
-    double frequency = DEFAULT_RIDGED_FREQUENCY;
+    private double frequency = DEFAULT_RIDGED_FREQUENCY;
     // Frequency multiplier between successive octaves.
-    double lacunarity = DEFAULT_RIDGED_LACUNARITY;
+    private double lacunarity = DEFAULT_RIDGED_LACUNARITY;
     // Quality of the ridged-multifractal noise.
-    NoiseQuality noiseQuality = DEFAULT_RIDGED_QUALITY;
+    private NoiseQuality noiseQuality = DEFAULT_RIDGED_QUALITY;
     // Total number of octaves that generate the ridged-multifractal noise.
-    int octaveCount = DEFAULT_RIDGED_OCTAVE_COUNT;
+    private int octaveCount = DEFAULT_RIDGED_OCTAVE_COUNT;
     // Contains the spectral weights for each octave.
-    double[] SpectralWeights;
+    private double[] SpectralWeights;
     // Seed value used by the ridged-multfractal-noise function.
-    int seed = DEFAULT_RIDGED_SEED;
+    private int seed = DEFAULT_RIDGED_SEED;
 
     public RidgedMulti() {
         super(0);
-        CalcSpectralWeights();
+        calcSpectralWeights();
     }
 
     public double getFrequency() {
@@ -89,7 +89,7 @@ public class RidgedMulti extends Module {
     }
 
     public void setOctaveCount(int octaveCount) {
-        this.octaveCount = Utils.GetMin(octaveCount, RIDGED_MAX_OCTAVE);
+        this.octaveCount = Math.min(octaveCount, RIDGED_MAX_OCTAVE);
     }
 
     public int getSeed() {
@@ -100,7 +100,7 @@ public class RidgedMulti extends Module {
         this.seed = seed;
     }
 
-    protected void CalcSpectralWeights() {
+    private void calcSpectralWeights() {
         // This exponent parameter should be user-defined; it may be exposed in a
         // future version of libnoise.
         double h = 1.0;
@@ -115,12 +115,12 @@ public class RidgedMulti extends Module {
     }
 
     @Override
-    public int GetSourceModuleCount() {
+    public int getSourceModuleCount() {
         return 0;
     }
 
     @Override
-    public double GetValue(double x, double y, double z) {
+    public double getValue(double x, double y, double z) {
         double x1 = x;
         double y1 = y;
         double z1 = z;
@@ -142,13 +142,13 @@ public class RidgedMulti extends Module {
             // Make sure that these floating-point values have the same range as a 32-
             // bit integer so that we can pass them to the coherent-noise functions.
             double nx, ny, nz;
-            nx = Utils.MakeInt32Range(x1);
-            ny = Utils.MakeInt32Range(y1);
-            nz = Utils.MakeInt32Range(z1);
+            nx = Utils.makeInt32Range(x1);
+            ny = Utils.makeInt32Range(y1);
+            nz = Utils.makeInt32Range(z1);
 
             // Get the coherent-noise value.
             int seed = (this.seed + curOctave) & 0x7fffffff;
-            signal = Noise.GradientCoherentNoise3D(nx, ny, nz, seed, noiseQuality);
+            signal = Noise.gradientCoherentNoise3D(nx, ny, nz, seed, noiseQuality);
 
             // Make the ridges.
             signal = Math.abs(signal);

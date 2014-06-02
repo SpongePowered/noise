@@ -28,7 +28,8 @@ package net.royawesome.jlibnoise.module.source;
 import net.royawesome.jlibnoise.module.Module;
 
 public class Const extends Module {
-    double value = 0.0;
+    public static final double DEFAULT_VALUE = 0;
+    private double value = DEFAULT_VALUE;
 
     public Const() {
         super(0);
@@ -43,12 +44,12 @@ public class Const extends Module {
     }
 
     @Override
-    public int GetSourceModuleCount() {
+    public int getSourceModuleCount() {
         return 0;
     }
 
     @Override
-    public double GetValue(double x, double y, double z) {
+    public double getValue(double x, double y, double z) {
         return value;
     }
 }

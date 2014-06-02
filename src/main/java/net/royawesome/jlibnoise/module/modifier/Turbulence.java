@@ -30,22 +30,16 @@ import net.royawesome.jlibnoise.module.Module;
 import net.royawesome.jlibnoise.module.source.Perlin;
 
 public class Turbulence extends Module {
-    // Default frequency for the noise::module::Turbulence noise module.
-    public static final double DEFAULT_TURBULENCE_FREQUENCY = Perlin.DEFAULT_PERLIN_FREQUENCY;
     // Default power for the noise::module::Turbulence noise module.
     public static final double DEFAULT_TURBULENCE_POWER = 1.0;
-    // Default roughness for the noise::module::Turbulence noise module.
-    public static final int DEFAULT_TURBULENCE_ROUGHNESS = 3;
-    // Default noise seed for the noise::module::Turbulence noise module.
-    public static final int DEFAULT_TURBULENCE_SEED = Perlin.DEFAULT_PERLIN_SEED;
     // The power (scale) of the displacement.
-    double power = DEFAULT_TURBULENCE_POWER;
+    private double power = DEFAULT_TURBULENCE_POWER;
     // Noise module that displaces the @a x coordinate.
-    final Perlin xDistortModule;
+    private final Perlin xDistortModule;
     // Noise module that displaces the @a y coordinate.
-    final Perlin yDistortModule;
+    private final Perlin yDistortModule;
     // Noise module that displaces the @a z coordinate.
-    final Perlin zDistortModule;
+    private final Perlin zDistortModule;
 
     public Turbulence() {
         super(1);
@@ -93,13 +87,13 @@ public class Turbulence extends Module {
     }
 
     @Override
-    public int GetSourceModuleCount() {
+    public int getSourceModuleCount() {
         return 1;
     }
 
     @Override
-    public double GetValue(double x, double y, double z) {
-        if (SourceModule[0] == null) {
+    public double getValue(double x, double y, double z) {
+        if (sourceModule[0] == null) {
             throw new NoModuleException();
         }
 
@@ -122,12 +116,12 @@ public class Turbulence extends Module {
         x2 = x + (53820.0 / 65536.0);
         y2 = y + (11213.0 / 65536.0);
         z2 = z + (44845.0 / 65536.0);
-        double xDistort = x + (xDistortModule.GetValue(x0, y0, z0) * power);
-        double yDistort = y + (yDistortModule.GetValue(x1, y1, z1) * power);
-        double zDistort = z + (zDistortModule.GetValue(x2, y2, z2) * power);
+        double xDistort = x + (xDistortModule.getValue(x0, y0, z0) * power);
+        double yDistort = y + (yDistortModule.getValue(x1, y1, z1) * power);
+        double zDistort = z + (zDistortModule.getValue(x2, y2, z2) * power);
 
-        // Retrieve the output value at the offsetted input value instead of the
+        // Retrieve the output value at the offset input value instead of the
         // original input value.
-        return SourceModule[0].GetValue(xDistort, yDistort, zDistort);
+        return sourceModule[0].getValue(xDistort, yDistort, zDistort);
     }
 }
