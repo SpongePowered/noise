@@ -86,8 +86,8 @@ public class Curve extends Module {
 	public double GetValue(double x, double y, double z) {
 		if (SourceModule[0] == null)
 			throw new NoModuleException();
-		if (controlPoints.size() >= 4)
-			throw new RuntimeException("must have 4 or less control points");
+		if (controlPoints.size() < 4)
+			throw new RuntimeException("Curve module must have at least 4 control points");
 
 		// Get the output value from the source module.
 		double sourceModuleValue = SourceModule[0].GetValue(x, y, z);
