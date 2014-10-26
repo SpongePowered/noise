@@ -75,11 +75,11 @@ public class Sphere {
      * @param lon The longitude of the input value, in degrees.
      * @return The output value from the noise module.
      */
-    public double getValue(double lat, double lon) {
+    public double get(double lat, double lon) {
         if (module == null) {
             throw new NoModuleException();
         }
         double[] vec = MathUtils.latLonToXYZ(lat, lon);
-        return module.getValue(vec[0], vec[1], vec[2]);
+        return module.get(vec[0], vec[1], vec[2]);
     }
 }

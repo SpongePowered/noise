@@ -30,30 +30,20 @@ import com.flowpowered.math.GenericMath;
 import com.flowpowered.noise.module.Module;
 
 public class Spheres extends Module {
-    // Default frequency value for the noise::module::Spheres noise module.
-    public static final double DEFAULT_SPHERES_FREQUENCY = 1.0;
     // Frequency of the concentric spheres.
-    private double frequency = DEFAULT_SPHERES_FREQUENCY;
+    private final double frequency;
 
-    public Spheres() {
-        super(0);
+    public Spheres(double frequency) {
+
+        this.frequency = frequency;
     }
 
     public double getFrequency() {
         return frequency;
     }
 
-    public void setFrequency(double frequency) {
-        this.frequency = frequency;
-    }
-
     @Override
-    public int getSourceModuleCount() {
-        return 0;
-    }
-
-    @Override
-    public double getValue(double x, double y, double z) {
+    public double get(double x, double y, double z) {
         double x1 = x;
         double y1 = y;
         double z1 = z;

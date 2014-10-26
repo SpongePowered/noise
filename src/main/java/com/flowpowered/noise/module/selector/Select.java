@@ -25,52 +25,38 @@
  */
 package com.flowpowered.noise.module.selector;
 
+import com.flowpowered.noise.module.Combiner;
+import com.flowpowered.noise.module.Selector;
 import com.flowpowered.noise.util.MathUtils;
 import com.flowpowered.noise.exception.NoModuleException;
 import com.flowpowered.noise.module.Module;
 
-public class Select extends Module {
-    // Default edge-falloff value for the noise::module::Select noise module.
-    public static final double DEFAULT_SELECT_EDGE_FALLOFF = 0.0;
-    // Default lower bound of the selection range for the
-    // noise::module::Select noise module.
-    public static final double DEFAULT_SELECT_LOWER_BOUND = -1.0;
-    // Default upper bound of the selection range for the
-    // noise::module::Select noise module.
-    public static final double DEFAULT_SELECT_UPPER_BOUND = 1.0;
+public class Select extends Selector {
+
     // Edge-falloff value.
-    private double edgeFalloff = DEFAULT_SELECT_EDGE_FALLOFF;
+    private final double edgeFalloff;
     // Lower bound of the selection range.
-    private double lowerBound = DEFAULT_SELECT_LOWER_BOUND;
+    private final double lowerBound;
     // Upper bound of the selection range.
-    private double upperBound = DEFAULT_SELECT_UPPER_BOUND;
+    private final double upperBound;
 
-    public Select() {
-        super(3);
-    }
+    public Select(Module control, Module sourceA, Module sourceB, double edgeFalloff, double lowerBound, double upperBound) {
+        super(control, sourceA, sourceB);
 
-    public Module getControlModule() {
-        if (sourceModule == null || sourceModule[2] == null) {
-            throw new NoModuleException();
+        if (lowerBound > upperBound) {
+            throw new IllegalArgumentException("lower must be less than upper");
         }
-        return sourceModule[2];
-    }
 
-    public void setControlModule(Module m) {
-        if (m == null) {
-            throw new IllegalArgumentException("the module cannot be null");
-        }
-        sourceModule[2] = m;
+        // Make sure that the edge falloff curves do not overlap.
+        double boundSize = upperBound - lowerBound;
+        this.edgeFalloff = (edgeFalloff > boundSize / 2) ? boundSize / 2 : edgeFalloff;
+
+        this.lowerBound = lowerBound;
+        this.upperBound = upperBound;
     }
 
     public double getEdgeFalloff() {
         return edgeFalloff;
-    }
-
-    public void setEdgeFalloff(double edgeFalloff) {
-        // Make sure that the edge falloff curves do not overlap.
-        double boundSize = upperBound - lowerBound;
-        this.edgeFalloff = (edgeFalloff > boundSize / 2) ? boundSize / 2 : edgeFalloff;
     }
 
     public double getLowerBound() {
@@ -81,40 +67,16 @@ public class Select extends Module {
         return upperBound;
     }
 
-    public void setBounds(double upper, double lower) {
-        if (lower > upper) {
-            throw new IllegalArgumentException("lower must be less than upper");
-        }
-        this.lowerBound = lower;
-        this.upperBound = upper;
-
-        setEdgeFalloff(edgeFalloff);
-    }
-
     @Override
-    public int getSourceModuleCount() {
-        return 3;
-    }
+    public double get(double x, double y, double z) {
 
-    @Override
-    public double getValue(double x, double y, double z) {
-        if (sourceModule[0] == null) {
-            throw new NoModuleException();
-        }
-        if (sourceModule[1] == null) {
-            throw new NoModuleException();
-        }
-        if (sourceModule[2] == null) {
-            throw new NoModuleException();
-        }
-
-        double controlValue = sourceModule[2].getValue(x, y, z);
+        double controlValue = control.get(x, y, z);
         double alpha;
         if (edgeFalloff > 0.0) {
             if (controlValue < (lowerBound - edgeFalloff)) {
                 // The output value from the control module is below the selector
                 // threshold; return the output value from the first source module.
-                return sourceModule[0].getValue(x, y, z);
+                return sourceA.get(x, y, z);
             } else if (controlValue < (lowerBound + edgeFalloff)) {
                 // The output value from the control module is near the lower end of the
                 // selector threshold and within the smooth curve. Interpolate between
@@ -122,11 +84,11 @@ public class Select extends Module {
                 double lowerCurve = (lowerBound - edgeFalloff);
                 double upperCurve = (lowerBound + edgeFalloff);
                 alpha = MathUtils.sCurve3((controlValue - lowerCurve) / (upperCurve - lowerCurve));
-                return MathUtils.linearInterp(sourceModule[0].getValue(x, y, z), sourceModule[1].getValue(x, y, z), alpha);
+                return MathUtils.linearInterp(sourceA.get(x, y, z), sourceB.get(x, y, z), alpha);
             } else if (controlValue < (upperBound - edgeFalloff)) {
                 // The output value from the control module is within the selector
                 // threshold; return the output value from the second source module.
-                return sourceModule[1].getValue(x, y, z);
+                return sourceB.get(x, y, z);
             } else if (controlValue < (upperBound + edgeFalloff)) {
                 // The output value from the control module is near the upper end of the
                 // selector threshold and within the smooth curve. Interpolate between
@@ -134,17 +96,17 @@ public class Select extends Module {
                 double lowerCurve = (upperBound - edgeFalloff);
                 double upperCurve = (upperBound + edgeFalloff);
                 alpha = MathUtils.sCurve3((controlValue - lowerCurve) / (upperCurve - lowerCurve));
-                return MathUtils.linearInterp(sourceModule[1].getValue(x, y, z), sourceModule[0].getValue(x, y, z), alpha);
+                return MathUtils.linearInterp(sourceB.get(x, y, z), sourceA.get(x, y, z), alpha);
             } else {
                 // Output value from the control module is above the selector threshold;
                 // return the output value from the first source module.
-                return sourceModule[0].getValue(x, y, z);
+                return sourceA.get(x, y, z);
             }
         } else {
             if (controlValue < lowerBound || controlValue > upperBound) {
-                return sourceModule[0].getValue(x, y, z);
+                return sourceA.get(x, y, z);
             } else {
-                return sourceModule[1].getValue(x, y, z);
+                return sourceB.get(x, y, z);
             }
         }
     }

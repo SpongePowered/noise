@@ -25,24 +25,18 @@
  */
 package com.flowpowered.noise.module.modifier;
 
-import com.flowpowered.noise.exception.NoModuleException;
+import com.flowpowered.noise.module.Modifier;
 import com.flowpowered.noise.module.Module;
 
-public class Abs extends Module {
-    public Abs() {
-        super(1);
+public class Abs extends Modifier {
+
+    protected Abs(Module source) {
+        super(source);
     }
 
     @Override
-    public int getSourceModuleCount() {
-        return 1;
+    public double get(double x, double y, double z) {
+        return Math.abs(source.get(x, y, z));
     }
 
-    @Override
-    public double getValue(double x, double y, double z) {
-        if (sourceModule == null) {
-            throw new NoModuleException();
-        }
-        return Math.abs(sourceModule[0].getValue(x, y, z));
-    }
 }

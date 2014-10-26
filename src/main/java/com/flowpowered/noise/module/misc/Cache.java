@@ -26,9 +26,10 @@
 package com.flowpowered.noise.module.misc;
 
 import com.flowpowered.noise.exception.NoModuleException;
+import com.flowpowered.noise.module.Modifier;
 import com.flowpowered.noise.module.Module;
 
-public class Cache extends Module {
+public class Cache extends Modifier {
     // The cached output value at the cached input value.
     private double cachedValue;
     // Determines if a cached output value is stored in this noise
@@ -41,29 +42,14 @@ public class Cache extends Module {
     // @a z coordinate of the cached input value.
     private double zCache;
 
-    public Cache() {
-        super(1);
+    public Cache(Module source) {
+        super(source);
     }
 
     @Override
-    public int getSourceModuleCount() {
-        return 1;
-    }
-
-    @Override
-    public void setSourceModule(int index, Module sourceModule) {
-        super.setSourceModule(index, sourceModule);
-        isCached = false;
-    }
-
-    @Override
-    public double getValue(double x, double y, double z) {
-        if (sourceModule[0] == null) {
-            throw new NoModuleException();
-        }
-
+    public double get(double x, double y, double z) {
         if (!(isCached && x == xCache && y == yCache && z == zCache)) {
-            cachedValue = sourceModule[0].getValue(x, y, z);
+            cachedValue = source.get(x, y, z);
             xCache = x;
             yCache = y;
             zCache = z;

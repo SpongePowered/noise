@@ -28,28 +28,20 @@ package com.flowpowered.noise.module.generator;
 import com.flowpowered.noise.module.Module;
 
 public class Const extends Module {
-    public static final double DEFAULT_VALUE = 0;
-    private double value = DEFAULT_VALUE;
 
-    public Const() {
-        super(0);
+    private final double value;
+
+    public Const(double value) {
+        this.value = value;
     }
 
     public double getValue() {
         return value;
     }
 
-    public void setValue(double value) {
-        this.value = value;
-    }
-
     @Override
-    public int getSourceModuleCount() {
-        return 0;
-    }
-
-    @Override
-    public double getValue(double x, double y, double z) {
+    public double get(double x, double y, double z) {
         return value;
     }
+
 }

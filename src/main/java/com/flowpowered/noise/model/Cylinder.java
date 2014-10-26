@@ -73,7 +73,7 @@ public class Cylinder {
      * @param height The height along the @a y axis.
      * @return The output value from the noise module.
      */
-    public double getValue(double angle, double height) {
+    public double get(double angle, double height) {
         if (module == null) {
             throw new NoModuleException();
         }
@@ -82,6 +82,6 @@ public class Cylinder {
         x = TrigMath.cos(angle * TrigMath.DEG_TO_RAD);
         y = height;
         z = TrigMath.sin(angle * TrigMath.DEG_TO_RAD);
-        return module.getValue(x, y, z);
+        return module.get(x, y, z);
     }
 }

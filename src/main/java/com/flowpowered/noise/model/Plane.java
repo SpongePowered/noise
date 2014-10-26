@@ -76,10 +76,10 @@ public class Plane {
      * @param z The @a z coordinate of the input value.
      * @return The output value from the noise module.
      */
-    public double getValue(double x, double z) {
+    public double get(double x, double z) {
         if (module == null) {
             throw new NoModuleException();
         }
-        return module.getValue(x, 0, z);
+        return module.get(x, 0, z);
     }
 }

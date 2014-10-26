@@ -31,70 +31,46 @@ import com.flowpowered.noise.util.Noise;
 import com.flowpowered.noise.module.Module;
 
 public class Voronoi extends Module {
+
+    // TODO shouldn't this belong in math utils?
     private static final double SQRT_3 = 1.7320508075688772935;
-    // Default displacement to apply to each cell for the
-    // noise::module::Voronoi noise module.
-    public static final double DEFAULT_VORONOI_DISPLACEMENT = 1.0;
-    // Default frequency of the seed points for the noise::module::Voronoi
-    // noise module.
-    public static final double DEFAULT_VORONOI_FREQUENCY = 1.0;
-    // Default seed of the noise function for the noise::module::Voronoi
-    // noise module.
-    public static final int DEFAULT_VORONOI_SEED = 0;
+
+    // Frequency of the seed points.
+    private final double frequency;
     // Scale of the random displacement to apply to each Voronoi cell.
-    private double displacement = DEFAULT_VORONOI_DISPLACEMENT;
+    private final double displacement;
     // Determines if the distance from the nearest seed point is applied to
     // the output value.
-    private boolean enableDistance = false;
-    // Frequency of the seed points.
-    private double frequency = DEFAULT_VORONOI_FREQUENCY;
+    private final boolean enableDistance;
     // Seed value used by the coherent-noise function to determine the
     // positions of the seed points.
-    private int seed = DEFAULT_VORONOI_SEED;
+    private final int seed;
 
-    public Voronoi() {
-        super(0);
+    public Voronoi(double frequency, double displacement, boolean enableDistance, int seed) {
+        this.frequency = frequency;
+        this.displacement = displacement;
+        this.enableDistance = enableDistance;
+        this.seed = seed;
     }
 
     public double getDisplacement() {
         return displacement;
     }
 
-    public void setDisplacement(double displacement) {
-        this.displacement = displacement;
-    }
-
     public boolean isEnableDistance() {
         return enableDistance;
-    }
-
-    public void setEnableDistance(boolean enableDistance) {
-        this.enableDistance = enableDistance;
     }
 
     public double getFrequency() {
         return frequency;
     }
 
-    public void setFrequency(double frequency) {
-        this.frequency = frequency;
-    }
-
     public int getSeed() {
         return seed;
     }
 
-    public void setSeed(int seed) {
-        this.seed = seed;
-    }
-
     @Override
-    public int getSourceModuleCount() {
-        return 0;
-    }
-
-    @Override
-    public double getValue(double x, double y, double z) {
+    public double get(double x, double y, double z) {
         double x1 = x;
         double y1 = y;
         double z1 = z;
@@ -157,4 +133,5 @@ public class Voronoi extends Module {
         // Return the calculated distance with the displacement value applied.
         return value + (displacement * Noise.valueNoise3D(GenericMath.floor(xCandidate), GenericMath.floor(yCandidate), GenericMath.floor(zCandidate), seed));
     }
+
 }

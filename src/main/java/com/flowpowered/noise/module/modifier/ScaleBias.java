@@ -25,51 +25,32 @@
  */
 package com.flowpowered.noise.module.modifier;
 
-import com.flowpowered.noise.exception.NoModuleException;
+import com.flowpowered.noise.module.Modifier;
 import com.flowpowered.noise.module.Module;
 
-public class ScaleBias extends Module {
-    // Default bias for the noise::module::ScaleBias noise module.
-    public static final double DEFAULT_BIAS = 0.0;
-    // Default scale for the noise::module::ScaleBias noise module.
-    public static final double DEFAULT_SCALE = 1.0;
-    // Bias to apply to the scaled output value from the source module.
-    private double bias = DEFAULT_BIAS;
-    // Scaling factor to apply to the output value from the source
-    // module.
-    private double scale = DEFAULT_SCALE;
+public class ScaleBias extends Modifier {
 
-    public ScaleBias() {
-        super(1);
+    // Bias to apply to the scaled output value from the source module.
+    private final double bias;
+    // Scaling factor to apply to the output value from the source module.
+    private final double scale;
+
+    public ScaleBias(Module source, double bias, double scale) {
+        super(source);
+        this.bias = bias;
+        this.scale = scale;
     }
 
     public double getBias() {
         return bias;
     }
 
-    public void setBias(double bias) {
-        this.bias = bias;
-    }
-
     public double getScale() {
         return scale;
     }
 
-    public void setScale(double scale) {
-        this.scale = scale;
-    }
-
     @Override
-    public int getSourceModuleCount() {
-        return 1;
-    }
-
-    @Override
-    public double getValue(double x, double y, double z) {
-        if (sourceModule[0] == null) {
-            throw new NoModuleException();
-        }
-
-        return sourceModule[0].getValue(x, y, z) * scale + bias;
+    public double get(double x, double y, double z) {
+        return source.get(x, y, z) * scale + bias;
     }
 }

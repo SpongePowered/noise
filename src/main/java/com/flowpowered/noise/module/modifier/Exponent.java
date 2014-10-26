@@ -25,36 +25,26 @@
  */
 package com.flowpowered.noise.module.modifier;
 
-import com.flowpowered.noise.exception.NoModuleException;
+import com.flowpowered.noise.module.Modifier;
 import com.flowpowered.noise.module.Module;
 
-public class Exponent extends Module {
-    public static final double DEFAULT_EXPONENT = 1.0;
-    private double exponent = DEFAULT_EXPONENT;
+public class Exponent extends Modifier {
 
-    public Exponent() {
-        super(1);
+    private final double exponent;
+
+    public Exponent(Module source, double exponent) {
+        super(source);
+        this.exponent = exponent;
     }
 
     public double getExponent() {
         return exponent;
     }
 
-    public void setExponent(double exponent) {
-        this.exponent = exponent;
-    }
-
     @Override
-    public int getSourceModuleCount() {
-        return 1;
-    }
-
-    @Override
-    public double getValue(double x, double y, double z) {
-        if (sourceModule[0] == null) {
-            throw new NoModuleException();
-        }
-        double value = sourceModule[0].getValue(x, y, z);
+    public double get(double x, double y, double z) {
+        double value = source.get(x, y, z);
         return (Math.pow(Math.abs((value + 1.0) / 2.0), exponent) * 2.0 - 1.0);
     }
+
 }

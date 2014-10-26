@@ -27,39 +27,38 @@ package com.flowpowered.noise.module.modifier;
 
 import com.flowpowered.math.GenericMath;
 
+import com.flowpowered.noise.module.Modifier;
 import com.flowpowered.noise.util.MathUtils;
 import com.flowpowered.noise.exception.NoModuleException;
 import com.flowpowered.noise.module.Module;
 
-public class Terrace extends Module {
-    // Number of control points stored in this noise module.
-    private int controlPointCount = 0;
+public class Terrace extends Modifier {
     // Determines if the terrace-forming curve between all control points
     // is inverted.
-    private boolean invertTerraces = false;
+    private final boolean invertTerraces;
     // Array that stores the control points.
-    private double[] controlPoints = new double[0];
+    private final double[] controlPoints;
 
-    public Terrace() {
-        super(1);
+    public Terrace(Module source, double[] controlPoints, boolean invertTerraces) {
+        super(source);
+
+        this.controlPoints = controlPoints;
+        this.invertTerraces = invertTerraces;
     }
 
     public boolean isInvertTerraces() {
         return invertTerraces;
     }
 
-    public void setInvertTerraces(boolean invertTerraces) {
-        this.invertTerraces = invertTerraces;
-    }
-
     public int getControlPointCount() {
-        return controlPointCount;
+        return controlPoints.length;
     }
 
     public double[] getControlPoints() {
         return controlPoints;
     }
 
+    /* TODO replicate this logic in builder
     public void addControlPoint(double value) {
         int insertionPos = findInsertionPos(value);
         insertAtPos(insertionPos, value);
@@ -67,7 +66,6 @@ public class Terrace extends Module {
 
     public void clearAllControlPoints() {
         controlPoints = null;
-        controlPointCount = 0;
     }
 
     public void makeControlPoints(int controlPointCount) {
@@ -121,21 +119,14 @@ public class Terrace extends Module {
         // Now that we've made room for the new control point within the array,
         // add the new control point.
         controlPoints[insertionPos] = value;
-    }
+    }*/
 
     @Override
-    public int getSourceModuleCount() {
-        return 1;
-    }
-
-    @Override
-    public double getValue(double x, double y, double z) {
-        if (sourceModule[0] == null) {
-            throw new NoModuleException();
-        }
-
+    public double get(double x, double y, double z) {
         // Get the output value from the source module.
-        double sourceModuleValue = sourceModule[0].getValue(x, y, z);
+        double sourceModuleValue = source.get(x, y, z);
+
+        int controlPointCount = controlPoints.length;
 
         // Find the first element in the control point array that has a value
         // larger than the output value from the source module.

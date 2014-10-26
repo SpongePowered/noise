@@ -25,15 +25,14 @@
  */
 package com.flowpowered.noise.module.transformer;
 
-import com.flowpowered.noise.exception.NoModuleException;
+import com.flowpowered.noise.module.Modifier;
 import com.flowpowered.noise.module.Module;
 import com.flowpowered.noise.module.generator.Perlin;
+import com.flowpowered.noise.util.NoiseQuality;
 
-public class Turbulence extends Module {
-    // Default power for the noise::module::Turbulence noise module.
-    public static final double DEFAULT_TURBULENCE_POWER = 1.0;
+public class Turbulence extends Modifier {
     // The power (scale) of the displacement.
-    private double power = DEFAULT_TURBULENCE_POWER;
+    private final double power;
     // Noise module that displaces the @a x coordinate.
     private final Perlin xDistortModule;
     // Noise module that displaces the @a y coordinate.
@@ -41,22 +40,20 @@ public class Turbulence extends Module {
     // Noise module that displaces the @a z coordinate.
     private final Perlin zDistortModule;
 
-    public Turbulence() {
-        super(1);
-        xDistortModule = new Perlin();
-        yDistortModule = new Perlin();
-        zDistortModule = new Perlin();
+    public Turbulence(Module source, double power, int roughness, double frequency, int seed) {
+        super(source);
+        this.power = power;
+        // TODO use the perlin builder class instead of these magic values
+        xDistortModule = new Perlin(roughness, frequency, 2.0, 0.5, NoiseQuality.STANDARD, seed);
+        yDistortModule = new Perlin(roughness, frequency, 2.0, 0.5, NoiseQuality.STANDARD, seed + 1);
+        zDistortModule = new Perlin(roughness, frequency, 2.0, 0.5, NoiseQuality.STANDARD, seed + 2);
     }
 
     public double getPower() {
         return power;
     }
 
-    public void setPower(double power) {
-        this.power = power;
-    }
-
-    public int getRoughnessCount() {
+    public int getRoughness() {
         return xDistortModule.getOctaveCount();
     }
 
@@ -68,35 +65,8 @@ public class Turbulence extends Module {
         return xDistortModule.getSeed();
     }
 
-    public void setSeed(int seed) {
-        xDistortModule.setSeed(seed);
-        yDistortModule.setSeed(seed + 1);
-        zDistortModule.setSeed(seed + 2);
-    }
-
-    public void setFrequency(double frequency) {
-        xDistortModule.setFrequency(frequency);
-        yDistortModule.setFrequency(frequency);
-        zDistortModule.setFrequency(frequency);
-    }
-
-    public void setRoughness(int roughness) {
-        xDistortModule.setOctaveCount(roughness);
-        yDistortModule.setOctaveCount(roughness);
-        zDistortModule.setOctaveCount(roughness);
-    }
-
     @Override
-    public int getSourceModuleCount() {
-        return 1;
-    }
-
-    @Override
-    public double getValue(double x, double y, double z) {
-        if (sourceModule[0] == null) {
-            throw new NoModuleException();
-        }
-
+    public double get(double x, double y, double z) {
         // Get the values from the three noise::module::Perlin noise modules and
         // add each value to each coordinate of the input value.  There are also
         // some offsets added to the coordinates of the input values.  This prevents
@@ -116,12 +86,13 @@ public class Turbulence extends Module {
         x2 = x + (53820.0 / 65536.0);
         y2 = y + (11213.0 / 65536.0);
         z2 = z + (44845.0 / 65536.0);
-        double xDistort = x + (xDistortModule.getValue(x0, y0, z0) * power);
-        double yDistort = y + (yDistortModule.getValue(x1, y1, z1) * power);
-        double zDistort = z + (zDistortModule.getValue(x2, y2, z2) * power);
+        double xDistort = x + (xDistortModule.get(x0, y0, z0) * power);
+        double yDistort = y + (yDistortModule.get(x1, y1, z1) * power);
+        double zDistort = z + (zDistortModule.get(x2, y2, z2) * power);
 
         // Retrieve the output value at the offset input value instead of the
         // original input value.
-        return sourceModule[0].getValue(xDistort, yDistort, zDistort);
+        return source.get(xDistort, yDistort, zDistort);
     }
+
 }

@@ -31,96 +31,62 @@ import com.flowpowered.noise.util.MathUtils;
 import com.flowpowered.noise.module.Module;
 
 public class Perlin extends Module {
-    // Default frequency for the noise::module::Perlin noise module.
-    public static final double DEFAULT_PERLIN_FREQUENCY = 1.0;
-    // Default lacunarity for the noise::module::Perlin noise module.
-    public static final double DEFAULT_PERLIN_LACUNARITY = 2.0;
-    // Default number of octaves for the noise::module::Perlin noise module.
-    public static final int DEFAULT_PERLIN_OCTAVE_COUNT = 6;
-    // Default persistence value for the noise::module::Perlin noise module.
-    public static final double DEFAULT_PERLIN_PERSISTENCE = 0.5;
-    // Default noise quality for the noise::module::Perlin noise module.
-    public static final NoiseQuality DEFAULT_PERLIN_QUALITY = NoiseQuality.STANDARD;
-    // Default noise seed for the noise::module::Perlin noise module.
-    public static final int DEFAULT_PERLIN_SEED = 0;
-    // Maximum number of octaves for the noise::module::Perlin noise module.
+
     public static final int PERLIN_MAX_OCTAVE = 30;
-    // Frequency of the first octave.
-    private double frequency = DEFAULT_PERLIN_FREQUENCY;
-    // Frequency multiplier between successive octaves.
-    private double lacunarity = DEFAULT_PERLIN_LACUNARITY;
-    // Quality of the Perlin noise.
-    private NoiseQuality noiseQuality = DEFAULT_PERLIN_QUALITY;
+
     // Total number of octaves that generate the Perlin noise.
-    private int octaveCount = DEFAULT_PERLIN_OCTAVE_COUNT;
+    private final int octaveCount;
+    // Frequency of the first octave.
+    private final double frequency;
+    // Frequency multiplier between successive octaves.
+    private final double lacunarity;
     // Persistence of the Perlin noise.
-    private double persistence = DEFAULT_PERLIN_PERSISTENCE;
+    private final double persistence;
+    // Quality of the Perlin noise.
+    private final NoiseQuality noiseQuality;
     // Seed value used by the Perlin-noise function.
-    private int seed = DEFAULT_PERLIN_SEED;
+    private final int seed;
 
-    public Perlin() {
-        super(0);
-    }
+    public Perlin(int octaveCount, double frequency, double lacunarity, double persistence, NoiseQuality noiseQuality, int seed) {
 
-    public double getFrequency() {
-        return frequency;
-    }
+        if (octaveCount < 1 || octaveCount > PERLIN_MAX_OCTAVE) {
+            throw new IllegalArgumentException("octaveCount must be between 1 and MAX OCTAVE: " + PERLIN_MAX_OCTAVE);
+        }
 
-    public void setFrequency(double frequency) {
+        this.octaveCount = octaveCount;
         this.frequency = frequency;
-    }
-
-    public double getLacunarity() {
-        return lacunarity;
-    }
-
-    public void setLacunarity(double lacunarity) {
         this.lacunarity = lacunarity;
-    }
-
-    public NoiseQuality getNoiseQuality() {
-        return noiseQuality;
-    }
-
-    public void setNoiseQuality(NoiseQuality noiseQuality) {
+        this.persistence = persistence;
         this.noiseQuality = noiseQuality;
+        this.seed = seed;
     }
 
     public int getOctaveCount() {
         return octaveCount;
     }
 
-    public void setOctaveCount(int octaveCount) {
-        if (octaveCount < 1 || octaveCount > PERLIN_MAX_OCTAVE) {
-            throw new IllegalArgumentException("octaveCount must be between 1 and MAX OCTAVE: " + PERLIN_MAX_OCTAVE);
-        }
+    public double getFrequency() {
+        return frequency;
+    }
 
-        this.octaveCount = octaveCount;
+    public double getLacunarity() {
+        return lacunarity;
     }
 
     public double getPersistence() {
         return persistence;
     }
 
-    public void setPersistence(double persistence) {
-        this.persistence = persistence;
+    public NoiseQuality getNoiseQuality() {
+        return noiseQuality;
     }
 
     public int getSeed() {
         return seed;
     }
 
-    public void setSeed(int seed) {
-        this.seed = seed;
-    }
-
     @Override
-    public int getSourceModuleCount() {
-        return 0;
-    }
-
-    @Override
-    public double getValue(double x, double y, double z) {
+    public double get(double x, double y, double z) {
         double x1 = x;
         double y1 = y;
         double z1 = z;

@@ -30,28 +30,18 @@ import com.flowpowered.math.GenericMath;
 import com.flowpowered.noise.module.Module;
 
 public class Cylinders extends Module {
-    public static final double DEFAULT_CYLINDERS_FREQUENCY = 1.0;
-    private double frequency = DEFAULT_CYLINDERS_FREQUENCY;
+    private final double frequency;
 
-    public Cylinders() {
-        super(0);
+    public Cylinders(double frequency) {
+        this.frequency = frequency;
     }
 
     public double getFrequency() {
         return frequency;
     }
 
-    public void setFrequency(double frequency) {
-        this.frequency = frequency;
-    }
-
     @Override
-    public int getSourceModuleCount() {
-        return 0;
-    }
-
-    @Override
-    public double getValue(double x, double y, double z) {
+    public double get(double x, double y, double z) {
         double z1 = z;
         double x1 = x;
         x1 *= frequency;

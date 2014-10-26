@@ -25,53 +25,32 @@
  */
 package com.flowpowered.noise.module.modifier;
 
-import com.flowpowered.noise.exception.NoModuleException;
+import com.flowpowered.math.GenericMath;
+import com.flowpowered.noise.module.Modifier;
 import com.flowpowered.noise.module.Module;
 
-public class Clamp extends Module {
-    public static final double DEFAULT_LOWER_BOUND = 0.0;
-    public static final double DEFAULT_UPPER_BOUND = 1.0;
-    private double lowerBound = DEFAULT_LOWER_BOUND;
-    private double upperBound = DEFAULT_UPPER_BOUND;
+public class Clamp extends Modifier {
 
-    public Clamp() {
-        super(1);
+    private final double lowerBound;
+    private final double upperBound;
+
+    public Clamp(Module source, double lowerBound, double upperBound) {
+        super(source);
+        this.lowerBound = lowerBound;
+        this.upperBound = upperBound;
     }
 
     public double getLowerBound() {
         return lowerBound;
     }
 
-    public void setLowerBound(double lowerBound) {
-        this.lowerBound = lowerBound;
-    }
-
     public double getUpperBound() {
         return upperBound;
     }
 
-    public void setUpperBound(double upperBound) {
-        this.upperBound = upperBound;
-    }
-
     @Override
-    public int getSourceModuleCount() {
-        return 1;
+    public double get(double x, double y, double z) {
+        return GenericMath.clamp(source.get(x, y, z), lowerBound, upperBound);
     }
 
-    @Override
-    public double getValue(double x, double y, double z) {
-        if (sourceModule[0] == null) {
-            throw new NoModuleException();
-        }
-
-        double value = sourceModule[0].getValue(x, y, z);
-        if (value < lowerBound) {
-            return lowerBound;
-        } else if (value > upperBound) {
-            return upperBound;
-        } else {
-            return value;
-        }
-    }
 }

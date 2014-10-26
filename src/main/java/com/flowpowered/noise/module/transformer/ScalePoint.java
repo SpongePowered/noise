@@ -25,65 +25,39 @@
  */
 package com.flowpowered.noise.module.transformer;
 
-import com.flowpowered.noise.exception.NoModuleException;
+import com.flowpowered.noise.module.Modifier;
 import com.flowpowered.noise.module.Module;
 
-public class ScalePoint extends Module {
-    // Default scaling factor applied to the @a x coordinate for the
-    // noise::module::ScalePoint noise module.
-    public static final double DEFAULT_SCALE_POINT_X = 1.0;
-    // Default scaling factor applied to the @a y coordinate for the
-    // noise::module::ScalePoint noise module.
-    public static final double DEFAULT_SCALE_POINT_Y = 1.0;
-    // Default scaling factor applied to the @a z coordinate for the
-    // noise::module::ScalePoint noise module.
-    public static final double DEFAULT_SCALE_POINT_Z = 1.0;
+public class ScalePoint extends Modifier {
     // Scaling factor applied to the @a x coordinate of the input value.
-    private double xScale = DEFAULT_SCALE_POINT_X;
+    private final double xScale;
     // Scaling factor applied to the @a y coordinate of the input value.
-    private double yScale = DEFAULT_SCALE_POINT_Y;
+    private final double yScale;
     // Scaling factor applied to the @a z coordinate of the input value.
-    private double zScale = DEFAULT_SCALE_POINT_Z;
+    private final double zScale;
 
-    public ScalePoint() {
-        super(1);
+    public ScalePoint(double xScale, double yScale, double zScale, Module source) {
+        super(source);
+        this.xScale = xScale;
+        this.yScale = yScale;
+        this.zScale = zScale;
     }
 
     public double getXScale() {
         return xScale;
     }
 
-    public void setXScale(double xScale) {
-        this.xScale = xScale;
-    }
-
     public double getYScale() {
         return yScale;
-    }
-
-    public void setYScale(double yScale) {
-        this.yScale = yScale;
     }
 
     public double getZScale() {
         return zScale;
     }
 
-    public void setZScale(double zScale) {
-        this.zScale = zScale;
-    }
-
     @Override
-    public int getSourceModuleCount() {
-        return 1;
+    public double get(double x, double y, double z) {
+        return source.get(x * xScale, y * yScale, z * zScale);
     }
 
-    @Override
-    public double getValue(double x, double y, double z) {
-        if (sourceModule[0] == null) {
-            throw new NoModuleException();
-        }
-
-        return sourceModule[0].getValue(x * xScale, y * yScale, z * zScale);
-    }
 }

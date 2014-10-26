@@ -25,49 +25,23 @@
  */
 package com.flowpowered.noise.module.selector;
 
+import com.flowpowered.noise.module.Combiner;
+import com.flowpowered.noise.module.Selector;
 import com.flowpowered.noise.util.MathUtils;
-import com.flowpowered.noise.exception.NoModuleException;
 import com.flowpowered.noise.module.Module;
 
-public class Blend extends Module {
-    public Blend() {
-        super(3);
-    }
+public class Blend extends Selector {
 
-    public Module getControlModule() {
-        if (sourceModule[2] == null) {
-            throw new NoModuleException();
-        }
-        return sourceModule[2];
-    }
-
-    public void setControlModule(Module module) {
-        if (module == null) {
-            throw new IllegalArgumentException("Control Module cannot be null");
-        }
-        sourceModule[2] = module;
+    public Blend(Module control, Module sourceA, Module sourceB) {
+        super(control, sourceA, sourceB);
     }
 
     @Override
-    public int getSourceModuleCount() {
-        return 3;
-    }
-
-    @Override
-    public double getValue(double x, double y, double z) {
-        if (sourceModule[0] == null) {
-            throw new NoModuleException();
-        }
-        if (sourceModule[1] == null) {
-            throw new NoModuleException();
-        }
-        if (sourceModule[2] == null) {
-            throw new NoModuleException();
-        }
-
-        double v0 = sourceModule[0].getValue(x, y, z);
-        double v1 = sourceModule[1].getValue(x, y, z);
-        double alpha = (sourceModule[2].getValue(x, y, z) + 1.0) / 2.0;
+    public double get(double x, double y, double z) {
+        double v0 = sourceA.get(x, y, z);
+        double v1 = sourceB.get(x, y, z);
+        double alpha = (control.get(x, y, z) + 1.0) / 2.0;
         return MathUtils.linearInterp(v0, v1, alpha);
     }
+
 }

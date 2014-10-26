@@ -26,43 +26,11 @@
 package com.flowpowered.noise.module;
 
 import com.flowpowered.noise.exception.NoModuleException;
+import com.flowpowered.noise.module.selector.Blend;
+import com.flowpowered.noise.module.selector.Select;
 
 public abstract class Module {
-    protected Module[] sourceModule;
 
-    public Module(int sourceModuleCount) {
-        sourceModule = null;
+    public abstract double get(double x, double y, double z);
 
-        // Create an array of pointers to all source modules required by this
-        // noise module.  Set these pointers to NULL.
-        if (sourceModuleCount > 0) {
-            sourceModule = new Module[sourceModuleCount];
-            for (int i = 0; i < sourceModuleCount; i++) {
-                sourceModule[i] = null;
-            }
-        } else {
-            sourceModule = null;
-        }
-    }
-
-    public Module getSourceModule(int index) {
-        if (index >= getSourceModuleCount() || index < 0 || sourceModule[index] == null) {
-            throw new NoModuleException();
-        }
-        return (sourceModule[index]);
-    }
-
-    public void setSourceModule(int index, Module sourceModule) {
-        if (this.sourceModule == null) {
-            return;
-        }
-        if (index >= getSourceModuleCount() || index < 0) {
-            throw new IllegalArgumentException("Index must be between 0 and GetSourceMoudleCount()");
-        }
-        this.sourceModule[index] = sourceModule;
-    }
-
-    public abstract int getSourceModuleCount();
-
-    public abstract double getValue(double x, double y, double z);
 }
