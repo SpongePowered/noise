@@ -23,11 +23,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.royawesome.jlibnoise.module.modifier;
+package net.royawesome.jlibnoise.module.transformer;
 
 import net.royawesome.jlibnoise.exception.NoModuleException;
 import net.royawesome.jlibnoise.module.Module;
-import net.royawesome.jlibnoise.module.source.Perlin;
+import net.royawesome.jlibnoise.module.generator.Perlin;
 
 public class Turbulence extends Module {
     // Default power for the noise::module::Turbulence noise module.

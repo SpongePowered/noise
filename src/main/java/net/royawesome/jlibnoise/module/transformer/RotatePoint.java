@@ -23,7 +23,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.royawesome.jlibnoise.module.modifier;
+package net.royawesome.jlibnoise.module.transformer;
 
 import com.flowpowered.math.TrigMath;
 

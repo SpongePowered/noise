@@ -23,51 +23,33 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.royawesome.jlibnoise.module;
+package net.royawesome.jlibnoise.module.generator;
 
-import net.royawesome.jlibnoise.exception.NoModuleException;
+import net.royawesome.jlibnoise.module.Module;
 
-public class Cache extends Module {
-    // The cached output value at the cached input value.
-    private double cachedValue;
-    // Determines if a cached output value is stored in this noise
-    // module.
-    private boolean isCached = false;
-    // @a x coordinate of the cached input value.
-    private double xCache;
-    // @a y coordinate of the cached input value.
-    private double yCache;
-    // @a z coordinate of the cached input value.
-    private double zCache;
+public class Const extends Module {
+    public static final double DEFAULT_VALUE = 0;
+    private double value = DEFAULT_VALUE;
 
-    public Cache() {
-        super(1);
+    public Const() {
+        super(0);
+    }
+
+    public double getValue() {
+        return value;
+    }
+
+    public void setValue(double value) {
+        this.value = value;
     }
 
     @Override
     public int getSourceModuleCount() {
-        return 1;
-    }
-
-    @Override
-    public void setSourceModule(int index, Module sourceModule) {
-        super.setSourceModule(index, sourceModule);
-        isCached = false;
+        return 0;
     }
 
     @Override
     public double getValue(double x, double y, double z) {
-        if (sourceModule[0] == null) {
-            throw new NoModuleException();
-        }
-
-        if (!(isCached && x == xCache && y == yCache && z == zCache)) {
-            cachedValue = sourceModule[0].getValue(x, y, z);
-            xCache = x;
-            yCache = y;
-            zCache = z;
-        }
-        isCached = true;
-        return cachedValue;
+        return value;
     }
 }

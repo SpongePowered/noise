@@ -23,44 +23,52 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.royawesome.jlibnoise.module.source;
+package net.royawesome.jlibnoise.module.misc;
 
-import com.flowpowered.math.GenericMath;
-
+import net.royawesome.jlibnoise.exception.NoModuleException;
 import net.royawesome.jlibnoise.module.Module;
 
-public class Cylinders extends Module {
-    public static final double DEFAULT_CYLINDERS_FREQUENCY = 1.0;
-    private double frequency = DEFAULT_CYLINDERS_FREQUENCY;
+public class Cache extends Module {
+    // The cached output value at the cached input value.
+    private double cachedValue;
+    // Determines if a cached output value is stored in this noise
+    // module.
+    private boolean isCached = false;
+    // @a x coordinate of the cached input value.
+    private double xCache;
+    // @a y coordinate of the cached input value.
+    private double yCache;
+    // @a z coordinate of the cached input value.
+    private double zCache;
 
-    public Cylinders() {
-        super(0);
-    }
-
-    public double getFrequency() {
-        return frequency;
-    }
-
-    public void setFrequency(double frequency) {
-        this.frequency = frequency;
+    public Cache() {
+        super(1);
     }
 
     @Override
     public int getSourceModuleCount() {
-        return 0;
+        return 1;
+    }
+
+    @Override
+    public void setSourceModule(int index, Module sourceModule) {
+        super.setSourceModule(index, sourceModule);
+        isCached = false;
     }
 
     @Override
     public double getValue(double x, double y, double z) {
-        double z1 = z;
-        double x1 = x;
-        x1 *= frequency;
-        z1 *= frequency;
+        if (sourceModule[0] == null) {
+            throw new NoModuleException();
+        }
 
-        double distFromCenter = Math.sqrt(x1 * x1 + z1 * z1);
-        double distFromSmallerSphere = distFromCenter - GenericMath.floor(distFromCenter);
-        double distFromLargerSphere = 1.0 - distFromSmallerSphere;
-        double nearestDist = Math.min(distFromSmallerSphere, distFromLargerSphere);
-        return 1.0 - (nearestDist * 4.0); // Puts it in the -1.0 to +1.0 range.
+        if (!(isCached && x == xCache && y == yCache && z == zCache)) {
+            cachedValue = sourceModule[0].getValue(x, y, z);
+            xCache = x;
+            yCache = y;
+            zCache = z;
+        }
+        isCached = true;
+        return cachedValue;
     }
 }

@@ -23,7 +23,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.royawesome.jlibnoise.module.source;
+package net.royawesome.jlibnoise.module.generator;
 
 import net.royawesome.jlibnoise.util.Noise;
 import net.royawesome.jlibnoise.util.NoiseQuality;
