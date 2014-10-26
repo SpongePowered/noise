@@ -27,7 +27,7 @@ package net.royawesome.jlibnoise.module.source;
 
 import com.flowpowered.math.GenericMath;
 
-import net.royawesome.jlibnoise.Utils;
+import net.royawesome.jlibnoise.util.MathUtils;
 import net.royawesome.jlibnoise.module.Module;
 
 public class Checkerboard extends Module {
@@ -43,9 +43,9 @@ public class Checkerboard extends Module {
 
     @Override
     public double getValue(double x, double y, double z) {
-        int ix = GenericMath.floor(Utils.makeInt32Range(x));
-        int iy = GenericMath.floor(Utils.makeInt32Range(y));
-        int iz = GenericMath.floor(Utils.makeInt32Range(z));
+        int ix = GenericMath.floor(MathUtils.makeInt32Range(x));
+        int iy = GenericMath.floor(MathUtils.makeInt32Range(y));
+        int iz = GenericMath.floor(MathUtils.makeInt32Range(z));
         return ((ix & 1 ^ iy & 1 ^ iz & 1) != 0) ? -1.0 : 1.0;
     }
 }

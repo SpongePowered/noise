@@ -30,7 +30,7 @@ import java.util.List;
 
 import com.flowpowered.math.GenericMath;
 
-import net.royawesome.jlibnoise.Utils;
+import net.royawesome.jlibnoise.util.MathUtils;
 import net.royawesome.jlibnoise.exception.NoModuleException;
 import net.royawesome.jlibnoise.module.Module;
 
@@ -124,7 +124,7 @@ public class Curve extends Module {
         double alpha = (sourceModuleValue - input0) / (input1 - input0);
 
         // Now perform the cubic interpolation given the alpha value.
-        return Utils.cubicInterp(controlPoints.get(index0).outputValue, controlPoints.get(index1).outputValue, controlPoints.get(index2).outputValue, controlPoints.get(index3).outputValue, alpha);
+        return MathUtils.cubicInterp(controlPoints.get(index0).outputValue, controlPoints.get(index1).outputValue, controlPoints.get(index2).outputValue, controlPoints.get(index3).outputValue, alpha);
     }
 
     public static class ControlPoint {

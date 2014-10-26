@@ -25,9 +25,9 @@
  */
 package net.royawesome.jlibnoise.module.source;
 
-import net.royawesome.jlibnoise.Noise;
-import net.royawesome.jlibnoise.NoiseQuality;
-import net.royawesome.jlibnoise.Utils;
+import net.royawesome.jlibnoise.util.Noise;
+import net.royawesome.jlibnoise.util.NoiseQuality;
+import net.royawesome.jlibnoise.util.MathUtils;
 import net.royawesome.jlibnoise.module.Module;
 
 public class Perlin extends Module {
@@ -138,9 +138,9 @@ public class Perlin extends Module {
 
             // Make sure that these floating-point values have the same range as a 32-
             // bit integer so that we can pass them to the coherent-noise functions.
-            nx = Utils.makeInt32Range(x1);
-            ny = Utils.makeInt32Range(y1);
-            nz = Utils.makeInt32Range(z1);
+            nx = MathUtils.makeInt32Range(x1);
+            ny = MathUtils.makeInt32Range(y1);
+            nz = MathUtils.makeInt32Range(z1);
 
             // Get the coherent-noise value from the input value and add it to the
             // final result.

@@ -27,7 +27,7 @@ package net.royawesome.jlibnoise.module.modifier;
 
 import com.flowpowered.math.GenericMath;
 
-import net.royawesome.jlibnoise.Utils;
+import net.royawesome.jlibnoise.util.MathUtils;
 import net.royawesome.jlibnoise.exception.NoModuleException;
 import net.royawesome.jlibnoise.module.Module;
 
@@ -174,6 +174,6 @@ public class Terrace extends Module {
         alpha *= alpha;
 
         // Now perform the linear interpolation given the alpha value.
-        return Utils.linearInterp(value0, value1, alpha);
+        return MathUtils.linearInterp(value0, value1, alpha);
     }
 }

@@ -23,7 +23,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.royawesome.jlibnoise;
+package net.royawesome.jlibnoise.util;
 
 public final class Noise {
     private static final int X_NOISE_GEN = 1619;
@@ -71,14 +71,14 @@ public final class Noise {
             ys = (y - (double) y0);
             zs = (z - (double) z0);
         } else if (quality == NoiseQuality.STANDARD) {
-            xs = Utils.sCurve3(x - (double) x0);
-            ys = Utils.sCurve3(y - (double) y0);
-            zs = Utils.sCurve3(z - (double) z0);
+            xs = MathUtils.sCurve3(x - (double) x0);
+            ys = MathUtils.sCurve3(y - (double) y0);
+            zs = MathUtils.sCurve3(z - (double) z0);
         } else {
 
-            xs = Utils.sCurve5(x - (double) x0);
-            ys = Utils.sCurve5(y - (double) y0);
-            zs = Utils.sCurve5(z - (double) z0);
+            xs = MathUtils.sCurve5(x - (double) x0);
+            ys = MathUtils.sCurve5(y - (double) y0);
+            zs = MathUtils.sCurve5(z - (double) z0);
         }
 
         // Now calculate the noise values at each vertex of the cube.  To generate
@@ -88,20 +88,20 @@ public final class Noise {
         double n0, n1, ix0, ix1, iy0, iy1;
         n0 = gradientNoise3D(x, y, z, x0, y0, z0, seed);
         n1 = gradientNoise3D(x, y, z, x1, y0, z0, seed);
-        ix0 = Utils.linearInterp(n0, n1, xs);
+        ix0 = MathUtils.linearInterp(n0, n1, xs);
 
         n0 = gradientNoise3D(x, y, z, x0, y1, z0, seed);
         n1 = gradientNoise3D(x, y, z, x1, y1, z0, seed);
-        ix1 = Utils.linearInterp(n0, n1, xs);
-        iy0 = Utils.linearInterp(ix0, ix1, ys);
+        ix1 = MathUtils.linearInterp(n0, n1, xs);
+        iy0 = MathUtils.linearInterp(ix0, ix1, ys);
         n0 = gradientNoise3D(x, y, z, x0, y0, z1, seed);
         n1 = gradientNoise3D(x, y, z, x1, y0, z1, seed);
-        ix0 = Utils.linearInterp(n0, n1, xs);
+        ix0 = MathUtils.linearInterp(n0, n1, xs);
         n0 = gradientNoise3D(x, y, z, x0, y1, z1, seed);
         n1 = gradientNoise3D(x, y, z, x1, y1, z1, seed);
-        ix1 = Utils.linearInterp(n0, n1, xs);
-        iy1 = Utils.linearInterp(ix0, ix1, ys);
-        return Utils.linearInterp(iy0, iy1, zs);
+        ix1 = MathUtils.linearInterp(n0, n1, xs);
+        iy1 = MathUtils.linearInterp(ix0, ix1, ys);
+        return MathUtils.linearInterp(iy0, iy1, zs);
     }
 
     /**
@@ -138,9 +138,9 @@ public final class Noise {
         vectorIndex ^= (vectorIndex >> SHIFT_NOISE_GEN);
         vectorIndex &= 0xff;
 
-        double xvGradient = Utils.randomVectors[(vectorIndex << 2)];
-        double yvGradient = Utils.randomVectors[(vectorIndex << 2) + 1];
-        double zvGradient = Utils.randomVectors[(vectorIndex << 2) + 2];
+        double xvGradient = MathUtils.RANDOM_VECTORS[(vectorIndex << 2)];
+        double yvGradient = MathUtils.RANDOM_VECTORS[(vectorIndex << 2) + 1];
+        double zvGradient = MathUtils.RANDOM_VECTORS[(vectorIndex << 2) + 2];
 
         // Set up us another vector equal to the distance between the two vectors
         // passed to this function.
@@ -207,14 +207,14 @@ public final class Noise {
             ys = (y - y0);
             zs = (z - z0);
         } else if (quality == NoiseQuality.STANDARD) {
-            xs = Utils.sCurve3(x - x0);
-            ys = Utils.sCurve3(y - y0);
-            zs = Utils.sCurve3(z - z0);
+            xs = MathUtils.sCurve3(x - x0);
+            ys = MathUtils.sCurve3(y - y0);
+            zs = MathUtils.sCurve3(z - z0);
         } else {
 
-            xs = Utils.sCurve5(x - x0);
-            ys = Utils.sCurve5(y - y0);
-            zs = Utils.sCurve5(z - z0);
+            xs = MathUtils.sCurve5(x - x0);
+            ys = MathUtils.sCurve5(y - y0);
+            zs = MathUtils.sCurve5(z - z0);
         }
 
         // Now calculate the noise values at each vertex of the cube.  To generate
@@ -224,19 +224,19 @@ public final class Noise {
         double n0, n1, ix0, ix1, iy0, iy1;
         n0 = valueNoise3D(x0, y0, z0, seed);
         n1 = valueNoise3D(x1, y0, z0, seed);
-        ix0 = Utils.linearInterp(n0, n1, xs);
+        ix0 = MathUtils.linearInterp(n0, n1, xs);
         n0 = valueNoise3D(x0, y1, z0, seed);
         n1 = valueNoise3D(x1, y1, z0, seed);
-        ix1 = Utils.linearInterp(n0, n1, xs);
-        iy0 = Utils.linearInterp(ix0, ix1, ys);
+        ix1 = MathUtils.linearInterp(n0, n1, xs);
+        iy0 = MathUtils.linearInterp(ix0, ix1, ys);
         n0 = valueNoise3D(x0, y0, z1, seed);
         n1 = valueNoise3D(x1, y0, z1, seed);
-        ix0 = Utils.linearInterp(n0, n1, xs);
+        ix0 = MathUtils.linearInterp(n0, n1, xs);
         n0 = valueNoise3D(x0, y1, z1, seed);
         n1 = valueNoise3D(x1, y1, z1, seed);
-        ix1 = Utils.linearInterp(n0, n1, xs);
-        iy1 = Utils.linearInterp(ix0, ix1, ys);
-        return Utils.linearInterp(iy0, iy1, zs);
+        ix1 = MathUtils.linearInterp(n0, n1, xs);
+        iy1 = MathUtils.linearInterp(ix0, ix1, ys);
+        return MathUtils.linearInterp(iy0, iy1, zs);
     }
 
     /**

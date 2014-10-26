@@ -25,7 +25,7 @@
  */
 package net.royawesome.jlibnoise.module.combiner;
 
-import net.royawesome.jlibnoise.Utils;
+import net.royawesome.jlibnoise.util.MathUtils;
 import net.royawesome.jlibnoise.exception.NoModuleException;
 import net.royawesome.jlibnoise.module.Module;
 
@@ -121,8 +121,8 @@ public class Select extends Module {
                 // the output values from the first and second source modules.
                 double lowerCurve = (lowerBound - edgeFalloff);
                 double upperCurve = (lowerBound + edgeFalloff);
-                alpha = Utils.sCurve3((controlValue - lowerCurve) / (upperCurve - lowerCurve));
-                return Utils.linearInterp(sourceModule[0].getValue(x, y, z), sourceModule[1].getValue(x, y, z), alpha);
+                alpha = MathUtils.sCurve3((controlValue - lowerCurve) / (upperCurve - lowerCurve));
+                return MathUtils.linearInterp(sourceModule[0].getValue(x, y, z), sourceModule[1].getValue(x, y, z), alpha);
             } else if (controlValue < (upperBound - edgeFalloff)) {
                 // The output value from the control module is within the selector
                 // threshold; return the output value from the second source module.
@@ -133,8 +133,8 @@ public class Select extends Module {
                 // the output values from the first and second source modules.
                 double lowerCurve = (upperBound - edgeFalloff);
                 double upperCurve = (upperBound + edgeFalloff);
-                alpha = Utils.sCurve3((controlValue - lowerCurve) / (upperCurve - lowerCurve));
-                return Utils.linearInterp(sourceModule[1].getValue(x, y, z), sourceModule[0].getValue(x, y, z), alpha);
+                alpha = MathUtils.sCurve3((controlValue - lowerCurve) / (upperCurve - lowerCurve));
+                return MathUtils.linearInterp(sourceModule[1].getValue(x, y, z), sourceModule[0].getValue(x, y, z), alpha);
             } else {
                 // Output value from the control module is above the selector threshold;
                 // return the output value from the first source module.

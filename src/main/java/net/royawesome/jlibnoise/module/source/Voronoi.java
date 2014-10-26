@@ -27,7 +27,7 @@ package net.royawesome.jlibnoise.module.source;
 
 import com.flowpowered.math.GenericMath;
 
-import net.royawesome.jlibnoise.Noise;
+import net.royawesome.jlibnoise.util.Noise;
 import net.royawesome.jlibnoise.module.Module;
 
 public class Voronoi extends Module {

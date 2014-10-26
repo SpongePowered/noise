@@ -25,7 +25,7 @@
  */
 package net.royawesome.jlibnoise.model;
 
-import net.royawesome.jlibnoise.Utils;
+import net.royawesome.jlibnoise.util.MathUtils;
 import net.royawesome.jlibnoise.exception.NoModuleException;
 import net.royawesome.jlibnoise.module.Module;
 
@@ -79,7 +79,7 @@ public class Sphere {
         if (module == null) {
             throw new NoModuleException();
         }
-        double[] vec = Utils.latLonToXYZ(lat, lon);
+        double[] vec = MathUtils.latLonToXYZ(lat, lon);
         return module.getValue(vec[0], vec[1], vec[2]);
     }
 }

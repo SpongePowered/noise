@@ -25,7 +25,7 @@
  */
 package net.royawesome.jlibnoise.module.combiner;
 
-import net.royawesome.jlibnoise.Utils;
+import net.royawesome.jlibnoise.util.MathUtils;
 import net.royawesome.jlibnoise.exception.NoModuleException;
 import net.royawesome.jlibnoise.module.Module;
 
@@ -68,6 +68,6 @@ public class Blend extends Module {
         double v0 = sourceModule[0].getValue(x, y, z);
         double v1 = sourceModule[1].getValue(x, y, z);
         double alpha = (sourceModule[2].getValue(x, y, z) + 1.0) / 2.0;
-        return Utils.linearInterp(v0, v1, alpha);
+        return MathUtils.linearInterp(v0, v1, alpha);
     }
 }
