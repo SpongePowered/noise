@@ -11,3 +11,4 @@ if ! echo $NEW_VERSION | grep -i -- '-SNAPSHOT' >/dev/null; then echo "WARNING: 
 
 echo "Updating the project version in build.gradle, pom.xml and README.md to $NEW_VERSION"
 sed -ri "s/"`echo $CURRENT_VERSION | sed 's/\./\\\\./g'`"/$NEW_VERSION/g" build.gradle pom.xml README.md || die_with "Failed to update the project version!"
+chmod 644 build.gradle pom.xml README.md
