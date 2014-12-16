@@ -1,4 +1,4 @@
-# Flow Noise [![License](http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)][License] [![Flattr this](http://img.shields.io/badge/flattr-donate-lightgrey.svg?style=flat)][Donate] [![Build Status](http://img.shields.io/travis/flow/noise/master.svg?style=flat)](https://travis-ci.org/flow/noise) [![Coverage Status](http://img.shields.io/coveralls/flow/noise/master.svg?style=flat)](https://coveralls.io/r/flow/noise)
+# Flow Noise [![License](http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)][License] [![Flattr this](http://img.shields.io/badge/flattr-donate-lightgrey.svg?style=flat)][Donate] [![Build Status](http://img.shields.io/travis/flow/noise/develop.svg?style=flat)](https://travis-ci.org/flow/noise) [![Coverage Status](http://img.shields.io/coveralls/flow/noise/develop.svg?style=flat)](https://coveralls.io/r/flow/noise)
 
 Noise generation library for Java, based on the [libnoise](http://libnoise.sourceforge.net/) C++ library. It is used to generate coherent noise, a type of smoothly-changing noise. It can also generate Perlin noise, ridged multifractal noise, and other types of coherent noise.
 
@@ -13,7 +13,7 @@ The latest and greatest source can be found here on [GitHub](https://github.com/
 
     git clone git://github.com/flow/noise.git
 
-Or download the [latest zip archive](https://github.com/flow/noise/archive/master.zip).
+Or download the latest [development archive](https://github.com/flow/noise/archive/develop.zip) or the latest [stable archive](https://github.com/flow/noise/archive/master.zip).
 
 ## Building from Source
 This project can be built with the _latest_ [Java Development Kit](http://oracle.com/technetwork/java/javase/downloads) and [Maven](https://maven.apache.org/) or [Gradle](https://www.gradle.org/). Maven and Gradle are used to simplify dependency management, but using either of them is optional.
