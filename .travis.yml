@@ -1,23 +1,39 @@
 # Source language and JDK version to use
 language: java
-jdk: oraclejdk7
+jdk: oraclejdk8
 
-# Compile and package JAR and set build properties
-install: mvn package -DbuildNumber=$TRAVIS_BUILD_NUMBER -DciSystem=travis -Dcommit=${TRAVIS_COMMIT:0:7}
+# Pre-install Maven dependencies
+install: mvn dependency:go-offline
 
-# Perform steps after compilation/test success
+# Compile and test source
+script: mvn clean -DbuildNumber=$TRAVIS_BUILD_NUMBER -DciSystem=travis -Dcommit=${TRAVIS_COMMIT:0:7}
+
+# Fetch resources, run deployment goal/task, and generate Javadocs and reports
 after_success:
-  # Get files for use with build, namely the custom Maven settings.xml
-  - "git clone https://github.com/flow/travis-ci-resources.git target/travis"
-  # Check if commit is not a pull request, if repo is official, and branch is master, generate and deploy artifacts and reports
-  - "[[ $TRAVIS_PULL_REQUEST == false ]] && [[ $TRAVIS_REPO_SLUG == flow/flow-noise ]] && [[ $TRAVIS_BRANCH == master ]] && mvn javadoc:jar source:jar cobertura:cobertura coveralls:cobertura -DserviceJobId=$TRAVIS_JOB_ID deploy --settings target/travis/settings.xml"
+  # Get files for use with build, namely the custom Maven settings.xml and scripts
+  - "git clone https://github.com/flow/travis-ci-resources.git $HOME/build/flow/travis"
+  # DEVELOP: Check if commit is not a pull request, if repo is official, if branch is not master; then deploy artifacts
+  - "[[ $TRAVIS_PULL_REQUEST == false ]] && [[ $TRAVIS_REPO_SLUG == flow/noise ]] && [[ $TRAVIS_BRANCH == develop ]] && mvn deploy --settings $HOME/build/flow/travis/settings.xml"
+  # RELEASE: Check if commit is not a pull request, if repo is official, if branch is master; then run deployment script
+  - "[[ $TRAVIS_PULL_REQUEST == false ]] && [[ $TRAVIS_REPO_SLUG == flow/noise ]] && [[ $TRAVIS_BRANCH == master ]] && $HOME/build/flow/travis/deploy.sh && $HOME/build/flow/travis/gh-pages.sh"
+  # Generate Javadocs and report for Coveralls.io
+  - "mvn javadoc:javadoc cobertura:cobertura coveralls:report -DserviceJobId=$TRAVIS_JOB_ID"
+
+# RELEASE: Deploy main JAR to GitHub Releases
+deploy:
+  provider: releases
+  api-key: $GITHUB_TOKEN
+  file: "target/flow-noise-`cat version.txt`.jar"
+  skip_cleanup: true
+  on:
+    branch: master
 
 # Notification services
 notifications:
   # Disable build status email notifications, until the issue with forks is fixed
   email: false
   webhooks:
-    # Send build information and status to Notifico.
+    # Send build information and status to Notifico
     - http://n.tkte.ch/h/2040/i0jL-KG6oPfQS7zU3Gu2HpJU
 
 # Environmental system variables
@@ -26,5 +42,7 @@ env:
     # Make the log output cleaner
     - TERM=dumb
     # Super secure, encrypted variables! Ssssh!
-    - secure: "u9VCe4d8N1r/WYGzOaLAYy/ACzUJNiG0YGmyJfSXRUPcK3eTcorxDVDzofjqdlf8Q3v5SCeqO4YmFtMo0CN51Dd0iEFeEROm3uSlEkQ7QHbOpro8+nDt/I1UKSxXMzUS3Rp24gOtjLwTrqwXJ/Z27Ll9OOuMznnw0lXgNxRYcA0="
-    - secure: "lOVAHwPlVQiy5Idd6whhKlxWvVJxEhs+hwqEaeKIzvwpRP0w38JOXAl5CSZOj8HwH8lPCARbTKO2iOZzqXiMpgmNNiAiMOPGKOyZJmLehcC4oed53CyW2g5qp2XJtKMRxlxh19EwdLtdsU38vF0Ww31gruIPbAe1C07uUGoaH0E="
+    - secure: "DNC0P5UKXeF1PGJfpUnxlVADsjGJNzEkKXDSkdZso+18U5DbNYp6HCX6LNm5Bm5Ya5EKxmIRW0PWr1vKD4wkjzwqsPyRNTjQpTBPFtynttLk+ZRn7xqw8RGorvLMfyo24tn8zce4+EvGOT7cXfK5M5BxpWAtNB+GTK4FrhVhfHk="
+    - secure: "qG/XwLh0eq4kk6/k/kcopMxAuyctuz8j+nVmEToW/kDpnBzIaBuh4PZj+gOqvGzSvVj/YhkA2euY50Em/S1UbCQ6g3Ux2Db7WHt3/z1M637wpoDCZgxvyd27rx61nSM1mgvu+EYanMPDojhenxXnIq55iXgmyFlJV0mlaEEjHUU="
+    - secure: "NoOm7McVyGArWcOIm4T/u0xRn76W1cgvHQivlNk5+DeZJAnui05QMfbQFGQKNJfpmQYpd1a+1cvhmPAJOS8WQKux9PHNAwGkrxpP8aCpPk/VVNV5d2untQ5ddvKHh5Q1pL5+wymjwBz0DG7KgMSLxH0Lk1gE8Unq6q9nHW+EZbA="
+    - secure: "Gp6YWbX1fZIkynB+TA8NgfsubKP+U7t5UnsA+XmA2aLvv5srkqenNLmazOSqNFwueTeNbZGO5/SIFFdZoOv4Yn5a3x3Pbe7WpUz90WK6RaDB7wQvMx0JCEb1NnmPR/at4vchGO3hNVEetvnkg3TaUxbqlVAD/cmkp5Wi3vcm6JE="
