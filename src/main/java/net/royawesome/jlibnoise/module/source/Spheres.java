@@ -25,8 +25,7 @@
  */
 package net.royawesome.jlibnoise.module.source;
 
-import com.flowpowered.math.GenericMath;
-
+import net.royawesome.jlibnoise.Utils;
 import net.royawesome.jlibnoise.module.Module;
 
 public class Spheres extends Module {
@@ -62,7 +61,7 @@ public class Spheres extends Module {
         z1 *= frequency;
 
         double distFromCenter = Math.sqrt(x1 * x1 + y1 * y1 + z1 * z1);
-        double distFromSmallerSphere = distFromCenter - GenericMath.floor(distFromCenter);
+        double distFromSmallerSphere = distFromCenter - Utils.floor(distFromCenter);
         double distFromLargerSphere = 1.0 - distFromSmallerSphere;
         double nearestDist = Math.min(distFromSmallerSphere, distFromLargerSphere);
         return 1.0 - (nearestDist * 4.0); // Puts it in the -1.0 to +1.0 range.

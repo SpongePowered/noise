@@ -25,6 +25,6 @@
  */
 package net.royawesome.jlibnoise.exception;
 
-@SuppressWarnings ("serial")
+@SuppressWarnings("serial")
 public class NoiseException extends RuntimeException {
 }

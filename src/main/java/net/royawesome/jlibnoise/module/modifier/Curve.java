@@ -28,8 +28,6 @@ package net.royawesome.jlibnoise.module.modifier;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.flowpowered.math.GenericMath;
-
 import net.royawesome.jlibnoise.Utils;
 import net.royawesome.jlibnoise.exception.NoModuleException;
 import net.royawesome.jlibnoise.module.Module;
@@ -105,10 +103,10 @@ public class Curve extends Module {
 
         // Find the four nearest control points so that we can perform cubic
         // interpolation.
-        int index0 = GenericMath.clamp(indexPos - 2, 0, controlPoints.size() - 1);
-        int index1 = GenericMath.clamp(indexPos - 1, 0, controlPoints.size() - 1);
-        int index2 = GenericMath.clamp(indexPos, 0, controlPoints.size() - 1);
-        int index3 = GenericMath.clamp(indexPos + 1, 0, controlPoints.size() - 1);
+        int index0 = Utils.clamp(indexPos - 2, 0, controlPoints.size() - 1);
+        int index1 = Utils.clamp(indexPos - 1, 0, controlPoints.size() - 1);
+        int index2 = Utils.clamp(indexPos, 0, controlPoints.size() - 1);
+        int index3 = Utils.clamp(indexPos + 1, 0, controlPoints.size() - 1);
 
         // If some control points are missing (which occurs if the value from the
         // source module is greater than the largest input value or less than the

@@ -25,8 +25,6 @@
  */
 package net.royawesome.jlibnoise;
 
-import com.flowpowered.math.TrigMath;
-
 public final class Utils {
     private Utils() {
     }
@@ -85,10 +83,10 @@ public final class Utils {
     }
 
     public static double[] latLonToXYZ(double latitude, double longitude) {
-        double r = TrigMath.cos(Math.toRadians(latitude));
-        double x = r * TrigMath.cos(Math.toRadians(longitude));
-        double y = TrigMath.sin(Math.toRadians(latitude));
-        double z = r * TrigMath.sin(Math.toRadians(longitude));
+        double r = Math.cos(Math.toRadians(latitude));
+        double x = r * Math.cos(Math.toRadians(longitude));
+        double y = Math.sin(Math.toRadians(latitude));
+        double z = r * Math.sin(Math.toRadians(longitude));
         return new double[]{x, y, z};
     }
 
@@ -114,6 +112,38 @@ public final class Utils {
         } else {
             return n;
         }
+    }
+
+    /**
+     * Clamps the value between the low and high boundaries
+     *
+     * @param value The value to clamp
+     * @param low The low bound of the clamp
+     * @param high The high bound of the clamp
+     * @return the clamped value
+     */
+    public static int clamp(int value, int low, int high) {
+        if (value < low) {
+            return low;
+        }
+        if (value > high) {
+            return high;
+        }
+        return value;
+    }
+
+    /**
+     * Rounds x down to the closest integer
+     *
+     * @param x The value to floor
+     * @return The closest integer
+     */
+    public static int floor(double x) {
+        int y = (int) x;
+        if (x < y) {
+            return y - 1;
+        }
+        return y;
     }
 
     /**

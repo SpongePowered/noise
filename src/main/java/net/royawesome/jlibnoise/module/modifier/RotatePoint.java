@@ -25,8 +25,6 @@
  */
 package net.royawesome.jlibnoise.module.modifier;
 
-import com.flowpowered.math.TrigMath;
-
 import net.royawesome.jlibnoise.exception.NoModuleException;
 import net.royawesome.jlibnoise.module.Module;
 
@@ -78,12 +76,12 @@ public class RotatePoint extends Module {
 
     public void setAngles(double x, double y, double z) {
         double xCos, yCos, zCos, xSin, ySin, zSin;
-        xCos = TrigMath.cos(x * TrigMath.DEG_TO_RAD);
-        yCos = TrigMath.cos(y * TrigMath.DEG_TO_RAD);
-        zCos = TrigMath.cos(z * TrigMath.DEG_TO_RAD);
-        xSin = TrigMath.sin(x * TrigMath.DEG_TO_RAD);
-        ySin = TrigMath.sin(y * TrigMath.DEG_TO_RAD);
-        zSin = TrigMath.sin(z * TrigMath.DEG_TO_RAD);
+        xCos = Math.cos(Math.toRadians(x));
+        yCos = Math.cos(Math.toRadians(y));
+        zCos = Math.cos(Math.toRadians(z));
+        xSin = Math.sin(Math.toRadians(x));
+        ySin = Math.sin(Math.toRadians(y));
+        zSin = Math.sin(Math.toRadians(z));
 
         x1Matrix = ySin * xSin * zSin + yCos * zCos;
         y1Matrix = xCos * zSin;

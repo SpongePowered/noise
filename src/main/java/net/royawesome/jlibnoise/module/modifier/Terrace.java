@@ -25,8 +25,6 @@
  */
 package net.royawesome.jlibnoise.module.modifier;
 
-import com.flowpowered.math.GenericMath;
-
 import net.royawesome.jlibnoise.Utils;
 import net.royawesome.jlibnoise.exception.NoModuleException;
 import net.royawesome.jlibnoise.module.Module;
@@ -148,8 +146,8 @@ public class Terrace extends Module {
 
         // Find the two nearest control points so that we can map their values
         // onto a quadratic curve.
-        int index0 = GenericMath.clamp(indexPos - 1, 0, controlPointCount - 1);
-        int index1 = GenericMath.clamp(indexPos, 0, controlPointCount - 1);
+        int index0 = Utils.clamp(indexPos - 1, 0, controlPointCount - 1);
+        int index1 = Utils.clamp(indexPos, 0, controlPointCount - 1);
 
         // If some control points are missing (which occurs if the output value from
         // the source module is greater than the largest value or less than the

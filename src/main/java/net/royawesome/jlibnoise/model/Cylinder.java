@@ -25,8 +25,6 @@
  */
 package net.royawesome.jlibnoise.model;
 
-import com.flowpowered.math.TrigMath;
-
 import net.royawesome.jlibnoise.exception.NoModuleException;
 import net.royawesome.jlibnoise.module.Module;
 
@@ -79,9 +77,9 @@ public class Cylinder {
         }
 
         double x, y, z;
-        x = TrigMath.cos(angle * TrigMath.DEG_TO_RAD);
+        x = Math.cos(Math.toRadians(angle));
         y = height;
-        z = TrigMath.sin(angle * TrigMath.DEG_TO_RAD);
+        z = Math.sin(Math.toRadians(angle));
         return module.getValue(x, y, z);
     }
 }

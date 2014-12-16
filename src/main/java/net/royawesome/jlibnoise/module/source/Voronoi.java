@@ -25,9 +25,8 @@
  */
 package net.royawesome.jlibnoise.module.source;
 
-import com.flowpowered.math.GenericMath;
-
 import net.royawesome.jlibnoise.Noise;
+import net.royawesome.jlibnoise.Utils;
 import net.royawesome.jlibnoise.module.Module;
 
 public class Voronoi extends Module {
@@ -155,6 +154,6 @@ public class Voronoi extends Module {
         }
 
         // Return the calculated distance with the displacement value applied.
-        return value + (displacement * Noise.valueNoise3D(GenericMath.floor(xCandidate), GenericMath.floor(yCandidate), GenericMath.floor(zCandidate), seed));
+        return value + (displacement * Noise.valueNoise3D(Utils.floor(xCandidate), Utils.floor(yCandidate), Utils.floor(zCandidate), seed));
     }
 }
