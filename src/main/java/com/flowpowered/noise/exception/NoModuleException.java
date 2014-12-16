@@ -1,7 +1,7 @@
 /*
  * This file is part of Flow Noise, licensed under the MIT License (MIT).
  *
- * Copyright (c) 2013 Spout LLC <http://www.spout.org/>
+ * Copyright (c) 2013 Flow Powered <https://flowpowered.com/>
  * Original libnoise in C++ by Jason Bevins <http://libnoise.sourceforge.net/>
  * jlibnoise Java port by Garrett Fleenor <https://github.com/RoyAwesome/jlibnoise>
  *
