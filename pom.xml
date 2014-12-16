@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <!-- Project information -->
@@ -8,14 +9,14 @@
     <version>0.1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <inceptionYear>2013</inceptionYear>
-    <url>http://flowpowered.com</url>
-    <description>Java port of the libnoise coherent noise-generating library for the Flow collection.</description>
+    <url>https://flowpowered.com</url>
+    <description>Noise generation library for Java, based on the libnoise C++ library.</description>
 
     <!-- Parent information -->
     <parent>
         <groupId>org.sonatype.oss</groupId>
         <artifactId>oss-parent</artifactId>
-        <version>7</version>
+        <version>9</version>
     </parent>
 
     <!-- Build properties -->
@@ -24,29 +25,40 @@
         <buildNumber>0</buildNumber>
         <ciSystem>unknown</ciSystem>
         <commit>unknown</commit>
+        <additionalparam>-Xdoclint:none</additionalparam>
     </properties>
 
     <!-- License information -->
     <licenses>
         <license>
             <name>MIT License</name>
-            <url>http://www.tldrlegal.com/license/mit-license</url>
+            <url>https://tldrlegal.com/l/mit</url>
             <distribution>repo</distribution>
         </license>
     </licenses>
 
     <!-- Organization information -->
     <organization>
-        <name>Spout LLC</name>
-        <url>http://www.spout.org</url>
+        <name>Flow Powered</name>
+        <url>https://flowpowered.com</url>
     </organization>
 
     <!-- Project developers -->
     <developers>
         <developer>
-            <id>RoyAwesome</id>
-            <name>Garrett Fleenor</name>
-            <email>kylegar@kylegar.net</email>
+            <id>DDoS</id>
+            <name>Aleksi Sapon</name>
+            <email>qctechs@gmail.com</email>
+        </developer>
+        <developer>
+            <id>kitskub</id>
+            <name>Jack Huey</name>
+            <email>kitskub@gmail.com</email>
+        </developer>
+        <developer>
+            <id>Wolf480pl</id>
+            <name>Wolf480pl</name>
+            <email>wolf480@interia.pl</email>
         </developer>
         <developer>
             <id>Wulfspider</id>
@@ -57,54 +69,22 @@
 
     <!-- Source code access -->
     <scm>
-        <connection>scm:git:git://github.com/flow/flow-noise.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com:flow/flow-noise.git</developerConnection>
-        <url>https://github.com/flow/flow-noise</url>
+        <connection>scm:git:git://github.com/flow/noise.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com:flow/noise.git</developerConnection>
+        <url>https://github.com/flow/noise</url>
     </scm>
 
     <!-- Continuous integration -->
     <ciManagement>
         <system>travis</system>
-        <url>https://travis-ci.org/flow/flow-noise</url>
+        <url>https://travis-ci.org/flow/noise</url>
     </ciManagement>
 
     <!-- Issue management -->
     <issueManagement>
         <system>github</system>
-        <url>https://github.com/flow/flow-noise/issues</url>
+        <url>https://github.com/flow/noise/issues</url>
     </issueManagement>
-
-    <!-- Dependency repositories -->
-    <repositories>
-        <repository>
-            <id>sonatype-nexus-releases</id>
-            <url>https://oss.sonatype.org/content/repositories/releases</url>
-        </repository>
-        <repository>
-            <id>sonatype-nexus-snapshots</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
-            </snapshots>
-        </repository>
-    </repositories>
-
-    <!-- Build plugin repositories -->
-    <pluginRepositories>
-        <pluginRepository>
-            <id>sonatype-nexus-releases</id>
-            <url>https://oss.sonatype.org/content/repositories/releases</url>
-        </pluginRepository>
-        <pluginRepository>
-            <id>sonatype-nexus-snapshots</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
-            </snapshots>
-        </pluginRepository>
-    </pluginRepositories>
 
     <!-- Build configuration -->
     <build>
@@ -166,7 +146,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
+                <version>3.2</version>
                 <configuration>
                     <source>1.7</source>
                     <target>1.7</target>
@@ -182,22 +162,32 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>2.4</version>
+                <version>2.5</version>
                 <configuration>
                     <archive>
                         <manifestEntries>
                             <Specification-Title>${project.name}</Specification-Title>
                             <Specification-Version>${project.version}+${ciSystem}-b${buildNumber}.git-${commit}</Specification-Version>
-                            <Specification-Vendor>${project.organization.name}</Specification-Vendor>
+                            <Specification-Vendor>${project.organization.name} - ${project.organization.url}</Specification-Vendor>
                         </manifestEntries>
                     </archive>
+                </configuration>
+            </plugin>
+            <!-- Javadoc creation plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.10.1</version>
+                <configuration>
+                    <author>false</author>
+                    <version>false</version>
                 </configuration>
             </plugin>
             <!-- Coveralls reporting plugin  -->
             <plugin>
                 <groupId>org.eluder.coveralls</groupId>
                 <artifactId>coveralls-maven-plugin</artifactId>
-                <version>2.1.0</version>
+                <version>3.0.1</version>
             </plugin>
             <!-- Cobertura test coverage plugin -->
             <plugin>
