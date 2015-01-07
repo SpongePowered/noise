@@ -9,7 +9,7 @@
     <version>1.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <inceptionYear>2013</inceptionYear>
-    <url>https://flowpowered.com</url>
+    <url>https://flowpowered.com/noise</url>
     <description>Noise generation library for Java, based on the libnoise C++ library.</description>
 
     <!-- Parent information -->

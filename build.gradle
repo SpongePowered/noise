@@ -16,7 +16,7 @@ archivesBaseName = 'flow-noise'
 version = '1.0.1-SNAPSHOT'
 ext.packaging = 'jar'
 ext.inceptionYear = '2013'
-ext.url = 'https://flowpowered.com'
+ext.url = 'https://flowpowered.com/noise'
 ext.description = 'Noise generation library for Java, based on the libnoise C++ library.'
 
 // Organization information
