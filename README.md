@@ -1,6 +1,6 @@
 # Flow Noise [![License](http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)][License] [![Flattr this](http://img.shields.io/badge/flattr-donate-lightgrey.svg?style=flat)][Donate] [![Build Status](http://img.shields.io/travis/flow/noise/develop.svg?style=flat)](https://travis-ci.org/flow/noise) [![Coverage Status](http://img.shields.io/coveralls/flow/noise/develop.svg?style=flat)](https://coveralls.io/r/flow/noise)
 
-Noise generation library for Java, based on the [libnoise](http://libnoise.sourceforge.net/) C++ library. It is used to generate coherent noise, a type of smoothly-changing noise. It can also generate Perlin noise, ridged multifractal noise, and other types of coherent noise.
+Noise generation library for Java, based on the [libnoise](http://libnoise.sourceforge.net/) C++ library by Jason Bevins. It is used to generate coherent noise, a type of smoothly-changing noise. It can also generate Perlin noise, ridged multifractal noise, and other types of coherent noise.
 
 ## Getting Started
 * [Examples and code snippets](https://github.com/flow/examples/tree/master/noise)
@@ -73,7 +73,7 @@ The `master` branch is production-ready and contains the latest tagged releases.
 Flow Noise is licensed under the [MIT License][License]. Basically, you can do whatever you want as long as you include the original copyright. Please see the `LICENSE.txt` file for details.
 
 ## Credits
-* Jason Bevins and contributors for the original [libnoise](http://libnoise.sourceforge.net/) C++ library.
+* Jason Bevins and contributors of the original [libnoise](http://libnoise.sourceforge.net/) C++ library.
 * [Spout](https://spout.org/) and contributors - *where we all began, and for much of the re-licensed code.*
 * All the people behind [Java](http://www.oracle.com/technetwork/java/index.html), [Maven](https://maven.apache.org/), and [Gradle](https://www.gradle.org/).
 

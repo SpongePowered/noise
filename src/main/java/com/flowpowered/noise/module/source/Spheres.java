@@ -2,8 +2,9 @@
  * This file is part of Flow Noise, licensed under the MIT License (MIT).
  *
  * Copyright (c) 2013 Flow Powered <https://flowpowered.com/>
- * Original libnoise in C++ by Jason Bevins <http://libnoise.sourceforge.net/>
+ * Original libnoise C++ library by Jason Bevins <http://libnoise.sourceforge.net/>
  * jlibnoise Java port by Garrett Fleenor <https://github.com/RoyAwesome/jlibnoise>
+ * Flow Noise is re-licensed with permission from jlibnoise author.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
