@@ -24,33 +24,36 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.flowpowered.noise.module.source;
+package com.flowpowered.noise.module.modifier.transformer;
 
+import com.flowpowered.noise.module.modifier.Modifier;
 import com.flowpowered.noise.module.Module;
 
-public class Const extends Module {
-    public static final double DEFAULT_VALUE = 0;
-    private double value = DEFAULT_VALUE;
+public class Displace extends Modifier {
 
-    public Const() {
-        super(0);
-    }
+    private final Module displaceX;
+    private final Module displaceY;
+    private final Module displaceZ;
 
-    public double getValue() {
-        return value;
-    }
-
-    public void setValue(double value) {
-        this.value = value;
+    public Displace(Module source, Module displaceX, Module displaceY, Module displaceZ) {
+        super(source);
+        this.displaceX = displaceX;
+        this.displaceY = displaceY;
+        this.displaceZ = displaceZ;
     }
 
     @Override
-    public int getSourceModuleCount() {
-        return 0;
+    public double get(double x, double y, double z) {
+
+        // Get the output values from the three displacement modules.  Add each
+        // value to the corresponding coordinate in the input value.
+        double xDisplace = x + displaceX.get(x, y, z);
+        double yDisplace = y + displaceY.get(x, y, z);
+        double zDisplace = z + displaceZ.get(x, y, z);
+
+        // Retrieve the output value using the offset input value instead of
+        // the original input value.
+        return source.get(xDisplace, yDisplace, zDisplace);
     }
 
-    @Override
-    public double getValue(double x, double y, double z) {
-        return value;
-    }
 }

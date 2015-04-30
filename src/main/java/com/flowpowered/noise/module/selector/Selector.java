@@ -24,19 +24,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.flowpowered.noise.module.combiner;
+package com.flowpowered.noise.module.selector;
 
 import com.flowpowered.noise.module.Module;
+import com.flowpowered.noise.module.combiner.Combiner;
 
-public class Min extends Combiner {
+public abstract class Selector extends Combiner {
 
-    public Min(Module sourceA, Module sourceB) {
+    protected final Module control;
+
+    public Selector(Module control, Module sourceA, Module sourceB) {
         super(sourceA, sourceB);
+        this.control = control;
     }
 
-    @Override
-    public double get(double x, double y, double z) {
-        return Math.min(sourceA.get(x, y, z), sourceB.get(x, y, z));
+    public Module getControl() {
+        return control;
     }
 
 }

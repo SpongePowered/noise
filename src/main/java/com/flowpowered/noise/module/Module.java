@@ -26,44 +26,101 @@
  */
 package com.flowpowered.noise.module;
 
-import com.flowpowered.noise.exception.NoModuleException;
+import com.flowpowered.noise.module.combiner.*;
+import com.flowpowered.noise.module.misc.Cache;
+import com.flowpowered.noise.module.modifier.*;
+import com.flowpowered.noise.module.selector.*;
 
+import java.util.List;
+
+/**
+ * A Module is basically just a function from R^3 -> R
+ * (for the actual function, see {@link Module#get(double, double, double)}).
+ * In this way, one can consider the Module constructor to be a function that returns a module function.
+ * <br/>
+ * In addition to the get method, Module implements a whole bunch of fluent methods.
+ */
 public abstract class Module {
-    protected Module[] sourceModule;
 
-    public Module(int sourceModuleCount) {
-        sourceModule = null;
+    /**
+     * This is the module function, an abstract method that all modules must implement.
+     *
+     * @param x the x coordinate
+     * @param y the y coordinate
+     * @param z the z coordinate
+     * @return the value at x, y, z
+     */
+    public abstract double get(double x, double y, double z);
 
-        // Create an array of pointers to all source modules required by this
-        // noise module.  Set these pointers to NULL.
-        if (sourceModuleCount > 0) {
-            sourceModule = new Module[sourceModuleCount];
-            for (int i = 0; i < sourceModuleCount; i++) {
-                sourceModule[i] = null;
-            }
-        } else {
-            sourceModule = null;
-        }
+    // Combiner methods
+    public Add add(Module that) {
+        return new Add(this, that);
     }
 
-    public Module getSourceModule(int index) {
-        if (index >= getSourceModuleCount() || index < 0 || sourceModule[index] == null) {
-            throw new NoModuleException();
-        }
-        return (sourceModule[index]);
+    public Max max(Module that) {
+        return new Max(this, that);
     }
 
-    public void setSourceModule(int index, Module sourceModule) {
-        if (this.sourceModule == null) {
-            return;
-        }
-        if (index >= getSourceModuleCount() || index < 0) {
-            throw new IllegalArgumentException("Index must be between 0 and GetSourceMoudleCount()");
-        }
-        this.sourceModule[index] = sourceModule;
+    public Min min(Module that) {
+        return new Min(this, that);
     }
 
-    public abstract int getSourceModuleCount();
+    public Multiply multiply(Module that) {
+        return new Multiply(this, that);
+    }
 
-    public abstract double getValue(double x, double y, double z);
+    public Power power(Module that) {
+        return new Power(this, that);
+    }
+
+    // Misc methods
+    public Cache cache() {
+        return new Cache(this);
+    }
+
+    // Modifier methods
+    public Abs abs() {
+        return new Abs(this);
+    }
+
+    public Clamp clamp(double lowerBound, double upperBound) {
+        return new Clamp(this, lowerBound, upperBound);
+    }
+
+    public Curve curve(Curve.ControlPoint[] controlPoints) {
+        return new Curve(this, controlPoints);
+    }
+
+    public Curve curve(List<Curve.ControlPoint> controlPoints) {
+        return new Curve(this, controlPoints);
+    }
+
+    public Exponent exp(double exponent) {
+        return new Exponent(this, exponent);
+    }
+
+    public Invert invert() {
+        return new Invert(this);
+    }
+
+    public ScaleBias scaleBias(double bias, double scale) {
+        return new ScaleBias(this, scale, bias);
+    }
+
+    public Terrace terrace(double[] controlPoints, boolean invertTerraces) {
+        return new Terrace(this, controlPoints, invertTerraces);
+    }
+
+    // Transformer methods
+
+    // Selector methods
+
+    public Blend blendFrom(Module sourceA, Module sourceB) {
+        return new Blend(this, sourceA, sourceB);
+    }
+
+    public Select selectFrom(Module sourceA, Module sourceB, double edgeFalloff, double lowerBound, double upperBound) {
+        return new Select(this, sourceA, sourceB, edgeFalloff, lowerBound, upperBound);
+    }
+
 }

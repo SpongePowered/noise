@@ -24,43 +24,24 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.flowpowered.noise.module.source;
+package com.flowpowered.noise.module.selector;
 
 import com.flowpowered.noise.Utils;
+import com.flowpowered.noise.exception.NoModuleException;
 import com.flowpowered.noise.module.Module;
 
-public class Cylinders extends Module {
-    public static final double DEFAULT_CYLINDERS_FREQUENCY = 1.0;
-    private double frequency = DEFAULT_CYLINDERS_FREQUENCY;
+public class Blend extends Selector {
 
-    public Cylinders() {
-        super(0);
-    }
-
-    public double getFrequency() {
-        return frequency;
-    }
-
-    public void setFrequency(double frequency) {
-        this.frequency = frequency;
+    public Blend(Module control, Module sourceA, Module sourceB) {
+        super(control, sourceA, sourceB);
     }
 
     @Override
-    public int getSourceModuleCount() {
-        return 0;
+    public double get(double x, double y, double z) {
+        double v0 = sourceA.get(x, y, z);
+        double v1 = sourceB.get(x, y, z);
+        double alpha = (control.get(x, y, z) + 1.0) / 2.0;
+        return Utils.linearInterp(v0, v1, alpha);
     }
 
-    @Override
-    public double getValue(double x, double y, double z) {
-        double z1 = z;
-        double x1 = x;
-        x1 *= frequency;
-        z1 *= frequency;
-
-        double distFromCenter = Math.sqrt(x1 * x1 + z1 * z1);
-        double distFromSmallerSphere = distFromCenter - Utils.floor(distFromCenter);
-        double distFromLargerSphere = 1.0 - distFromSmallerSphere;
-        double nearestDist = Math.min(distFromSmallerSphere, distFromLargerSphere);
-        return 1.0 - (nearestDist * 4.0); // Puts it in the -1.0 to +1.0 range.
-    }
 }

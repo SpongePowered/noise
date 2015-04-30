@@ -24,19 +24,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.flowpowered.noise.module.combiner;
+package com.flowpowered.noise.module.generator;
 
+import com.flowpowered.noise.Utils;
 import com.flowpowered.noise.module.Module;
 
-public class Min extends Combiner {
-
-    public Min(Module sourceA, Module sourceB) {
-        super(sourceA, sourceB);
-    }
+public class Checkerboard extends Module {
 
     @Override
     public double get(double x, double y, double z) {
-        return Math.min(sourceA.get(x, y, z), sourceB.get(x, y, z));
+        int ix = Utils.floor(Utils.makeInt32Range(x));
+        int iy = Utils.floor(Utils.makeInt32Range(y));
+        int iz = Utils.floor(Utils.makeInt32Range(z));
+        return ((ix & 1 ^ iy & 1 ^ iz & 1) != 0) ? -1.0 : 1.0;
     }
 
 }

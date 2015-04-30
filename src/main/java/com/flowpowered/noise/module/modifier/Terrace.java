@@ -30,52 +30,45 @@ import com.flowpowered.noise.Utils;
 import com.flowpowered.noise.exception.NoModuleException;
 import com.flowpowered.noise.module.Module;
 
-public class Terrace extends Module {
-    // Number of control points stored in this noise module.
-    private int controlPointCount = 0;
+public class Terrace extends Modifier {
     // Determines if the terrace-forming curve between all control points
     // is inverted.
-    private boolean invertTerraces = false;
+    private final boolean invertTerraces;
     // Array that stores the control points.
-    private double[] controlPoints = new double[0];
+    private final double[] controlPoints;
 
-    public Terrace() {
-        super(1);
+    public Terrace(Module source, double[] controlPoints, boolean invertTerraces) {
+        super(source);
+
+        this.controlPoints = controlPoints;
+        this.invertTerraces = invertTerraces;
     }
 
     public boolean isInvertTerraces() {
         return invertTerraces;
     }
 
-    public void setInvertTerraces(boolean invertTerraces) {
-        this.invertTerraces = invertTerraces;
-    }
-
     public int getControlPointCount() {
-        return controlPointCount;
+        return controlPoints.length;
     }
 
     public double[] getControlPoints() {
         return controlPoints;
     }
 
+    /* TODO replicate this logic in builder
     public void addControlPoint(double value) {
         int insertionPos = findInsertionPos(value);
         insertAtPos(insertionPos, value);
     }
-
     public void clearAllControlPoints() {
         controlPoints = null;
-        controlPointCount = 0;
     }
-
     public void makeControlPoints(int controlPointCount) {
         if (controlPointCount < 2) {
             throw new IllegalArgumentException("Must have more than 2 control points");
         }
-
         clearAllControlPoints();
-
         double terraceStep = 2.0 / (controlPointCount - 1.0);
         double curValue = -1.0;
         for (int i = 0; i < controlPointCount; i++) {
@@ -83,7 +76,6 @@ public class Terrace extends Module {
             curValue += terraceStep;
         }
     }
-
     private int findInsertionPos(double value) {
         int insertionPos;
         for (insertionPos = 0; insertionPos < controlPointCount; insertionPos++) {
@@ -99,7 +91,6 @@ public class Terrace extends Module {
         }
         return insertionPos;
     }
-
     private void insertAtPos(int insertionPos, double value) {
         // Make room for the new control point at the specified position within
         // the control point array.  The position is determined by the value of
@@ -113,28 +104,19 @@ public class Terrace extends Module {
                 newControlPoints[i + 1] = controlPoints[i];
             }
         }
-
         controlPoints = newControlPoints;
         ++controlPointCount;
-
         // Now that we've made room for the new control point within the array,
         // add the new control point.
         controlPoints[insertionPos] = value;
-    }
+    }*/
 
     @Override
-    public int getSourceModuleCount() {
-        return 1;
-    }
-
-    @Override
-    public double getValue(double x, double y, double z) {
-        if (sourceModule[0] == null) {
-            throw new NoModuleException();
-        }
-
+    public double get(double x, double y, double z) {
         // Get the output value from the source module.
-        double sourceModuleValue = sourceModule[0].getValue(x, y, z);
+        double sourceModuleValue = source.get(x, y, z);
+
+        int controlPointCount = controlPoints.length;
 
         // Find the first element in the control point array that has a value
         // larger than the output value from the source module.

@@ -26,49 +26,52 @@
  */
 package com.flowpowered.noise.module.combiner;
 
-import com.flowpowered.noise.Utils;
-import com.flowpowered.noise.exception.NoModuleException;
 import com.flowpowered.noise.module.Module;
 
-public class Blend extends Module {
-    public Blend() {
-        super(3);
+/**
+ * A Combiner is a Module that takes two modules and combines them in some way.
+ * The two modules should come in no particular order.
+ * It provides a constructor and protected members to its subclasses.
+ */
+public abstract class Combiner extends Module {
+
+    /**
+     * The first source.
+     */
+    protected final Module sourceA;
+
+    /**
+     * The second source.
+     */
+    protected final Module sourceB;
+
+    /**
+     * Construct a Combiner out of two sources.
+     *
+     * @param sourceA the first source
+     * @param sourceB the second source
+     */
+    public Combiner(Module sourceA, Module sourceB) {
+        this.sourceA = sourceA;
+        this.sourceB = sourceB;
     }
 
-    public Module getControlModule() {
-        if (sourceModule[2] == null) {
-            throw new NoModuleException();
-        }
-        return sourceModule[2];
+    /**
+     * Get the first source.
+     *
+     * @return source A
+     */
+    public Module getSourceA() {
+        return sourceA;
     }
 
-    public void setControlModule(Module module) {
-        if (module == null) {
-            throw new IllegalArgumentException("Control Module cannot be null");
-        }
-        sourceModule[2] = module;
+    /**
+     * Get the second source.
+     *
+     * @return source B
+     */
+    public Module getSourceB() {
+        return sourceB;
     }
 
-    @Override
-    public int getSourceModuleCount() {
-        return 3;
-    }
-
-    @Override
-    public double getValue(double x, double y, double z) {
-        if (sourceModule[0] == null) {
-            throw new NoModuleException();
-        }
-        if (sourceModule[1] == null) {
-            throw new NoModuleException();
-        }
-        if (sourceModule[2] == null) {
-            throw new NoModuleException();
-        }
-
-        double v0 = sourceModule[0].getValue(x, y, z);
-        double v1 = sourceModule[1].getValue(x, y, z);
-        double alpha = (sourceModule[2].getValue(x, y, z) + 1.0) / 2.0;
-        return Utils.linearInterp(v0, v1, alpha);
-    }
 }

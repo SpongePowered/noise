@@ -24,51 +24,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.flowpowered.noise.module;
+package com.flowpowered.noise.module.modifier;
 
-import com.flowpowered.noise.exception.NoModuleException;
+import com.flowpowered.noise.module.Module;
 
-public class Cache extends Module {
-    // The cached output value at the cached input value.
-    private double cachedValue;
-    // Determines if a cached output value is stored in this noise
-    // module.
-    private boolean isCached = false;
-    // @a x coordinate of the cached input value.
-    private double xCache;
-    // @a y coordinate of the cached input value.
-    private double yCache;
-    // @a z coordinate of the cached input value.
-    private double zCache;
+public abstract class Modifier extends Module {
 
-    public Cache() {
-        super(1);
+    protected final Module source;
+
+    public Modifier(Module source) {
+        this.source = source;
     }
 
-    @Override
-    public int getSourceModuleCount() {
-        return 1;
+    public Module getSource() {
+        return source;
     }
 
-    @Override
-    public void setSourceModule(int index, Module sourceModule) {
-        super.setSourceModule(index, sourceModule);
-        isCached = false;
-    }
-
-    @Override
-    public double getValue(double x, double y, double z) {
-        if (sourceModule[0] == null) {
-            throw new NoModuleException();
-        }
-
-        if (!(isCached && x == xCache && y == yCache && z == zCache)) {
-            cachedValue = sourceModule[0].getValue(x, y, z);
-            xCache = x;
-            yCache = y;
-            zCache = z;
-        }
-        isCached = true;
-        return cachedValue;
-    }
 }

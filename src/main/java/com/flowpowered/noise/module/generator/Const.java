@@ -24,19 +24,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.flowpowered.noise.module.combiner;
+package com.flowpowered.noise.module.generator;
 
 import com.flowpowered.noise.module.Module;
 
-public class Min extends Combiner {
+public class Const extends Module {
 
-    public Min(Module sourceA, Module sourceB) {
-        super(sourceA, sourceB);
+    private final double value;
+
+    public Const(double value) {
+        this.value = value;
+    }
+
+    public double getValue() {
+        return value;
     }
 
     @Override
     public double get(double x, double y, double z) {
-        return Math.min(sourceA.get(x, y, z), sourceB.get(x, y, z));
+        return value;
     }
 
 }

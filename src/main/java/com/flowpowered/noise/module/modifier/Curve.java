@@ -26,33 +26,38 @@
  */
 package com.flowpowered.noise.module.modifier;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.flowpowered.noise.Utils;
-import com.flowpowered.noise.exception.NoModuleException;
 import com.flowpowered.noise.module.Module;
 
-public class Curve extends Module {
-    private final List<ControlPoint> controlPoints = new ArrayList<>();
+public class Curve extends Modifier {
+    private final List<ControlPoint> controlPoints;
 
-    public Curve() {
-        super(1);
+    public Curve(Module source, ControlPoint... controlPoints) {
+        super(source);
+        if (controlPoints.length < 4) {
+            throw new RuntimeException("Curve module must have at least 4 control points");
+        }
+
+        this.controlPoints = Arrays.asList(controlPoints);
     }
 
+    public Curve(Module source, List<ControlPoint> controlPoints) {
+        super(source);
+        if (controlPoints.size() < 4) {
+            throw new RuntimeException("Curve module must have at least 4 control points");
+        }
+
+        this.controlPoints = controlPoints;
+    }
+
+    /* TODO replicate this logic in builder
     public void addControlPoint(double inputValue, double outputValue) {
         int index = findInsertionPos(inputValue);
         insertAtPos(index, inputValue, outputValue);
     }
-
-    public ControlPoint[] getControlPoints() {
-        return (ControlPoint[]) controlPoints.toArray();
-    }
-
-    public void clearAllControlPoints() {
-        controlPoints.clear();
-    }
-
     private int findInsertionPos(double inputValue) {
         int insertionPos;
         for (insertionPos = 0; insertionPos < controlPoints.size(); insertionPos++) {
@@ -68,30 +73,17 @@ public class Curve extends Module {
         }
         return insertionPos;
     }
-
     private void insertAtPos(int insertionPos, double inputValue, double outputValue) {
         ControlPoint newPoint = new ControlPoint();
         newPoint.inputValue = inputValue;
         newPoint.outputValue = outputValue;
         controlPoints.add(insertionPos, newPoint);
-    }
+    }*/
 
     @Override
-    public int getSourceModuleCount() {
-        return 1;
-    }
-
-    @Override
-    public double getValue(double x, double y, double z) {
-        if (sourceModule[0] == null) {
-            throw new NoModuleException();
-        }
-        if (controlPoints.size() < 4) {
-            throw new RuntimeException("Curve module must have at least 4 control points");
-        }
-
+    public double get(double x, double y, double z) {
         // Get the output value from the source module.
-        double sourceModuleValue = sourceModule[0].getValue(x, y, z);
+        double sourceModuleValue = source.get(x, y, z);
 
         // Find the first element in the control point array that has an input value
         // larger than the output value from the source module.
