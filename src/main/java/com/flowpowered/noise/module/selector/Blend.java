@@ -24,33 +24,24 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.flowpowered.noise.module.source;
+package com.flowpowered.noise.module.selector;
 
+import com.flowpowered.noise.Utils;
+import com.flowpowered.noise.exception.NoModuleException;
 import com.flowpowered.noise.module.Module;
 
-public class Const extends Module {
-    public static final double DEFAULT_VALUE = 0;
-    private double value = DEFAULT_VALUE;
+public class Blend extends Selector {
 
-    public Const() {
-        super(0);
-    }
-
-    public double getValue() {
-        return value;
-    }
-
-    public void setValue(double value) {
-        this.value = value;
+    public Blend(Module control, Module sourceA, Module sourceB) {
+        super(control, sourceA, sourceB);
     }
 
     @Override
-    public int getSourceModuleCount() {
-        return 0;
+    public double get(double x, double y, double z) {
+        double v0 = sourceA.get(x, y, z);
+        double v1 = sourceB.get(x, y, z);
+        double alpha = (control.get(x, y, z) + 1.0) / 2.0;
+        return Utils.linearInterp(v0, v1, alpha);
     }
 
-    @Override
-    public double getValue(double x, double y, double z) {
-        return value;
-    }
 }

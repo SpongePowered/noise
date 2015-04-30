@@ -26,27 +26,23 @@
  */
 package com.flowpowered.noise.module.combiner;
 
-import com.flowpowered.noise.exception.NoModuleException;
 import com.flowpowered.noise.module.Module;
 
-public class Add extends Module {
-    public Add() {
-        super(2);
+public class Add extends Combiner {
+
+    /**
+     * Construct an Add out of two sources.
+     *
+     * @param sourceA the first source
+     * @param sourceB the second source
+     */
+    public Add(Module sourceA, Module sourceB) {
+        super(sourceA, sourceB);
     }
 
     @Override
-    public int getSourceModuleCount() {
-        return 2;
+    public double get(double x, double y, double z) {
+        return sourceA.get(x, y, z) + sourceB.get(x, y, z);
     }
 
-    @Override
-    public double getValue(double x, double y, double z) {
-        if (sourceModule[0] == null) {
-            throw new NoModuleException();
-        }
-        if (sourceModule[1] == null) {
-            throw new NoModuleException();
-        }
-        return sourceModule[0].getValue(x, y, z) + sourceModule[1].getValue(x, y, z);
-    }
 }

@@ -24,44 +24,30 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.flowpowered.noise.module.source;
+package com.flowpowered.noise.module.generator;
 
 import com.flowpowered.noise.Utils;
 import com.flowpowered.noise.module.Module;
 
-public class Spheres extends Module {
-    // Default frequency value for the noise::module::Spheres noise module.
-    public static final double DEFAULT_SPHERES_FREQUENCY = 1.0;
-    // Frequency of the concentric spheres.
-    private double frequency = DEFAULT_SPHERES_FREQUENCY;
+public class Cylinders extends Module {
+    private final double frequency;
 
-    public Spheres() {
-        super(0);
+    public Cylinders(double frequency) {
+        this.frequency = frequency;
     }
 
     public double getFrequency() {
         return frequency;
     }
 
-    public void setFrequency(double frequency) {
-        this.frequency = frequency;
-    }
-
     @Override
-    public int getSourceModuleCount() {
-        return 0;
-    }
-
-    @Override
-    public double getValue(double x, double y, double z) {
-        double x1 = x;
-        double y1 = y;
+    public double get(double x, double y, double z) {
         double z1 = z;
+        double x1 = x;
         x1 *= frequency;
-        y1 *= frequency;
         z1 *= frequency;
 
-        double distFromCenter = Math.sqrt(x1 * x1 + y1 * y1 + z1 * z1);
+        double distFromCenter = Math.sqrt(x1 * x1 + z1 * z1);
         double distFromSmallerSphere = distFromCenter - Utils.floor(distFromCenter);
         double distFromLargerSphere = 1.0 - distFromSmallerSphere;
         double nearestDist = Math.min(distFromSmallerSphere, distFromLargerSphere);

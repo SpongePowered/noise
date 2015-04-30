@@ -24,51 +24,36 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.flowpowered.noise.module;
+package com.flowpowered.noise.module.modifier.transformer;
 
-import com.flowpowered.noise.exception.NoModuleException;
+import com.flowpowered.noise.module.modifier.Modifier;
+import com.flowpowered.noise.module.Module;
 
-public class Cache extends Module {
-    // The cached output value at the cached input value.
-    private double cachedValue;
-    // Determines if a cached output value is stored in this noise
-    // module.
-    private boolean isCached = false;
-    // @a x coordinate of the cached input value.
-    private double xCache;
-    // @a y coordinate of the cached input value.
-    private double yCache;
-    // @a z coordinate of the cached input value.
-    private double zCache;
+public class Displace extends Modifier {
 
-    public Cache() {
-        super(1);
+    private final Module displaceX;
+    private final Module displaceY;
+    private final Module displaceZ;
+
+    public Displace(Module source, Module displaceX, Module displaceY, Module displaceZ) {
+        super(source);
+        this.displaceX = displaceX;
+        this.displaceY = displaceY;
+        this.displaceZ = displaceZ;
     }
 
     @Override
-    public int getSourceModuleCount() {
-        return 1;
+    public double get(double x, double y, double z) {
+
+        // Get the output values from the three displacement modules.  Add each
+        // value to the corresponding coordinate in the input value.
+        double xDisplace = x + displaceX.get(x, y, z);
+        double yDisplace = y + displaceY.get(x, y, z);
+        double zDisplace = z + displaceZ.get(x, y, z);
+
+        // Retrieve the output value using the offset input value instead of
+        // the original input value.
+        return source.get(xDisplace, yDisplace, zDisplace);
     }
 
-    @Override
-    public void setSourceModule(int index, Module sourceModule) {
-        super.setSourceModule(index, sourceModule);
-        isCached = false;
-    }
-
-    @Override
-    public double getValue(double x, double y, double z) {
-        if (sourceModule[0] == null) {
-            throw new NoModuleException();
-        }
-
-        if (!(isCached && x == xCache && y == yCache && z == zCache)) {
-            cachedValue = sourceModule[0].getValue(x, y, z);
-            xCache = x;
-            yCache = y;
-            zCache = z;
-        }
-        isCached = true;
-        return cachedValue;
-    }
 }

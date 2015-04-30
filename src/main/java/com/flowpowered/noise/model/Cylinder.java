@@ -81,6 +81,6 @@ public class Cylinder {
         x = Math.cos(Math.toRadians(angle));
         y = height;
         z = Math.sin(Math.toRadians(angle));
-        return module.getValue(x, y, z);
+        return module.get(x, y, z);
     }
 }

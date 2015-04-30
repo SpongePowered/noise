@@ -1,10 +1,9 @@
 /*
  * This file is part of Flow Noise, licensed under the MIT License (MIT).
  *
- * Copyright (c) 2013 Flow Powered <https://flowpowered.com/>
- * Original libnoise C++ library by Jason Bevins <http://libnoise.sourceforge.net/>
+ * Copyright (c) 2013 Spout LLC <http://www.spout.org/>
+ * Original libnoise in C++ by Jason Bevins <http://libnoise.sourceforge.net/>
  * jlibnoise Java port by Garrett Fleenor <https://github.com/RoyAwesome/jlibnoise>
- * Flow Noise is re-licensed with permission from jlibnoise author.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +23,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.flowpowered.noise.module.source;
+package com.flowpowered.noise.module.generator;
 
 import com.flowpowered.noise.Noise;
 import com.flowpowered.noise.NoiseQuality;
@@ -32,82 +31,55 @@ import com.flowpowered.noise.Utils;
 import com.flowpowered.noise.module.Module;
 
 public class Billow extends Module {
-    public static final double DEFAULT_BILLOW_FREQUENCY = 1.0;
-    public static final double DEFAULT_BILLOW_LACUNARITY = 2.0;
-    public static final int DEFAULT_BILLOW_OCTAVE_COUNT = 6;
-    public static final double DEFAULT_BILLOW_PERSISTENCE = 0.5;
-    public static final NoiseQuality DEFAULT_BILLOW_QUALITY = NoiseQuality.STANDARD;
-    public static final int DEFAULT_BILLOW_SEED = 0;
-    public static final int BILLOW_MAX_OCTAVE = 30;
-    private double frequency = DEFAULT_BILLOW_FREQUENCY;
-    private double lacunarity = DEFAULT_BILLOW_LACUNARITY;
-    private NoiseQuality quality = DEFAULT_BILLOW_QUALITY;
-    private double persistence = DEFAULT_BILLOW_PERSISTENCE;
-    private int seed = DEFAULT_BILLOW_SEED;
-    private int octaveCount = DEFAULT_BILLOW_OCTAVE_COUNT;
 
-    public Billow() {
-        super(0);
+    public static final int BILLOW_MAX_OCTAVE = 30;
+
+    private final int octaveCount;
+    private final double frequency;
+    private final double lacunarity;
+    private final NoiseQuality noiseQuality;
+    private final double persistence;
+    private final int seed;
+
+    public Billow(int octaveCount, double frequency, double lacunarity, double persistence, NoiseQuality noiseQuality, int seed) {
+        if (octaveCount < 1 || octaveCount > BILLOW_MAX_OCTAVE) {
+            throw new IllegalArgumentException("octaveCount must be between 1 and BILLOW_MAX_OCTAVE: " + BILLOW_MAX_OCTAVE);
+        }
+
+        this.octaveCount = octaveCount;
+        this.frequency = frequency;
+        this.lacunarity = lacunarity;
+        this.persistence = persistence;
+        this.noiseQuality = noiseQuality;
+        this.seed = seed;
     }
 
     public int getOctaveCount() {
         return octaveCount;
     }
 
-    public void setOctaveCount(int octaveCount) {
-        if (octaveCount < 1 || octaveCount > BILLOW_MAX_OCTAVE) {
-            throw new IllegalArgumentException("octaveCount must be between 1 and BILLOW_MAX_OCTAVE: " + BILLOW_MAX_OCTAVE);
-        }
-        this.octaveCount = octaveCount;
-    }
-
     public double getFrequency() {
         return frequency;
-    }
-
-    public void setFrequency(double frequency) {
-        this.frequency = frequency;
     }
 
     public double getLacunarity() {
         return lacunarity;
     }
 
-    public void setLacunarity(double lacunarity) {
-        this.lacunarity = lacunarity;
-    }
-
-    public NoiseQuality getQuality() {
-        return quality;
-    }
-
-    public void setQuality(NoiseQuality quality) {
-        this.quality = quality;
-    }
-
     public double getPersistence() {
         return persistence;
     }
 
-    public void setPersistence(double persistence) {
-        this.persistence = persistence;
+    public NoiseQuality getNoiseQuality() {
+        return noiseQuality;
     }
 
     public int getSeed() {
         return seed;
     }
 
-    public void setSeed(int seed) {
-        this.seed = seed;
-    }
-
     @Override
-    public int getSourceModuleCount() {
-        return 0;
-    }
-
-    @Override
-    public double getValue(double x, double y, double z) {
+    public double get(double x, double y, double z) {
         double z1 = z;
         double y1 = y;
         double x1 = x;
@@ -132,7 +104,7 @@ public class Billow extends Module {
             // Get the coherent-noise value from the input value and add it to the
             // final result.
             seed = (this.seed + curOctave);
-            signal = Noise.gradientCoherentNoise3D(nx, ny, nz, seed, quality);
+            signal = Noise.gradientCoherentNoise3D(nx, ny, nz, seed, noiseQuality);
             signal = 2.0 * Math.abs(signal) - 1.0;
             value += signal * curPersistence;
 

@@ -24,43 +24,42 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.flowpowered.noise.module.source;
+package com.flowpowered.noise.module.modifier.transformer;
 
-import com.flowpowered.noise.Utils;
 import com.flowpowered.noise.module.Module;
+import com.flowpowered.noise.module.modifier.Modifier;
 
-public class Cylinders extends Module {
-    public static final double DEFAULT_CYLINDERS_FREQUENCY = 1.0;
-    private double frequency = DEFAULT_CYLINDERS_FREQUENCY;
 
-    public Cylinders() {
-        super(0);
+public class ScalePoint extends Modifier {
+    // Scaling factor applied to the @a x coordinate of the input value.
+    private final double xScale;
+    // Scaling factor applied to the @a y coordinate of the input value.
+    private final double yScale;
+    // Scaling factor applied to the @a z coordinate of the input value.
+    private final double zScale;
+
+    public ScalePoint(Module source, double xScale, double yScale, double zScale) {
+        super(source);
+        this.xScale = xScale;
+        this.yScale = yScale;
+        this.zScale = zScale;
     }
 
-    public double getFrequency() {
-        return frequency;
+    public double getXScale() {
+        return xScale;
     }
 
-    public void setFrequency(double frequency) {
-        this.frequency = frequency;
+    public double getYScale() {
+        return yScale;
+    }
+
+    public double getZScale() {
+        return zScale;
     }
 
     @Override
-    public int getSourceModuleCount() {
-        return 0;
+    public double get(double x, double y, double z) {
+        return source.get(x * xScale, y * yScale, z * zScale);
     }
 
-    @Override
-    public double getValue(double x, double y, double z) {
-        double z1 = z;
-        double x1 = x;
-        x1 *= frequency;
-        z1 *= frequency;
-
-        double distFromCenter = Math.sqrt(x1 * x1 + z1 * z1);
-        double distFromSmallerSphere = distFromCenter - Utils.floor(distFromCenter);
-        double distFromLargerSphere = 1.0 - distFromSmallerSphere;
-        double nearestDist = Math.min(distFromSmallerSphere, distFromLargerSphere);
-        return 1.0 - (nearestDist * 4.0); // Puts it in the -1.0 to +1.0 range.
-    }
 }

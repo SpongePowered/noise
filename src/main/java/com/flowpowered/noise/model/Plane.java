@@ -81,6 +81,6 @@ public class Plane {
         if (module == null) {
             throw new NoModuleException();
         }
-        return module.getValue(x, 0, z);
+        return module.get(x, 0, z);
     }
 }

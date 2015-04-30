@@ -24,27 +24,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.flowpowered.noise.module.source;
+package com.flowpowered.noise.module.generator;
 
 import com.flowpowered.noise.Utils;
 import com.flowpowered.noise.module.Module;
 
-public class Checkerboard extends Module {
-    public Checkerboard() {
-        super(0);
+public class Spheres extends Module {
+    // Frequency of the concentric spheres.
+    private final double frequency;
+
+    public Spheres(double frequency) {
+
+        this.frequency = frequency;
+    }
+
+    public double getFrequency() {
+        return frequency;
     }
 
     @Override
-    public int getSourceModuleCount() {
+    public double get(double x, double y, double z) {
+        double x1 = x;
+        double y1 = y;
+        double z1 = z;
+        x1 *= frequency;
+        y1 *= frequency;
+        z1 *= frequency;
 
-        return 0;
-    }
-
-    @Override
-    public double getValue(double x, double y, double z) {
-        int ix = Utils.floor(Utils.makeInt32Range(x));
-        int iy = Utils.floor(Utils.makeInt32Range(y));
-        int iz = Utils.floor(Utils.makeInt32Range(z));
-        return ((ix & 1 ^ iy & 1 ^ iz & 1) != 0) ? -1.0 : 1.0;
+        double distFromCenter = Math.sqrt(x1 * x1 + y1 * y1 + z1 * z1);
+        double distFromSmallerSphere = distFromCenter - Utils.floor(distFromCenter);
+        double distFromLargerSphere = 1.0 - distFromSmallerSphere;
+        double nearestDist = Math.min(distFromSmallerSphere, distFromLargerSphere);
+        return 1.0 - (nearestDist * 4.0); // Puts it in the -1.0 to +1.0 range.
     }
 }

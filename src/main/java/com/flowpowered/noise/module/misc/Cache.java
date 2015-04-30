@@ -24,19 +24,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.flowpowered.noise.module.combiner;
+package com.flowpowered.noise.module.misc;
 
 import com.flowpowered.noise.module.Module;
+import com.flowpowered.noise.module.modifier.Modifier;
 
-public class Min extends Combiner {
+public class Cache extends Modifier {
+    // The cached output value at the cached input value.
+    private double cachedValue;
+    // Determines if a cached output value is stored in this noise
+    // module.
+    private boolean isCached = false;
+    // @a x coordinate of the cached input value.
+    private double xCache;
+    // @a y coordinate of the cached input value.
+    private double yCache;
+    // @a z coordinate of the cached input value.
+    private double zCache;
 
-    public Min(Module sourceA, Module sourceB) {
-        super(sourceA, sourceB);
+    public Cache(Module source) {
+        super(source);
     }
 
     @Override
     public double get(double x, double y, double z) {
-        return Math.min(sourceA.get(x, y, z), sourceB.get(x, y, z));
+        if (!(isCached && x == xCache && y == yCache && z == zCache)) {
+            cachedValue = source.get(x, y, z);
+            xCache = x;
+            yCache = y;
+            zCache = z;
+        }
+        isCached = true;
+        return cachedValue;
     }
-
 }
