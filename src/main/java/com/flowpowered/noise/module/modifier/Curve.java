@@ -118,8 +118,8 @@ public class Curve extends Module {
         }
 
         // Compute the alpha value used for cubic interpolation.
-        double input0 = controlPoints.get(indexPos).inputValue;
-        double input1 = controlPoints.get(indexPos).inputValue;
+        double input0 = controlPoints.get(index1).inputValue;
+        double input1 = controlPoints.get(index2).inputValue;
         double alpha = (sourceModuleValue - input0) / (input1 - input0);
 
         // Now perform the cubic interpolation given the alpha value.
