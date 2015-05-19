@@ -104,9 +104,9 @@ public class Displace extends Module {
 
         // Get the output values from the three displacement modules.  Add each
         // value to the corresponding coordinate in the input value.
-        double xDisplace = x + (sourceModule[1].getValue(x, y, z));
-        double yDisplace = y + (sourceModule[2].getValue(x, y, z));
-        double zDisplace = z + (sourceModule[3].getValue(x, y, z));
+        double xDisplace = x + sourceModule[1].getValue(x, y, z);
+        double yDisplace = y + sourceModule[2].getValue(x, y, z);
+        double zDisplace = z + sourceModule[3].getValue(x, y, z);
 
         // Retrieve the output value using the offset input value instead of
         // the original input value.

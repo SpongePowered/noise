@@ -56,6 +56,6 @@ public class Exponent extends Module {
             throw new NoModuleException();
         }
         double value = sourceModule[0].getValue(x, y, z);
-        return (Math.pow(Math.abs((value + 1.0) / 2.0), exponent) * 2.0 - 1.0);
+        return Math.pow(value, exponent);
     }
 }

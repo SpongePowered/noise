@@ -52,7 +52,7 @@ public class RidgedMulti extends Module {
     // Total number of octaves that generate the ridged-multifractal noise.
     private int octaveCount = DEFAULT_RIDGED_OCTAVE_COUNT;
     // Contains the spectral weights for each octave.
-    private double[] SpectralWeights;
+    private double[] spectralWeights;
     // Seed value used by the ridged-multfractal-noise function.
     private int seed = DEFAULT_RIDGED_SEED;
 
@@ -107,10 +107,10 @@ public class RidgedMulti extends Module {
         double h = 1.0;
 
         double frequency = 1.0;
-        SpectralWeights = new double[RIDGED_MAX_OCTAVE];
+        spectralWeights = new double[RIDGED_MAX_OCTAVE];
         for (int i = 0; i < RIDGED_MAX_OCTAVE; i++) {
             // Compute weight for each frequency.
-            SpectralWeights[i] = Math.pow(frequency, -h);
+            spectralWeights[i] = Math.pow(frequency, -h);
             frequency *= lacunarity;
         }
     }
@@ -149,14 +149,13 @@ public class RidgedMulti extends Module {
 
             // Get the coherent-noise value.
             int seed = (this.seed + curOctave) & 0x7fffffff;
-            signal = Noise.gradientCoherentNoise3D(nx, ny, nz, seed, noiseQuality);
+            signal = Noise.gradientCoherentNoise3D(nx, ny, nz, seed, noiseQuality) * 2 - 1;
 
             // Make the ridges.
             signal = Math.abs(signal);
             signal = offset - signal;
 
             // Square the signal to increase the sharpness of the ridges.
-            //noinspection UnusedAssignment
             signal *= signal;
 
             // The weighting from the previous octave is applied to the signal.
@@ -174,7 +173,7 @@ public class RidgedMulti extends Module {
             }
 
             // Add the signal to the output value.
-            value += (signal * SpectralWeights[curOctave]);
+            value += (signal * spectralWeights[curOctave]);
 
             // Go to the next octave.
             x1 *= lacunarity;
@@ -182,6 +181,6 @@ public class RidgedMulti extends Module {
             z1 *= lacunarity;
         }
 
-        return (value * 1.25) - 1.0;
+        return value / 1.6;
     }
 }

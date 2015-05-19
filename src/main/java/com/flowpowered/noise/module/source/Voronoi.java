@@ -149,7 +149,7 @@ public class Voronoi extends Module {
             double xDist = xCandidate - x1;
             double yDist = yCandidate - y1;
             double zDist = zCandidate - z1;
-            value = (Math.sqrt(xDist * xDist + yDist * yDist + zDist * zDist)) * SQRT_3 - 1.0;
+            value = Math.sqrt(xDist * xDist + yDist * yDist + zDist * zDist) / SQRT_3;
         } else {
             value = 0.0;
         }

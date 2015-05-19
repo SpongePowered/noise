@@ -86,7 +86,8 @@ public class Curve extends Module {
         if (sourceModule[0] == null) {
             throw new NoModuleException();
         }
-        if (controlPoints.size() < 4) {
+        final int size = controlPoints.size();
+        if (size < 4) {
             throw new RuntimeException("Curve module must have at least 4 control points");
         }
 
@@ -96,7 +97,7 @@ public class Curve extends Module {
         // Find the first element in the control point array that has an input value
         // larger than the output value from the source module.
         int indexPos;
-        for (indexPos = 0; indexPos < controlPoints.size(); indexPos++) {
+        for (indexPos = 0; indexPos < size; indexPos++) {
             if (sourceModuleValue < controlPoints.get(indexPos).inputValue) {
                 break;
             }
@@ -104,10 +105,11 @@ public class Curve extends Module {
 
         // Find the four nearest control points so that we can perform cubic
         // interpolation.
-        int index0 = Utils.clamp(indexPos - 2, 0, controlPoints.size() - 1);
-        int index1 = Utils.clamp(indexPos - 1, 0, controlPoints.size() - 1);
-        int index2 = Utils.clamp(indexPos, 0, controlPoints.size() - 1);
-        int index3 = Utils.clamp(indexPos + 1, 0, controlPoints.size() - 1);
+        final int lastIndex = size - 1;
+        int index0 = Utils.clamp(indexPos - 2, 0, lastIndex);
+        int index1 = Utils.clamp(indexPos - 1, 0, lastIndex);
+        int index2 = Utils.clamp(indexPos, 0, lastIndex);
+        int index3 = Utils.clamp(indexPos + 1, 0, lastIndex);
 
         // If some control points are missing (which occurs if the value from the
         // source module is greater than the largest input value or less than the

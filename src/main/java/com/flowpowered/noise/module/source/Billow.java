@@ -132,8 +132,8 @@ public class Billow extends Module {
             // Get the coherent-noise value from the input value and add it to the
             // final result.
             seed = (this.seed + curOctave);
-            signal = Noise.gradientCoherentNoise3D(nx, ny, nz, seed, quality);
-            signal = 2.0 * Math.abs(signal) - 1.0;
+            signal = Noise.gradientCoherentNoise3D(nx, ny, nz, seed, quality) * 2 - 1;
+            signal = Math.abs(signal);
             value += signal * curPersistence;
 
             // Prepare the next octave.
@@ -142,7 +142,7 @@ public class Billow extends Module {
             z1 *= lacunarity;
             curPersistence *= persistence;
         }
-        value += 0.5;
+        value += 0.25;
 
         return value;
     }

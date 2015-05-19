@@ -61,6 +61,6 @@ public class Cylinders extends Module {
         double distFromSmallerSphere = distFromCenter - Utils.floor(distFromCenter);
         double distFromLargerSphere = 1.0 - distFromSmallerSphere;
         double nearestDist = Math.min(distFromSmallerSphere, distFromLargerSphere);
-        return 1.0 - (nearestDist * 4.0); // Puts it in the -1.0 to +1.0 range.
+        return 1.0 - (nearestDist * 2.0); // Puts it in the 0 to 1 range.
     }
 }

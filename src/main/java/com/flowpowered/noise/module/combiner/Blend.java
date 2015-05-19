@@ -68,7 +68,7 @@ public class Blend extends Module {
 
         double v0 = sourceModule[0].getValue(x, y, z);
         double v1 = sourceModule[1].getValue(x, y, z);
-        double alpha = (sourceModule[2].getValue(x, y, z) + 1.0) / 2.0;
+        double alpha = sourceModule[2].getValue(x, y, z);
         return Utils.linearInterp(v0, v1, alpha);
     }
 }

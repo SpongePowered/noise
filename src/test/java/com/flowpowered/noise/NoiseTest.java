@@ -24,47 +24,40 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.flowpowered.noise.module.source;
+package com.flowpowered.noise;
 
-import com.flowpowered.noise.Utils;
-import com.flowpowered.noise.module.Module;
+import java.io.IOException;
 
-public class Spheres extends Module {
-    // Default frequency value for the noise::module::Spheres noise module.
-    public static final double DEFAULT_SPHERES_FREQUENCY = 1.0;
-    // Frequency of the concentric spheres.
-    private double frequency = DEFAULT_SPHERES_FREQUENCY;
+import org.junit.Assert;
+import org.junit.Test;
 
-    public Spheres() {
-        super(0);
-    }
-
-    public double getFrequency() {
-        return frequency;
-    }
-
-    public void setFrequency(double frequency) {
-        this.frequency = frequency;
-    }
-
-    @Override
-    public int getSourceModuleCount() {
-        return 0;
-    }
-
-    @Override
-    public double getValue(double x, double y, double z) {
-        double x1 = x;
-        double y1 = y;
-        double z1 = z;
-        x1 *= frequency;
-        y1 *= frequency;
-        z1 *= frequency;
-
-        double distFromCenter = Math.sqrt(x1 * x1 + y1 * y1 + z1 * z1);
-        double distFromSmallerSphere = distFromCenter - Utils.floor(distFromCenter);
-        double distFromLargerSphere = 1.0 - distFromSmallerSphere;
-        double nearestDist = Math.min(distFromSmallerSphere, distFromLargerSphere);
-        return 1.0 - (nearestDist * 2.0); // Puts it in the 0 to 1 range.
+public class NoiseTest {
+    @Test
+    public void test() throws IOException {
+        double max = -Double.MAX_VALUE;
+        for (int i = 0; i < Utils.RANDOM_VECTORS.length >> 2; i++) {
+            final double gradient = Math.abs(Utils.RANDOM_VECTORS[i << 2]) + Math.abs(Utils.RANDOM_VECTORS[(i << 2) + 1]) + Math.abs(Utils.RANDOM_VECTORS[(i << 2) + 2]);
+            if (gradient > max) {
+                max = gradient;
+            }
+        }
+        if (max > Noise.GRADIENT_MAX) {
+            Assert.fail("Gradient max it not the max, " + max + " is");
+        }
+        /*
+        final int width = 2048, height = 2048;
+        final double xPeriod = 128, yPeriod = 128;
+        final Module module = new Voronoi();
+        ((Voronoi) module).setEnableDistance(true);
+        final BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_USHORT_GRAY);
+        final short[] data = ((DataBufferUShort) image.getRaster().getDataBuffer()).getData();
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                final double noise = module.getValue(x / xPeriod, y / yPeriod, 0) / 2;
+                data[y * width + x] = (short) (noise * 65_535);
+            }
+        }
+        ImageIO.write(image, "PNG", new File("noise.png"));
+        */
     }
 }

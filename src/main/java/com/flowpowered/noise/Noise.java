@@ -27,6 +27,7 @@
 package com.flowpowered.noise;
 
 public final class Noise {
+    public static final double GRADIENT_MAX = 1.728003;
     private static final int X_NOISE_GEN = 1619;
     private static final int Y_NOISE_GEN = 31337;
     private static final int Z_NOISE_GEN = 6971;
@@ -46,7 +47,7 @@ public final class Noise {
      * @param quality The quality of the coherent-noise.
      * @return The generated gradient-coherent-noise value.
      * <p/>
-     * The return value ranges from -1.0 to +1.0.
+     * The return value ranges from 0 to 1.
      * <p/>
      * For an explanation of the difference between <i>gradient</i> noise and <i>value</i> noise, see the comments for the GradientNoise3D() function.
      */
@@ -123,7 +124,7 @@ public final class Noise {
      * A <i>gradient</i>-noise function generates better-quality noise than a <i>value</i>-noise function. Most noise modules use gradient noise for this reason, although it takes much longer to
      * calculate.
      * <p/>
-     * The return value ranges from -1.0 to +1.0.
+     * The return value ranges from 0 to 1.
      * <p/>
      * This function generates a gradient-noise value by performing the following steps: - It first calculates a random normalized vector based on the nearby integer value passed to this function. -
      * It then calculates a new value by adding this vector to the nearby integer value passed to this function. - It then calculates the dot product of the above-generated value and the
@@ -139,9 +140,9 @@ public final class Noise {
         vectorIndex ^= (vectorIndex >> SHIFT_NOISE_GEN);
         vectorIndex &= 0xff;
 
-        double xvGradient = Utils.randomVectors[(vectorIndex << 2)];
-        double yvGradient = Utils.randomVectors[(vectorIndex << 2) + 1];
-        double zvGradient = Utils.randomVectors[(vectorIndex << 2) + 2];
+        double xvGradient = Utils.RANDOM_VECTORS[(vectorIndex << 2)];
+        double yvGradient = Utils.RANDOM_VECTORS[(vectorIndex << 2) + 1];
+        double zvGradient = Utils.RANDOM_VECTORS[(vectorIndex << 2) + 2];
 
         // Set up us another vector equal to the distance between the two vectors
         // passed to this function.
@@ -150,9 +151,9 @@ public final class Noise {
         double zvPoint = (fz - iz);
 
         // Now compute the dot product of the gradient vector with the distance
-        // vector.  The resulting value is gradient noise.  Apply a scaling value
-        // so that this noise value ranges from -1.0 to 1.0.
-        return ((xvGradient * xvPoint) + (yvGradient * yvPoint) + (zvGradient * zvPoint)) * 2.12;
+        // vector.  The resulting value is gradient noise.  Apply a scaling and
+        // offset value so that this noise value ranges from 0 to 1.
+        return ((xvGradient * xvPoint) + (yvGradient * yvPoint) + (zvGradient * zvPoint)) / (GRADIENT_MAX * 2) + 0.5;
     }
 
     /**
@@ -186,7 +187,7 @@ public final class Noise {
      * @param quality The quality of the coherent-noise.
      * @return The generated value-coherent-noise value.
      * <p/>
-     * The return value ranges from -1.0 to +1.0.
+     * The return value ranges from 0 to 1.
      * <p/>
      * For an explanation of the difference between <i>gradient</i> noise and <i>value</i> noise, see the comments for the GradientNoise3D() function.
      */
@@ -249,11 +250,11 @@ public final class Noise {
      * @param seed A random number seed.
      * @return The generated value-noise value.
      * <p/>
-     * The return value ranges from -1.0 to +1.0.
+     * The return value ranges from 0 to 1.
      * <p/>
      * A noise function differs from a random-number generator because it always returns the same output value if the same input value is passed to it.
      */
     public static double valueNoise3D(int x, int y, int z, int seed) {
-        return 1.0 - (intValueNoise3D(x, y, z, seed) / 1073741824.0);
+        return intValueNoise3D(x, y, z, seed) / 2147483647.0;
     }
 }

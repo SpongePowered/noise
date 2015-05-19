@@ -44,6 +44,6 @@ public class Invert extends Module {
         if (sourceModule[0] == null) {
             throw new NoModuleException();
         }
-        return -(sourceModule[0].getValue(x, y, z));
+        return -sourceModule[0].getValue(x, y, z);
     }
 }

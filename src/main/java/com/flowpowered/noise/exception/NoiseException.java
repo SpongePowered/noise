@@ -26,6 +26,6 @@
  */
 package com.flowpowered.noise.exception;
 
-@SuppressWarnings("serial")
 public class NoiseException extends RuntimeException {
+    private static final long serialVersionUID = 1;
 }

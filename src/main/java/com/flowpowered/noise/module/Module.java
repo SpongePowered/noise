@@ -58,7 +58,7 @@ public abstract class Module {
             return;
         }
         if (index >= getSourceModuleCount() || index < 0) {
-            throw new IllegalArgumentException("Index must be between 0 and GetSourceMoudleCount()");
+            throw new IllegalArgumentException("Index must be between 0 and GetSourceModuleCount()");
         }
         this.sourceModule[index] = sourceModule;
     }

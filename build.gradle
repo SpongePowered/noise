@@ -55,6 +55,11 @@ repositories {
     }
 }
 
+// Project dependencies
+dependencies {
+    testCompile 'junit:junit:4.12'
+}
+
 // Filter, process, and include resources
 processResources {
     // Include in final JAR
