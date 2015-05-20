@@ -86,6 +86,17 @@
         <url>https://github.com/flow/noise/issues</url>
     </issueManagement>
 
+    <!-- Project dependencies -->
+    <dependencies>
+        <!-- Testing only -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
     <!-- Build configuration -->
     <build>
         <defaultGoal>clean install</defaultGoal>
