@@ -31,7 +31,7 @@ import com.flowpowered.noise.module.misc.Cache;
 import com.flowpowered.noise.module.modifier.*;
 import com.flowpowered.noise.module.combiner.selector.*;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * A Module is basically just a function from R^3 -> R (for the actual function, see
@@ -87,11 +87,11 @@ public abstract class Module {
         return new Clamp(this, lowerBound, upperBound);
     }
 
-    public Curve curve(Curve.ControlPoint[] controlPoints) {
+    public Curve curve(Curve.ControlPoint... controlPoints) {
         return new Curve(this, controlPoints);
     }
 
-    public Curve curve(List<Curve.ControlPoint> controlPoints) {
+    public Curve curve(Collection<Curve.ControlPoint> controlPoints) {
         return new Curve(this, controlPoints);
     }
 
