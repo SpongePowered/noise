@@ -28,21 +28,55 @@ package com.flowpowered.noise.module.combiner;
 
 import com.flowpowered.noise.module.Module;
 
+/**
+ * Represents a combiner module that adds the value of two source modules together.
+ */
 public class Add extends Combiner {
 
     /**
-     * Construct an Add out of two sources.
+     * Construct sa new instance out of two sources.
      *
-     * @param sourceA the first source
-     * @param sourceB the second source
+     * @param sourceA The first source
+     * @param sourceB The second source
      */
     public Add(Module sourceA, Module sourceB) {
         super(sourceA, sourceB);
     }
 
     @Override
-    public double get(double x, double y, double z) {
-        return sourceA.get(x, y, z) + sourceB.get(x, y, z);
+    public double getValue(double x, double y, double z) {
+        return sourceA.getValue(x, y, z) + sourceB.getValue(x, y, z);
+    }
+
+    /**
+     * Represents a builder of {@link Add} instances.
+     */
+    public static class Builder extends Combiner.Builder {
+
+        @Override
+        public Builder setSourceA(Module sourceA) {
+            this.sourceA = sourceA;
+            return this;
+        }
+
+        @Override
+        public Builder setSourceB(Module sourceB) {
+            this.sourceB = sourceB;
+            return this;
+        }
+
+        @Override
+        public Builder setSources(Module sourceA, Module sourceB) {
+            setSourceA(sourceA);
+            setSourceB(sourceB);
+            return this;
+        }
+
+        @Override
+        public Add build() throws IllegalStateException {
+            return new Add(sourceA, sourceB);
+        }
+
     }
 
 }

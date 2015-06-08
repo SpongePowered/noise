@@ -47,9 +47,9 @@ public class Cache extends Modifier {
     }
 
     @Override
-    public double get(double x, double y, double z) {
+    public double getValue(double x, double y, double z) {
         if (!(isCached && x == xCache && y == yCache && z == zCache)) {
-            cachedValue = source.get(x, y, z);
+            cachedValue = source.getValue(x, y, z);
             xCache = x;
             yCache = y;
             zCache = z;

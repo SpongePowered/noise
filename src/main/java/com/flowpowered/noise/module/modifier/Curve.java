@@ -81,9 +81,9 @@ public class Curve extends Modifier {
     }*/
 
     @Override
-    public double get(double x, double y, double z) {
+    public double getValue(double x, double y, double z) {
         // Get the output value from the source module.
-        double sourceModuleValue = source.get(x, y, z);
+        double sourceModuleValue = source.getValue(x, y, z);
 
         // Find the first element in the control point array that has an input value
         // larger than the output value from the source module.

@@ -26,7 +26,6 @@
  */
 package com.flowpowered.noise.module.modifier;
 
-import com.flowpowered.noise.exception.NoModuleException;
 import com.flowpowered.noise.module.Module;
 
 public class Abs extends Modifier {
@@ -36,8 +35,8 @@ public class Abs extends Modifier {
     }
 
     @Override
-    public double get(double x, double y, double z) {
-        return Math.abs(source.get(x, y, z));
+    public double getValue(double x, double y, double z) {
+        return Math.abs(source.getValue(x, y, z));
     }
 
 }

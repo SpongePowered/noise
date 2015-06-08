@@ -70,7 +70,7 @@ public class Voronoi extends Module {
     }
 
     @Override
-    public double get(double x, double y, double z) {
+    public double getValue(double x, double y, double z) {
         double x1 = x;
         double y1 = y;
         double z1 = z;

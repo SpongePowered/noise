@@ -29,9 +29,7 @@ package com.flowpowered.noise.module.combiner;
 import com.flowpowered.noise.module.Module;
 
 /**
- * A Combiner is a Module that takes two modules and combines them in some way.
- * The two modules should come in no particular order.
- * It provides a constructor and protected members to its subclasses.
+ * Represents a module that takes two source modules and combines them in some way.
  */
 public abstract class Combiner extends Module {
 
@@ -46,10 +44,10 @@ public abstract class Combiner extends Module {
     protected final Module sourceB;
 
     /**
-     * Construct a Combiner out of two sources.
+     * Constructs a new instance out of two sources.
      *
-     * @param sourceA the first source
-     * @param sourceB the second source
+     * @param sourceA The first source
+     * @param sourceB The second source
      */
     public Combiner(Module sourceA, Module sourceB) {
         this.sourceA = sourceA;
@@ -57,7 +55,7 @@ public abstract class Combiner extends Module {
     }
 
     /**
-     * Get the first source.
+     * Gets the first source.
      *
      * @return source A
      */
@@ -66,12 +64,95 @@ public abstract class Combiner extends Module {
     }
 
     /**
-     * Get the second source.
+     * Gets the second source.
      *
      * @return source B
      */
     public Module getSourceB() {
         return sourceB;
+    }
+
+    /**
+     * Represents a builder of {@link Combiner} instances.
+     */
+    public static abstract class Builder extends Module.Builder {
+
+        /**
+         * Stores the first source module.
+         */
+        protected Module sourceA;
+
+        /**
+         * Stores the second source module.
+         */
+        protected Module sourceB;
+
+        /**
+         * Gets the first source module.
+         *
+         * @return The first source module
+         */
+        public Module getSourceA() {
+            return sourceA;
+        }
+
+        /**
+         * Sets the second source module.
+         *
+         * @param sourceA The new second source module
+         * @return This builder
+         */
+        public Builder setSourceA(Module sourceA) {
+            this.sourceA = sourceA;
+            return this;
+        }
+
+        /**
+         * Gets the second source module.
+         *
+         * @return The second source module
+         */
+        public Module getSourceB() {
+            return sourceB;
+        }
+
+        /**
+         * Sets the second source module
+         *
+         * @param sourceB The new second source module
+         * @return This builder
+         */
+        public Builder setSourceB(Module sourceB) {
+            this.sourceB = sourceB;
+            return this;
+        }
+
+        /**
+         * Sets both source modules.
+         *
+         * @param sourceA The new first source module
+         * @param sourceB The new second source module
+         * @return This builder
+         */
+        public Builder setSources(Module sourceA, Module sourceB) {
+            setSourceA(sourceA);
+            setSourceB(sourceB);
+            return this;
+        }
+
+        @Override
+        protected void checkValues() throws IllegalStateException {
+            if (sourceA == null) {
+                throw new IllegalStateException("First source cannot be null");
+            }
+            if (sourceB == null) {
+                throw new IllegalStateException("Second source cannot be null");
+            }
+        }
+
+        @Override
+        public abstract Combiner build() throws IllegalStateException;
+
     }
 
 }

@@ -58,8 +58,8 @@ public class ScalePoint extends Modifier {
     }
 
     @Override
-    public double get(double x, double y, double z) {
-        return source.get(x * xScale, y * yScale, z * zScale);
+    public double getValue(double x, double y, double z) {
+        return source.getValue(x * xScale, y * yScale, z * zScale);
     }
 
 }

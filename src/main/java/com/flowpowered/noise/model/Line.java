@@ -26,7 +26,6 @@
  */
 package com.flowpowered.noise.model;
 
-import com.flowpowered.noise.exception.NoModuleException;
 import com.flowpowered.noise.module.Module;
 
 /**
@@ -39,12 +38,11 @@ import com.flowpowered.noise.module.Module;
  * To generate an output value, pass an input value between 0.0 and 1.0 to the GetValue() method. 0.0 represents the start position of the line segment and 1.0 represents the end position of the line
  * segment.
  */
-public class Line {
+public class Line extends Model {
+
     // A flag that specifies whether the value is to be attenuated
     // (moved toward 0.0) as the ends of the line segment are approached.
     private boolean attenuate = false;
-    // A pointer to the noise module used to generate the output values.
-    private Module module;
     // @a x coordinate of the start of the line segment.
     private double x0 = 0;
     // @a x coordinate of the end of the line segment.
@@ -62,10 +60,7 @@ public class Line {
      * @param module The noise module that is used to generate the output values.
      */
     public Line(Module module) {
-        if (module == null) {
-            throw new IllegalArgumentException("module cannot be null");
-        }
-        this.module = module;
+        super(module);
     }
 
     /**
@@ -111,28 +106,6 @@ public class Line {
         this.y1 = y;
         this.z1 = z;
     }
-
-    /**
-     * Returns the noise module that is used to generate the output values.
-     */
-    public Module getModule() {
-        return module;
-    }
-
-    /**
-     * Sets the noise module that is used to generate the output values.
-     *
-     * @param module The noise module that is used to generate the output values.
-     * <p/>
-     * This noise module must exist for the lifetime of this object, until you pass a new noise module to this method.
-     */
-    public void setModule(Module module) {
-        if (module == null) {
-            throw new IllegalArgumentException("module cannot be null");
-        }
-        this.module = module;
-    }
-
     /**
      * Returns the output value from the noise module given the one-dimensional coordinate of the specified input value located on the line segment.
      *
@@ -140,14 +113,11 @@ public class Line {
      * @return The output value from the noise module.
      */
     public double getValue(double p) {
-        if (module == null) {
-            throw new NoModuleException();
-        }
 
         double x = (x1 - x0) * p + x0;
         double y = (y1 - y0) * p + y0;
         double z = (z1 - z0) * p + z0;
-        double value = module.get(x, y, z);
+        double value = module.getValue(x, y, z);
 
         if (attenuate) {
             return p * (1.0 - p) * 4 * value;

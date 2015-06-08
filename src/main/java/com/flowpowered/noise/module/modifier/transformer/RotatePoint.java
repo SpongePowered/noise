@@ -102,11 +102,11 @@ public class RotatePoint extends Modifier {
     }
 
     @Override
-    public double get(double x, double y, double z) {
+    public double getValue(double x, double y, double z) {
         double nx = (x1Matrix * x) + (y1Matrix * y) + (z1Matrix * z);
         double ny = (x2Matrix * x) + (y2Matrix * y) + (z2Matrix * z);
         double nz = (x3Matrix * x) + (y3Matrix * y) + (z3Matrix * z);
-        return source.get(nx, ny, nz);
+        return source.getValue(nx, ny, nz);
     }
 
 }

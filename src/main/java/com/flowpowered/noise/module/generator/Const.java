@@ -41,7 +41,7 @@ public class Const extends Module {
     }
 
     @Override
-    public double get(double x, double y, double z) {
+    public double getValue(double x, double y, double z) {
         return value;
     }
 

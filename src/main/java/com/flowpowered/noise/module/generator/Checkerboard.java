@@ -32,7 +32,7 @@ import com.flowpowered.noise.module.Module;
 public class Checkerboard extends Module {
 
     @Override
-    public double get(double x, double y, double z) {
+    public double getValue(double x, double y, double z) {
         int ix = Utils.floor(Utils.makeInt32Range(x));
         int iy = Utils.floor(Utils.makeInt32Range(y));
         int iz = Utils.floor(Utils.makeInt32Range(z));

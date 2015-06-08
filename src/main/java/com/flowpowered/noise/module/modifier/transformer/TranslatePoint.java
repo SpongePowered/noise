@@ -26,7 +26,6 @@
  */
 package com.flowpowered.noise.module.modifier.transformer;
 
-import com.flowpowered.noise.exception.NoModuleException;
 import com.flowpowered.noise.module.Module;
 import com.flowpowered.noise.module.modifier.Modifier;
 
@@ -61,8 +60,8 @@ public class TranslatePoint extends Modifier {
     }
 
     @Override
-    public double get(double x, double y, double z) {
-        return source.get(x + xTranslation, y + yTranslation, z + zTranslation);
+    public double getValue(double x, double y, double z) {
+        return source.getValue(x + xTranslation, y + yTranslation, z + zTranslation);
     }
 
 }

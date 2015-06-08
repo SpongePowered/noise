@@ -27,14 +27,12 @@
 package com.flowpowered.noise.model;
 
 import com.flowpowered.noise.Utils;
-import com.flowpowered.noise.exception.NoModuleException;
 import com.flowpowered.noise.module.Module;
 
 /**
  * Model that defines the surface of a sphere.
  */
-public class Sphere {
-    private Module module;
+public class Sphere extends Model {
 
     /**
      * Constructor
@@ -42,31 +40,7 @@ public class Sphere {
      * @param module The noise module that is used to generate the output values.
      */
     public Sphere(Module module) {
-        if (module == null) {
-            throw new IllegalArgumentException("module cannot be null");
-        }
-        this.module = module;
-    }
-
-    /**
-     * Returns the noise module that is used to generate the output values.
-     */
-    public Module getModule() {
-        return module;
-    }
-
-    /**
-     * Sets the noise module that is used to generate the output values.
-     *
-     * @param module The noise module that is used to generate the output values.
-     *
-     * This noise module must exist for the lifetime of this object, until you pass a new noise module to this method.
-     */
-    public void setModule(Module module) {
-        if (module == null) {
-            throw new IllegalArgumentException("module cannot be null");
-        }
-        this.module = module;
+        super(module);
     }
 
     /**
@@ -77,10 +51,8 @@ public class Sphere {
      * @return The output value from the noise module.
      */
     public double getValue(double lat, double lon) {
-        if (module == null) {
-            throw new NoModuleException();
-        }
         double[] vec = Utils.latLonToXYZ(lat, lon);
-        return module.get(vec[0], vec[1], vec[2]);
+        return module.getValue(vec[0], vec[1], vec[2]);
     }
+
 }

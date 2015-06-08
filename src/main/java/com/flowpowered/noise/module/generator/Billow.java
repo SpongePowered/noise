@@ -80,7 +80,7 @@ public class Billow extends Module {
     }
 
     @Override
-    public double get(double x, double y, double z) {
+    public double getValue(double x, double y, double z) {
         double z1 = z;
         double y1 = y;
         double x1 = x;

@@ -27,7 +27,6 @@
 package com.flowpowered.noise.module.modifier;
 
 import com.flowpowered.noise.Utils;
-import com.flowpowered.noise.exception.NoModuleException;
 import com.flowpowered.noise.module.Module;
 
 public class Terrace extends Modifier {
@@ -112,9 +111,9 @@ public class Terrace extends Modifier {
     }*/
 
     @Override
-    public double get(double x, double y, double z) {
+    public double getValue(double x, double y, double z) {
         // Get the output value from the source module.
-        double sourceModuleValue = source.get(x, y, z);
+        double sourceModuleValue = source.getValue(x, y, z);
 
         int controlPointCount = controlPoints.length;
 

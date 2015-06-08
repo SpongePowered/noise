@@ -67,7 +67,7 @@ public class Turbulence extends Modifier {
     }
 
     @Override
-    public double get(double x, double y, double z) {
+    public double getValue(double x, double y, double z) {
         // Get the values from the three noise::module::Perlin noise modules and
         // add each value to each coordinate of the input value.  There are also
         // some offsets added to the coordinates of the input values.  This prevents
@@ -87,13 +87,13 @@ public class Turbulence extends Modifier {
         x2 = x + (53820.0 / 65536.0);
         y2 = y + (11213.0 / 65536.0);
         z2 = z + (44845.0 / 65536.0);
-        double xDistort = x + (xDistortModule.get(x0, y0, z0) * power);
-        double yDistort = y + (yDistortModule.get(x1, y1, z1) * power);
-        double zDistort = z + (zDistortModule.get(x2, y2, z2) * power);
+        double xDistort = x + (xDistortModule.getValue(x0, y0, z0) * power);
+        double yDistort = y + (yDistortModule.getValue(x1, y1, z1) * power);
+        double zDistort = z + (zDistortModule.getValue(x2, y2, z2) * power);
 
         // Retrieve the output value at the offset input value instead of the
         // original input value.
-        return source.get(xDistort, yDistort, zDistort);
+        return source.getValue(xDistort, yDistort, zDistort);
     }
 
 }

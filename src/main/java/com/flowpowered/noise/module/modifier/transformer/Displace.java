@@ -43,17 +43,17 @@ public class Displace extends Modifier {
     }
 
     @Override
-    public double get(double x, double y, double z) {
+    public double getValue(double x, double y, double z) {
 
         // Get the output values from the three displacement modules.  Add each
         // value to the corresponding coordinate in the input value.
-        double xDisplace = x + displaceX.get(x, y, z);
-        double yDisplace = y + displaceY.get(x, y, z);
-        double zDisplace = z + displaceZ.get(x, y, z);
+        double xDisplace = x + displaceX.getValue(x, y, z);
+        double yDisplace = y + displaceY.getValue(x, y, z);
+        double zDisplace = z + displaceZ.getValue(x, y, z);
 
         // Retrieve the output value using the offset input value instead of
         // the original input value.
-        return source.get(xDisplace, yDisplace, zDisplace);
+        return source.getValue(xDisplace, yDisplace, zDisplace);
     }
 
 }

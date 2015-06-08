@@ -26,7 +26,6 @@
  */
 package com.flowpowered.noise.module.modifier;
 
-import com.flowpowered.noise.exception.NoModuleException;
 import com.flowpowered.noise.module.Module;
 
 public class Exponent extends Modifier {
@@ -43,8 +42,8 @@ public class Exponent extends Modifier {
     }
 
     @Override
-    public double get(double x, double y, double z) {
-        double value = source.get(x, y, z);
+    public double getValue(double x, double y, double z) {
+        double value = source.getValue(x, y, z);
         return (Math.pow(Math.abs((value + 1.0) / 2.0), exponent) * 2.0 - 1.0);
     }
 

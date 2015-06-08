@@ -29,28 +29,28 @@ package com.flowpowered.noise.module;
 import com.flowpowered.noise.module.combiner.*;
 import com.flowpowered.noise.module.misc.Cache;
 import com.flowpowered.noise.module.modifier.*;
-import com.flowpowered.noise.module.selector.*;
+import com.flowpowered.noise.module.combiner.selector.*;
 
 import java.util.List;
 
 /**
- * A Module is basically just a function from R^3 -> R
- * (for the actual function, see {@link Module#get(double, double, double)}).
+ * A Module is basically just a function from R^3 -> R (for the actual function, see
+ * {@link Module#getValue(double, double, double)}).
  * In this way, one can consider the Module constructor to be a function that returns a module function.
  * <br/>
- * In addition to the get method, Module implements a whole bunch of fluent methods.
+ * In addition to the getValue method, Module implements a whole bunch of fluent methods.
  */
 public abstract class Module {
 
     /**
-     * This is the module function, an abstract method that all modules must implement.
+     * The module function, an abstract method that all modules must implement.
      *
      * @param x the x coordinate
      * @param y the y coordinate
      * @param z the z coordinate
      * @return the value at x, y, z
      */
-    public abstract double get(double x, double y, double z);
+    public abstract double getValue(double x, double y, double z);
 
     // Combiner methods
     public Add add(Module that) {
@@ -121,6 +121,19 @@ public abstract class Module {
 
     public Select selectFrom(Module sourceA, Module sourceB, double edgeFalloff, double lowerBound, double upperBound) {
         return new Select(this, sourceA, sourceB, edgeFalloff, lowerBound, upperBound);
+    }
+
+    public Select.Builder selectFrom(Module sourceA, Module sourceB) {
+        return new Select.Builder()
+                .setSources(sourceA, sourceB);
+    }
+
+    public static abstract class Builder {
+
+        protected abstract void checkValues() throws IllegalStateException;
+
+        public abstract Module build() throws IllegalStateException;
+
     }
 
 }

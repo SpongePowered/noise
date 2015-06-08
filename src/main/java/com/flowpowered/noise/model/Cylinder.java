@@ -26,45 +26,19 @@
  */
 package com.flowpowered.noise.model;
 
-import com.flowpowered.noise.exception.NoModuleException;
 import com.flowpowered.noise.module.Module;
 
 /**
  * Model that defines the surface of a cylinder.
  */
-public class Cylinder {
-    private Module module;
+public class Cylinder extends Model {
 
     /**
      * @param mod The noise module that is used to generate the output values.
      */
     public Cylinder(Module mod) {
-        this.module = mod;
+        super(mod);
     }
-
-    /**
-     * Returns the noise module that is used to generate the output values.
-     *
-     * @return A reference to the noise module.
-     */
-    public Module getModule() {
-        return this.module;
-    }
-
-    /**
-     * Sets the noise module that is used to generate the output values.
-     *
-     * @param mod The noise module that is used to generate the output values.
-     * <p/>
-     * This noise module must exist for the lifetime of this object, until you pass a new noise module to this method.
-     */
-    public void setModule(Module mod) {
-        if (mod == null) {
-            throw new IllegalArgumentException("Mod cannot be null");
-        }
-        this.module = mod;
-    }
-
     /**
      * Returns the output value from the noise module given the (angle, height) coordinates of the specified input value located on the surface of the cylinder.
      *
@@ -73,14 +47,10 @@ public class Cylinder {
      * @return The output value from the noise module.
      */
     public double getValue(double angle, double height) {
-        if (module == null) {
-            throw new NoModuleException();
-        }
-
         double x, y, z;
         x = Math.cos(Math.toRadians(angle));
         y = height;
         z = Math.sin(Math.toRadians(angle));
-        return module.get(x, y, z);
+        return module.getValue(x, y, z);
     }
 }

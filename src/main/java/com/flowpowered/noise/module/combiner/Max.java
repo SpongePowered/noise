@@ -26,18 +26,57 @@
  */
 package com.flowpowered.noise.module.combiner;
 
-
 import com.flowpowered.noise.module.Module;
 
+/**
+ * Represents a combiner module that takes the maximum of two source modules.
+ */
 public class Max extends Combiner {
 
+    /**
+     * Constructs a new instance out of two sources.
+     *
+     * @param sourceA The first source
+     * @param sourceB The second source
+     */
     public Max(Module sourceA, Module sourceB) {
         super(sourceA, sourceB);
     }
 
     @Override
-    public double get(double x, double y, double z) {
-        return Math.max(sourceA.get(x, y, z), sourceB.get(x, y, z));
+    public double getValue(double x, double y, double z) {
+        return Math.max(sourceA.getValue(x, y, z), sourceB.getValue(x, y, z));
+    }
+
+    /**
+     * Represents a builder of {@link Max} instances.
+     */
+    public static class Builder extends Combiner.Builder {
+
+        @Override
+        public Builder setSourceA(Module sourceA) {
+            this.sourceA = sourceA;
+            return this;
+        }
+
+        @Override
+        public Builder setSourceB(Module sourceB) {
+            this.sourceB = sourceB;
+            return this;
+        }
+
+        @Override
+        public Builder setSources(Module sourceA, Module sourceB) {
+            setSourceA(sourceA);
+            setSourceB(sourceB);
+            return this;
+        }
+
+        @Override
+        public Max build() throws IllegalStateException {
+            return new Max(sourceA, sourceB);
+        }
+
     }
 
 }

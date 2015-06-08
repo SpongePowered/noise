@@ -41,7 +41,7 @@ public class Cylinders extends Module {
     }
 
     @Override
-    public double get(double x, double y, double z) {
+    public double getValue(double x, double y, double z) {
         double z1 = z;
         double x1 = x;
         x1 *= frequency;

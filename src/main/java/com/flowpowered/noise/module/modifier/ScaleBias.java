@@ -26,7 +26,6 @@
  */
 package com.flowpowered.noise.module.modifier;
 
-import com.flowpowered.noise.exception.NoModuleException;
 import com.flowpowered.noise.module.Module;
 
 public class ScaleBias extends Modifier {
@@ -51,7 +50,7 @@ public class ScaleBias extends Modifier {
     }
 
     @Override
-    public double get(double x, double y, double z) {
-        return source.get(x, y, z) * scale + bias;
+    public double getValue(double x, double y, double z) {
+        return source.getValue(x, y, z) * scale + bias;
     }
 }
