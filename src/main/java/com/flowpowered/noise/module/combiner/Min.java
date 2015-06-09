@@ -49,6 +49,15 @@ public class Min extends Combiner {
     }
 
     /**
+     * Returns a new builder instance.
+     *
+     * @return A new builder instance
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    /**
      * Represents a builder of {@link Min} instances.
      */
     public static class Builder extends Combiner.Builder {
@@ -74,6 +83,7 @@ public class Min extends Combiner {
 
         @Override
         public Min build() throws IllegalStateException {
+            checkValues();
             return new Min(sourceA, sourceB);
         }
 

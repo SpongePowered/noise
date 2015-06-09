@@ -50,6 +50,15 @@ public class Power extends Combiner {
     }
 
     /**
+     * Returns a new builder instance.
+     *
+     * @return A new builder instance
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    /**
      * Represents a builder of {@link Power} instances.
      */
     public static class Builder extends Combiner.Builder {
@@ -75,6 +84,7 @@ public class Power extends Combiner {
 
         @Override
         public Power build() throws IllegalStateException {
+            checkValues();
             return new Power(sourceA, sourceB);
         }
 

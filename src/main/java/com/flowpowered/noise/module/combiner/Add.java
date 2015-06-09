@@ -49,6 +49,15 @@ public class Add extends Combiner {
     }
 
     /**
+     * Returns a new builder instance.
+     *
+     * @return A new builder instance
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    /**
      * Represents a builder of {@link Add} instances.
      */
     public static class Builder extends Combiner.Builder {
@@ -74,6 +83,7 @@ public class Add extends Combiner {
 
         @Override
         public Add build() throws IllegalStateException {
+            checkValues();
             return new Add(sourceA, sourceB);
         }
 

@@ -34,11 +34,12 @@ import com.flowpowered.noise.module.combiner.selector.*;
 import java.util.Collection;
 
 /**
- * A Module is basically just a function from R^3 -> R (for the actual function, see
- * {@link Module#getValue(double, double, double)}).
- * In this way, one can consider the Module constructor to be a function that returns a module function.
- * <br/>
- * In addition to the getValue method, Module implements a whole bunch of fluent methods.
+ * Represents a function from {@code R^3 -> R}, or taking three doubles and returning one. The
+ * return value should be in the range {@code [0, 1]}. In this way, one can consider a Module
+ * constructor to be a function that returns a noise-generating function.
+ *
+ * <p>In addition Module implements several fluent methods to achieve composition of modules
+ * easily.</p>
  */
 public abstract class Module {
 

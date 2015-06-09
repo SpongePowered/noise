@@ -49,6 +49,15 @@ public class Multiply extends Combiner {
     }
 
     /**
+     * Returns a new builder instance.
+     *
+     * @return A new builder instance
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    /**
      * Represents a builder of {@link Multiply} instances.
      */
     public static class Builder extends Combiner.Builder {
@@ -74,6 +83,7 @@ public class Multiply extends Combiner {
 
         @Override
         public Multiply build() throws IllegalStateException {
+            checkValues();
             return new Multiply(sourceA, sourceB);
         }
 

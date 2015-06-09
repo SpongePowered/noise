@@ -49,6 +49,15 @@ public class Max extends Combiner {
     }
 
     /**
+     * Returns a new builder instance.
+     *
+     * @return A new builder instance
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    /**
      * Represents a builder of {@link Max} instances.
      */
     public static class Builder extends Combiner.Builder {
@@ -74,6 +83,7 @@ public class Max extends Combiner {
 
         @Override
         public Max build() throws IllegalStateException {
+            checkValues();
             return new Max(sourceA, sourceB);
         }
 

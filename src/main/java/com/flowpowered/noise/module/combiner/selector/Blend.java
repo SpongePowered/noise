@@ -32,8 +32,6 @@ import com.flowpowered.noise.module.Module;
 /**
  * Represents a selector module that does a linear interpolation between two source modules based
  * on the value of a control module.
- *
- * <p>The value of the control module is expected to range from -1.0 to 1.0.</p>
  */
 public class Blend extends Selector {
 

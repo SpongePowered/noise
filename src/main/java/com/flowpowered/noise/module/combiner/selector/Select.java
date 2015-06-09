@@ -46,28 +46,16 @@ public class Select extends Selector {
     public static final double DEFAULT_EDGE_FALLOFF = 0.0;
 
     /**
-     * Default lower bound of the selection range.
+     * The efault lower bound of the selection range.
      */
     public static final double DEFAULT_LOWER_BOUND = -1.0;
 
     /**
-     * Default upper bound of the selection range.
+     * The default upper bound of the selection range.
      */
     public static final double DEFAULT_UPPER_BOUND = 1.0;
-
-    /**
-     * The edge falloff value.
-     */
     private final double edgeFalloff;
-
-    /**
-     * The lower bound of the selection range.
-     */
     private final double lowerBound;
-
-    /**
-     * The upper bound of the selection range.
-     */
     private final double upperBound;
 
     /**
