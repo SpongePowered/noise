@@ -13,7 +13,7 @@ after_success:
   # Get files for use with build, namely the custom Maven settings.xml and scripts
   - "git clone https://github.com/flow/travis-ci-resources.git $HOME/build/flow/travis"
   # DEVELOP: Check if commit is not a pull request, if repo is official, if branch is not master; then deploy artifacts
-  - "[[ $TRAVIS_PULL_REQUEST == false ]] && [[ $TRAVIS_REPO_SLUG == flow/noise ]] && [[ $TRAVIS_BRANCH == develop ]] && mvn deploy --settings $HOME/build/flow/travis/settings.xml"
+  - "[[ $TRAVIS_PULL_REQUEST == false ]] && [[ $TRAVIS_REPO_SLUG == flow/noise ]] && [[ $TRAVIS_BRANCH == develop ]] && mvn javadoc:jar source:jar deploy --settings $HOME/build/flow/travis/settings.xml"
   # RELEASE: Check if commit is not a pull request, if repo is official, if branch is master; then run deployment script
   - "[[ $TRAVIS_PULL_REQUEST == false ]] && [[ $TRAVIS_REPO_SLUG == flow/noise ]] && [[ $TRAVIS_BRANCH == master ]] && $HOME/build/flow/travis/deploy.sh && $HOME/build/flow/travis/gh-pages.sh"
   # Generate Javadocs and report for Coveralls.io
