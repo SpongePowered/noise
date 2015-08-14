@@ -1,6 +1,14 @@
+# Use new Travis-CI infrastructure
+sudo: false
+
 # Source language and JDK version to use
 language: java
 jdk: oraclejdk8
+
+# Use cached Maven dependencies
+cache:
+  directories:
+    - $HOME/.m2
 
 # Pre-install Maven dependencies
 install: mvn dependency:go-offline
@@ -42,7 +50,7 @@ env:
     # Make the log output cleaner
     - TERM=dumb
     # Super secure, encrypted variables! Ssssh!
-    - secure: "DNC0P5UKXeF1PGJfpUnxlVADsjGJNzEkKXDSkdZso+18U5DbNYp6HCX6LNm5Bm5Ya5EKxmIRW0PWr1vKD4wkjzwqsPyRNTjQpTBPFtynttLk+ZRn7xqw8RGorvLMfyo24tn8zce4+EvGOT7cXfK5M5BxpWAtNB+GTK4FrhVhfHk="
-    - secure: "qG/XwLh0eq4kk6/k/kcopMxAuyctuz8j+nVmEToW/kDpnBzIaBuh4PZj+gOqvGzSvVj/YhkA2euY50Em/S1UbCQ6g3Ux2Db7WHt3/z1M637wpoDCZgxvyd27rx61nSM1mgvu+EYanMPDojhenxXnIq55iXgmyFlJV0mlaEEjHUU="
-    - secure: "NoOm7McVyGArWcOIm4T/u0xRn76W1cgvHQivlNk5+DeZJAnui05QMfbQFGQKNJfpmQYpd1a+1cvhmPAJOS8WQKux9PHNAwGkrxpP8aCpPk/VVNV5d2untQ5ddvKHh5Q1pL5+wymjwBz0DG7KgMSLxH0Lk1gE8Unq6q9nHW+EZbA="
-    - secure: "Gp6YWbX1fZIkynB+TA8NgfsubKP+U7t5UnsA+XmA2aLvv5srkqenNLmazOSqNFwueTeNbZGO5/SIFFdZoOv4Yn5a3x3Pbe7WpUz90WK6RaDB7wQvMx0JCEb1NnmPR/at4vchGO3hNVEetvnkg3TaUxbqlVAD/cmkp5Wi3vcm6JE="
+    - secure: "OMTN/6dYra897spJN50fBKh6rrse41qFbe2qv00CwdQqGhx+yEKY+kEYH2FvH6Is+8YpOQNOea8kU3/DJ/AFy0XkDi8+372TgwS73vfQlhoFU0WuxFtRVYrUUkBtRD0spXmToXZhhuuaE7lmI7CAb/y/auBPQN0p5IfgHWcM3n4="
+    - secure: "wIpKLZAe4kc0eHCytn7JevYRFyq1WmEU7HCu1qjBFexxUATFkRMFF1g4WKLJHDItYfizsQrx31aKPqmSE4DYtYAJIet/aML5zLOrIYKvrbS4MMkkMPsPa5DDRsRIPTLHkD7TlQbnwpJeNe/hMgmnbipJ9CSYR/l+pmHGY5St6QI="
+    - secure: "KMDLEBJvUOVJLyxdEdJQ+uZx4GwkTEqjSeNYlclQ2XpHk1CH+Df9PFX0XfD6M1neoYEWF/T1xy3tKmYddTMQXusANaC/vSjT0JzKTnNCL5LBEZdfpYP/oU3lplLPIOpFiAZ1B+3OpmLXBEMn0zRdV13EVSd0wLSPLeH34xzUQcs="
+    - secure: "tdFAznf4/+rxzYF3qsyM+BmWc4tWIJJ1DA0VVRPSTvD6DJr4L/jug2OoGixGzUK5iRUkRaeplgtdMrZ/KEFVp5dFAnqRRTYyFh7rKZDJWfnhs0AWQFN+sK0fBA44PWH5fu8uSRfqVZduPEMlykKbE1y9HdhwMJ074We255sK+qc="
