@@ -201,7 +201,7 @@ uploadArchives {
                     email 'wolf480@interia.pl'
                 }
                 developer {
-                    id 'Wulfspider'
+                    id 'lukespragg'
                     name 'Luke Spragg'
                     email 'the@wulf.im'
                 }

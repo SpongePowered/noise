@@ -15,6 +15,10 @@ The latest and greatest source can be found here on [GitHub](https://github.com/
 
 Or download the latest [development archive](https://github.com/flow/noise/archive/develop.zip) or the latest [stable archive](https://github.com/flow/noise/archive/master.zip).
 
+## Test Dependencies
+The following dependencies are only needed if you compiling the tests included with this project. Gotta test 'em all!
+* [junit:junit](https://oss.sonatype.org/#nexus-search;gav~junit~junit~~~)
+
 ## Building from Source
 This project can be built with the _latest_ [Java Development Kit](http://oracle.com/technetwork/java/javase/downloads) and [Maven](https://maven.apache.org/) or [Gradle](https://www.gradle.org/). Maven and Gradle are used to simplify dependency management, but using either of them is optional.
 
