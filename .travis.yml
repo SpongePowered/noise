@@ -27,11 +27,13 @@ after_success:
   # Generate Javadocs and report for Coveralls.io
   - "mvn javadoc:javadoc cobertura:cobertura coveralls:report -DserviceJobId=$TRAVIS_JOB_ID"
 
-# RELEASE: Deploy main JAR to GitHub Releases
+# RELEASE: Deploy JARs to GitHub Releases
+
 deploy:
   provider: releases
   api-key: $GITHUB_TOKEN
-  file: "target/flow-noise-`cat version.txt`.jar"
+  file_glob: true
+  file: target/flow-noise-*.jar
   skip_cleanup: true
   on:
     branch: master
