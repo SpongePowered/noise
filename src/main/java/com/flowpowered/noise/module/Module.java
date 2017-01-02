@@ -35,8 +35,8 @@ public abstract class Module {
     public Module(int sourceModuleCount) {
 
         // Create an array of pointers to all source modules required by this
-        // noise module.  Set these pointers to Const modules.
-    	sourceModule = new Module[sourceModuleCount];     
+        // noise module. Set these pointers to Const modules.
+        sourceModule = new Module[sourceModuleCount];
         for (int i = 0; i < sourceModuleCount; i++) {
             sourceModule[i] = new Const();
         }
@@ -59,7 +59,9 @@ public abstract class Module {
         this.sourceModule[index] = sourceModule;
     }
 
-    public abstract int getSourceModuleCount();
+    public int getSourceModuleCount() {
+        return sourceModule.length;
+    }
 
     public abstract double getValue(double x, double y, double z);
 }
