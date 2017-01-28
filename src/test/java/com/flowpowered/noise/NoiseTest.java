@@ -41,9 +41,7 @@ public class NoiseTest {
                 max = gradient;
             }
         }
-        if (max > Noise.GRADIENT_MAX) {
-            Assert.fail("Gradient max it not the max, " + max + " is");
-        }
+        Assert.assertEquals(max, 0.5, 0.01);
         /*
         final int width = 2048, height = 2048;
         final double xPeriod = 128, yPeriod = 128;

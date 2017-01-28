@@ -218,4 +218,11 @@ public final class Utils {
             -0.786182, -0.583814, 0.202678, 0.0, -0.565191, 0.821858, -0.0714658, 0.0, 0.437895, 0.152598, -0.885981, 0.0, -0.92394, 0.353436, -0.14635, 0.0,
             0.212189, -0.815162, -0.538969, 0.0, -0.859262, 0.143405, -0.491024, 0.0, 0.991353, 0.112814, 0.0670273, 0.0, 0.0337884, -0.979891, -0.196654, 0.0
     };
+
+    static {
+        // pre-scale the vectors to avoid unnecessary division/multiplication when generating noise
+        for (int i = 0; i < RANDOM_VECTORS.length; i++) {
+            RANDOM_VECTORS[i] /= 2 * Math.sqrt(3.0);
+        }
+    }
 }

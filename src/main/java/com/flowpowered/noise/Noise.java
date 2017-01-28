@@ -27,7 +27,6 @@
 package com.flowpowered.noise;
 
 public final class Noise {
-    public static final double GRADIENT_MAX = 1.728003;
     private static final int X_NOISE_GEN = 1619;
     private static final int Y_NOISE_GEN = 31337;
     private static final int Z_NOISE_GEN = 6971;
@@ -153,7 +152,7 @@ public final class Noise {
         // Now compute the dot product of the gradient vector with the distance
         // vector.  The resulting value is gradient noise.  Apply a scaling and
         // offset value so that this noise value ranges from 0 to 1.
-        return ((xvGradient * xvPoint) + (yvGradient * yvPoint) + (zvGradient * zvPoint)) / (GRADIENT_MAX * 2) + 0.5;
+        return ((xvGradient * xvPoint) + (yvGradient * yvPoint) + (zvGradient * zvPoint)) + 0.5;
     }
 
     /**
