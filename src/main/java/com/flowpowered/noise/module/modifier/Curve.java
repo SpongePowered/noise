@@ -116,7 +116,7 @@ public class Curve extends Module {
         // smallest input value of the control point array), get the corresponding
         // output value of the nearest control point and exit now.
         if (index1 == index2) {
-            return controlPoints.get(lastIndex).outputValue;
+            return controlPoints.get(index1).outputValue;
         }
 
         // Compute the alpha value used for cubic interpolation.
