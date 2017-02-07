@@ -30,22 +30,22 @@ import com.flowpowered.noise.exception.NoModuleException;
 import com.flowpowered.noise.module.Module;
 
 public class Invert extends Module {
-	public static final double DEFAULT_MIDDLE = 0.0;
+    public static final double DEFAULT_MIDDLE = 0.0;
     private double middle = DEFAULT_MIDDLE;
-	
+
     public Invert() {
         super(1);
     }
 
     public double getMiddle() {
-		return middle;
-	}
+        return middle;
+    }
 
-	public void setMiddle(double middle) {
-		this.middle = middle;
-	}
+    public void setMiddle(double middle) {
+        this.middle = middle;
+    }
 
-	@Override
+    @Override
     public int getSourceModuleCount() {
         return 1;
     }
