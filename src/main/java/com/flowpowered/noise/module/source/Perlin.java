@@ -114,6 +114,19 @@ public class Perlin extends Module {
     public void setSeed(int seed) {
         this.seed = seed;
     }
+    
+    /**
+     * Returns the maximum value the perlin module can output in it's current configuration
+     * @return The maximum possible value for {@link Perlin#getValue(double, double, double)} to return
+     */
+    public double getMaxValue() {
+    	/*
+    	 * Each successive octave adds persistence ^ currebt)octaves to max possible output.
+    	 * So (p = persistence, o = octave): Max(perlin) = p + p*p + p*p*p + ... + p^(o-1).
+    	 * Using geometric series formula we can narrow it down to this:
+    	 */
+    	return (Math.pow(getPersistence(), getOctaveCount()) - 1) / (getPersistence() - 1);
+    }
 
     @Override
     public int getSourceModuleCount() {
