@@ -121,7 +121,7 @@ public class Perlin extends Module {
      */
     public double getMaxValue() {
     	/*
-    	 * Each successive octave adds persistence ^ current)octaves to max possible output.
+    	 * Each successive octave adds persistence ^ current_octaves to max possible output.
     	 * So (p = persistence, o = octave): Max(perlin) = p + p*p + p*p*p + ... + p^(o-1).
     	 * Using geometric series formula we can narrow it down to this:
     	 */
