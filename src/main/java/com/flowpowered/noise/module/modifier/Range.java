@@ -33,7 +33,7 @@ import com.flowpowered.noise.module.Module;
  * A modifier module to map a value from one range to another.
  * For example: 0.5 (-1 &lt; x &lt; 1) -&gt; 0.75 (0 &lt; x &lt; 1)
  */
-public class Map extends Module {
+public class Range extends Module {
     
     public static final double DEFAULT_CURRENT_LOWER_BOUND = -1f;
     public static final double DEFAULT_CURRENT_UPPER_BOUND = 1f;
@@ -49,7 +49,7 @@ public class Map extends Module {
     /* New Upper Bound */
     private double newUpperBound = DEFAULT_NEW_UPPER_BOUND;
 
-    public Map() {
+    public Range() {
         super(1);
     }
 

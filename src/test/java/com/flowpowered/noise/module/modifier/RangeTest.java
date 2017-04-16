@@ -32,14 +32,14 @@ import org.junit.Test;
 
 import com.flowpowered.noise.module.source.Const;
 
-public class MapTest {
+public class RangeTest {
 
 	@Test
 	public void testMapSanity() {
 		Const constVal = new Const();
 		constVal.setValue(0.75);
 		
-		Map map = new Map();
+		Range map = new Range();
 		map.setBounds(0.5, 1f, 1f, 2f);
 		map.setSourceModule(0, constVal);
 		// Arbitrary
