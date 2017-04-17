@@ -35,15 +35,15 @@ import com.flowpowered.noise.module.source.Const;
 public class RangeTest {
 
 	@Test
-	public void testMapSanity() {
+	public void testRangeSanity() {
 		Const constVal = new Const();
 		constVal.setValue(0.75);
 		
-		Range map = new Range();
-		map.setBounds(0.5, 1f, 1f, 2f);
-		map.setSourceModule(0, constVal);
+		Range range = new Range();
+		range.setBounds(0.5, 1f, 1f, 2f);
+		range.setSourceModule(0, constVal);
 		// Arbitrary
-		assertEquals(1.5, map.getValue(35, 41, 1), 0f);
+		assertEquals(1.5, range.getValue(35, 41, 1), 0f);
 	}
 
 }

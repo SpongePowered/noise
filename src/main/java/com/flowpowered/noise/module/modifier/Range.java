@@ -86,7 +86,7 @@ public class Range extends Module {
     }
     
     /**
-     * Configure bounds for map module
+     * Configure bounds for range module
      * @param currentLower current lower bound
      * @param currentUpper current upper bound
      * @param newLower new lower bound
