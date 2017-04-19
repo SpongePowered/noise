@@ -115,8 +115,10 @@ public class Range extends Module {
         }
         
         double oldVal = sourceModule[0].getValue(x, y, z);
-        return newLowerBound + (oldVal - currentLowerBound) * 
-                (newUpperBound - newLowerBound) / (currentUpperBound - currentLowerBound);
+        double scale = (newUpperBound - newLowerBound) / 
+        		(currentUpperBound - currentLowerBound);
+        double bias = newLowerBound - currentLowerBound * scale;
+        return oldVal * scale + bias;
     }
 
 }
