@@ -48,6 +48,9 @@ public class Range extends Module {
     private double newLowerBound = DEFAULT_NEW_LOWER_BOUND;
     /* New Upper Bound */
     private double newUpperBound = DEFAULT_NEW_UPPER_BOUND;
+    /* Cache variables */
+    private double scale;
+    private double bias;
 
     public Range() {
         super(1);
@@ -57,7 +60,9 @@ public class Range extends Module {
         return currentLowerBound;
     }
 
-    public void setCurrentLowerBound(double currentLowerBound) {
+    // Bounds setters are private to prevent changes to bounds
+    // without recalculating scale/bias
+    private void setCurrentLowerBound(double currentLowerBound) {
         this.currentLowerBound = currentLowerBound;
     }
 
@@ -65,7 +70,7 @@ public class Range extends Module {
         return currentUpperBound;
     }
 
-    public void setCurrentUpperBound(double currentUpperBound) {
+    private void setCurrentUpperBound(double currentUpperBound) {
         this.currentUpperBound = currentUpperBound;
     }
 
@@ -73,7 +78,7 @@ public class Range extends Module {
         return newLowerBound;
     }
 
-    public void setNewLowerBound(double newLowerBound) {
+    private void setNewLowerBound(double newLowerBound) {
         this.newLowerBound = newLowerBound;
     }
 
@@ -81,8 +86,18 @@ public class Range extends Module {
         return newUpperBound;
     }
 
-    public void setNewUpperBound(double newUpperBound) {
+    private void setNewUpperBound(double newUpperBound) {
         this.newUpperBound = newUpperBound;
+    }
+    
+    /*
+     * Calculate the scale and biased to be a applied during Range#getValue(int x, int y, int z)
+     * Should be called when the bounds are modified
+     */
+    private void recalculateScaleBias() {
+    	scale = (getNewUpperBound() - getNewLowerBound()) / 
+        		(getCurrentUpperBound() - getCurrentLowerBound());
+    	bias = getNewLowerBound() - getCurrentLowerBound() * scale;
     }
     
     /**
@@ -98,6 +113,7 @@ public class Range extends Module {
     	setCurrentUpperBound(currentUpper);
     	setNewLowerBound(newLower);
     	setNewUpperBound(newUpper);
+    	recalculateScaleBias();
     }
 
     @Override
@@ -115,9 +131,6 @@ public class Range extends Module {
         }
         
         double oldVal = sourceModule[0].getValue(x, y, z);
-        double scale = (newUpperBound - newLowerBound) / 
-        		(currentUpperBound - currentLowerBound);
-        double bias = newLowerBound - currentLowerBound * scale;
         return oldVal * scale + bias;
     }
 
