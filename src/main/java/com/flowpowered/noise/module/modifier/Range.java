@@ -60,34 +60,16 @@ public class Range extends Module {
         return currentLowerBound;
     }
 
-    // Bounds setters are private to prevent changes to bounds
-    // without recalculating scale/bias
-    private void setCurrentLowerBound(double currentLowerBound) {
-        this.currentLowerBound = currentLowerBound;
-    }
-
     public double getCurrentUpperBound() {
         return currentUpperBound;
-    }
-
-    private void setCurrentUpperBound(double currentUpperBound) {
-        this.currentUpperBound = currentUpperBound;
     }
 
     public double getNewLowerBound() {
         return newLowerBound;
     }
-
-    private void setNewLowerBound(double newLowerBound) {
-        this.newLowerBound = newLowerBound;
-    }
-
+    
     public double getNewUpperBound() {
         return newUpperBound;
-    }
-
-    private void setNewUpperBound(double newUpperBound) {
-        this.newUpperBound = newUpperBound;
     }
     
     /*
@@ -109,10 +91,13 @@ public class Range extends Module {
      */
     public void setBounds(double currentLower, double currentUpper, double newLower,
     		double newUpper) {
-    	setCurrentLowerBound(currentLower);
-    	setCurrentUpperBound(currentUpper);
-    	setNewLowerBound(newLower);
-    	setNewUpperBound(newUpper);
+    	if (currentLowerBound == currentUpperBound) {
+    		throw new IllegalArgumentException("currentLower must not equal currentUpper. Both are " + currentLowerBound);
+    	}
+    	currentLowerBound = currentLower;
+    	currentUpperBound = currentUpper;
+    	newLowerBound = newLower;
+    	newUpperBound = newUpper;
     	recalculateScaleBias();
     }
 
