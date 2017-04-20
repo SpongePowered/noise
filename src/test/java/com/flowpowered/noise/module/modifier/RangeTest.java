@@ -45,5 +45,11 @@ public class RangeTest {
 		// Arbitrary
 		assertEquals(1.5, range.getValue(35, 41, 1), 0f);
 	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testRangeSetter() {
+		Range range = new Range();
+		range.setBounds(1, 1, 0.5, 1);
+	}
 
 }
