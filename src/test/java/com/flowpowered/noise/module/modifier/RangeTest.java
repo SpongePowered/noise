@@ -47,9 +47,21 @@ public class RangeTest {
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void testRangeSetter() {
+	public void testRangeIllegalLowersSetter() {
 		Range range = new Range();
 		range.setBounds(1, 1, 0.5, 1);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testRangeIllegalUppersSetter() {
+		Range range = new Range();
+		range.setBounds(0, 1, 1, 1);
+	}
+	
+	@Test
+	public void testRangeLegalBoundsSetter() {
+		Range range = new Range();
+		range.setBounds(0, 1, 0.5, 1);
 	}
 
 }
