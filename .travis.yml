@@ -1,58 +1,24 @@
-# Use new Travis-CI infrastructure
+dist: 'trusty'
 sudo: false
 
-# Source language and JDK version to use
-language: java
-jdk: oraclejdk8
+language: 'java'
+jdk:
+- 'oraclejdk8'
 
-# Use cached Maven dependencies
+before_cache:
+- 'rm -f $HOME/.gradle/caches/modules-2/modules-2.lock'
+- 'rm -fr $HOME/.gradle/caches/*/plugin-resolution/'
 cache:
   directories:
-    - $HOME/.m2
+  - '$HOME/.gradle/caches/'
+  - '$HOME/.gradle/wrapper/'
 
-# Pre-install Maven dependencies
-install: mvn dependency:go-offline
+install: true
+script: './.travis.sh'
 
-# Compile and test source
-script: mvn clean -DbuildNumber=$TRAVIS_BUILD_NUMBER -DciSystem=travis -Dcommit=${TRAVIS_COMMIT:0:7}
-
-# Fetch resources, run deployment goal/task, and generate Javadocs and reports
 after_success:
-  # Get files for use with build, namely the custom Maven settings.xml and scripts
-  - "git clone https://github.com/flow/travis-ci-resources.git $HOME/build/flow/travis"
-  # DEVELOP: Check if commit is not a pull request, if repo is official, if branch is not master; then deploy artifacts
-  - "[[ $TRAVIS_PULL_REQUEST == false ]] && [[ $TRAVIS_REPO_SLUG == flow/noise ]] && [[ $TRAVIS_BRANCH == develop ]] && mvn javadoc:jar source:jar deploy --settings $HOME/build/flow/travis/settings.xml"
-  # RELEASE: Check if commit is not a pull request, if repo is official, if branch is master; then run deployment script
-  - "[[ $TRAVIS_PULL_REQUEST == false ]] && [[ $TRAVIS_REPO_SLUG == flow/noise ]] && [[ $TRAVIS_BRANCH == master ]] && $HOME/build/flow/travis/deploy.sh && $HOME/build/flow/travis/gh-pages.sh"
-  # Generate Javadocs and report for Coveralls.io
-  - "mvn javadoc:javadoc cobertura:cobertura coveralls:report -DserviceJobId=$TRAVIS_JOB_ID"
+- 'mvn javadoc:javadoc coveralls:report -DserviceJobId=$TRAVIS_JOB_ID'
 
-# RELEASE: Deploy JARs to GitHub Releases
-
-deploy:
-  provider: releases
-  api-key: $GITHUB_TOKEN
-  file_glob: true
-  file: target/flow-noise-*.jar
-  skip_cleanup: true
-  on:
-    branch: master
-
-# Notification services
-notifications:
-  # Disable build status email notifications, until the issue with forks is fixed
-  email: false
-  webhooks:
-    # Send build information and status to Notifico
-    - http://n.tkte.ch/h/2040/i0jL-KG6oPfQS7zU3Gu2HpJU
-
-# Environmental system variables
 env:
   global:
-    # Make the log output cleaner
-    - TERM=dumb
-    # Super secure, encrypted variables! Ssssh!
-    - secure: "OMTN/6dYra897spJN50fBKh6rrse41qFbe2qv00CwdQqGhx+yEKY+kEYH2FvH6Is+8YpOQNOea8kU3/DJ/AFy0XkDi8+372TgwS73vfQlhoFU0WuxFtRVYrUUkBtRD0spXmToXZhhuuaE7lmI7CAb/y/auBPQN0p5IfgHWcM3n4="
-    - secure: "wIpKLZAe4kc0eHCytn7JevYRFyq1WmEU7HCu1qjBFexxUATFkRMFF1g4WKLJHDItYfizsQrx31aKPqmSE4DYtYAJIet/aML5zLOrIYKvrbS4MMkkMPsPa5DDRsRIPTLHkD7TlQbnwpJeNe/hMgmnbipJ9CSYR/l+pmHGY5St6QI="
-    - secure: "KMDLEBJvUOVJLyxdEdJQ+uZx4GwkTEqjSeNYlclQ2XpHk1CH+Df9PFX0XfD6M1neoYEWF/T1xy3tKmYddTMQXusANaC/vSjT0JzKTnNCL5LBEZdfpYP/oU3lplLPIOpFiAZ1B+3OpmLXBEMn0zRdV13EVSd0wLSPLeH34xzUQcs="
-    - secure: "tdFAznf4/+rxzYF3qsyM+BmWc4tWIJJ1DA0VVRPSTvD6DJr4L/jug2OoGixGzUK5iRUkRaeplgtdMrZ/KEFVp5dFAnqRRTYyFh7rKZDJWfnhs0AWQFN+sK0fBA44PWH5fu8uSRfqVZduPEMlykKbE1y9HdhwMJ074We255sK+qc="
+  - 'TERM=dumb

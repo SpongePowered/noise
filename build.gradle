@@ -1,211 +1,145 @@
-// Default tasks
-defaultTasks 'clean', 'licenseFormat', 'build', 'install'
-
-// Apply plugins
-apply plugin: 'java'
-apply plugin: 'cobertura' // Coveralls dependency
-apply plugin: 'com.github.kt3k.coveralls'
-apply plugin: 'license'
-apply plugin: 'maven'
-apply plugin: 'signing'
-
-// Project information
-ext.projectName = 'Flow Noise'
-group = 'com.flowpowered'
-archivesBaseName = 'flow-noise'
-version = '1.0.1-SNAPSHOT'
-ext.packaging = 'jar'
-ext.inceptionYear = '2013'
-ext.url = 'https://flowpowered.com/noise'
-ext.description = 'Noise generation library for Java, based on the libnoise C++ library.'
-
-// Organization information
-ext.organization = 'Flow Powered'
-ext.organizationUrl = 'https://flowpowered.com'
-
-// Build properties
-ext.buildNumber = project.hasProperty('buildNumber') ? buildNumber : '0'
-ext.ciSystem = project.hasProperty('ciSystem') ? ciSystem : 'unknown'
-ext.commit = project.hasProperty('commit') ? commit : 'unknown'
-
 // Build plugin repositories and dependencies
 buildscript {
-    repositories {
-        mavenLocal()
-        mavenCentral()
-        maven {
-            name = 'sonatype-nexus'
-            url = 'https://oss.sonatype.org/content/groups/public/'
-        }
-    }
-    dependencies {
-        classpath 'net.saliman:gradle-cobertura-plugin:2.2.8' // Coveralls dependency
-        classpath 'nl.javadude.gradle.plugins:license-gradle-plugin:0.10.0'
-        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.4.0'
-    }
-}
-
-// Project repositories
-repositories {
+  repositories {
     mavenLocal()
     mavenCentral()
     maven {
-        name = 'sonatype-nexus'
-        url = 'https://oss.sonatype.org/content/groups/public/'
+      name = 'sonatype-nexus'
+      url = 'https://oss.sonatype.org/content/groups/public/'
     }
+  }
+  dependencies {
+    classpath 'net.saliman:gradle-cobertura-plugin:2.6.1'
+    classpath 'nl.javadude.gradle.plugins:license-gradle-plugin:0.10.0'
+    classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.8.2'
+  }
 }
 
-// Project dependencies
+plugins {
+  id 'java-library'
+  id 'maven'
+  id 'net.minecrell.licenser' version '0.4.1'
+}
+
+apply plugin: 'cobertura'
+apply plugin: 'com.github.kt3k.coveralls'
+
+group 'org.spongepowered'
+version '1.0.1-SNAPSHOT'
+description 'Noise generation library for Java, based on the libnoise C++ library.'
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+tasks.withType(JavaCompile) {
+  options.deprecation = true
+  options.encoding = 'UTF-8'
+  options.compilerArgs += ['-Xlint:all', '-Xlint:-path']
+}
+
+tasks.withType(Javadoc) {
+  options.addStringOption('Xdoclint:none', '-quiet')
+}
+
+repositories {
+  mavenLocal()
+  mavenCentral()
+  maven {
+    url = 'https://oss.sonatype.org/content/groups/public/'
+  }
+}
+
 dependencies {
-    testCompile 'junit:junit:4.12'
+  testCompile 'junit:junit:4.12'
 }
 
-// Filter, process, and include resources
-processResources {
-    // Include in final JAR
-    from(rootProject.rootDir) {
-        include 'LICENSE.txt'
-    }
-}
-
-// License header formatting
 license {
-    ext.project = projectName
-    ext.year = inceptionYear
-    ext.name = organization
-    ext.url = organizationUrl
-    header rootProject.file('HEADER.txt')
-    ignoreFailures true
-    strictCheck true
-    useDefaultMappings false
-    mapping { java = 'SLASHSTAR_STYLE' }
+  header project.file('HEADER.txt')
+  include '**/*.java'
+  newLine false
 }
 
-// Source compiler configuration
-configure([compileJava, compileTestJava]) {
-    sourceCompatibility = '1.7'
-    targetCompatibility = '1.7'
-    options.encoding = 'UTF-8'
-    options.compilerArgs << '-Xlint:all'
-    options.compilerArgs << '-Xlint:-path'
-    options.deprecation = true
+cobertura.coverageFormats = ['html', 'xml']
+
+task javadocJar(type: Jar) {
+  classifier 'javadoc'
+  from javadoc
 }
 
-// JAR manifest configuration
-jar.manifest.mainAttributes(
-        'Built-By': System.properties['user.name'],
-        'Created-By': System.properties['java.vm.version'] + ' (' + System.properties['java.vm.vendor'] + ')',
-        'Specification-Title': projectName,
-        'Specification-Version': version + '+' + ciSystem + '-b' + buildNumber + '.git-' + commit,
-        'Specification-Vendor': organization + ' - ' + organizationUrl)
-
-// Javadoc doclint configuration
-if (JavaVersion.current().isJava8Compatible()) {
-    allprojects {
-        tasks.withType(Javadoc) {
-            options.addStringOption('Xdoclint:none', '-quiet')
-        }
-    }
+task sourcesJar(type: Jar) {
+  classifier 'sources'
+  from sourceSets.main.allSource
 }
 
-// Coveralls report configuration
-cobertura.coverageFormats = ['html', 'xml'] // Coveralls requires xml format
+artifacts {
+  archives javadocJar
+  archives sourcesJar
+}
 
-// Artifact deployment
-uploadArchives {
+processResources {
+  from(rootProject.rootDir) {
+    include 'LICENSE.txt'
+  }
+}
+
+if(project.hasProperty('spongeRepo') && project.hasProperty('spongeUsername') && project.hasProperty('spongePassword')) {
+  uploadArchives {
     repositories.mavenDeployer {
-        // Javadoc JAR generation
-        task javadocJar(type: Jar, dependsOn: javadoc) {
-            classifier = 'javadoc'
-            from 'build/docs/javadoc'
+      repository(url: spongeRepo) {
+        authentication(userName: spongeUsername, password: spongePassword)
+      }
+
+      snapshotRepository(url: spongeRepo) {
+        authentication(userName: spongeUsername, password: spongePassword)
+      }
+
+      pom.project {
+        name project.name
+        description project.description
+        url 'https://github.com/SpongePowered/noise'
+
+        scm {
+          connection 'scm:git:git://github.com/flow/noise.git'
+          developerConnection 'scm:git:ssh://git@github.com:flow/noise.git'
+          url 'https://github.com/flow/noise'
         }
 
-        // Source JAR generation
-        task sourcesJar(type: Jar) {
-            classifier = 'sources'
-            from sourceSets.main.java.srcDirs
+        licenses {
+          license {
+            name 'MIT License'
+            url 'https://tldrlegal.com/l/mit'
+            distribution 'repo'
+          }
         }
 
-        // Set all artifacts
-        artifacts {
-            archives jar, javadocJar, sourcesJar
+        organization {
+          name 'SpongePowered'
+          url 'https://github.com/SpongePowered'
         }
 
-        // Tasks and variables based on if release or snapshot
-        if (version.endsWith('-SNAPSHOT')) {
-            // Set variable to snapshots repository URL
-            ext.sonatypeUrl = 'https://oss.sonatype.org/content/repositories/snapshots/'
-        } else {
-            // Set variable to releases repository URL
-            ext.sonatypeUrl = 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
-
-            // Artifact signing
-            signing {
-                // Sign JAR artifacts
-                sign configurations.archives
-
-                // Sign Maven POM
-                beforeDeployment {
-                    org.gradle.api.artifacts.maven.MavenDeployment deployment -> signing.signPom(deployment)
-                }
-            }
+        developers {
+          developer {
+            id 'DDoS'
+            name 'Aleksi Sapon'
+            email 'qctechs@gmail.com'
+          }
+          developer {
+            id 'kitskub'
+            name 'Jack Huey'
+            email 'kitskub@gmail.com'
+          }
+          developer {
+            id 'Wolf480pl'
+            name 'Wolf480pl'
+            email 'wolf480@interia.pl'
+          }
+          developer {
+            id 'lukespragg'
+            name 'Luke Spragg'
+            email 'the@wulf.im'
+          }
         }
-
-        // Set login credentials for repository
-        repository(url: sonatypeUrl) {
-            authentication(userName: System.getenv("sonatypeUsername"), password: System.getenv("sonatypePassword"))
-        }
-
-        // Maven POM generation
-        pom.project {
-            name projectName
-            artifactId archivesBaseName
-            packaging packaging
-            inceptionYear inceptionYear
-            url url
-            description project.ext.description
-
-            scm {
-                connection 'scm:git:git://github.com/flow/noise.git'
-                developerConnection 'scm:git:ssh://git@github.com:flow/noise.git'
-                url 'https://github.com/flow/noise'
-            }
-
-            licenses {
-                license {
-                    name 'MIT License'
-                    url 'https://tldrlegal.com/l/mit'
-                    distribution 'repo'
-                }
-            }
-
-            organization {
-                name organization
-                url organizationUrl
-            }
-
-            developers {
-                developer {
-                    id 'DDoS'
-                    name 'Aleksi Sapon'
-                    email 'qctechs@gmail.com'
-                }
-                developer {
-                    id 'kitskub'
-                    name 'Jack Huey'
-                    email 'kitskub@gmail.com'
-                }
-                developer {
-                    id 'Wolf480pl'
-                    name 'Wolf480pl'
-                    email 'wolf480@interia.pl'
-                }
-                developer {
-                    id 'lukespragg'
-                    name 'Luke Spragg'
-                    email 'the@wulf.im'
-                }
-            }
-        }
+      }
     }
+  }
 }
