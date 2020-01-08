@@ -221,11 +221,72 @@ public final class Utils {
             -0.786182, -0.583814, 0.202678, 0.0, -0.565191, 0.821858, -0.0714658, 0.0, 0.437895, 0.152598, -0.885981, 0.0, -0.92394, 0.353436, -0.14635, 0.0,
             0.212189, -0.815162, -0.538969, 0.0, -0.859262, 0.143405, -0.491024, 0.0, 0.991353, 0.112814, 0.0670273, 0.0, 0.0337884, -0.979891, -0.196654, 0.0
     };
+    public static final double[] RANDOM_VECTORS_S = new double[RANDOM_VECTORS.length];
 
     static {
         // pre-scale the vectors to avoid unnecessary division/multiplication when generating noise
         for (int i = 0; i < RANDOM_VECTORS.length; i++) {
+            RANDOM_VECTORS_S[i] = RANDOM_VECTORS[i] / 0.0185703274687564875;
             RANDOM_VECTORS[i] /= 2 * Math.sqrt(3.0);
+        }
+    }
+
+
+    /**
+     * A lookup table to 8 decision trees for the simplex-style noise. Two cubic lattices offset by (0.5, 0.5, 0.5).
+     * The current octant of the current cubic cell of the first lattice corresponds to one cell on the second.
+     * From there, at most four lattice vertices are found which are in range of the input point.
+     */
+    public static final LatticePointBCC[] LOOKUP_BCC = new LatticePointBCC[8];
+    static {
+        for (int i = 0; i < 8; i++) {
+            int i1, j1, k1, i2, j2, k2;
+            i1 = (i >> 0) & 1; j1 = (i >> 1) & 1; k1 = (i >> 2) & 1;
+            i2 = i1 ^ 1; j2 = j1 ^ 1; k2 = k1 ^ 1;
+
+            // The two points within this octant, one from each of the two cubic half-lattices.
+            LatticePointBCC c0 = new LatticePointBCC(i1, j1, k1, 0);
+            LatticePointBCC c1 = new LatticePointBCC(i1 + i2, j1 + j2, k1 + k2, 1);
+
+            // Each single step away on the first half-lattice.
+            LatticePointBCC c2 = new LatticePointBCC(i1 ^ 1, j1, k1, 0);
+            LatticePointBCC c3 = new LatticePointBCC(i1, j1 ^ 1, k1, 0);
+            LatticePointBCC c4 = new LatticePointBCC(i1, j1, k1 ^ 1, 0);
+
+            // Each single step away on the second half-lattice.
+            LatticePointBCC c5 = new LatticePointBCC(i1 + (i2 ^ 1), j1 + j2, k1 + k2, 1);
+            LatticePointBCC c6 = new LatticePointBCC(i1 + i2, j1 + (j2 ^ 1), k1 + k2, 1);
+            LatticePointBCC c7 = new LatticePointBCC(i1 + i2, j1 + j2, k1 + (k2 ^ 1), 1);
+
+            // First two are guaranteed.
+            c0.nextOnFailure = c0.nextOnSuccess = c1;
+            c1.nextOnFailure = c1.nextOnSuccess = c2;
+
+            // Once we find one on the first half-lattice, the rest are out.
+            // In addition, knowing c2 rules out c5.
+            c2.nextOnFailure = c3; c2.nextOnSuccess = c6;
+            c3.nextOnFailure = c4; c3.nextOnSuccess = c5;
+            c4.nextOnFailure = c4.nextOnSuccess = c5;
+
+            // Once we find one on the second half-lattice, the rest are out.
+            c5.nextOnFailure = c6; c5.nextOnSuccess = null;
+            c6.nextOnFailure = c7; c6.nextOnSuccess = null;
+            c7.nextOnFailure = c7.nextOnSuccess = null;
+
+            LOOKUP_BCC[i] = c0;
+        }
+    }
+
+    /**
+     * Represents one lattice vertex on the simplex-style noise.
+     */
+    public static class LatticePointBCC {
+        public double dxr, dyr, dzr;
+        public int xrv, yrv, zrv;
+        LatticePointBCC nextOnFailure, nextOnSuccess;
+        public LatticePointBCC(int xrv, int yrv, int zrv, int lattice) {
+            this.dxr = -xrv + lattice * 0.5; this.dyr = -yrv + lattice * 0.5; this.dzr = -zrv + lattice * 0.5;
+            this.xrv = xrv + lattice * 1024; this.yrv = yrv + lattice * 1024; this.zrv = zrv + lattice * 1024;
         }
     }
 }

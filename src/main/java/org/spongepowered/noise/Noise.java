@@ -159,6 +159,61 @@ public final class Noise {
     }
 
     /**
+     * Generates a simplex-style coherent noise value from the coordinates of a three-dimensional input value.
+     * Does not use the classic Simplex noise algorithm, but an alternative. Adapted from the following URL:
+     * https://github.com/KdotJPG/New-Simplex-Style-Gradient-Noise/blob/master/java/FastSimplexStyleNoise.java
+     *
+     * @param x The @a x coordinate of the input value.
+     * @param y The @a y coordinate of the input value.
+     * @param z The @a z coordinate of the input value.
+     * @param seed The random number seed.
+     * @return The generated gradient-coherent-noise value.
+     * <p/>
+     * The return value ranges from 0 to 1.
+     * <p/>
+     */
+    public static double simplexStyleCoherentNoise3D(double x, double y, double z, int seed) {
+        // Re-orient the cubic lattices via rotation, to produce the expected look on cardinal planar slices.
+        // This is an orthonormal rotation, not a skew transform.
+        double r = (2.0 / 3.0) * (x + y + z);
+        double xr = r - x, yr = r - y, zr = r - z;
+
+        // Get base and offsets inside cube of first lattice.
+        int xrb = Utils.floor(xr), yrb = Utils.floor(yr), zrb = Utils.floor(zr);
+        double xri = xr - xrb, yri = yr - yrb, zri = zr - zrb;
+
+        // Identify which octant of the cube we're in. This determines which cell
+        // in the other cubic lattice we're in, and also narrows down one point on each.
+        int xht = (int)(xri + 0.5), yht = (int)(yri + 0.5), zht = (int)(zri + 0.5);
+        int index = (xht << 0) | (yht << 1) | (zht << 2);
+
+        // Point contributions
+        double value = 0.5;
+        Utils.LatticePointBCC c = Utils.LOOKUP_BCC[index];
+        while (c != null) {
+            double dxr = xri + c.dxr, dyr = yri + c.dyr, dzr = zri + c.dzr;
+            double attn = 0.5 - dxr * dxr - dyr * dyr - dzr * dzr;
+            if (attn < 0) {
+                c = c.nextOnFailure;
+            } else {
+                int ix = xrb + c.xrv, iy = xrb + c.xrv, iz = zrb + c.zrv;
+                int vectorIndex = (X_NOISE_GEN * ix + Y_NOISE_GEN * iy + Z_NOISE_GEN * iz + SEED_NOISE_GEN * seed);
+                vectorIndex ^= (vectorIndex >> SHIFT_NOISE_GEN);
+                vectorIndex &= 0xff;
+                double xvGradient = Utils.RANDOM_VECTORS_S[(vectorIndex << 2)];
+                double yvGradient = Utils.RANDOM_VECTORS_S[(vectorIndex << 2) + 1];
+                double zvGradient = Utils.RANDOM_VECTORS_S[(vectorIndex << 2) + 2];
+                double ramped = ((xvGradient * dxr) + (yvGradient * dyr) + (zvGradient * dzr));
+
+                attn *= attn;
+                value += attn * attn * ramped;
+                c = c.nextOnSuccess;
+            }
+        }
+        return value;
+    }
+
+    /**
      * Generates an integer-noise value from the coordinates of a three-dimensional input value.
      *
      * @param x The integer @a x coordinate of the input value.
