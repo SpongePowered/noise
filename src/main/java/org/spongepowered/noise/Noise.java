@@ -49,7 +49,7 @@ public final class Noise {
      * @param quality The quality of the coherent-noise.
      * @return The generated gradient-coherent-noise value.
      * <p/>
-     * The return value ranges from 0 to 1.
+     * The return value ranges approximately from 0.3125 to 0.6875
      * <p/>
      * For an explanation of the difference between <i>gradient</i> noise and <i>value</i> noise, see the comments for the GradientNoise3D() function.
      */
@@ -126,7 +126,7 @@ public final class Noise {
      * A <i>gradient</i>-noise function generates better-quality noise than a <i>value</i>-noise function. Most noise modules use gradient noise for this reason, although it takes much longer to
      * calculate.
      * <p/>
-     * The return value ranges from 0 to 1.
+     * The return value ranges from 0 to 1
      * <p/>
      * This function generates a gradient-noise value by performing the following steps: - It first calculates a random normalized vector based on the nearby integer value passed to this function. -
      * It then calculates a new value by adding this vector to the nearby integer value passed to this function. - It then calculates the dot product of the above-generated value and the
@@ -169,7 +169,7 @@ public final class Noise {
      * @param seed The random number seed.
      * @return The generated gradient-coherent-noise value.
      * <p/>
-     * The return value ranges from 0 to 1.
+     * The return value ranges from 0.3125 to 0.6875
      * <p/>
      */
     public static double simplexStyleCoherentNoise3D(double x, double y, double z, int seed) {
@@ -179,7 +179,9 @@ public final class Noise {
         double xr = r - x, yr = r - y, zr = r - z;
 
         // Get base and offsets inside cube of first lattice.
-        int xrb = Utils.floor(xr), yrb = Utils.floor(yr), zrb = Utils.floor(zr);
+        int xrb = ((xr > 0.0) ? (int) xr : (int) xr - 1);
+        int yrb = ((yr > 0.0) ? (int) yr : (int) yr - 1);
+        int zrb = ((zr > 0.0) ? (int) zr : (int) zr - 1);
         double xri = xr - xrb, yri = yr - yrb, zri = zr - zrb;
 
         // Identify which octant of the cube we're in. This determines which cell

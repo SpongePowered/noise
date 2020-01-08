@@ -39,17 +39,15 @@ import org.spongepowered.noise.module.Module;
  * Uses a different formula but produces a similar appearance to classic Simplex.
  */
 public class RidgedMultiSimplex extends Module {
-    // Default frequency for the noise::module::RidgedMulti noise module.
+    // Default frequency for the noise::module::RidgedMultiSimplex noise module.
     public static final double DEFAULT_RIDGED_FREQUENCY = 1.0;
-    // Default lacunarity for the noise::module::RidgedMulti noise module.
+    // Default lacunarity for the noise::module::RidgedMultiSimplex noise module.
     public static final double DEFAULT_RIDGED_LACUNARITY = 2.0;
-    // Default number of octaves for the noise::module::RidgedMulti noise module.
+    // Default number of octaves for the noise::module::RidgedMultiSimplex noise module.
     public static final int DEFAULT_RIDGED_OCTAVE_COUNT = 6;
-    // Default noise quality for the noise::module::RidgedMulti noise module.
-    public static final NoiseQuality DEFAULT_RIDGED_QUALITY = NoiseQuality.STANDARD;
-    // Default noise seed for the noise::module::RidgedMulti noise module.
+    // Default noise seed for the noise::module::RidgedMultiSimplex noise module.
     public static final int DEFAULT_RIDGED_SEED = 0;
-    // Maximum number of octaves for the noise::module::RidgedMulti noise module.
+    // Maximum number of octaves for the noise::module::RidgedMultiSimplex noise module.
     public static final int RIDGED_MAX_OCTAVE = 30;
     private double frequency = DEFAULT_RIDGED_FREQUENCY;
     // Frequency multiplier between successive octaves.

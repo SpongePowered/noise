@@ -226,7 +226,8 @@ public final class Utils {
     static {
         // pre-scale the vectors to avoid unnecessary division/multiplication when generating noise
         for (int i = 0; i < RANDOM_VECTORS.length; i++) {
-            RANDOM_VECTORS_S[i] = RANDOM_VECTORS[i] / 0.0185703274687564875;
+            RANDOM_VECTORS_S[i] = RANDOM_VECTORS[i] / 0.0495208732500173; // Make the Simplex-style noise range from 0.3125 to 0.6875
+            //RANDOM_VECTORS_S[i] = RANDOM_VECTORS[i] / 0.0185703274687564875; // Make the Simplex-style noise range from 0 to 1
             RANDOM_VECTORS[i] /= 2 * Math.sqrt(3.0);
         }
     }
