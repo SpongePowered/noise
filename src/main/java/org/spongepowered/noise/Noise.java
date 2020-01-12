@@ -53,7 +53,7 @@ public final class Noise {
      * @param quality The quality of the simplex-style coherent noise.
      * @return The generated gradient-coherent-noise value.
      * <p/>
-     * The return value ranges from 0 to 1
+     * The return value ranges from 0 to 1.
      * <p/>
      */
     public static double simplexStyleGradientCoherentNoise3D(double x, double y, double z, int seed, LatticeOrientation orientation, NoiseQualitySimplex quality) {
@@ -127,7 +127,7 @@ public final class Noise {
      * @param quality The quality of the coherent-noise.
      * @return The generated gradient-coherent-noise value.
      * <p/>
-     * The return value ranges from 0 to 1
+     * The return value ranges from 0 to 1.
      * <p/>
      * For an explanation of the difference between <i>gradient</i> noise and <i>value</i> noise, see the comments for the GradientNoise3D() function.
      */
@@ -204,7 +204,7 @@ public final class Noise {
      * A <i>gradient</i>-noise function generates better-quality noise than a <i>value</i>-noise function. Most noise modules use gradient noise for this reason, although it takes much longer to
      * calculate.
      * <p/>
-     * The return value ranges from 0 to 1
+     * The return value ranges from 0 to 1.
      * <p/>
      * This function generates a gradient-noise value by performing the following steps: - It first calculates a random normalized vector based on the nearby integer value passed to this function. -
      * It then calculates a new value by adding this vector to the nearby integer value passed to this function. - It then calculates the dot product of the above-generated value and the
