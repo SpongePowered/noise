@@ -30,13 +30,14 @@
 package org.spongepowered.noise.module.source;
 
 import org.spongepowered.noise.Noise;
-import org.spongepowered.noise.NoiseQuality;
+import org.spongepowered.noise.LatticeOrientation;
+import org.spongepowered.noise.NoiseQualitySimplex;
 import org.spongepowered.noise.Utils;
 import org.spongepowered.noise.module.Module;
 
 /**
- * Generates summed octave Simplex-style noise.
- * Uses a different formula but produces a similar appearance to classic Simplex.
+ * Generates summed octave Simplex-style noise. The base Simplex uses a different formula but produces a similar appearance to classic Simplex.
+ * Default lattice orientation is XZBeforeY. See {@link org.spongepowered.noise.LatticeOrientation} for recommended usage.
  */
 public class Simplex extends Module {
     // Default frequency for the noise::module::Simplex noise module.
@@ -47,6 +48,10 @@ public class Simplex extends Module {
     public static final int DEFAULT_SIMPLEX_OCTAVE_COUNT = 6;
     // Default persistence value for the noise::module::Simplex noise module.
     public static final double DEFAULT_SIMPLEX_PERSISTENCE = 0.5;
+    // Default lattice orientation for the noise::module::Simplex noise module.
+    public static final LatticeOrientation DEFAULT_SIMPLEX_ORIENTATION = LatticeOrientation.XZBeforeY;
+    // Default noise quality for the noise::module::Simplex noise module.
+    public static final NoiseQualitySimplex DEFAULT_SIMPLEX_QUALITY = NoiseQualitySimplex.STANDARD;
     // Default noise seed for the noise::module::Simplex noise module.
     public static final int DEFAULT_SIMPLEX_SEED = 0;
     // Maximum number of octaves for the noise::module::Simplex noise module.
@@ -55,11 +60,15 @@ public class Simplex extends Module {
     private double frequency = DEFAULT_SIMPLEX_FREQUENCY;
     // Frequency multiplier between successive octaves.
     private double lacunarity = DEFAULT_SIMPLEX_LACUNARITY;
-    // Total number of octaves that generate the Simplex noise.
+    // Lattice Orientation of the Simplex-style noise.
+    private LatticeOrientation latticeOrientation = DEFAULT_SIMPLEX_ORIENTATION;
+    // Quality of the Simplex-style noise.
+    private NoiseQualitySimplex noiseQuality = DEFAULT_SIMPLEX_QUALITY;
+    // Total number of octaves that generate the Simplex-style noise.
     private int octaveCount = DEFAULT_SIMPLEX_OCTAVE_COUNT;
-    // Persistence of the Simplex noise.
+    // Persistence of the Simplex-style noise.
     private double persistence = DEFAULT_SIMPLEX_PERSISTENCE;
-    // Seed value used by the Simplex-noise function.
+    // Seed value used by the Simplex-style noise function.
     private int seed = DEFAULT_SIMPLEX_SEED;
 
     public Simplex() {
@@ -80,6 +89,22 @@ public class Simplex extends Module {
 
     public void setLacunarity(double lacunarity) {
         this.lacunarity = lacunarity;
+    }
+
+    public LatticeOrientation getLatticeOrientation() {
+        return latticeOrientation;
+    }
+
+    public void setLatticeOrientation(LatticeOrientation latticeOrientation) {
+        this.latticeOrientation = latticeOrientation;
+    }
+
+    public NoiseQualitySimplex getNoiseQuality() {
+        return noiseQuality;
+    }
+
+    public void setNoiseQuality(NoiseQualitySimplex noiseQuality) {
+        this.noiseQuality = noiseQuality;
     }
 
     public int getOctaveCount() {
@@ -117,7 +142,7 @@ public class Simplex extends Module {
     public double getMaxValue() {
     	/*
     	 * Each successive octave adds persistence ^ current_octaves to max possible output.
-    	 * So (p = persistence, o = octave): Max(perlin) = p + p*p + p*p*p + ... + p^(o-1).
+    	 * So (p = persistence, o = octave): Max(simplex) = p + p*p + p*p*p + ... + p^(o-1).
     	 * Using geometric series formula we can narrow it down to this:
     	 */
     	return (Math.pow(getPersistence(), getOctaveCount()) - 1) / (getPersistence() - 1);
@@ -154,7 +179,7 @@ public class Simplex extends Module {
             // Get the coherent-noise value from the input value and add it to the
             // final result.
             seed = (this.seed + curOctave);
-            signal = Noise.simplexStyleCoherentNoise3D(nx, ny, nz, seed);
+            signal = Noise.simplexStyleGradientCoherentNoise3D(nx, ny, nz, seed, latticeOrientation, noiseQuality);
             value += signal * curPersistence;
 
             // Prepare the next octave.

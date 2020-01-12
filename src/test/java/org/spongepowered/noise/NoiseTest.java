@@ -37,14 +37,32 @@ import org.junit.Test;
 public class NoiseTest {
     @Test
     public void test() throws IOException {
-        double max = -Double.MAX_VALUE;
+
+        // Euclidean norm check
         for (int i = 0; i < Utils.RANDOM_VECTORS.length >> 2; i++) {
-            final double gradient = Math.abs(Utils.RANDOM_VECTORS[i << 2]) + Math.abs(Utils.RANDOM_VECTORS[(i << 2) + 1]) + Math.abs(Utils.RANDOM_VECTORS[(i << 2) + 2]);
-            if (gradient > max) {
-                max = gradient;
-            }
+            double gradientMagnitudeSquared =
+                    (Utils.RANDOM_VECTORS[i << 2] * Utils.RANDOM_VECTORS[i << 2])
+                    + (Utils.RANDOM_VECTORS[(i << 2) + 1] * Utils.RANDOM_VECTORS[(i << 2) + 1])
+                    + (Utils.RANDOM_VECTORS[(i << 2) + 2] * Utils.RANDOM_VECTORS[(i << 2) + 2]);
+            Assert.assertEquals("Gradient[i=" + i + "] Euclidean Norm, " + gradientMagnitudeSquared
+                    + ", { " + Utils.RANDOM_VECTORS[i << 2] + ", " + Utils.RANDOM_VECTORS[(i << 2) + 1] + ", " + Utils.RANDOM_VECTORS[(i << 2) + 2] + " }",
+                    gradientMagnitudeSquared, 1.0, 0.00001);
         }
-        Assert.assertEquals(max, 0.5, 0.01);
+
+        // Rudimentary Perlin range test.
+        // Fails when normalized for the actual maximum, rather than for the theoretical sqrt(3) for if arbitrary gradient directions were possible.
+        // It would be more difficult to test the actual maximum in here. In favor of better-normalized noise, I loosened up the condition, instead
+        // of normalizing the gradient set by the theoretical sqrt(3). ~K.jpg
+        for (int i = 0; i < Utils.RANDOM_VECTORS.length >> 2; i++) {
+            double gradientMaximumRampedValue =
+                    Math.abs(Utils.RANDOM_VECTORS_PERLIN[i << 2])
+                    +  Math.abs(Utils.RANDOM_VECTORS_PERLIN[(i << 2) + 1])
+                    +  Math.abs(Utils.RANDOM_VECTORS_PERLIN[(i << 2) + 2]);
+            Assert.assertTrue("Gradient[i=" + i + "] Perlin Range, " + gradientMaximumRampedValue
+                            + ", { " + Utils.RANDOM_VECTORS[i << 2] + ", " + Utils.RANDOM_VECTORS[(i << 2) + 1] + ", " + Utils.RANDOM_VECTORS[(i << 2) + 2] + " }",
+                    gradientMaximumRampedValue <= 1.01); // Would be 1.0 if normalized under the assumption that any gradient direction were possible.
+        }
+
         /*
         final int width = 2048, height = 2048;
         final double xPeriod = 128, yPeriod = 128;

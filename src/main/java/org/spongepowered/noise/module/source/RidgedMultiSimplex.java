@@ -30,13 +30,14 @@
 package org.spongepowered.noise.module.source;
 
 import org.spongepowered.noise.Noise;
-import org.spongepowered.noise.NoiseQuality;
+import org.spongepowered.noise.LatticeOrientation;
+import org.spongepowered.noise.NoiseQualitySimplex;
 import org.spongepowered.noise.Utils;
 import org.spongepowered.noise.module.Module;
 
 /**
- * Generates ridged Simplex-style noise.
- * Uses a different formula but produces a similar appearance to classic Simplex.
+ * Generates ridged Simplex-style noise. The base Simplex uses a different formula but produces a similar appearance to classic Simplex.
+ * Default lattice orientation is XZBeforeY. See {@link org.spongepowered.noise.LatticeOrientation} for recommended usage.
  */
 public class RidgedMultiSimplex extends Module {
     // Default frequency for the noise::module::RidgedMultiSimplex noise module.
@@ -45,6 +46,10 @@ public class RidgedMultiSimplex extends Module {
     public static final double DEFAULT_RIDGED_LACUNARITY = 2.0;
     // Default number of octaves for the noise::module::RidgedMultiSimplex noise module.
     public static final int DEFAULT_RIDGED_OCTAVE_COUNT = 6;
+    // Default lattice orientation for the noise::module::Simplex noise module.
+    public static final LatticeOrientation DEFAULT_SIMPLEX_ORIENTATION = LatticeOrientation.XZBeforeY;
+    // Default noise quality for the noise::module::RidgedMultiSimplex noise module.
+    public static final NoiseQualitySimplex DEFAULT_RIDGED_QUALITY = NoiseQualitySimplex.SMOOTH;
     // Default noise seed for the noise::module::RidgedMultiSimplex noise module.
     public static final int DEFAULT_RIDGED_SEED = 0;
     // Maximum number of octaves for the noise::module::RidgedMultiSimplex noise module.
@@ -52,6 +57,10 @@ public class RidgedMultiSimplex extends Module {
     private double frequency = DEFAULT_RIDGED_FREQUENCY;
     // Frequency multiplier between successive octaves.
     private double lacunarity = DEFAULT_RIDGED_LACUNARITY;
+    // Lattice Orientation of the Simplex-style noise.
+    private LatticeOrientation latticeOrientation = DEFAULT_SIMPLEX_ORIENTATION;
+    // Quality of the ridged-multifractal noise.
+    private NoiseQualitySimplex noiseQuality = DEFAULT_RIDGED_QUALITY;
     // Total number of octaves that generate the ridged-multifractal noise.
     private int octaveCount = DEFAULT_RIDGED_OCTAVE_COUNT;
     // Contains the spectral weights for each octave.
@@ -78,6 +87,22 @@ public class RidgedMultiSimplex extends Module {
 
     public void setLacunarity(double lacunarity) {
         this.lacunarity = lacunarity;
+    }
+
+    public LatticeOrientation getLatticeOrientation() {
+        return latticeOrientation;
+    }
+
+    public void setLatticeOrientation(LatticeOrientation latticeOrientation) {
+        this.latticeOrientation = latticeOrientation;
+    }
+
+    public NoiseQualitySimplex getNoiseQuality() {
+        return noiseQuality;
+    }
+
+    public void setNoiseQuality(NoiseQualitySimplex noiseQuality) {
+        this.noiseQuality = noiseQuality;
     }
 
     public int getOctaveCount() {
@@ -108,6 +133,19 @@ public class RidgedMultiSimplex extends Module {
             spectralWeights[i] = Math.pow(frequency, -h);
             frequency *= lacunarity;
         }
+    }
+
+    /**
+     * Returns the maximum value the RidgedMultiSimplex module can output in its current configuration
+     * @return The maximum possible value for {@link RidgedMultiSimplex#getValue(double, double, double)} to return
+     */
+    public double getMaxValue() {
+    	/*
+    	 * Each successive octave adds (1/lacunarity) ^ current_octaves to max possible output.
+    	 * So (r = lacunarity, o = octave): Max(ridged) = 1 + 1/r + 1/(r*r) + 1/(r*r*r) + ... + (1/r^(o-1))
+    	 * See https://www.wolframalpha.com/input/?i=sum+from+k%3D0+to+n-1+of+1%2Fx%5Ek
+    	 */
+        return (getLacunarity() - Math.pow(getLacunarity(), 1 - getOctaveCount())) / (getLacunarity() - 1) / 1.6;
     }
 
     @Override
@@ -144,7 +182,7 @@ public class RidgedMultiSimplex extends Module {
 
             // Get the coherent-noise value.
             int seed = (this.seed + curOctave) & 0x7fffffff;
-            signal = Noise.simplexStyleCoherentNoise3D(nx, ny, nz, seed) * 2 - 1;
+            signal = Noise.simplexStyleGradientCoherentNoise3D(nx, ny, nz, seed, latticeOrientation, noiseQuality) * 2 - 1;
 
             // Make the ridges.
             signal = Math.abs(signal);

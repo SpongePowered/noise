@@ -118,6 +118,19 @@ public class RidgedMulti extends Module {
         }
     }
 
+    /**
+     * Returns the maximum value the RidgedMulti module can output in its current configuration
+     * @return The maximum possible value for {@link RidgedMulti#getValue(double, double, double)} to return
+     */
+    public double getMaxValue() {
+    	/*
+    	 * Each successive octave adds (1/lacunarity) ^ current_octaves to max possible output.
+    	 * So (r = lacunarity, o = octave): Max(ridged) = 1 + 1/r + 1/(r*r) + 1/(r*r*r) + ... + (1/r^(o-1))
+    	 * See https://www.wolframalpha.com/input/?i=sum+from+k%3D0+to+n-1+of+1%2Fx%5Ek
+    	 */
+        return (getLacunarity() - Math.pow(getLacunarity(), 1 - getOctaveCount())) / (getLacunarity() - 1) / 1.6;
+    }
+
     @Override
     public int getSourceModuleCount() {
         return 0;

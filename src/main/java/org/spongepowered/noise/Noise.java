@@ -40,6 +40,84 @@ public final class Noise {
     }
 
     /**
+     * Generates a simplex-style gradient coherent noise value from the coordinates of a three-dimensional input value.
+     * Does not use the classic Simplex noise algorithm, but an alternative. Adapted from the following URLs:
+     * https://github.com/KdotJPG/New-Simplex-Style-Gradient-Noise/blob/master/java/FastSimplexStyleNoise.java
+     * https://github.com/KdotJPG/New-Simplex-Style-Gradient-Noise/blob/master/java/SuperSimplexNoise.java
+     *
+     * @param x The @a x coordinate of the input value.
+     * @param y The @a y coordinate of the input value.
+     * @param z The @a z coordinate of the input value.
+     * @param seed The random number seed.
+     * @param orientation The lattice orientation of the simplex-style coherent noise. See documentation for {@link LatticeOrientation}.
+     * @param quality The quality of the simplex-style coherent noise.
+     * @return The generated gradient-coherent-noise value.
+     * <p/>
+     * The return value ranges from 0 to 1
+     * <p/>
+     */
+    public static double simplexStyleGradientCoherentNoise3D(double x, double y, double z, int seed, LatticeOrientation orientation, NoiseQualitySimplex quality) {
+        double squaredRadius = quality.getKernelSquaredRadius();
+        double[] randomVectors = quality.getRandomVectors();
+        Utils.LatticePointBCC[] lookup = quality.getLookup();
+
+        // Re-orient the cubic lattices via rotation. These are orthonormal rotations, not skew transforms.
+        double xr, yr, zr;
+        if (orientation == LatticeOrientation.CLASSIC) {
+            double r = (2.0 / 3.0) * (x + y + z);
+            xr = r - x; yr = r - y; zr = r - z;
+        } else if (orientation == LatticeOrientation.XYBeforeZ) {
+            double xy = x + y;
+            double s2 = xy * -0.211324865405187;
+            double zz = z * 0.577350269189626;
+            xr = x + s2 - zz; yr = y + s2 - zz;
+            zr = xy * 0.577350269189626 + zz;
+        } else { // XZBeforeY
+            double xz = x + z;
+            double s2 = xz * -0.211324865405187;
+            double yy = y * 0.577350269189626;
+            xr = x + s2 - yy; zr = z + s2 - yy;
+            yr = xz * 0.577350269189626 + yy;
+        }
+
+        // Get base and offsets inside cube of first lattice.
+        int xrb = ((xr > 0.0) ? (int) xr : (int) xr - 1);
+        int yrb = ((yr > 0.0) ? (int) yr : (int) yr - 1);
+        int zrb = ((zr > 0.0) ? (int) zr : (int) zr - 1);
+        double xri = xr - xrb, yri = yr - yrb, zri = zr - zrb;
+
+        // Identify which octant of the cube we're in. This determines which cell
+        // in the other cubic lattice we're in, and also narrows down one point on each.
+        int xht = (int)(xri + 0.5), yht = (int)(yri + 0.5), zht = (int)(zri + 0.5);
+        int index = (xht << 0) | (yht << 1) | (zht << 2);
+
+        // Point contributions
+        double value = 0.5;
+        Utils.LatticePointBCC c = lookup[index];
+        do {
+            double dxr = xri + c.dxr, dyr = yri + c.dyr, dzr = zri + c.dzr;
+            double attn = squaredRadius - dxr * dxr - dyr * dyr - dzr * dzr;
+            if (attn < 0) {
+                c = c.nextOnFailure;
+            } else {
+                int ix = xrb + c.xrv, iy = yrb + c.yrv, iz = zrb + c.zrv;
+                int vectorIndex = (X_NOISE_GEN * ix + Y_NOISE_GEN * iy + Z_NOISE_GEN * iz + SEED_NOISE_GEN * seed);
+                vectorIndex ^= (vectorIndex >> SHIFT_NOISE_GEN);
+                vectorIndex &= 0xff;
+                double xvGradient = randomVectors[(vectorIndex << 2)];
+                double yvGradient = randomVectors[(vectorIndex << 2) + 1];
+                double zvGradient = randomVectors[(vectorIndex << 2) + 2];
+                double ramped = ((xvGradient * dxr) + (yvGradient * dyr) + (zvGradient * dzr));
+
+                attn *= attn;
+                value += attn * attn * ramped;
+                c = c.nextOnSuccess;
+            }
+        } while (c != null);
+        return value;
+    }
+
+    /**
      * Generates a gradient-coherent-noise value from the coordinates of a three-dimensional input value.
      *
      * @param x The @a x coordinate of the input value.
@@ -49,7 +127,7 @@ public final class Noise {
      * @param quality The quality of the coherent-noise.
      * @return The generated gradient-coherent-noise value.
      * <p/>
-     * The return value ranges approximately from 0.3125 to 0.6875
+     * The return value ranges from 0 to 1
      * <p/>
      * For an explanation of the difference between <i>gradient</i> noise and <i>value</i> noise, see the comments for the GradientNoise3D() function.
      */
@@ -142,9 +220,9 @@ public final class Noise {
         vectorIndex ^= (vectorIndex >> SHIFT_NOISE_GEN);
         vectorIndex &= 0xff;
 
-        double xvGradient = Utils.RANDOM_VECTORS[(vectorIndex << 2)];
-        double yvGradient = Utils.RANDOM_VECTORS[(vectorIndex << 2) + 1];
-        double zvGradient = Utils.RANDOM_VECTORS[(vectorIndex << 2) + 2];
+        double xvGradient = Utils.RANDOM_VECTORS_PERLIN[(vectorIndex << 2)];
+        double yvGradient = Utils.RANDOM_VECTORS_PERLIN[(vectorIndex << 2) + 1];
+        double zvGradient = Utils.RANDOM_VECTORS_PERLIN[(vectorIndex << 2) + 2];
 
         // Set up us another vector equal to the distance between the two vectors
         // passed to this function.
@@ -156,63 +234,6 @@ public final class Noise {
         // vector.  The resulting value is gradient noise.  Apply a scaling and
         // offset value so that this noise value ranges from 0 to 1.
         return ((xvGradient * xvPoint) + (yvGradient * yvPoint) + (zvGradient * zvPoint)) + 0.5;
-    }
-
-    /**
-     * Generates a simplex-style coherent noise value from the coordinates of a three-dimensional input value.
-     * Does not use the classic Simplex noise algorithm, but an alternative. Adapted from the following URL:
-     * https://github.com/KdotJPG/New-Simplex-Style-Gradient-Noise/blob/master/java/FastSimplexStyleNoise.java
-     *
-     * @param x The @a x coordinate of the input value.
-     * @param y The @a y coordinate of the input value.
-     * @param z The @a z coordinate of the input value.
-     * @param seed The random number seed.
-     * @return The generated gradient-coherent-noise value.
-     * <p/>
-     * The return value ranges from 0.3125 to 0.6875
-     * <p/>
-     */
-    public static double simplexStyleCoherentNoise3D(double x, double y, double z, int seed) {
-        // Re-orient the cubic lattices via rotation, to produce the expected look on cardinal planar slices.
-        // This is an orthonormal rotation, not a skew transform.
-        double r = (2.0 / 3.0) * (x + y + z);
-        double xr = r - x, yr = r - y, zr = r - z;
-
-        // Get base and offsets inside cube of first lattice.
-        int xrb = ((xr > 0.0) ? (int) xr : (int) xr - 1);
-        int yrb = ((yr > 0.0) ? (int) yr : (int) yr - 1);
-        int zrb = ((zr > 0.0) ? (int) zr : (int) zr - 1);
-        double xri = xr - xrb, yri = yr - yrb, zri = zr - zrb;
-
-        // Identify which octant of the cube we're in. This determines which cell
-        // in the other cubic lattice we're in, and also narrows down one point on each.
-        int xht = (int)(xri + 0.5), yht = (int)(yri + 0.5), zht = (int)(zri + 0.5);
-        int index = (xht << 0) | (yht << 1) | (zht << 2);
-
-        // Point contributions
-        double value = 0.5;
-        Utils.LatticePointBCC c = Utils.LOOKUP_BCC[index];
-        while (c != null) {
-            double dxr = xri + c.dxr, dyr = yri + c.dyr, dzr = zri + c.dzr;
-            double attn = 0.5 - dxr * dxr - dyr * dyr - dzr * dzr;
-            if (attn < 0) {
-                c = c.nextOnFailure;
-            } else {
-                int ix = xrb + c.xrv, iy = xrb + c.xrv, iz = zrb + c.zrv;
-                int vectorIndex = (X_NOISE_GEN * ix + Y_NOISE_GEN * iy + Z_NOISE_GEN * iz + SEED_NOISE_GEN * seed);
-                vectorIndex ^= (vectorIndex >> SHIFT_NOISE_GEN);
-                vectorIndex &= 0xff;
-                double xvGradient = Utils.RANDOM_VECTORS_S[(vectorIndex << 2)];
-                double yvGradient = Utils.RANDOM_VECTORS_S[(vectorIndex << 2) + 1];
-                double zvGradient = Utils.RANDOM_VECTORS_S[(vectorIndex << 2) + 2];
-                double ramped = ((xvGradient * dxr) + (yvGradient * dyr) + (zvGradient * dzr));
-
-                attn *= attn;
-                value += attn * attn * ramped;
-                c = c.nextOnSuccess;
-            }
-        }
-        return value;
     }
 
     /**
