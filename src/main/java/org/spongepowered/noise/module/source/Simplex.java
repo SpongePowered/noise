@@ -37,7 +37,7 @@ import org.spongepowered.noise.module.Module;
 
 /**
  * Generates summed octave Simplex-style noise. The base Simplex uses a different formula but produces a similar appearance to classic Simplex.
- * Default lattice orientation is XZBeforeY. See {@link org.spongepowered.noise.LatticeOrientation} for recommended usage.
+ * Default lattice orientation is XZ_BEFORE_Y. See {@link org.spongepowered.noise.LatticeOrientation} for recommended usage.
  */
 public class Simplex extends Module {
     // Default frequency for the noise::module::Simplex noise module.
@@ -49,7 +49,7 @@ public class Simplex extends Module {
     // Default persistence value for the noise::module::Simplex noise module.
     public static final double DEFAULT_SIMPLEX_PERSISTENCE = 0.5;
     // Default lattice orientation for the noise::module::Simplex noise module.
-    public static final LatticeOrientation DEFAULT_SIMPLEX_ORIENTATION = LatticeOrientation.XZBeforeY;
+    public static final LatticeOrientation DEFAULT_SIMPLEX_ORIENTATION = LatticeOrientation.XZ_BEFORE_Y;
     // Default noise quality for the noise::module::Simplex noise module.
     public static final NoiseQualitySimplex DEFAULT_SIMPLEX_QUALITY = NoiseQualitySimplex.STANDARD;
     // Default noise seed for the noise::module::Simplex noise module.

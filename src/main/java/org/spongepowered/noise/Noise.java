@@ -66,13 +66,13 @@ public final class Noise {
         if (orientation == LatticeOrientation.CLASSIC) {
             double r = (2.0 / 3.0) * (x + y + z);
             xr = r - x; yr = r - y; zr = r - z;
-        } else if (orientation == LatticeOrientation.XYBeforeZ) {
+        } else if (orientation == LatticeOrientation.XY_BEFORE_Z) {
             double xy = x + y;
             double s2 = xy * -0.211324865405187;
             double zz = z * 0.577350269189626;
             xr = x + s2 - zz; yr = y + s2 - zz;
             zr = xy * 0.577350269189626 + zz;
-        } else { // XZBeforeY
+        } else { // XZ_BEFORE_Y
             double xz = x + z;
             double s2 = xz * -0.211324865405187;
             double yy = y * 0.577350269189626;

@@ -39,18 +39,18 @@ public enum LatticeOrientation {
      * Generates simplex-style noise with Y pointing up the main diagonal on the noise lattice. If used properly, this can produce better results than CLASSIC,
      * when generating 3D worlds with vertical direction that works differently than the two horizontal directions. See the following recommended usage patterns:
      * - If Y is vertical and X/Z are horizontal, call noise(x, Y, z)
-     * - If Z is vertical and X/Y are horizontal, call noise(x, Z, y) or use mode XYBeforeZ
-     * - If T is time and X/Y or X/Z are horizontal, call noise(x, T, y) or noise(x, T, z), or use mode XYBeforeZ
-     * - If only two coordinates are needed for a 2D noise plane, call noise(x, 0, y) or noise(x, 0, z), or use mode XYBeforeZ
+     * - If Z is vertical and X/Y are horizontal, call noise(x, Z, y) or use mode XY_BEFORE_Z
+     * - If T is time and X/Y or X/Z are horizontal, call noise(x, T, y) or noise(x, T, z), or use mode XY_BEFORE_Z
+     * - If only two coordinates are needed for a 2D noise plane, call noise(x, 0, y) or noise(x, 0, z), or use mode XY_BEFORE_Z
      */
-    XZBeforeY,
+    XZ_BEFORE_Y,
     /**
      * Generates simplex-style noise with Z pointing up the main diagonal on the noise lattice. If used properly, this can produce better results than CLASSIC,
      * when generating 3D worlds with vertical direction that works differently than the two horizontal directions. See the following recommended usage patterns:
-     * - If Y is vertical and X/Z are horizontal, call noise(x, z, Y) or use mode XZBeforeY
+     * - If Y is vertical and X/Z are horizontal, call noise(x, z, Y) or use mode XZ_BEFORE_Y
      * - If Z is vertical and X/Y are horizontal, call noise(x, y, Z)
-     * - If T is time and X/Y or X/Z are horizontal, call noise(x, y, T) or noise(x, z, T), or use mode XYBeforeZ
-     * - If only two coordinates are needed for a 2D noise plane, call noise(x, y, 0) or noise(x, z, 0), or use mode XZBeforeY
+     * - If T is time and X/Y or X/Z are horizontal, call noise(x, y, T) or noise(x, z, T), or use mode XY_BEFORE_Z
+     * - If only two coordinates are needed for a 2D noise plane, call noise(x, y, 0) or noise(x, z, 0), or use mode XZ_BEFORE_Y
      */
-    XYBeforeZ
+    XY_BEFORE_Z
 }

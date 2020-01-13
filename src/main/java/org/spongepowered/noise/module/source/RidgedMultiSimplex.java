@@ -37,7 +37,7 @@ import org.spongepowered.noise.module.Module;
 
 /**
  * Generates ridged Simplex-style noise. The base Simplex uses a different formula but produces a similar appearance to classic Simplex.
- * Default lattice orientation is XZBeforeY. See {@link org.spongepowered.noise.LatticeOrientation} for recommended usage.
+ * Default lattice orientation is XZ_BEFORE_Y. See {@link org.spongepowered.noise.LatticeOrientation} for recommended usage.
  */
 public class RidgedMultiSimplex extends Module {
     // Default frequency for the noise::module::RidgedMultiSimplex noise module.
@@ -47,7 +47,7 @@ public class RidgedMultiSimplex extends Module {
     // Default number of octaves for the noise::module::RidgedMultiSimplex noise module.
     public static final int DEFAULT_RIDGED_OCTAVE_COUNT = 6;
     // Default lattice orientation for the noise::module::Simplex noise module.
-    public static final LatticeOrientation DEFAULT_SIMPLEX_ORIENTATION = LatticeOrientation.XZBeforeY;
+    public static final LatticeOrientation DEFAULT_SIMPLEX_ORIENTATION = LatticeOrientation.XZ_BEFORE_Y;
     // Default noise quality for the noise::module::RidgedMultiSimplex noise module.
     public static final NoiseQualitySimplex DEFAULT_RIDGED_QUALITY = NoiseQualitySimplex.SMOOTH;
     // Default noise seed for the noise::module::RidgedMultiSimplex noise module.
