@@ -30,28 +30,37 @@
 package org.spongepowered.noise.module.source;
 
 import org.spongepowered.noise.Noise;
-import org.spongepowered.noise.NoiseQuality;
+import org.spongepowered.noise.LatticeOrientation;
+import org.spongepowered.noise.NoiseQualitySimplex;
 import org.spongepowered.noise.Utils;
 import org.spongepowered.noise.module.Module;
 
-public class RidgedMulti extends Module {
-    // Default frequency for the noise::module::RidgedMulti noise module.
+/**
+ * Generates ridged Simplex-style noise. The base Simplex uses a different formula but produces a similar appearance to classic Simplex.
+ * Default lattice orientation is XZ_BEFORE_Y. See {@link org.spongepowered.noise.LatticeOrientation} for recommended usage.
+ */
+public class RidgedMultiSimplex extends Module {
+    // Default frequency for the noise::module::RidgedMultiSimplex noise module.
     public static final double DEFAULT_RIDGED_FREQUENCY = 1.0;
-    // Default lacunarity for the noise::module::RidgedMulti noise module.
+    // Default lacunarity for the noise::module::RidgedMultiSimplex noise module.
     public static final double DEFAULT_RIDGED_LACUNARITY = 2.0;
-    // Default number of octaves for the noise::module::RidgedMulti noise module.
+    // Default number of octaves for the noise::module::RidgedMultiSimplex noise module.
     public static final int DEFAULT_RIDGED_OCTAVE_COUNT = 6;
-    // Default noise quality for the noise::module::RidgedMulti noise module.
-    public static final NoiseQuality DEFAULT_RIDGED_QUALITY = NoiseQuality.STANDARD;
-    // Default noise seed for the noise::module::RidgedMulti noise module.
+    // Default lattice orientation for the noise::module::Simplex noise module.
+    public static final LatticeOrientation DEFAULT_SIMPLEX_ORIENTATION = LatticeOrientation.XZ_BEFORE_Y;
+    // Default noise quality for the noise::module::RidgedMultiSimplex noise module.
+    public static final NoiseQualitySimplex DEFAULT_RIDGED_QUALITY = NoiseQualitySimplex.SMOOTH;
+    // Default noise seed for the noise::module::RidgedMultiSimplex noise module.
     public static final int DEFAULT_RIDGED_SEED = 0;
-    // Maximum number of octaves for the noise::module::RidgedMulti noise module.
+    // Maximum number of octaves for the noise::module::RidgedMultiSimplex noise module.
     public static final int RIDGED_MAX_OCTAVE = 30;
     private double frequency = DEFAULT_RIDGED_FREQUENCY;
     // Frequency multiplier between successive octaves.
     private double lacunarity = DEFAULT_RIDGED_LACUNARITY;
+    // Lattice Orientation of the Simplex-style noise.
+    private LatticeOrientation latticeOrientation = DEFAULT_SIMPLEX_ORIENTATION;
     // Quality of the ridged-multifractal noise.
-    private NoiseQuality noiseQuality = DEFAULT_RIDGED_QUALITY;
+    private NoiseQualitySimplex noiseQuality = DEFAULT_RIDGED_QUALITY;
     // Total number of octaves that generate the ridged-multifractal noise.
     private int octaveCount = DEFAULT_RIDGED_OCTAVE_COUNT;
     // Contains the spectral weights for each octave.
@@ -59,7 +68,7 @@ public class RidgedMulti extends Module {
     // Seed value used by the ridged-multfractal-noise function.
     private int seed = DEFAULT_RIDGED_SEED;
 
-    public RidgedMulti() {
+    public RidgedMultiSimplex() {
         super(0);
         calcSpectralWeights();
     }
@@ -80,11 +89,19 @@ public class RidgedMulti extends Module {
         this.lacunarity = lacunarity;
     }
 
-    public NoiseQuality getNoiseQuality() {
+    public LatticeOrientation getLatticeOrientation() {
+        return latticeOrientation;
+    }
+
+    public void setLatticeOrientation(LatticeOrientation latticeOrientation) {
+        this.latticeOrientation = latticeOrientation;
+    }
+
+    public NoiseQualitySimplex getNoiseQuality() {
         return noiseQuality;
     }
 
-    public void setNoiseQuality(NoiseQuality noiseQuality) {
+    public void setNoiseQuality(NoiseQualitySimplex noiseQuality) {
         this.noiseQuality = noiseQuality;
     }
 
@@ -119,8 +136,8 @@ public class RidgedMulti extends Module {
     }
 
     /**
-     * Returns the maximum value the RidgedMulti module can output in its current configuration
-     * @return The maximum possible value for {@link RidgedMulti#getValue(double, double, double)} to return
+     * Returns the maximum value the RidgedMultiSimplex module can output in its current configuration
+     * @return The maximum possible value for {@link RidgedMultiSimplex#getValue(double, double, double)} to return
      */
     public double getMaxValue() {
     	/*
@@ -165,7 +182,7 @@ public class RidgedMulti extends Module {
 
             // Get the coherent-noise value.
             int seed = (this.seed + curOctave) & 0x7fffffff;
-            signal = Noise.gradientCoherentNoise3D(nx, ny, nz, seed, noiseQuality) * 2 - 1;
+            signal = Noise.simplexStyleGradientCoherentNoise3D(nx, ny, nz, seed, latticeOrientation, noiseQuality) * 2 - 1;
 
             // Make the ridges.
             signal = Math.abs(signal);

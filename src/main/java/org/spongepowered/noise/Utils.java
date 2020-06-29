@@ -221,11 +221,152 @@ public final class Utils {
             -0.786182, -0.583814, 0.202678, 0.0, -0.565191, 0.821858, -0.0714658, 0.0, 0.437895, 0.152598, -0.885981, 0.0, -0.92394, 0.353436, -0.14635, 0.0,
             0.212189, -0.815162, -0.538969, 0.0, -0.859262, 0.143405, -0.491024, 0.0, 0.991353, 0.112814, 0.0670273, 0.0, 0.0337884, -0.979891, -0.196654, 0.0
     };
+    public static final double[] RANDOM_VECTORS_SIMPLEXSTYLE_STANDARD = new double[RANDOM_VECTORS.length];
+    public static final double[] RANDOM_VECTORS_SIMPLEXSTYLE_SMOOTH = new double[RANDOM_VECTORS.length];
+    public static final double[] RANDOM_VECTORS_PERLIN = new double[RANDOM_VECTORS.length];
 
+    // These were computed by gradient ascent using the above gradient set.
+    private static final double NORMALIZER_SIMPLEXSTYLE_STANDARD = 0.0185703274687564875;
+    private static final double NORMALIZER_SIMPLEXSTYLE_SMOOTH = 0.17315490496873540625;
+    private static final double NORMALIZER_PERLIN = 1.7252359327388492;
+
+    // Constant multiplier to translate the range back to what it was before the normalization fix, and perform the equivalent for the simplex-style noise.
+    private static final double COMPATIBILITY_RATIO = 2 * Math.sqrt(3.0) / NORMALIZER_PERLIN;
     static {
-        // pre-scale the vectors to avoid unnecessary division/multiplication when generating noise
+        setupLegacyMode(false);
+    }
+    public static void setupLegacyMode(boolean enableLegacyRange) {
+        double legacyMultiplier = (enableLegacyRange ? COMPATIBILITY_RATIO : 1.0);
         for (int i = 0; i < RANDOM_VECTORS.length; i++) {
-            RANDOM_VECTORS[i] /= 2 * Math.sqrt(3.0);
+            RANDOM_VECTORS_SIMPLEXSTYLE_STANDARD[i] = RANDOM_VECTORS[i] / (legacyMultiplier * NORMALIZER_SIMPLEXSTYLE_STANDARD);
+            RANDOM_VECTORS_SIMPLEXSTYLE_SMOOTH[i] = RANDOM_VECTORS[i] / (legacyMultiplier * NORMALIZER_SIMPLEXSTYLE_SMOOTH);
+            RANDOM_VECTORS_PERLIN[i] = RANDOM_VECTORS[i] / (legacyMultiplier * NORMALIZER_PERLIN);
+        }
+    }
+
+    /**
+     * Lookup tables to 8 decision trees for the simplex-style noise. Two cubic lattices offset by (0.5, 0.5, 0.5).
+     * The current octant of the current cubic cell of the first lattice corresponds to one cell on the second.
+     * From there, at most four ("standard") or eight ("smooth") lattice vertices are found which are in range.
+     */
+    public static final LatticePointBCC[] LOOKUP_SIMPLEXSTYLE_STANDARD = new LatticePointBCC[8];
+    public static final LatticePointBCC[] LOOKUP_SIMPLEXSTYLE_SMOOTH = new LatticePointBCC[8];
+    static {
+        for (int i = 0; i < 8; i++) {
+            int i1, j1, k1, i2, j2, k2;
+            i1 = (i >> 0) & 1; j1 = (i >> 1) & 1; k1 = (i >> 2) & 1;
+            i2 = i1 ^ 1; j2 = j1 ^ 1; k2 = k1 ^ 1;
+
+            /*
+             * Quality: Standard. Resolve nearest 4 points.
+             */
+
+            // The two points within this octant, one from each of the two cubic half-lattices.
+            LatticePointBCC csf0 = new LatticePointBCC(i1, j1, k1, 0);
+            LatticePointBCC csf1 = new LatticePointBCC(i1 + i2, j1 + j2, k1 + k2, 1);
+
+            // Each single step away on the first half-lattice.
+            LatticePointBCC csf2 = new LatticePointBCC(i1 ^ 1, j1, k1, 0);
+            LatticePointBCC csf3 = new LatticePointBCC(i1, j1 ^ 1, k1, 0);
+            LatticePointBCC csf4 = new LatticePointBCC(i1, j1, k1 ^ 1, 0);
+
+            // Each single step away on the second half-lattice.
+            LatticePointBCC csf5 = new LatticePointBCC(i1 + (i2 ^ 1), j1 + j2, k1 + k2, 1);
+            LatticePointBCC csf6 = new LatticePointBCC(i1 + i2, j1 + (j2 ^ 1), k1 + k2, 1);
+            LatticePointBCC csf7 = new LatticePointBCC(i1 + i2, j1 + j2, k1 + (k2 ^ 1), 1);
+
+            // First two are guaranteed.
+            csf0.nextOnFailure = csf0.nextOnSuccess = csf1;
+            csf1.nextOnFailure = csf1.nextOnSuccess = csf2;
+
+            // Once we find one on the first half-lattice, the rest are out.
+            // In addition, knowing csf2 rules out csf5.
+            csf2.nextOnFailure = csf3; csf2.nextOnSuccess = csf6;
+            csf3.nextOnFailure = csf4; csf3.nextOnSuccess = csf5;
+            csf4.nextOnFailure = csf4.nextOnSuccess = csf5;
+
+            // Once we find one on the second half-lattice, the rest are out.
+            csf5.nextOnFailure = csf6; csf5.nextOnSuccess = null;
+            csf6.nextOnFailure = csf7; csf6.nextOnSuccess = null;
+            csf7.nextOnFailure = csf7.nextOnSuccess = null;
+
+            LOOKUP_SIMPLEXSTYLE_STANDARD[i] = csf0;
+
+            /*
+             * Quality: Smooth. Resolve nearest 8 points.
+             */
+
+            // The two points within this octant, one from each of the two cubic half-lattices.
+            LatticePointBCC css0 = new LatticePointBCC(i1, j1, k1, 0);
+            LatticePointBCC css1 = new LatticePointBCC(i1 + i2, j1 + j2, k1 + k2, 1);
+
+            // (1, 0, 0) vs (0, 1, 1) away from octant.
+            LatticePointBCC css2 = new LatticePointBCC(i1 ^ 1, j1, k1, 0);
+            LatticePointBCC css3 = new LatticePointBCC(i1, j1 ^ 1, k1 ^ 1, 0);
+
+            // (1, 0, 0) vs (0, 1, 1) away from octant, on second half-lattice.
+            LatticePointBCC css4 = new LatticePointBCC(i1 + (i2 ^ 1), j1 + j2, k1 + k2, 1);
+            LatticePointBCC css5 = new LatticePointBCC(i1 + i2, j1 + (j2 ^ 1), k1 + (k2 ^ 1), 1);
+
+            // (0, 1, 0) vs (1, 0, 1) away from octant.
+            LatticePointBCC css6 = new LatticePointBCC(i1, j1 ^ 1, k1, 0);
+            LatticePointBCC css7 = new LatticePointBCC(i1 ^ 1, j1, k1 ^ 1, 0);
+
+            // (0, 1, 0) vs (1, 0, 1) away from octant, on second half-lattice.
+            LatticePointBCC css8 = new LatticePointBCC(i1 + i2, j1 + (j2 ^ 1), k1 + k2, 1);
+            LatticePointBCC css9 = new LatticePointBCC(i1 + (i2 ^ 1), j1 + j2, k1 + (k2 ^ 1), 1);
+
+            // (0, 0, 1) vs (1, 1, 0) away from octant.
+            LatticePointBCC cssA = new LatticePointBCC(i1, j1, k1 ^ 1, 0);
+            LatticePointBCC cssB = new LatticePointBCC(i1 ^ 1, j1 ^ 1, k1, 0);
+
+            // (0, 0, 1) vs (1, 1, 0) away from octant, on second half-lattice.
+            LatticePointBCC cssC = new LatticePointBCC(i1 + i2, j1 + j2, k1 + (k2 ^ 1), 1);
+            LatticePointBCC cssD = new LatticePointBCC(i1 + (i2 ^ 1), j1 + (j2 ^ 1), k1 + k2, 1);
+
+            // First two points are guaranteed.
+            css0.nextOnFailure = css0.nextOnSuccess = css1;
+            css1.nextOnFailure = css1.nextOnSuccess = css2;
+
+            // If css2 is in range, then we know css3 and css4 are not.
+            css2.nextOnFailure = css3; css2.nextOnSuccess = css5;
+            css3.nextOnFailure = css4; css3.nextOnSuccess = css4;
+
+            // If css4 is in range, then we know css5 is not.
+            css4.nextOnFailure = css5; css4.nextOnSuccess = css6;
+            css5.nextOnFailure = css5.nextOnSuccess = css6;
+
+            // If css6 is in range, then we know css7 and css8 are not.
+            css6.nextOnFailure = css7; css6.nextOnSuccess = css9;
+            css7.nextOnFailure = css8; css7.nextOnSuccess = css8;
+
+            // If css8 is in range, then we know css9 is not.
+            css8.nextOnFailure = css9; css8.nextOnSuccess = cssA;
+            css9.nextOnFailure = css9.nextOnSuccess = cssA;
+
+            // If cssA is in range, then we know cssB and cssC are not.
+            cssA.nextOnFailure = cssB; cssA.nextOnSuccess = cssD;
+            cssB.nextOnFailure = cssC; cssB.nextOnSuccess = cssC;
+
+            // If cssC is in range, then we know cssD is not.
+            cssC.nextOnFailure = cssD; cssC.nextOnSuccess = null;
+            cssD.nextOnFailure = cssD.nextOnSuccess = null;
+
+            LOOKUP_SIMPLEXSTYLE_SMOOTH[i] = css0;
+
+        }
+    }
+
+    /**
+     * Represents one lattice vertex on the simplex-style noise.
+     */
+    public static class LatticePointBCC {
+        public double dxr, dyr, dzr;
+        public int xrv, yrv, zrv;
+        LatticePointBCC nextOnFailure, nextOnSuccess;
+        public LatticePointBCC(int xrv, int yrv, int zrv, int lattice) {
+            this.dxr = -xrv + lattice * 0.5; this.dyr = -yrv + lattice * 0.5; this.dzr = -zrv + lattice * 0.5;
+            this.xrv = xrv + lattice * 0x8000; this.yrv = yrv + lattice * 0x8000; this.zrv = zrv + lattice * 0x8000;
         }
     }
 }

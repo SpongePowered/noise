@@ -30,39 +30,48 @@
 package org.spongepowered.noise.module.source;
 
 import org.spongepowered.noise.Noise;
-import org.spongepowered.noise.NoiseQuality;
+import org.spongepowered.noise.LatticeOrientation;
+import org.spongepowered.noise.NoiseQualitySimplex;
 import org.spongepowered.noise.Utils;
 import org.spongepowered.noise.module.Module;
 
-public class Perlin extends Module {
-    // Default frequency for the noise::module::Perlin noise module.
-    public static final double DEFAULT_PERLIN_FREQUENCY = 1.0;
-    // Default lacunarity for the noise::module::Perlin noise module.
-    public static final double DEFAULT_PERLIN_LACUNARITY = 2.0;
-    // Default number of octaves for the noise::module::Perlin noise module.
-    public static final int DEFAULT_PERLIN_OCTAVE_COUNT = 6;
-    // Default persistence value for the noise::module::Perlin noise module.
-    public static final double DEFAULT_PERLIN_PERSISTENCE = 0.5;
-    // Default noise quality for the noise::module::Perlin noise module.
-    public static final NoiseQuality DEFAULT_PERLIN_QUALITY = NoiseQuality.STANDARD;
-    // Default noise seed for the noise::module::Perlin noise module.
-    public static final int DEFAULT_PERLIN_SEED = 0;
-    // Maximum number of octaves for the noise::module::Perlin noise module.
-    public static final int PERLIN_MAX_OCTAVE = 30;
+/**
+ * Generates summed octave Simplex-style noise. The base Simplex uses a different formula but produces a similar appearance to classic Simplex.
+ * Default lattice orientation is XZ_BEFORE_Y. See {@link org.spongepowered.noise.LatticeOrientation} for recommended usage.
+ */
+public class Simplex extends Module {
+    // Default frequency for the noise::module::Simplex noise module.
+    public static final double DEFAULT_SIMPLEX_FREQUENCY = 1.0;
+    // Default lacunarity for the noise::module::Simplex noise module.
+    public static final double DEFAULT_SIMPLEX_LACUNARITY = 2.0;
+    // Default number of octaves for the noise::module::Simplex noise module.
+    public static final int DEFAULT_SIMPLEX_OCTAVE_COUNT = 6;
+    // Default persistence value for the noise::module::Simplex noise module.
+    public static final double DEFAULT_SIMPLEX_PERSISTENCE = 0.5;
+    // Default lattice orientation for the noise::module::Simplex noise module.
+    public static final LatticeOrientation DEFAULT_SIMPLEX_ORIENTATION = LatticeOrientation.XZ_BEFORE_Y;
+    // Default noise quality for the noise::module::Simplex noise module.
+    public static final NoiseQualitySimplex DEFAULT_SIMPLEX_QUALITY = NoiseQualitySimplex.STANDARD;
+    // Default noise seed for the noise::module::Simplex noise module.
+    public static final int DEFAULT_SIMPLEX_SEED = 0;
+    // Maximum number of octaves for the noise::module::Simplex noise module.
+    public static final int SIMPLEX_MAX_OCTAVE = 30;
     // Frequency of the first octave.
-    private double frequency = DEFAULT_PERLIN_FREQUENCY;
+    private double frequency = DEFAULT_SIMPLEX_FREQUENCY;
     // Frequency multiplier between successive octaves.
-    private double lacunarity = DEFAULT_PERLIN_LACUNARITY;
-    // Quality of the Perlin noise.
-    private NoiseQuality noiseQuality = DEFAULT_PERLIN_QUALITY;
-    // Total number of octaves that generate the Perlin noise.
-    private int octaveCount = DEFAULT_PERLIN_OCTAVE_COUNT;
-    // Persistence of the Perlin noise.
-    private double persistence = DEFAULT_PERLIN_PERSISTENCE;
-    // Seed value used by the Perlin-noise function.
-    private int seed = DEFAULT_PERLIN_SEED;
+    private double lacunarity = DEFAULT_SIMPLEX_LACUNARITY;
+    // Lattice Orientation of the Simplex-style noise.
+    private LatticeOrientation latticeOrientation = DEFAULT_SIMPLEX_ORIENTATION;
+    // Quality of the Simplex-style noise.
+    private NoiseQualitySimplex noiseQuality = DEFAULT_SIMPLEX_QUALITY;
+    // Total number of octaves that generate the Simplex-style noise.
+    private int octaveCount = DEFAULT_SIMPLEX_OCTAVE_COUNT;
+    // Persistence of the Simplex-style noise.
+    private double persistence = DEFAULT_SIMPLEX_PERSISTENCE;
+    // Seed value used by the Simplex-style noise function.
+    private int seed = DEFAULT_SIMPLEX_SEED;
 
-    public Perlin() {
+    public Simplex() {
         super(0);
     }
 
@@ -82,11 +91,19 @@ public class Perlin extends Module {
         this.lacunarity = lacunarity;
     }
 
-    public NoiseQuality getNoiseQuality() {
+    public LatticeOrientation getLatticeOrientation() {
+        return latticeOrientation;
+    }
+
+    public void setLatticeOrientation(LatticeOrientation latticeOrientation) {
+        this.latticeOrientation = latticeOrientation;
+    }
+
+    public NoiseQualitySimplex getNoiseQuality() {
         return noiseQuality;
     }
 
-    public void setNoiseQuality(NoiseQuality noiseQuality) {
+    public void setNoiseQuality(NoiseQualitySimplex noiseQuality) {
         this.noiseQuality = noiseQuality;
     }
 
@@ -95,8 +112,8 @@ public class Perlin extends Module {
     }
 
     public void setOctaveCount(int octaveCount) {
-        if (octaveCount < 1 || octaveCount > PERLIN_MAX_OCTAVE) {
-            throw new IllegalArgumentException("octaveCount must be between 1 and MAX OCTAVE: " + PERLIN_MAX_OCTAVE);
+        if (octaveCount < 1 || octaveCount > SIMPLEX_MAX_OCTAVE) {
+            throw new IllegalArgumentException("octaveCount must be between 1 and MAX OCTAVE: " + SIMPLEX_MAX_OCTAVE);
         }
 
         this.octaveCount = octaveCount;
@@ -119,13 +136,13 @@ public class Perlin extends Module {
     }
     
     /**
-     * Returns the maximum value the perlin module can output in its current configuration
-     * @return The maximum possible value for {@link Perlin#getValue(double, double, double)} to return
+     * Returns the maximum value the simplex module can output in its current configuration
+     * @return The maximum possible value for {@link Simplex#getValue(double, double, double)} to return
      */
     public double getMaxValue() {
     	/*
     	 * Each successive octave adds persistence ^ current_octaves to max possible output.
-    	 * So (p = persistence, o = octave): Max(perlin) = p + p*p + p*p*p + ... + p^(o-1).
+    	 * So (p = persistence, o = octave): Max(simplex) = p + p*p + p*p*p + ... + p^(o-1).
     	 * Using geometric series formula we can narrow it down to this:
     	 */
     	return (Math.pow(getPersistence(), getOctaveCount()) - 1) / (getPersistence() - 1);
@@ -162,7 +179,7 @@ public class Perlin extends Module {
             // Get the coherent-noise value from the input value and add it to the
             // final result.
             seed = (this.seed + curOctave);
-            signal = Noise.gradientCoherentNoise3D(nx, ny, nz, seed, noiseQuality);
+            signal = Noise.simplexStyleGradientCoherentNoise3D(nx, ny, nz, seed, latticeOrientation, noiseQuality);
             value += signal * curPersistence;
 
             // Prepare the next octave.
