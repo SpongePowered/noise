@@ -27,7 +27,7 @@ repositories {
 }
 
 dependencies {
-  implementation 'org.spongepowered:noise:1.0.1-SNAPSHOT'
+  implementation 'org.spongepowered:noise:2.0.0-SNAPSHOT'
 }
 ```
 
@@ -36,7 +36,7 @@ If you're using [Maven] to manage project dependencies, simply include the follo
 <dependency>
   <groupId>org.spongepowered</groupId>
   <artifactId>noise</artifactId>
-  <version>1.0.1-SNAPSHOT</version>
+  <version>2.0.0-SNAPSHOT</version>
 </dependency>
 ```
 
