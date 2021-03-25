@@ -34,13 +34,20 @@ import org.spongepowered.noise.module.Module;
 
 /**
  * Model that defines the displacement of a line segment.
- * <p/>
- * This model returns an output value from a noise module given the one-dimensional coordinate of an input value located on a line segment, which can be used as displacements.
- * <p/>
- * This class is useful for creating: - roads and rivers - disaffected college students
- * <p/>
- * To generate an output value, pass an input value between 0.0 and 1.0 to the GetValue() method. 0.0 represents the start position of the line segment and 1.0 represents the end position of the line
- * segment.
+ *
+ * <p>This model returns an output value from a noise module given the
+ * one-dimensional coordinate of an input value located on a line segment, which
+ * can be used as displacements.</p>
+ *
+ * <p>This class is useful for creating:</p>
+ * <ul>
+ * <li>roads and rivers</li>
+ * <li>disaffected college students</li>
+ * </ul>
+ *
+ * <p>To generate an output value, pass an input value between 0.0 and 1.0 to
+ * the GetValue() method. 0.0 represents the start position of the line segment
+ * and 1.0 represents the end position of the line segment.</p>
  */
 public class Line {
     // A flag that specifies whether the value is to be attenuated
@@ -48,17 +55,17 @@ public class Line {
     private boolean attenuate = false;
     // A pointer to the noise module used to generate the output values.
     private Module module;
-    // @a x coordinate of the start of the line segment.
+    // {@code x} coordinate of the start of the line segment.
     private double x0 = 0;
-    // @a x coordinate of the end of the line segment.
+    // {@code x} coordinate of the end of the line segment.
     private double x1 = 1;
-    // @a y coordinate of the start of the line segment.
+    // {@code y} coordinate of the start of the line segment.
     private double y0 = 0;
-    // @a y coordinate of the end of the line segment.
+    // {@code y} coordinate of the end of the line segment.
     private double y1 = 1;
-    // @a z coordinate of the start of the line segment.
+    // {@code z} coordinate of the start of the line segment.
     private double z0 = 0;
-    // @a z coordinate of the end of the line segment.
+    // {@code z} coordinate of the end of the line segment.
     private double z1 = 1;
 
     /**
@@ -90,7 +97,7 @@ public class Line {
     }
 
     /**
-     * Sets the position ( @a x, @a y, @a z ) of the start of the line segment to choose values along.
+     * Sets the position ( {@code x}, {@code y}, {@code z} ) of the start of the line segment to choose values along.
      *
      * @param x x coordinate of the start position.
      * @param y y coordinate of the start position.
@@ -103,7 +110,7 @@ public class Line {
     }
 
     /**
-     * Sets the position ( @a x, @a y, @a z ) of the end of the line segment to choose values along.
+     * Sets the position ( {@code x}, {@code y}, {@code z} ) of the end of the line segment to choose values along.
      *
      * @param x x coordinate of the end position.
      * @param y y coordinate of the end position.
@@ -125,9 +132,10 @@ public class Line {
     /**
      * Sets the noise module that is used to generate the output values.
      *
+     * <p>This noise module must exist for the lifetime of this object, until
+     * you pass a new noise module to this method.</p>
+     *
      * @param module The noise module that is used to generate the output values.
-     * <p/>
-     * This noise module must exist for the lifetime of this object, until you pass a new noise module to this method.
      */
     public void setModule(Module module) {
         if (module == null) {
@@ -137,7 +145,8 @@ public class Line {
     }
 
     /**
-     * Returns the output value from the noise module given the one-dimensional coordinate of the specified input value located on the line segment.
+     * Returns the output value from the noise module given the one-dimensional
+     * coordinate of the specified input value located on the line segment.
      *
      * @param p The distance along the line segment (ranges from 0.0 to 1.0)
      * @return The output value from the noise module.

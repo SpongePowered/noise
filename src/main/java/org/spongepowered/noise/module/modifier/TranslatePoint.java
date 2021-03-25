@@ -33,22 +33,22 @@ import org.spongepowered.noise.exception.NoModuleException;
 import org.spongepowered.noise.module.Module;
 
 public class TranslatePoint extends Module {
-    // Default translation factor applied to the @a x coordinate for the
+    // Default translation factor applied to the {@code x} coordinate for the
     // noise::module::TranslatePoint noise module.
     public static final double DEFAULT_TRANSLATE_POINT_X = 0.0;
-    // Default translation factor applied to the @a y coordinate for the
+    // Default translation factor applied to the {@code y} coordinate for the
     // noise::module::TranslatePoint noise module.
     public static final double DEFAULT_TRANSLATE_POINT_Y = 0.0;
-    // Default translation factor applied to the @a z coordinate for the
+    // Default translation factor applied to the {@code z} coordinate for the
     // noise::module::TranslatePoint noise module.
     public static final double DEFAULT_TRANSLATE_POINT_Z = 0.0;
-    // Translation amount applied to the @a x coordinate of the input
+    // Translation amount applied to the {@code x} coordinate of the input
     // value.
     private double xTranslation = DEFAULT_TRANSLATE_POINT_X;
-    // Translation amount applied to the @a y coordinate of the input
+    // Translation amount applied to the {@code y} coordinate of the input
     // value.
     private double yTranslation = DEFAULT_TRANSLATE_POINT_Y;
-    // Translation amount applied to the @a z coordinate of the input
+    // Translation amount applied to the {@code z} coordinate of the input
     // value.
     private double zTranslation = DEFAULT_TRANSLATE_POINT_Z;
 

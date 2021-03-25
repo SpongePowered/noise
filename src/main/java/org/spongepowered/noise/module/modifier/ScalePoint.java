@@ -33,20 +33,20 @@ import org.spongepowered.noise.exception.NoModuleException;
 import org.spongepowered.noise.module.Module;
 
 public class ScalePoint extends Module {
-    // Default scaling factor applied to the @a x coordinate for the
+    // Default scaling factor applied to the {@code x} coordinate for the
     // noise::module::ScalePoint noise module.
     public static final double DEFAULT_SCALE_POINT_X = 1.0;
-    // Default scaling factor applied to the @a y coordinate for the
+    // Default scaling factor applied to the {@code y} coordinate for the
     // noise::module::ScalePoint noise module.
     public static final double DEFAULT_SCALE_POINT_Y = 1.0;
-    // Default scaling factor applied to the @a z coordinate for the
+    // Default scaling factor applied to the {@code z} coordinate for the
     // noise::module::ScalePoint noise module.
     public static final double DEFAULT_SCALE_POINT_Z = 1.0;
-    // Scaling factor applied to the @a x coordinate of the input value.
+    // Scaling factor applied to the {@code x} coordinate of the input value.
     private double xScale = DEFAULT_SCALE_POINT_X;
-    // Scaling factor applied to the @a y coordinate of the input value.
+    // Scaling factor applied to the {@code y} coordinate of the input value.
     private double yScale = DEFAULT_SCALE_POINT_Y;
-    // Scaling factor applied to the @a z coordinate of the input value.
+    // Scaling factor applied to the {@code z} coordinate of the input value.
     private double zScale = DEFAULT_SCALE_POINT_Z;
 
     public ScalePoint() {

@@ -29,9 +29,8 @@
  */
 package org.spongepowered.noise.module.source;
 
-import static org.junit.Assert.*;
-
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class PerlinTest {
 
@@ -50,7 +49,7 @@ public class PerlinTest {
 			max += Math.pow(perlin.getPersistence(), i);
 		}
 		double methodVal = perlin.getMaxValue();
-		assertEquals(max, methodVal, 5e-16);
+		Assertions.assertEquals(max, methodVal, 5e-16);
 	}
 
 }

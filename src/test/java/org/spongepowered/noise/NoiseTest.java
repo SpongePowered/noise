@@ -29,10 +29,11 @@
  */
 package org.spongepowered.noise;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 import java.io.IOException;
 
-import org.junit.Assert;
-import org.junit.Test;
 
 public class NoiseTest {
     @Test
@@ -44,9 +45,10 @@ public class NoiseTest {
                     (Utils.RANDOM_VECTORS[i << 2] * Utils.RANDOM_VECTORS[i << 2])
                     + (Utils.RANDOM_VECTORS[(i << 2) + 1] * Utils.RANDOM_VECTORS[(i << 2) + 1])
                     + (Utils.RANDOM_VECTORS[(i << 2) + 2] * Utils.RANDOM_VECTORS[(i << 2) + 2]);
-            Assert.assertEquals("Gradient[i=" + i + "] Euclidean Norm, " + gradientMagnitudeSquared
-                    + ", { " + Utils.RANDOM_VECTORS[i << 2] + ", " + Utils.RANDOM_VECTORS[(i << 2) + 1] + ", " + Utils.RANDOM_VECTORS[(i << 2) + 2] + " }",
-                    gradientMagnitudeSquared, 1.0, 0.00001);
+            final int finalI = i;
+            Assertions.assertEquals(gradientMagnitudeSquared, 1.0, 0.00001,
+                () -> "Gradient[i=" + finalI + "] Euclidean Norm, " + gradientMagnitudeSquared + ", { " + Utils.RANDOM_VECTORS[finalI << 2]
+                    + ", " + Utils.RANDOM_VECTORS[(finalI << 2) + 1] + ", " + Utils.RANDOM_VECTORS[(finalI << 2) + 2] + " }");
         }
 
         // Rudimentary Perlin range test.
@@ -58,9 +60,9 @@ public class NoiseTest {
                     Math.abs(Utils.RANDOM_VECTORS_PERLIN[i << 2])
                     +  Math.abs(Utils.RANDOM_VECTORS_PERLIN[(i << 2) + 1])
                     +  Math.abs(Utils.RANDOM_VECTORS_PERLIN[(i << 2) + 2]);
-            Assert.assertTrue("Gradient[i=" + i + "] Perlin Range, " + gradientMaximumRampedValue
-                            + ", { " + Utils.RANDOM_VECTORS[i << 2] + ", " + Utils.RANDOM_VECTORS[(i << 2) + 1] + ", " + Utils.RANDOM_VECTORS[(i << 2) + 2] + " }",
-                    gradientMaximumRampedValue <= 1.01); // Would be 1.0 if normalized under the assumption that any gradient direction were possible.
+            // Would be 1.0 if normalized under the assumption that any gradient direction were possible.
+            Assertions.assertTrue(gradientMaximumRampedValue <= 1.01, "Gradient[i=" + i + "] Perlin Range, " + gradientMaximumRampedValue
+                + ", { " + Utils.RANDOM_VECTORS[i << 2] + ", " + Utils.RANDOM_VECTORS[(i << 2) + 1] + ", " + Utils.RANDOM_VECTORS[(i << 2) + 2] + " }");
         }
 
         /*

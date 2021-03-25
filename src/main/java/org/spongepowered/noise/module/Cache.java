@@ -37,11 +37,11 @@ public class Cache extends Module {
     // Determines if a cached output value is stored in this noise
     // module.
     private boolean isCached = false;
-    // @a x coordinate of the cached input value.
+    // {@code x} coordinate of the cached input value.
     private double xCache;
-    // @a y coordinate of the cached input value.
+    // {@code y} coordinate of the cached input value.
     private double yCache;
-    // @a z coordinate of the cached input value.
+    // {@code z} coordinate of the cached input value.
     private double zCache;
 
     public Cache() {

@@ -5,7 +5,6 @@ Noise generation library for Java, based on the [libnoise](http://libnoise.sourc
 * [Source]
 * [Issues]
 * [Community Discord]
-* [Development IRC]: [#spongedev on irc.esper.net]
 
 ## Prerequisites
 * Java 8
@@ -18,16 +17,20 @@ Are you a talented programmer looking to contribute some code? We'd love the hel
 * Open a pull request with your changes, following our [guidelines](CONTRIBUTING.md).
 
 ## Usage
+
+Noise publishes releases on Maven Central and Sponge's own repository. 
+Snapshots are published on Sonatype OSSRH and Sponge's repository.
+
 If you're using [Gradle] to manage project dependencies, simply include the following in your `build.gradle` file:
 ```gradle
 repositories {
   maven {
-    url 'https://repo.spongepowered.org/maven/'
+    url "https://repo.spongepowered.org/repository/maven-public/"
   }
 }
 
 dependencies {
-  implementation 'org.spongepowered:noise:2.0.0-SNAPSHOT'
+  implementation "org.spongepowered:noise:2.0.0-SNAPSHOT"
 }
 ```
 
@@ -51,4 +54,3 @@ If you're using [Maven] to manage project dependencies, simply include the follo
 [Issues]: https://github.com/SpongePowered/noise/issues
 [License]: https://opensource.org/licenses/MIT
 [Community Discord]: https://discord.gg/PtaGRAs
-[Development IRC]: https://webchat.esper.net/?channels=spongedev

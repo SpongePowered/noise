@@ -29,10 +29,10 @@
  */
 package org.spongepowered.noise.module.modifier;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.Test;
-
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.spongepowered.noise.module.source.Const;
 
 public class RangeTest {
@@ -46,19 +46,23 @@ public class RangeTest {
 		range.setBounds(0.5, 1f, 1f, 2f);
 		range.setSourceModule(0, constVal);
 		// Arbitrary
-		assertEquals(1.5, range.getValue(35, 41, 1), 0f);
+		Assertions.assertEquals(1.5, range.getValue(35, 41, 1), 0f);
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void testRangeIllegalLowersSetter() {
 		Range range = new Range();
-		range.setBounds(1, 1, 0.5, 1);
+
+		Assertions.assertThrows(IllegalArgumentException.class,
+			() -> range.setBounds(1, 1, 0.5, 1));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void testRangeIllegalUppersSetter() {
 		Range range = new Range();
-		range.setBounds(0, 1, 1, 1);
+
+		Assertions.assertThrows(IllegalArgumentException.class,
+			() -> range.setBounds(0, 1, 1, 1));
 	}
 	
 	@Test

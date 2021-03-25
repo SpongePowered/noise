@@ -34,8 +34,10 @@ import org.spongepowered.noise.module.Module;
 
 /**
  * Model that defines the surface of a plane.
- * <p/>
- * This model returns an output value from a noise module given the coordinates of an input value located on the surface of an ( @a x,
+ *
+ * <p>This model returns an output value from a noise module given the
+ * coordinates of an input value located on the surface of an
+ * {@code (x, z)} plane.</p>
  */
 public class Plane {
     private Module module;
@@ -62,9 +64,10 @@ public class Plane {
     /**
      * Sets the noise module that is used to generate the output values.
      *
+     * <p>This noise module must exist for the lifetime of this object, until
+     * you pass a new noise module to this method.</p>
+     *
      * @param module The noise module that is used to generate the output values.
-     * <p/>
-     * This noise module must exist for the lifetime of this object, until you pass a new noise module to this method.
      */
     public void setModule(Module module) {
         if (module == null) {
@@ -74,10 +77,10 @@ public class Plane {
     }
 
     /**
-     * Returns the output value from the noise module given the ( @a x, @a z ) coordinates of the specified input value located on the surface of the plane.
+     * Returns the output value from the noise module given the ( {@code x}, {@code z} ) coordinates of the specified input value located on the surface of the plane.
      *
-     * @param x The @a x coordinate of the input value.
-     * @param z The @a z coordinate of the input value.
+     * @param x The {@code x} coordinate of the input value.
+     * @param z The {@code z} coordinate of the input value.
      * @return The output value from the noise module.
      */
     public double getValue(double x, double z) {

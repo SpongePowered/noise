@@ -33,13 +33,13 @@ import org.spongepowered.noise.exception.NoModuleException;
 import org.spongepowered.noise.module.Module;
 
 public class RotatePoint extends Module {
-    // Default @a x rotation angle for the noise::module::RotatePoint noise
+    // Default {@code x} rotation angle for the noise::module::RotatePoint noise
     // module.
     public static final double DEFAULT_ROTATE_X = 0.0;
-    // Default @a y rotation angle for the noise::module::RotatePoint noise
+    // Default {@code y} rotation angle for the noise::module::RotatePoint noise
     // module.
     public static final double DEFAULT_ROTATE_Y = 0.0;
-    // Default @a z rotation angle for the noise::module::RotatePoint noise
+    // Default {@code z} rotation angle for the noise::module::RotatePoint noise
     // module.
     public static final double DEFAULT_ROTATE_Z = 0.0;
     private double xAngle = DEFAULT_ROTATE_X;

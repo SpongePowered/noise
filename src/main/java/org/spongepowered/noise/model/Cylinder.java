@@ -57,9 +57,10 @@ public class Cylinder {
     /**
      * Sets the noise module that is used to generate the output values.
      *
+     * <p>This noise module must exist for the lifetime of this object, until
+     * you pass a new noise module to this method.</p>
+     *
      * @param mod The noise module that is used to generate the output values.
-     * <p/>
-     * This noise module must exist for the lifetime of this object, until you pass a new noise module to this method.
      */
     public void setModule(Module mod) {
         if (mod == null) {
@@ -72,7 +73,7 @@ public class Cylinder {
      * Returns the output value from the noise module given the (angle, height) coordinates of the specified input value located on the surface of the cylinder.
      *
      * @param angle The angle around the cylinder's center, in degrees.
-     * @param height The height along the @a y axis.
+     * @param height The height along the {@code y} axis.
      * @return The output value from the noise module.
      */
     public double getValue(double angle, double height) {
