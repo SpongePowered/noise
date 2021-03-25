@@ -1,4 +1,5 @@
-# Noise [![Build Status](http://img.shields.io/travis/SpongePowered/noise/develop.svg?style=flat)](https://travis-ci.org/SpongePowered/noise) [![License](http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)][License] [![Coverage Status](https://coveralls.io/repos/github/SpongePowered/noise/badge.svg)](https://coveralls.io/github/SpongePowered/noise)
+# Noise
+![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/KyoriPowered/adventure/build/master) [![MIT License](https://img.shields.io/badge/license-MIT-blue)](LICENSE.txt) [![Maven Central](https://img.shields.io/maven-central/v/org.spongepowered/noise?label=stable)](https://search.maven.org/search?q=g:org.spongepowered%20AND%20a:noise) ![Sonatype Nexus (Snapshots)](https://img.shields.io/nexus/s/org.spongepowered/noise?label=dev&server=https%3A%2F%2Foss.sonatype.org)
 
 Noise generation library for Java, based on the [libnoise](http://libnoise.sourceforge.net/) C++ library by Jason Bevins. It is used to generate coherent noise, a type of smoothly-changing noise. It can also generate Perlin noise, ridged multifractal noise, and other types of coherent noise.
 
@@ -24,6 +25,9 @@ Snapshots are published on Sonatype OSSRH and Sponge's repository.
 If you're using [Gradle] to manage project dependencies, simply include the following in your `build.gradle` file:
 ```gradle
 repositories {
+  // releases
+  mavenCentral()
+  // snapshots
   maven {
     url "https://repo.spongepowered.org/repository/maven-public/"
   }
@@ -53,4 +57,4 @@ If you're using [Maven] to manage project dependencies, simply include the follo
 [Source]: https://github.com/SpongePowered/noise
 [Issues]: https://github.com/SpongePowered/noise/issues
 [License]: https://opensource.org/licenses/MIT
-[Community Discord]: https://discord.gg/PtaGRAs
+[Community Discord]: https://discord.gg/sponge
