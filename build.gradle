@@ -14,6 +14,15 @@ dependencies {
   testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.7.2"
 }
 
+sourceSets {
+  main {
+    multirelease {
+      alternateVersions(9)
+      moduleName "org.spongepowered.noise"
+    }
+  }
+}
+
 cobertura.coverageFormats = ['html', 'xml']
 
 processResources {
