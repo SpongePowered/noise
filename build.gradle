@@ -1,8 +1,8 @@
 plugins {
-  id "org.spongepowered.gradle.sponge.dev" version "1.1.0"
-  id "net.kyori.indra.publishing.sonatype" version "2.0.4"
+  id "org.spongepowered.gradle.sponge.dev" version "1.1.1"
+  id "net.kyori.indra.publishing.sonatype" version "2.0.6"
   id "net.saliman.cobertura" version "4.0.0"
-  id "com.github.kt3k.coveralls" version "2.11.0"
+  id "com.github.kt3k.coveralls" version "2.12.0"
 }
 
 group 'org.spongepowered'
@@ -10,8 +10,8 @@ version '2.0.0-SNAPSHOT'
 description 'Noise generation library for Java, based on the libnoise C++ library.'
 
 dependencies {
-  testImplementation "org.junit.jupiter:junit-jupiter-api:5.7.1"
-  testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.7.1"
+  testImplementation "org.junit.jupiter:junit-jupiter-api:5.7.2"
+  testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.7.2"
 }
 
 cobertura.coverageFormats = ['html', 'xml']
