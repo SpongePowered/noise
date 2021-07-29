@@ -34,17 +34,17 @@ import org.spongepowered.noise.module.Module;
 
 public class Invert extends Module {
     public static final double DEFAULT_MIDDLE = 0.0;
-    private double middle = DEFAULT_MIDDLE;
+    private double middle = Invert.DEFAULT_MIDDLE;
 
     public Invert() {
         super(1);
     }
 
     public double getMiddle() {
-        return middle;
+        return this.middle;
     }
 
-    public void setMiddle(double middle) {
+    public void setMiddle(final double middle) {
         this.middle = middle;
     }
 
@@ -54,10 +54,10 @@ public class Invert extends Module {
     }
 
     @Override
-    public double getValue(double x, double y, double z) {
-        if (sourceModule[0] == null) {
+    public double getValue(final double x, final double y, final double z) {
+        if (this.sourceModule[0] == null) {
             throw new NoModuleException();
         }
-        return middle - sourceModule[0].getValue(x, y, z);
+        return this.middle - this.sourceModule[0].getValue(x, y, z);
     }
 }

@@ -37,7 +37,7 @@ public class Turbulence extends Module {
     // Default power for the noise::module::Turbulence noise module.
     public static final double DEFAULT_TURBULENCE_POWER = 1.0;
     // The power (scale) of the displacement.
-    private double power = DEFAULT_TURBULENCE_POWER;
+    private double power = Turbulence.DEFAULT_TURBULENCE_POWER;
     // Noise module that displaces the {@code x} coordinate.
     private final Perlin xDistortModule;
     // Noise module that displaces the {@code y} coordinate.
@@ -47,47 +47,47 @@ public class Turbulence extends Module {
 
     public Turbulence() {
         super(1);
-        xDistortModule = new Perlin();
-        yDistortModule = new Perlin();
-        zDistortModule = new Perlin();
+        this.xDistortModule = new Perlin();
+        this.yDistortModule = new Perlin();
+        this.zDistortModule = new Perlin();
     }
 
     public double getPower() {
-        return power;
+        return this.power;
     }
 
-    public void setPower(double power) {
+    public void setPower(final double power) {
         this.power = power;
     }
 
     public int getRoughnessCount() {
-        return xDistortModule.getOctaveCount();
+        return this.xDistortModule.getOctaveCount();
     }
 
     public double getFrequency() {
-        return xDistortModule.getFrequency();
+        return this.xDistortModule.getFrequency();
     }
 
     public int getSeed() {
-        return xDistortModule.getSeed();
+        return this.xDistortModule.getSeed();
     }
 
-    public void setSeed(int seed) {
-        xDistortModule.setSeed(seed);
-        yDistortModule.setSeed(seed + 1);
-        zDistortModule.setSeed(seed + 2);
+    public void setSeed(final int seed) {
+        this.xDistortModule.setSeed(seed);
+        this.yDistortModule.setSeed(seed + 1);
+        this.zDistortModule.setSeed(seed + 2);
     }
 
-    public void setFrequency(double frequency) {
-        xDistortModule.setFrequency(frequency);
-        yDistortModule.setFrequency(frequency);
-        zDistortModule.setFrequency(frequency);
+    public void setFrequency(final double frequency) {
+        this.xDistortModule.setFrequency(frequency);
+        this.yDistortModule.setFrequency(frequency);
+        this.zDistortModule.setFrequency(frequency);
     }
 
-    public void setRoughness(int roughness) {
-        xDistortModule.setOctaveCount(roughness);
-        yDistortModule.setOctaveCount(roughness);
-        zDistortModule.setOctaveCount(roughness);
+    public void setRoughness(final int roughness) {
+        this.xDistortModule.setOctaveCount(roughness);
+        this.yDistortModule.setOctaveCount(roughness);
+        this.zDistortModule.setOctaveCount(roughness);
     }
 
     @Override
@@ -96,8 +96,8 @@ public class Turbulence extends Module {
     }
 
     @Override
-    public double getValue(double x, double y, double z) {
-        if (sourceModule[0] == null) {
+    public double getValue(final double x, final double y, final double z) {
+        if (this.sourceModule[0] == null) {
             throw new NoModuleException();
         }
 
@@ -108,9 +108,9 @@ public class Turbulence extends Module {
         // when multiplied by the frequency, are near an integer boundary.  This is
         // due to a property of gradient coherent noise, which returns zero at
         // integer boundaries.
-        double x0, y0, z0;
-        double x1, y1, z1;
-        double x2, y2, z2;
+        final double x0, y0, z0;
+        final double x1, y1, z1;
+        final double x2, y2, z2;
         x0 = x + (12414.0 / 65536.0);
         y0 = y + (65124.0 / 65536.0);
         z0 = z + (31337.0 / 65536.0);
@@ -120,12 +120,12 @@ public class Turbulence extends Module {
         x2 = x + (53820.0 / 65536.0);
         y2 = y + (11213.0 / 65536.0);
         z2 = z + (44845.0 / 65536.0);
-        double xDistort = x + (xDistortModule.getValue(x0, y0, z0) * power);
-        double yDistort = y + (yDistortModule.getValue(x1, y1, z1) * power);
-        double zDistort = z + (zDistortModule.getValue(x2, y2, z2) * power);
+        final double xDistort = x + (this.xDistortModule.getValue(x0, y0, z0) * this.power);
+        final double yDistort = y + (this.yDistortModule.getValue(x1, y1, z1) * this.power);
+        final double zDistort = z + (this.zDistortModule.getValue(x2, y2, z2) * this.power);
 
         // Retrieve the output value at the offset input value instead of the
         // original input value.
-        return sourceModule[0].getValue(xDistort, yDistort, zDistort);
+        return this.sourceModule[0].getValue(xDistort, yDistort, zDistort);
     }
 }

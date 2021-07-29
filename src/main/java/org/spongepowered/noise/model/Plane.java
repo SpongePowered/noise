@@ -47,7 +47,7 @@ public class Plane {
      *
      * @param module The noise module that is used to generate the output values.
      */
-    public Plane(Module module) {
+    public Plane(final Module module) {
         if (module == null) {
             throw new IllegalArgumentException("module cannot be null");
         }
@@ -58,7 +58,7 @@ public class Plane {
      * Returns the noise module that is used to generate the output values.
      */
     public Module getModule() {
-        return module;
+        return this.module;
     }
 
     /**
@@ -69,7 +69,7 @@ public class Plane {
      *
      * @param module The noise module that is used to generate the output values.
      */
-    public void setModule(Module module) {
+    public void setModule(final Module module) {
         if (module == null) {
             throw new IllegalArgumentException("module cannot be null");
         }
@@ -83,10 +83,10 @@ public class Plane {
      * @param z The {@code z} coordinate of the input value.
      * @return The output value from the noise module.
      */
-    public double getValue(double x, double z) {
-        if (module == null) {
+    public double getValue(final double x, final double z) {
+        if (this.module == null) {
             throw new NoModuleException();
         }
-        return module.getValue(x, 0, z);
+        return this.module.getValue(x, 0, z);
     }
 }

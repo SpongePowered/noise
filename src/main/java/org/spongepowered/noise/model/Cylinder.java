@@ -41,7 +41,7 @@ public class Cylinder {
     /**
      * @param mod The noise module that is used to generate the output values.
      */
-    public Cylinder(Module mod) {
+    public Cylinder(final Module mod) {
         this.module = mod;
     }
 
@@ -62,7 +62,7 @@ public class Cylinder {
      *
      * @param mod The noise module that is used to generate the output values.
      */
-    public void setModule(Module mod) {
+    public void setModule(final Module mod) {
         if (mod == null) {
             throw new IllegalArgumentException("Mod cannot be null");
         }
@@ -76,15 +76,14 @@ public class Cylinder {
      * @param height The height along the {@code y} axis.
      * @return The output value from the noise module.
      */
-    public double getValue(double angle, double height) {
-        if (module == null) {
+    public double getValue(final double angle, final double height) {
+        if (this.module == null) {
             throw new NoModuleException();
         }
 
-        double x, y, z;
-        x = Math.cos(Math.toRadians(angle));
-        y = height;
-        z = Math.sin(Math.toRadians(angle));
-        return module.getValue(x, y, z);
+        final double x = Math.cos(Math.toRadians(angle));
+        final double y = height;
+        final double z = Math.sin(Math.toRadians(angle));
+        return this.module.getValue(x, y, z);
     }
 }

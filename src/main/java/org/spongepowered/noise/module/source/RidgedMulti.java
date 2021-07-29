@@ -47,74 +47,74 @@ public class RidgedMulti extends Module {
     public static final int DEFAULT_RIDGED_SEED = 0;
     // Maximum number of octaves for the noise::module::RidgedMulti noise module.
     public static final int RIDGED_MAX_OCTAVE = 30;
-    private double frequency = DEFAULT_RIDGED_FREQUENCY;
+    private double frequency = RidgedMulti.DEFAULT_RIDGED_FREQUENCY;
     // Frequency multiplier between successive octaves.
-    private double lacunarity = DEFAULT_RIDGED_LACUNARITY;
+    private double lacunarity = RidgedMulti.DEFAULT_RIDGED_LACUNARITY;
     // Quality of the ridged-multifractal noise.
-    private NoiseQuality noiseQuality = DEFAULT_RIDGED_QUALITY;
+    private NoiseQuality noiseQuality = RidgedMulti.DEFAULT_RIDGED_QUALITY;
     // Total number of octaves that generate the ridged-multifractal noise.
-    private int octaveCount = DEFAULT_RIDGED_OCTAVE_COUNT;
+    private int octaveCount = RidgedMulti.DEFAULT_RIDGED_OCTAVE_COUNT;
     // Contains the spectral weights for each octave.
     private double[] spectralWeights;
     // Seed value used by the ridged-multfractal-noise function.
-    private int seed = DEFAULT_RIDGED_SEED;
+    private int seed = RidgedMulti.DEFAULT_RIDGED_SEED;
 
     public RidgedMulti() {
         super(0);
-        calcSpectralWeights();
+        this.calcSpectralWeights();
     }
 
     public double getFrequency() {
-        return frequency;
+        return this.frequency;
     }
 
-    public void setFrequency(double frequency) {
+    public void setFrequency(final double frequency) {
         this.frequency = frequency;
     }
 
     public double getLacunarity() {
-        return lacunarity;
+        return this.lacunarity;
     }
 
-    public void setLacunarity(double lacunarity) {
+    public void setLacunarity(final double lacunarity) {
         this.lacunarity = lacunarity;
     }
 
     public NoiseQuality getNoiseQuality() {
-        return noiseQuality;
+        return this.noiseQuality;
     }
 
-    public void setNoiseQuality(NoiseQuality noiseQuality) {
+    public void setNoiseQuality(final NoiseQuality noiseQuality) {
         this.noiseQuality = noiseQuality;
     }
 
     public int getOctaveCount() {
-        return octaveCount;
+        return this.octaveCount;
     }
 
-    public void setOctaveCount(int octaveCount) {
-        this.octaveCount = Math.min(octaveCount, RIDGED_MAX_OCTAVE);
+    public void setOctaveCount(final int octaveCount) {
+        this.octaveCount = Math.min(octaveCount, RidgedMulti.RIDGED_MAX_OCTAVE);
     }
 
     public int getSeed() {
-        return seed;
+        return this.seed;
     }
 
-    public void setSeed(int seed) {
+    public void setSeed(final int seed) {
         this.seed = seed;
     }
 
     private void calcSpectralWeights() {
         // This exponent parameter should be user-defined; it may be exposed in a
         // future version of libnoise.
-        double h = 1.0;
+        final double h = 1.0;
 
         double frequency = 1.0;
-        spectralWeights = new double[RIDGED_MAX_OCTAVE];
-        for (int i = 0; i < RIDGED_MAX_OCTAVE; i++) {
+        this.spectralWeights = new double[RidgedMulti.RIDGED_MAX_OCTAVE];
+        for (int i = 0; i < RidgedMulti.RIDGED_MAX_OCTAVE; i++) {
             // Compute weight for each frequency.
-            spectralWeights[i] = Math.pow(frequency, -h);
-            frequency *= lacunarity;
+            this.spectralWeights[i] = Math.pow(frequency, -h);
+            frequency *= this.lacunarity;
         }
     }
 
@@ -128,7 +128,7 @@ public class RidgedMulti extends Module {
     	 * So (r = lacunarity, o = octave): Max(ridged) = 1 + 1/r + 1/(r*r) + 1/(r*r*r) + ... + (1/r^(o-1))
     	 * See https://www.wolframalpha.com/input/?i=sum+from+k%3D0+to+n-1+of+1%2Fx%5Ek
     	 */
-        return (getLacunarity() - Math.pow(getLacunarity(), 1 - getOctaveCount())) / (getLacunarity() - 1) / 1.6;
+        return (this.getLacunarity() - Math.pow(this.getLacunarity(), 1 - this.getOctaveCount())) / (this.getLacunarity() - 1) / 1.6;
     }
 
     @Override
@@ -137,13 +137,13 @@ public class RidgedMulti extends Module {
     }
 
     @Override
-    public double getValue(double x, double y, double z) {
+    public double getValue(final double x, final double y, final double z) {
         double x1 = x;
         double y1 = y;
         double z1 = z;
-        x1 *= frequency;
-        y1 *= frequency;
-        z1 *= frequency;
+        x1 *= this.frequency;
+        y1 *= this.frequency;
+        z1 *= this.frequency;
 
         double signal;
         double value = 0.0;
@@ -151,21 +151,23 @@ public class RidgedMulti extends Module {
 
         // These parameters should be user-defined; they may be exposed in a
         // future version of libnoise.
-        double offset = 1.0;
-        double gain = 2.0;
+        final double offset = 1.0;
+        final double gain = 2.0;
 
-        for (int curOctave = 0; curOctave < octaveCount; curOctave++) {
+        for (int curOctave = 0; curOctave < this.octaveCount; curOctave++) {
 
             // Make sure that these floating-point values have the same range as a 32-
             // bit integer so that we can pass them to the coherent-noise functions.
-            double nx, ny, nz;
+            final double nx;
+            double ny;
+            final double nz;
             nx = Utils.makeInt32Range(x1);
             ny = Utils.makeInt32Range(y1);
             nz = Utils.makeInt32Range(z1);
 
             // Get the coherent-noise value.
-            int seed = (this.seed + curOctave) & 0x7fffffff;
-            signal = Noise.gradientCoherentNoise3D(nx, ny, nz, seed, noiseQuality) * 2 - 1;
+            final int seed = (this.seed + curOctave) & 0x7fffffff;
+            signal = Noise.gradientCoherentNoise3D(nx, ny, nz, seed, this.noiseQuality) * 2 - 1;
 
             // Make the ridges.
             signal = Math.abs(signal);
@@ -189,12 +191,12 @@ public class RidgedMulti extends Module {
             }
 
             // Add the signal to the output value.
-            value += (signal * spectralWeights[curOctave]);
+            value += (signal * this.spectralWeights[curOctave]);
 
             // Go to the next octave.
-            x1 *= lacunarity;
-            y1 *= lacunarity;
-            z1 *= lacunarity;
+            x1 *= this.lacunarity;
+            y1 *= this.lacunarity;
+            z1 *= this.lacunarity;
         }
 
         return value / 1.6;

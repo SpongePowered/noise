@@ -39,17 +39,17 @@ public class Blend extends Module {
     }
 
     public Module getControlModule() {
-        if (sourceModule[2] == null) {
+        if (this.sourceModule[2] == null) {
             throw new NoModuleException();
         }
-        return sourceModule[2];
+        return this.sourceModule[2];
     }
 
-    public void setControlModule(Module module) {
+    public void setControlModule(final Module module) {
         if (module == null) {
             throw new IllegalArgumentException("Control Module cannot be null");
         }
-        sourceModule[2] = module;
+        this.sourceModule[2] = module;
     }
 
     @Override
@@ -58,20 +58,20 @@ public class Blend extends Module {
     }
 
     @Override
-    public double getValue(double x, double y, double z) {
-        if (sourceModule[0] == null) {
+    public double getValue(final double x, final double y, final double z) {
+        if (this.sourceModule[0] == null) {
             throw new NoModuleException();
         }
-        if (sourceModule[1] == null) {
+        if (this.sourceModule[1] == null) {
             throw new NoModuleException();
         }
-        if (sourceModule[2] == null) {
+        if (this.sourceModule[2] == null) {
             throw new NoModuleException();
         }
 
-        double v0 = sourceModule[0].getValue(x, y, z);
-        double v1 = sourceModule[1].getValue(x, y, z);
-        double alpha = sourceModule[2].getValue(x, y, z);
+        final double v0 = this.sourceModule[0].getValue(x, y, z);
+        final double v1 = this.sourceModule[1].getValue(x, y, z);
+        final double alpha = this.sourceModule[2].getValue(x, y, z);
         return Utils.linearInterp(v0, v1, alpha);
     }
 }

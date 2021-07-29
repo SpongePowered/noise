@@ -44,7 +44,7 @@ public class Sphere {
      *
      * @param module The noise module that is used to generate the output values.
      */
-    public Sphere(Module module) {
+    public Sphere(final Module module) {
         if (module == null) {
             throw new IllegalArgumentException("module cannot be null");
         }
@@ -55,7 +55,7 @@ public class Sphere {
      * Returns the noise module that is used to generate the output values.
      */
     public Module getModule() {
-        return module;
+        return this.module;
     }
 
     /**
@@ -65,7 +65,7 @@ public class Sphere {
      *
      * This noise module must exist for the lifetime of this object, until you pass a new noise module to this method.
      */
-    public void setModule(Module module) {
+    public void setModule(final Module module) {
         if (module == null) {
             throw new IllegalArgumentException("module cannot be null");
         }
@@ -79,11 +79,11 @@ public class Sphere {
      * @param lon The longitude of the input value, in degrees.
      * @return The output value from the noise module.
      */
-    public double getValue(double lat, double lon) {
-        if (module == null) {
+    public double getValue(final double lat, final double lon) {
+        if (this.module == null) {
             throw new NoModuleException();
         }
-        double[] vec = Utils.latLonToXYZ(lat, lon);
-        return module.getValue(vec[0], vec[1], vec[2]);
+        final double[] vec = Utils.latLonToXYZ(lat, lon);
+        return this.module.getValue(vec[0], vec[1], vec[2]);
     }
 }

@@ -42,65 +42,65 @@ public class Billow extends Module {
     public static final NoiseQuality DEFAULT_BILLOW_QUALITY = NoiseQuality.STANDARD;
     public static final int DEFAULT_BILLOW_SEED = 0;
     public static final int BILLOW_MAX_OCTAVE = 30;
-    private double frequency = DEFAULT_BILLOW_FREQUENCY;
-    private double lacunarity = DEFAULT_BILLOW_LACUNARITY;
-    private NoiseQuality quality = DEFAULT_BILLOW_QUALITY;
-    private double persistence = DEFAULT_BILLOW_PERSISTENCE;
-    private int seed = DEFAULT_BILLOW_SEED;
-    private int octaveCount = DEFAULT_BILLOW_OCTAVE_COUNT;
+    private double frequency = Billow.DEFAULT_BILLOW_FREQUENCY;
+    private double lacunarity = Billow.DEFAULT_BILLOW_LACUNARITY;
+    private NoiseQuality quality = Billow.DEFAULT_BILLOW_QUALITY;
+    private double persistence = Billow.DEFAULT_BILLOW_PERSISTENCE;
+    private int seed = Billow.DEFAULT_BILLOW_SEED;
+    private int octaveCount = Billow.DEFAULT_BILLOW_OCTAVE_COUNT;
 
     public Billow() {
         super(0);
     }
 
     public int getOctaveCount() {
-        return octaveCount;
+        return this.octaveCount;
     }
 
-    public void setOctaveCount(int octaveCount) {
-        if (octaveCount < 1 || octaveCount > BILLOW_MAX_OCTAVE) {
-            throw new IllegalArgumentException("octaveCount must be between 1 and BILLOW_MAX_OCTAVE: " + BILLOW_MAX_OCTAVE);
+    public void setOctaveCount(final int octaveCount) {
+        if (octaveCount < 1 || octaveCount > Billow.BILLOW_MAX_OCTAVE) {
+            throw new IllegalArgumentException("octaveCount must be between 1 and BILLOW_MAX_OCTAVE: " + Billow.BILLOW_MAX_OCTAVE);
         }
         this.octaveCount = octaveCount;
     }
 
     public double getFrequency() {
-        return frequency;
+        return this.frequency;
     }
 
-    public void setFrequency(double frequency) {
+    public void setFrequency(final double frequency) {
         this.frequency = frequency;
     }
 
     public double getLacunarity() {
-        return lacunarity;
+        return this.lacunarity;
     }
 
-    public void setLacunarity(double lacunarity) {
+    public void setLacunarity(final double lacunarity) {
         this.lacunarity = lacunarity;
     }
 
     public NoiseQuality getQuality() {
-        return quality;
+        return this.quality;
     }
 
-    public void setQuality(NoiseQuality quality) {
+    public void setQuality(final NoiseQuality quality) {
         this.quality = quality;
     }
 
     public double getPersistence() {
-        return persistence;
+        return this.persistence;
     }
 
-    public void setPersistence(double persistence) {
+    public void setPersistence(final double persistence) {
         this.persistence = persistence;
     }
 
     public int getSeed() {
-        return seed;
+        return this.seed;
     }
 
-    public void setSeed(int seed) {
+    public void setSeed(final int seed) {
         this.seed = seed;
     }
 
@@ -110,7 +110,7 @@ public class Billow extends Module {
     }
 
     @Override
-    public double getValue(double x, double y, double z) {
+    public double getValue(final double x, final double y, final double z) {
         double z1 = z;
         double y1 = y;
         double x1 = x;
@@ -120,11 +120,11 @@ public class Billow extends Module {
         double nx, ny, nz;
         int seed;
 
-        x1 *= frequency;
-        y1 *= frequency;
-        z1 *= frequency;
+        x1 *= this.frequency;
+        y1 *= this.frequency;
+        z1 *= this.frequency;
 
-        for (int curOctave = 0; curOctave < octaveCount; curOctave++) {
+        for (int curOctave = 0; curOctave < this.octaveCount; curOctave++) {
 
             // Make sure that these floating-point values have the same range as a 32-
             // bit integer so that we can pass them to the coherent-noise functions.
@@ -135,15 +135,15 @@ public class Billow extends Module {
             // Get the coherent-noise value from the input value and add it to the
             // final result.
             seed = (this.seed + curOctave);
-            signal = Noise.gradientCoherentNoise3D(nx, ny, nz, seed, quality) * 2 - 1;
+            signal = Noise.gradientCoherentNoise3D(nx, ny, nz, seed, this.quality) * 2 - 1;
             signal = Math.abs(signal);
             value += signal * curPersistence;
 
             // Prepare the next octave.
-            x1 *= lacunarity;
-            y1 *= lacunarity;
-            z1 *= lacunarity;
-            curPersistence *= persistence;
+            x1 *= this.lacunarity;
+            y1 *= this.lacunarity;
+            z1 *= this.lacunarity;
+            curPersistence *= this.persistence;
         }
         value += 0.25;
 

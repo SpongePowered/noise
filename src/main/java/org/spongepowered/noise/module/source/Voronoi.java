@@ -45,49 +45,49 @@ public class Voronoi extends Module {
     // noise module.
     public static final int DEFAULT_VORONOI_SEED = 0;
     // Scale of the random displacement to apply to each Voronoi cell.
-    private double displacement = DEFAULT_VORONOI_DISPLACEMENT;
+    private double displacement = Voronoi.DEFAULT_VORONOI_DISPLACEMENT;
     // Determines if the distance from the nearest seed point is applied to
     // the output value.
     private boolean enableDistance = false;
     // Frequency of the seed points.
-    private double frequency = DEFAULT_VORONOI_FREQUENCY;
+    private double frequency = Voronoi.DEFAULT_VORONOI_FREQUENCY;
     // Seed value used by the coherent-noise function to determine the
     // positions of the seed points.
-    private int seed = DEFAULT_VORONOI_SEED;
+    private int seed = Voronoi.DEFAULT_VORONOI_SEED;
 
     public Voronoi() {
         super(0);
     }
 
     public double getDisplacement() {
-        return displacement;
+        return this.displacement;
     }
 
-    public void setDisplacement(double displacement) {
+    public void setDisplacement(final double displacement) {
         this.displacement = displacement;
     }
 
     public boolean isEnableDistance() {
-        return enableDistance;
+        return this.enableDistance;
     }
 
-    public void setEnableDistance(boolean enableDistance) {
+    public void setEnableDistance(final boolean enableDistance) {
         this.enableDistance = enableDistance;
     }
 
     public double getFrequency() {
-        return frequency;
+        return this.frequency;
     }
 
-    public void setFrequency(double frequency) {
+    public void setFrequency(final double frequency) {
         this.frequency = frequency;
     }
 
     public int getSeed() {
-        return seed;
+        return this.seed;
     }
 
-    public void setSeed(int seed) {
+    public void setSeed(final int seed) {
         this.seed = seed;
     }
 
@@ -97,20 +97,20 @@ public class Voronoi extends Module {
     }
 
     @Override
-    public double getValue(double x, double y, double z) {
+    public double getValue(final double x, final double y, final double z) {
         double x1 = x;
         double y1 = y;
         double z1 = z;
         // This method could be more efficient by caching the seed values.  Fix
         // later.
 
-        x1 *= frequency;
-        y1 *= frequency;
-        z1 *= frequency;
+        x1 *= this.frequency;
+        y1 *= this.frequency;
+        z1 *= this.frequency;
 
-        int xInt = (x1 > 0.0 ? (int) x1 : (int) x1 - 1);
-        int yInt = (y1 > 0.0 ? (int) y1 : (int) y1 - 1);
-        int zInt = (z1 > 0.0 ? (int) z1 : (int) z1 - 1);
+        final int xInt = (x1 > 0.0 ? (int) x1 : (int) x1 - 1);
+        final int yInt = (y1 > 0.0 ? (int) y1 : (int) y1 - 1);
+        final int zInt = (z1 > 0.0 ? (int) z1 : (int) z1 - 1);
 
         double minDist = 2147483647.0;
         double xCandidate = 0;
@@ -126,13 +126,13 @@ public class Voronoi extends Module {
 
                     // Calculate the position and distance to the seed point inside of
                     // this unit cube.
-                    double xPos = xCur + Noise.valueNoise3D(xCur, yCur, zCur, seed);
-                    double yPos = yCur + Noise.valueNoise3D(xCur, yCur, zCur, seed + 1);
-                    double zPos = zCur + Noise.valueNoise3D(xCur, yCur, zCur, seed + 2);
-                    double xDist = xPos - x1;
-                    double yDist = yPos - y1;
-                    double zDist = zPos - z1;
-                    double dist = xDist * xDist + yDist * yDist + zDist * zDist;
+                    final double xPos = xCur + Noise.valueNoise3D(xCur, yCur, zCur, this.seed);
+                    final double yPos = yCur + Noise.valueNoise3D(xCur, yCur, zCur, this.seed + 1);
+                    final double zPos = zCur + Noise.valueNoise3D(xCur, yCur, zCur, this.seed + 2);
+                    final double xDist = xPos - x1;
+                    final double yDist = yPos - y1;
+                    final double zDist = zPos - z1;
+                    final double dist = xDist * xDist + yDist * yDist + zDist * zDist;
 
                     if (dist < minDist) {
                         // This seed point is closer to any others found so far, so record
@@ -146,18 +146,18 @@ public class Voronoi extends Module {
             }
         }
 
-        double value;
-        if (enableDistance) {
+        final double value;
+        if (this.enableDistance) {
             // Determine the distance to the nearest seed point.
-            double xDist = xCandidate - x1;
-            double yDist = yCandidate - y1;
-            double zDist = zCandidate - z1;
-            value = Math.sqrt(xDist * xDist + yDist * yDist + zDist * zDist) / SQRT_3;
+            final double xDist = xCandidate - x1;
+            final double yDist = yCandidate - y1;
+            final double zDist = zCandidate - z1;
+            value = Math.sqrt(xDist * xDist + yDist * yDist + zDist * zDist) / Voronoi.SQRT_3;
         } else {
             value = 0.0;
         }
 
         // Return the calculated distance with the displacement value applied.
-        return value + (displacement * Noise.valueNoise3D(Utils.floor(xCandidate), Utils.floor(yCandidate), Utils.floor(zCandidate), seed));
+        return value + (this.displacement * Noise.valueNoise3D(Utils.floor(xCandidate), Utils.floor(yCandidate), Utils.floor(zCandidate), this.seed));
     }
 }

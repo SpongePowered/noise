@@ -43,10 +43,10 @@ public class Abs extends Module {
     }
 
     @Override
-    public double getValue(double x, double y, double z) {
-        if (sourceModule == null) {
+    public double getValue(final double x, final double y, final double z) {
+        if (this.sourceModule == null) {
             throw new NoModuleException();
         }
-        return Math.abs(sourceModule[0].getValue(x, y, z));
+        return Math.abs(this.sourceModule[0].getValue(x, y, z));
     }
 }

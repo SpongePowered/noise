@@ -34,17 +34,17 @@ import org.spongepowered.noise.module.Module;
 
 public class Exponent extends Module {
     public static final double DEFAULT_EXPONENT = 1.0;
-    private double exponent = DEFAULT_EXPONENT;
+    private double exponent = Exponent.DEFAULT_EXPONENT;
 
     public Exponent() {
         super(1);
     }
 
     public double getExponent() {
-        return exponent;
+        return this.exponent;
     }
 
-    public void setExponent(double exponent) {
+    public void setExponent(final double exponent) {
         this.exponent = exponent;
     }
 
@@ -54,11 +54,11 @@ public class Exponent extends Module {
     }
 
     @Override
-    public double getValue(double x, double y, double z) {
-        if (sourceModule[0] == null) {
+    public double getValue(final double x, final double y, final double z) {
+        if (this.sourceModule[0] == null) {
             throw new NoModuleException();
         }
-        double value = sourceModule[0].getValue(x, y, z);
-        return Math.pow(value, exponent);
+        final double value = this.sourceModule[0].getValue(x, y, z);
+        return Math.pow(value, this.exponent);
     }
 }

@@ -44,46 +44,46 @@ public class TranslatePoint extends Module {
     public static final double DEFAULT_TRANSLATE_POINT_Z = 0.0;
     // Translation amount applied to the {@code x} coordinate of the input
     // value.
-    private double xTranslation = DEFAULT_TRANSLATE_POINT_X;
+    private double xTranslation = TranslatePoint.DEFAULT_TRANSLATE_POINT_X;
     // Translation amount applied to the {@code y} coordinate of the input
     // value.
-    private double yTranslation = DEFAULT_TRANSLATE_POINT_Y;
+    private double yTranslation = TranslatePoint.DEFAULT_TRANSLATE_POINT_Y;
     // Translation amount applied to the {@code z} coordinate of the input
     // value.
-    private double zTranslation = DEFAULT_TRANSLATE_POINT_Z;
+    private double zTranslation = TranslatePoint.DEFAULT_TRANSLATE_POINT_Z;
 
     public TranslatePoint() {
         super(1);
     }
 
     public double getXTranslation() {
-        return xTranslation;
+        return this.xTranslation;
     }
 
-    public void setXTranslation(double xTranslation) {
+    public void setXTranslation(final double xTranslation) {
         this.xTranslation = xTranslation;
     }
 
     public double getYTranslation() {
-        return yTranslation;
+        return this.yTranslation;
     }
 
-    public void setYTranslation(double yTranslation) {
+    public void setYTranslation(final double yTranslation) {
         this.yTranslation = yTranslation;
     }
 
     public double getZTranslation() {
-        return zTranslation;
+        return this.zTranslation;
     }
 
-    public void setZTranslation(double zTranslation) {
+    public void setZTranslation(final double zTranslation) {
         this.zTranslation = zTranslation;
     }
 
-    public void setTranslations(double x, double y, double z) {
-        setXTranslation(x);
-        setYTranslation(y);
-        setZTranslation(z);
+    public void setTranslations(final double x, final double y, final double z) {
+        this.setXTranslation(x);
+        this.setYTranslation(y);
+        this.setZTranslation(z);
     }
 
     @Override
@@ -92,11 +92,11 @@ public class TranslatePoint extends Module {
     }
 
     @Override
-    public double getValue(double x, double y, double z) {
-        if (sourceModule[0] == null) {
+    public double getValue(final double x, final double y, final double z) {
+        if (this.sourceModule[0] == null) {
             throw new NoModuleException();
         }
 
-        return sourceModule[0].getValue(x + xTranslation, y + yTranslation, z + zTranslation);
+        return this.sourceModule[0].getValue(x + this.xTranslation, y + this.yTranslation, z + this.zTranslation);
     }
 }

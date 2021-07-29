@@ -36,17 +36,17 @@ public class Spheres extends Module {
     // Default frequency value for the noise::module::Spheres noise module.
     public static final double DEFAULT_SPHERES_FREQUENCY = 1.0;
     // Frequency of the concentric spheres.
-    private double frequency = DEFAULT_SPHERES_FREQUENCY;
+    private double frequency = Spheres.DEFAULT_SPHERES_FREQUENCY;
 
     public Spheres() {
         super(0);
     }
 
     public double getFrequency() {
-        return frequency;
+        return this.frequency;
     }
 
-    public void setFrequency(double frequency) {
+    public void setFrequency(final double frequency) {
         this.frequency = frequency;
     }
 
@@ -56,18 +56,18 @@ public class Spheres extends Module {
     }
 
     @Override
-    public double getValue(double x, double y, double z) {
+    public double getValue(final double x, final double y, final double z) {
         double x1 = x;
         double y1 = y;
         double z1 = z;
-        x1 *= frequency;
-        y1 *= frequency;
-        z1 *= frequency;
+        x1 *= this.frequency;
+        y1 *= this.frequency;
+        z1 *= this.frequency;
 
-        double distFromCenter = Math.sqrt(x1 * x1 + y1 * y1 + z1 * z1);
-        double distFromSmallerSphere = distFromCenter - Utils.floor(distFromCenter);
-        double distFromLargerSphere = 1.0 - distFromSmallerSphere;
-        double nearestDist = Math.min(distFromSmallerSphere, distFromLargerSphere);
+        final double distFromCenter = Math.sqrt(x1 * x1 + y1 * y1 + z1 * z1);
+        final double distFromSmallerSphere = distFromCenter - Utils.floor(distFromCenter);
+        final double distFromLargerSphere = 1.0 - distFromSmallerSphere;
+        final double nearestDist = Math.min(distFromSmallerSphere, distFromLargerSphere);
         return 1.0 - (nearestDist * 2.0); // Puts it in the 0 to 1 range.
     }
 }

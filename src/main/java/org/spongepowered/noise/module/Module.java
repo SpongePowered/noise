@@ -34,33 +34,31 @@ import org.spongepowered.noise.exception.NoModuleException;
 public abstract class Module {
     protected Module[] sourceModule;
 
-    public Module(int sourceModuleCount) {
-        sourceModule = null;
-
+    public Module(final int sourceModuleCount) {
         // Create an array of pointers to all source modules required by this
         // noise module.  Set these pointers to NULL.
         if (sourceModuleCount > 0) {
-            sourceModule = new Module[sourceModuleCount];
+            this.sourceModule = new Module[sourceModuleCount];
             for (int i = 0; i < sourceModuleCount; i++) {
-                sourceModule[i] = null;
+                this.sourceModule[i] = null;
             }
         } else {
-            sourceModule = null;
+            this.sourceModule = null;
         }
     }
 
-    public Module getSourceModule(int index) {
-        if (index >= getSourceModuleCount() || index < 0 || sourceModule[index] == null) {
+    public Module getSourceModule(final int index) {
+        if (index >= this.getSourceModuleCount() || index < 0 || this.sourceModule[index] == null) {
             throw new NoModuleException();
         }
-        return (sourceModule[index]);
+        return (this.sourceModule[index]);
     }
 
-    public void setSourceModule(int index, Module sourceModule) {
+    public void setSourceModule(final int index, final Module sourceModule) {
         if (this.sourceModule == null) {
             return;
         }
-        if (index >= getSourceModuleCount() || index < 0) {
+        if (index >= this.getSourceModuleCount() || index < 0) {
             throw new IllegalArgumentException("Index must be between 0 and GetSourceModuleCount()");
         }
         this.sourceModule[index] = sourceModule;

@@ -38,28 +38,28 @@ public class ScaleBias extends Module {
     // Default scale for the noise::module::ScaleBias noise module.
     public static final double DEFAULT_SCALE = 1.0;
     // Bias to apply to the scaled output value from the source module.
-    private double bias = DEFAULT_BIAS;
+    private double bias = ScaleBias.DEFAULT_BIAS;
     // Scaling factor to apply to the output value from the source
     // module.
-    private double scale = DEFAULT_SCALE;
+    private double scale = ScaleBias.DEFAULT_SCALE;
 
     public ScaleBias() {
         super(1);
     }
 
     public double getBias() {
-        return bias;
+        return this.bias;
     }
 
-    public void setBias(double bias) {
+    public void setBias(final double bias) {
         this.bias = bias;
     }
 
     public double getScale() {
-        return scale;
+        return this.scale;
     }
 
-    public void setScale(double scale) {
+    public void setScale(final double scale) {
         this.scale = scale;
     }
 
@@ -69,11 +69,11 @@ public class ScaleBias extends Module {
     }
 
     @Override
-    public double getValue(double x, double y, double z) {
-        if (sourceModule[0] == null) {
+    public double getValue(final double x, final double y, final double z) {
+        if (this.sourceModule[0] == null) {
             throw new NoModuleException();
         }
 
-        return sourceModule[0].getValue(x, y, z) * scale + bias;
+        return this.sourceModule[0].getValue(x, y, z) * this.scale + this.bias;
     }
 }

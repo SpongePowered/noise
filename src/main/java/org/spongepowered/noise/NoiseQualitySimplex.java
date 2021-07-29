@@ -41,25 +41,25 @@ public enum NoiseQualitySimplex {
      */
     SMOOTH(0.75, Utils.RANDOM_VECTORS_SIMPLEXSTYLE_SMOOTH, Utils.LOOKUP_SIMPLEXSTYLE_SMOOTH);
 
-    private double kernelSquaredRadius;
-    private double[] randomVectors;
-    private Utils.LatticePointBCC[] lookup;
+    private final double kernelSquaredRadius;
+    private final double[] randomVectors;
+    private final Utils.LatticePointBCC[] lookup;
 
-    private NoiseQualitySimplex(double kernelSquaredRadius, double[] randomVectors, Utils.LatticePointBCC[] lookup) {
+    NoiseQualitySimplex(final double kernelSquaredRadius, final double[] randomVectors, final Utils.LatticePointBCC[] lookup) {
         this.kernelSquaredRadius = kernelSquaredRadius;
         this.randomVectors = randomVectors;
         this.lookup = lookup;
     }
 
     public double getKernelSquaredRadius() {
-        return kernelSquaredRadius;
+        return this.kernelSquaredRadius;
     }
 
     public double[] getRandomVectors() {
-        return randomVectors;
+        return this.randomVectors;
     }
 
     public Utils.LatticePointBCC[] getLookup() {
-        return lookup;
+        return this.lookup;
     }
 }

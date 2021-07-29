@@ -44,13 +44,13 @@ public class Range extends Module {
     public static final double DEFAULT_NEW_UPPER_BOUND = 1f;
     
     /* Current lower bound */
-    private double currentLowerBound = DEFAULT_CURRENT_LOWER_BOUND;
+    private double currentLowerBound = Range.DEFAULT_CURRENT_LOWER_BOUND;
     /* Current upper bound */
-    private double currentUpperBound = DEFAULT_CURRENT_UPPER_BOUND;
+    private double currentUpperBound = Range.DEFAULT_CURRENT_UPPER_BOUND;
     /* New lower bound */
-    private double newLowerBound = DEFAULT_NEW_LOWER_BOUND;
+    private double newLowerBound = Range.DEFAULT_NEW_LOWER_BOUND;
     /* New Upper Bound */
-    private double newUpperBound = DEFAULT_NEW_UPPER_BOUND;
+    private double newUpperBound = Range.DEFAULT_NEW_UPPER_BOUND;
     /* Cache variables */
     private double scale;
     private double bias;
@@ -60,19 +60,19 @@ public class Range extends Module {
     }
 
     public double getCurrentLowerBound() {
-        return currentLowerBound;
+        return this.currentLowerBound;
     }
 
     public double getCurrentUpperBound() {
-        return currentUpperBound;
+        return this.currentUpperBound;
     }
 
     public double getNewLowerBound() {
-        return newLowerBound;
+        return this.newLowerBound;
     }
     
     public double getNewUpperBound() {
-        return newUpperBound;
+        return this.newUpperBound;
     }
     
     /*
@@ -80,9 +80,9 @@ public class Range extends Module {
      * Should be called when the bounds are modified
      */
     private void recalculateScaleBias() {
-    	scale = (getNewUpperBound() - getNewLowerBound()) / 
-        		(getCurrentUpperBound() - getCurrentLowerBound());
-    	bias = getNewLowerBound() - getCurrentLowerBound() * scale;
+        this.scale = (this.getNewUpperBound() - this.getNewLowerBound()) /
+            (this.getCurrentUpperBound() - this.getCurrentLowerBound());
+        this.bias = this.getNewLowerBound() - this.getCurrentLowerBound() * this.scale;
     }
     
     /**
@@ -92,19 +92,20 @@ public class Range extends Module {
      * @param newLower new lower bound
      * @param newUpper new upper bound
      */
-    public void setBounds(double currentLower, double currentUpper, double newLower,
-    		double newUpper) {
-    	if (currentLower == currentUpper) {
-    		throw new IllegalArgumentException("currentLower must not equal currentUpper. Both are " + currentUpper);
-    	}
-    	if (newLower == newUpper) {
-    		throw new IllegalArgumentException("newLowerBound must not equal newUpperBound. Both are " + newUpper);
-    	}
-    	currentLowerBound = currentLower;
-    	currentUpperBound = currentUpper;
-    	newLowerBound = newLower;
-    	newUpperBound = newUpper;
-    	recalculateScaleBias();
+    public void setBounds(
+        final double currentLower, final double currentUpper, final double newLower,
+            final double newUpper) {
+        if (currentLower == currentUpper) {
+            throw new IllegalArgumentException("currentLower must not equal currentUpper. Both are " + currentUpper);
+        }
+        if (newLower == newUpper) {
+            throw new IllegalArgumentException("newLowerBound must not equal newUpperBound. Both are " + newUpper);
+        }
+        this.currentLowerBound = currentLower;
+        this.currentUpperBound = currentUpper;
+        this.newLowerBound = newLower;
+        this.newUpperBound = newUpper;
+        this.recalculateScaleBias();
     }
 
     @Override
@@ -113,16 +114,16 @@ public class Range extends Module {
     }
 
     @Override
-    public double getValue(double x, double y, double z) {
-        if (sourceModule == null) {
+    public double getValue(final double x, final double y, final double z) {
+        if (this.sourceModule == null) {
             throw new NoModuleException();
         }
-        if (sourceModule[0] == null) {
+        if (this.sourceModule[0] == null) {
             throw new NoModuleException();
         }
         
-        double oldVal = sourceModule[0].getValue(x, y, z);
-        return oldVal * scale + bias;
+        final double oldVal = this.sourceModule[0].getValue(x, y, z);
+        return oldVal * this.scale + this.bias;
     }
 
 }

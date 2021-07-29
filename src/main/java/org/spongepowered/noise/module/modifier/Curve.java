@@ -43,27 +43,27 @@ public class Curve extends Module {
         super(1);
     }
 
-    public void addControlPoint(double inputValue, double outputValue) {
-        int index = findInsertionPos(inputValue);
-        insertAtPos(index, inputValue, outputValue);
+    public void addControlPoint(final double inputValue, final double outputValue) {
+        final int index = this.findInsertionPos(inputValue);
+        this.insertAtPos(index, inputValue, outputValue);
     }
 
     public ControlPoint[] getControlPoints() {
-        return (ControlPoint[]) controlPoints.toArray();
+        return this.controlPoints.toArray(new ControlPoint[0]);
     }
 
     public void clearAllControlPoints() {
-        controlPoints.clear();
+        this.controlPoints.clear();
     }
 
-    private int findInsertionPos(double inputValue) {
+    private int findInsertionPos(final double inputValue) {
         int insertionPos;
-        for (insertionPos = 0; insertionPos < controlPoints.size(); insertionPos++) {
-            if (inputValue < controlPoints.get(insertionPos).inputValue) {
+        for (insertionPos = 0; insertionPos < this.controlPoints.size(); insertionPos++) {
+            if (inputValue < this.controlPoints.get(insertionPos).inputValue) {
                 // We found the array index in which to insert the new control point.
                 // Exit now.
                 break;
-            } else if (inputValue == controlPoints.get(insertionPos).inputValue) {
+            } else if (inputValue == this.controlPoints.get(insertionPos).inputValue) {
                 // Each control point is required to contain a unique input value, so
                 // throw an exception.
                 throw new IllegalArgumentException("inputValue must be unique");
@@ -72,11 +72,11 @@ public class Curve extends Module {
         return insertionPos;
     }
 
-    private void insertAtPos(int insertionPos, double inputValue, double outputValue) {
-        ControlPoint newPoint = new ControlPoint();
+    private void insertAtPos(final int insertionPos, final double inputValue, final double outputValue) {
+        final ControlPoint newPoint = new ControlPoint();
         newPoint.inputValue = inputValue;
         newPoint.outputValue = outputValue;
-        controlPoints.add(insertionPos, newPoint);
+        this.controlPoints.add(insertionPos, newPoint);
     }
 
     @Override
@@ -85,23 +85,23 @@ public class Curve extends Module {
     }
 
     @Override
-    public double getValue(double x, double y, double z) {
-        if (sourceModule[0] == null) {
+    public double getValue(final double x, final double y, final double z) {
+        if (this.sourceModule[0] == null) {
             throw new NoModuleException();
         }
-        final int size = controlPoints.size();
+        final int size = this.controlPoints.size();
         if (size < 4) {
             throw new RuntimeException("Curve module must have at least 4 control points");
         }
 
         // Get the output value from the source module.
-        double sourceModuleValue = sourceModule[0].getValue(x, y, z);
+        final double sourceModuleValue = this.sourceModule[0].getValue(x, y, z);
 
         // Find the first element in the control point array that has an input value
         // larger than the output value from the source module.
         int indexPos;
         for (indexPos = 0; indexPos < size; indexPos++) {
-            if (sourceModuleValue < controlPoints.get(indexPos).inputValue) {
+            if (sourceModuleValue < this.controlPoints.get(indexPos).inputValue) {
                 break;
             }
         }
@@ -109,26 +109,28 @@ public class Curve extends Module {
         // Find the four nearest control points so that we can perform cubic
         // interpolation.
         final int lastIndex = size - 1;
-        int index0 = Utils.clamp(indexPos - 2, 0, lastIndex);
-        int index1 = Utils.clamp(indexPos - 1, 0, lastIndex);
-        int index2 = Utils.clamp(indexPos, 0, lastIndex);
-        int index3 = Utils.clamp(indexPos + 1, 0, lastIndex);
+        final int index0 = Utils.clamp(indexPos - 2, 0, lastIndex);
+        final int index1 = Utils.clamp(indexPos - 1, 0, lastIndex);
+        final int index2 = Utils.clamp(indexPos, 0, lastIndex);
+        final int index3 = Utils.clamp(indexPos + 1, 0, lastIndex);
 
         // If some control points are missing (which occurs if the value from the
         // source module is greater than the largest input value or less than the
         // smallest input value of the control point array), get the corresponding
         // output value of the nearest control point and exit now.
         if (index1 == index2) {
-            return controlPoints.get(index1).outputValue;
+            return this.controlPoints.get(index1).outputValue;
         }
 
         // Compute the alpha value used for cubic interpolation.
-        double input0 = controlPoints.get(index1).inputValue;
-        double input1 = controlPoints.get(index2).inputValue;
-        double alpha = (sourceModuleValue - input0) / (input1 - input0);
+        final double input0 = this.controlPoints.get(index1).inputValue;
+        final double input1 = this.controlPoints.get(index2).inputValue;
+        final double alpha = (sourceModuleValue - input0) / (input1 - input0);
 
         // Now perform the cubic interpolation given the alpha value.
-        return Utils.cubicInterp(controlPoints.get(index0).outputValue, controlPoints.get(index1).outputValue, controlPoints.get(index2).outputValue, controlPoints.get(index3).outputValue, alpha);
+        return Utils.cubicInterp(
+            this.controlPoints.get(index0).outputValue, this.controlPoints.get(index1).outputValue, this.controlPoints.get(index2).outputValue,
+            this.controlPoints.get(index3).outputValue, alpha);
     }
 
     public static class ControlPoint {

@@ -57,81 +57,81 @@ public class Simplex extends Module {
     // Maximum number of octaves for the noise::module::Simplex noise module.
     public static final int SIMPLEX_MAX_OCTAVE = 30;
     // Frequency of the first octave.
-    private double frequency = DEFAULT_SIMPLEX_FREQUENCY;
+    private double frequency = Simplex.DEFAULT_SIMPLEX_FREQUENCY;
     // Frequency multiplier between successive octaves.
-    private double lacunarity = DEFAULT_SIMPLEX_LACUNARITY;
+    private double lacunarity = Simplex.DEFAULT_SIMPLEX_LACUNARITY;
     // Lattice Orientation of the Simplex-style noise.
-    private LatticeOrientation latticeOrientation = DEFAULT_SIMPLEX_ORIENTATION;
+    private LatticeOrientation latticeOrientation = Simplex.DEFAULT_SIMPLEX_ORIENTATION;
     // Quality of the Simplex-style noise.
-    private NoiseQualitySimplex noiseQuality = DEFAULT_SIMPLEX_QUALITY;
+    private NoiseQualitySimplex noiseQuality = Simplex.DEFAULT_SIMPLEX_QUALITY;
     // Total number of octaves that generate the Simplex-style noise.
-    private int octaveCount = DEFAULT_SIMPLEX_OCTAVE_COUNT;
+    private int octaveCount = Simplex.DEFAULT_SIMPLEX_OCTAVE_COUNT;
     // Persistence of the Simplex-style noise.
-    private double persistence = DEFAULT_SIMPLEX_PERSISTENCE;
+    private double persistence = Simplex.DEFAULT_SIMPLEX_PERSISTENCE;
     // Seed value used by the Simplex-style noise function.
-    private int seed = DEFAULT_SIMPLEX_SEED;
+    private int seed = Simplex.DEFAULT_SIMPLEX_SEED;
 
     public Simplex() {
         super(0);
     }
 
     public double getFrequency() {
-        return frequency;
+        return this.frequency;
     }
 
-    public void setFrequency(double frequency) {
+    public void setFrequency(final double frequency) {
         this.frequency = frequency;
     }
 
     public double getLacunarity() {
-        return lacunarity;
+        return this.lacunarity;
     }
 
-    public void setLacunarity(double lacunarity) {
+    public void setLacunarity(final double lacunarity) {
         this.lacunarity = lacunarity;
     }
 
     public LatticeOrientation getLatticeOrientation() {
-        return latticeOrientation;
+        return this.latticeOrientation;
     }
 
-    public void setLatticeOrientation(LatticeOrientation latticeOrientation) {
+    public void setLatticeOrientation(final LatticeOrientation latticeOrientation) {
         this.latticeOrientation = latticeOrientation;
     }
 
     public NoiseQualitySimplex getNoiseQuality() {
-        return noiseQuality;
+        return this.noiseQuality;
     }
 
-    public void setNoiseQuality(NoiseQualitySimplex noiseQuality) {
+    public void setNoiseQuality(final NoiseQualitySimplex noiseQuality) {
         this.noiseQuality = noiseQuality;
     }
 
     public int getOctaveCount() {
-        return octaveCount;
+        return this.octaveCount;
     }
 
-    public void setOctaveCount(int octaveCount) {
-        if (octaveCount < 1 || octaveCount > SIMPLEX_MAX_OCTAVE) {
-            throw new IllegalArgumentException("octaveCount must be between 1 and MAX OCTAVE: " + SIMPLEX_MAX_OCTAVE);
+    public void setOctaveCount(final int octaveCount) {
+        if (octaveCount < 1 || octaveCount > Simplex.SIMPLEX_MAX_OCTAVE) {
+            throw new IllegalArgumentException("octaveCount must be between 1 and MAX OCTAVE: " + Simplex.SIMPLEX_MAX_OCTAVE);
         }
 
         this.octaveCount = octaveCount;
     }
 
     public double getPersistence() {
-        return persistence;
+        return this.persistence;
     }
 
-    public void setPersistence(double persistence) {
+    public void setPersistence(final double persistence) {
         this.persistence = persistence;
     }
 
     public int getSeed() {
-        return seed;
+        return this.seed;
     }
 
-    public void setSeed(int seed) {
+    public void setSeed(final int seed) {
         this.seed = seed;
     }
     
@@ -145,7 +145,7 @@ public class Simplex extends Module {
     	 * So (p = persistence, o = octave): Max(simplex) = p + p*p + p*p*p + ... + p^(o-1).
     	 * Using geometric series formula we can narrow it down to this:
     	 */
-    	return (Math.pow(getPersistence(), getOctaveCount()) - 1) / (getPersistence() - 1);
+    	return (Math.pow(this.getPersistence(), this.getOctaveCount()) - 1) / (this.getPersistence() - 1);
     }
 
     @Override
@@ -154,7 +154,7 @@ public class Simplex extends Module {
     }
 
     @Override
-    public double getValue(double x, double y, double z) {
+    public double getValue(final double x, final double y, final double z) {
         double x1 = x;
         double y1 = y;
         double z1 = z;
@@ -164,11 +164,11 @@ public class Simplex extends Module {
         double nx, ny, nz;
         int seed;
 
-        x1 *= frequency;
-        y1 *= frequency;
-        z1 *= frequency;
+        x1 *= this.frequency;
+        y1 *= this.frequency;
+        z1 *= this.frequency;
 
-        for (int curOctave = 0; curOctave < octaveCount; curOctave++) {
+        for (int curOctave = 0; curOctave < this.octaveCount; curOctave++) {
 
             // Make sure that these floating-point values have the same range as a 32-
             // bit integer so that we can pass them to the coherent-noise functions.
@@ -179,14 +179,14 @@ public class Simplex extends Module {
             // Get the coherent-noise value from the input value and add it to the
             // final result.
             seed = (this.seed + curOctave);
-            signal = Noise.simplexStyleGradientCoherentNoise3D(nx, ny, nz, seed, latticeOrientation, noiseQuality);
+            signal = Noise.simplexStyleGradientCoherentNoise3D(nx, ny, nz, seed, this.latticeOrientation, this.noiseQuality);
             value += signal * curPersistence;
 
             // Prepare the next octave.
-            x1 *= lacunarity;
-            y1 *= lacunarity;
-            z1 *= lacunarity;
-            curPersistence *= persistence;
+            x1 *= this.lacunarity;
+            y1 *= this.lacunarity;
+            z1 *= this.lacunarity;
+            curPersistence *= this.persistence;
         }
 
         return value;

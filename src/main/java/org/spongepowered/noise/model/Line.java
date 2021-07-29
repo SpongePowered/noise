@@ -46,8 +46,9 @@ import org.spongepowered.noise.module.Module;
  * </ul>
  *
  * <p>To generate an output value, pass an input value between 0.0 and 1.0 to
- * the GetValue() method. 0.0 represents the start position of the line segment
- * and 1.0 represents the end position of the line segment.</p>
+ * the {@link #getValue(double)} method. {@code 0.0} represents the start
+ * position of the line segment and {@code 1.0} represents the end position
+ * of the line segment.</p>
  */
 public class Line {
     // A flag that specifies whether the value is to be attenuated
@@ -71,7 +72,7 @@ public class Line {
     /**
      * @param module The noise module that is used to generate the output values.
      */
-    public Line(Module module) {
+    public Line(final Module module) {
         if (module == null) {
             throw new IllegalArgumentException("module cannot be null");
         }
@@ -79,7 +80,9 @@ public class Line {
     }
 
     /**
-     * Returns a flag indicating whether the output value is to be attenuated (moved toward 0.0) as the ends of the line segment are approached by the input value.
+     * Returns a flag indicating whether the output value is to be attenuated
+     * (moved toward 0.0) as the ends of the line segment are approached by
+     * the input value.
      *
      * @return true if the value is to be attenuated false if not.
      */
@@ -88,35 +91,38 @@ public class Line {
     }
 
     /**
-     * Sets a flag indicating that the output value is to be attenuated (moved toward 0.0) as the ends of the line segment are approached.
+     * Sets a flag indicating that the output value is to be attenuated
+     * (moved toward 0.0) as the ends of the line segment are approached.
      *
      * @param att A flag that specifies whether the output value is to be attenuated.
      */
-    public void setAttenuate(boolean att) {
+    public void setAttenuate(final boolean att) {
         this.attenuate = att;
     }
 
     /**
-     * Sets the position ( {@code x}, {@code y}, {@code z} ) of the start of the line segment to choose values along.
+     * Sets the position ( {@code x}, {@code y}, {@code z} ) of the start of the
+     * line segment to choose values along.
      *
      * @param x x coordinate of the start position.
      * @param y y coordinate of the start position.
      * @param z z coordinate of the start position.
      */
-    public void setStartPoint(double x, double y, double z) {
+    public void setStartPoint(final double x, final double y, final double z) {
         this.x0 = x;
         this.y0 = y;
         this.z0 = z;
     }
 
     /**
-     * Sets the position ( {@code x}, {@code y}, {@code z} ) of the end of the line segment to choose values along.
+     * Sets the position ( {@code x}, {@code y}, {@code z} ) of the end of the
+     * line segment to choose values along.
      *
      * @param x x coordinate of the end position.
      * @param y y coordinate of the end position.
      * @param z z coordinate of the end position.
      */
-    public void setEndPoint(double x, double y, double z) {
+    public void setEndPoint(final double x, final double y, final double z) {
         this.x1 = x;
         this.y1 = y;
         this.z1 = z;
@@ -126,7 +132,7 @@ public class Line {
      * Returns the noise module that is used to generate the output values.
      */
     public Module getModule() {
-        return module;
+        return this.module;
     }
 
     /**
@@ -137,7 +143,7 @@ public class Line {
      *
      * @param module The noise module that is used to generate the output values.
      */
-    public void setModule(Module module) {
+    public void setModule(final Module module) {
         if (module == null) {
             throw new IllegalArgumentException("module cannot be null");
         }
@@ -151,17 +157,17 @@ public class Line {
      * @param p The distance along the line segment (ranges from 0.0 to 1.0)
      * @return The output value from the noise module.
      */
-    public double getValue(double p) {
-        if (module == null) {
+    public double getValue(final double p) {
+        if (this.module == null) {
             throw new NoModuleException();
         }
 
-        double x = (x1 - x0) * p + x0;
-        double y = (y1 - y0) * p + y0;
-        double z = (z1 - z0) * p + z0;
-        double value = module.getValue(x, y, z);
+        final double x = (this.x1 - this.x0) * p + this.x0;
+        final double y = (this.y1 - this.y0) * p + this.y0;
+        final double z = (this.z1 - this.z0) * p + this.z0;
+        final double value = this.module.getValue(x, y, z);
 
-        if (attenuate) {
+        if (this.attenuate) {
             return p * (1.0 - p) * 4 * value;
         } else {
             return value;

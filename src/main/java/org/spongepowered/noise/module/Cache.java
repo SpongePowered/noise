@@ -54,24 +54,24 @@ public class Cache extends Module {
     }
 
     @Override
-    public void setSourceModule(int index, Module sourceModule) {
+    public void setSourceModule(final int index, final Module sourceModule) {
         super.setSourceModule(index, sourceModule);
-        isCached = false;
+        this.isCached = false;
     }
 
     @Override
-    public double getValue(double x, double y, double z) {
-        if (sourceModule[0] == null) {
+    public double getValue(final double x, final double y, final double z) {
+        if (this.sourceModule[0] == null) {
             throw new NoModuleException();
         }
 
-        if (!(isCached && x == xCache && y == yCache && z == zCache)) {
-            cachedValue = sourceModule[0].getValue(x, y, z);
-            xCache = x;
-            yCache = y;
-            zCache = z;
+        if (!(this.isCached && x == this.xCache && y == this.yCache && z == this.zCache)) {
+            this.cachedValue = this.sourceModule[0].getValue(x, y, z);
+            this.xCache = x;
+            this.yCache = y;
+            this.zCache = z;
         }
-        isCached = true;
-        return cachedValue;
+        this.isCached = true;
+        return this.cachedValue;
     }
 }

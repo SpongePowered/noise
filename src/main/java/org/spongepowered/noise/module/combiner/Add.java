@@ -43,13 +43,13 @@ public class Add extends Module {
     }
 
     @Override
-    public double getValue(double x, double y, double z) {
-        if (sourceModule[0] == null) {
+    public double getValue(final double x, final double y, final double z) {
+        if (this.sourceModule[0] == null) {
             throw new NoModuleException();
         }
-        if (sourceModule[1] == null) {
+        if (this.sourceModule[1] == null) {
             throw new NoModuleException();
         }
-        return sourceModule[0].getValue(x, y, z) + sourceModule[1].getValue(x, y, z);
+        return this.sourceModule[0].getValue(x, y, z) + this.sourceModule[1].getValue(x, y, z);
     }
 }

@@ -35,26 +35,26 @@ import org.spongepowered.noise.module.Module;
 public class Clamp extends Module {
     public static final double DEFAULT_LOWER_BOUND = 0.0;
     public static final double DEFAULT_UPPER_BOUND = 1.0;
-    private double lowerBound = DEFAULT_LOWER_BOUND;
-    private double upperBound = DEFAULT_UPPER_BOUND;
+    private double lowerBound = Clamp.DEFAULT_LOWER_BOUND;
+    private double upperBound = Clamp.DEFAULT_UPPER_BOUND;
 
     public Clamp() {
         super(1);
     }
 
     public double getLowerBound() {
-        return lowerBound;
+        return this.lowerBound;
     }
 
-    public void setLowerBound(double lowerBound) {
+    public void setLowerBound(final double lowerBound) {
         this.lowerBound = lowerBound;
     }
 
     public double getUpperBound() {
-        return upperBound;
+        return this.upperBound;
     }
 
-    public void setUpperBound(double upperBound) {
+    public void setUpperBound(final double upperBound) {
         this.upperBound = upperBound;
     }
 
@@ -64,16 +64,16 @@ public class Clamp extends Module {
     }
 
     @Override
-    public double getValue(double x, double y, double z) {
-        if (sourceModule[0] == null) {
+    public double getValue(final double x, final double y, final double z) {
+        if (this.sourceModule[0] == null) {
             throw new NoModuleException();
         }
 
-        double value = sourceModule[0].getValue(x, y, z);
-        if (value < lowerBound) {
-            return lowerBound;
-        } else if (value > upperBound) {
-            return upperBound;
+        final double value = this.sourceModule[0].getValue(x, y, z);
+        if (value < this.lowerBound) {
+            return this.lowerBound;
+        } else if (value > this.upperBound) {
+            return this.upperBound;
         } else {
             return value;
         }

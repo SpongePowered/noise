@@ -33,17 +33,17 @@ import org.spongepowered.noise.module.Module;
 
 public class Const extends Module {
     public static final double DEFAULT_VALUE = 0;
-    private double value = DEFAULT_VALUE;
+    private double value = Const.DEFAULT_VALUE;
 
     public Const() {
         super(0);
     }
 
     public double getValue() {
-        return value;
+        return this.value;
     }
 
-    public void setValue(double value) {
+    public void setValue(final double value) {
         this.value = value;
     }
 
@@ -53,7 +53,7 @@ public class Const extends Module {
     }
 
     @Override
-    public double getValue(double x, double y, double z) {
-        return value;
+    public double getValue(final double x, final double y, final double z) {
+        return this.value;
     }
 }

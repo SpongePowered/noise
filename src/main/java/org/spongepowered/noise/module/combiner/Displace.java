@@ -43,76 +43,76 @@ public class Displace extends Module {
     }
 
     public Module getXDisplaceModule() {
-        if (sourceModule == null || sourceModule[1] == null) {
+        if (this.sourceModule == null || this.sourceModule[1] == null) {
             throw new NoModuleException();
         }
-        return sourceModule[1];
+        return this.sourceModule[1];
     }
 
     public Module getYDisplaceModule() {
-        if (sourceModule == null || sourceModule[2] == null) {
+        if (this.sourceModule == null || this.sourceModule[2] == null) {
             throw new NoModuleException();
         }
-        return sourceModule[2];
+        return this.sourceModule[2];
     }
 
     public Module getZDisplaceModule() {
-        if (sourceModule == null || sourceModule[3] == null) {
+        if (this.sourceModule == null || this.sourceModule[3] == null) {
             throw new NoModuleException();
         }
-        return sourceModule[3];
+        return this.sourceModule[3];
     }
 
-    public void setXDisplaceModule(Module x) {
+    public void setXDisplaceModule(final Module x) {
         if (x == null) {
             throw new IllegalArgumentException("x cannot be null");
         }
-        sourceModule[1] = x;
+        this.sourceModule[1] = x;
     }
 
-    public void setYDisplaceModule(Module y) {
+    public void setYDisplaceModule(final Module y) {
         if (y == null) {
             throw new IllegalArgumentException("y cannot be null");
         }
-        sourceModule[2] = y;
+        this.sourceModule[2] = y;
     }
 
-    public void setZDisplaceModule(Module z) {
+    public void setZDisplaceModule(final Module z) {
         if (z == null) {
             throw new IllegalArgumentException("z cannot be null");
         }
-        sourceModule[3] = z;
+        this.sourceModule[3] = z;
     }
 
-    public void setDisplaceModules(Module x, Module y, Module z) {
-        setXDisplaceModule(x);
-        setYDisplaceModule(y);
-        setZDisplaceModule(z);
+    public void setDisplaceModules(final Module x, final Module y, final Module z) {
+        this.setXDisplaceModule(x);
+        this.setYDisplaceModule(y);
+        this.setZDisplaceModule(z);
     }
 
     @Override
-    public double getValue(double x, double y, double z) {
-        if (sourceModule[0] == null) {
+    public double getValue(final double x, final double y, final double z) {
+        if (this.sourceModule[0] == null) {
             throw new NoModuleException();
         }
-        if (sourceModule[1] == null) {
+        if (this.sourceModule[1] == null) {
             throw new NoModuleException();
         }
-        if (sourceModule[2] == null) {
+        if (this.sourceModule[2] == null) {
             throw new NoModuleException();
         }
-        if (sourceModule[3] == null) {
+        if (this.sourceModule[3] == null) {
             throw new NoModuleException();
         }
 
         // Get the output values from the three displacement modules.  Add each
         // value to the corresponding coordinate in the input value.
-        double xDisplace = x + sourceModule[1].getValue(x, y, z);
-        double yDisplace = y + sourceModule[2].getValue(x, y, z);
-        double zDisplace = z + sourceModule[3].getValue(x, y, z);
+        final double xDisplace = x + this.sourceModule[1].getValue(x, y, z);
+        final double yDisplace = y + this.sourceModule[2].getValue(x, y, z);
+        final double zDisplace = z + this.sourceModule[3].getValue(x, y, z);
 
         // Retrieve the output value using the offset input value instead of
         // the original input value.
-        return sourceModule[0].getValue(xDisplace, yDisplace, zDisplace);
+        return this.sourceModule[0].getValue(xDisplace, yDisplace, zDisplace);
     }
 }

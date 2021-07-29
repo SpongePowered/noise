@@ -42,9 +42,9 @@ public class RotatePoint extends Module {
     // Default {@code z} rotation angle for the noise::module::RotatePoint noise
     // module.
     public static final double DEFAULT_ROTATE_Z = 0.0;
-    private double xAngle = DEFAULT_ROTATE_X;
-    private double yAngle = DEFAULT_ROTATE_Y;
-    private double zAngle = DEFAULT_ROTATE_Z;
+    private double xAngle = RotatePoint.DEFAULT_ROTATE_X;
+    private double yAngle = RotatePoint.DEFAULT_ROTATE_Y;
+    private double zAngle = RotatePoint.DEFAULT_ROTATE_Z;
     // An entry within the 3x3 rotation matrix used for rotating the
     // input value.
     private double x1Matrix;
@@ -75,27 +75,26 @@ public class RotatePoint extends Module {
 
     public RotatePoint() {
         super(1);
-        setAngles(DEFAULT_ROTATE_X, DEFAULT_ROTATE_Y, DEFAULT_ROTATE_Z);
+        this.setAngles(RotatePoint.DEFAULT_ROTATE_X, RotatePoint.DEFAULT_ROTATE_Y, RotatePoint.DEFAULT_ROTATE_Z);
     }
 
-    public void setAngles(double x, double y, double z) {
-        double xCos, yCos, zCos, xSin, ySin, zSin;
-        xCos = Math.cos(Math.toRadians(x));
-        yCos = Math.cos(Math.toRadians(y));
-        zCos = Math.cos(Math.toRadians(z));
-        xSin = Math.sin(Math.toRadians(x));
-        ySin = Math.sin(Math.toRadians(y));
-        zSin = Math.sin(Math.toRadians(z));
+    public void setAngles(final double x, final double y, final double z) {
+        final double xCos = Math.cos(Math.toRadians(x));
+        final double yCos = Math.cos(Math.toRadians(y));
+        final double zCos = Math.cos(Math.toRadians(z));
+        final double xSin = Math.sin(Math.toRadians(x));
+        final double ySin = Math.sin(Math.toRadians(y));
+        final double zSin = Math.sin(Math.toRadians(z));
 
-        x1Matrix = ySin * xSin * zSin + yCos * zCos;
-        y1Matrix = xCos * zSin;
-        z1Matrix = ySin * zCos - yCos * xSin * zSin;
-        x2Matrix = ySin * xSin * zCos - yCos * zSin;
-        y2Matrix = xCos * zCos;
-        z2Matrix = -yCos * xSin * zCos - ySin * zSin;
-        x3Matrix = -ySin * xCos;
-        y3Matrix = xSin;
-        z3Matrix = yCos * xCos;
+        this.x1Matrix = ySin * xSin * zSin + yCos * zCos;
+        this.y1Matrix = xCos * zSin;
+        this.z1Matrix = ySin * zCos - yCos * xSin * zSin;
+        this.x2Matrix = ySin * xSin * zCos - yCos * zSin;
+        this.y2Matrix = xCos * zCos;
+        this.z2Matrix = -yCos * xSin * zCos - ySin * zSin;
+        this.x3Matrix = -ySin * xCos;
+        this.y3Matrix = xSin;
+        this.z3Matrix = yCos * xCos;
 
         this.xAngle = x;
         this.yAngle = y;
@@ -103,27 +102,27 @@ public class RotatePoint extends Module {
     }
 
     public double getXAngle() {
-        return xAngle;
+        return this.xAngle;
     }
 
-    public void setXAngle(double xAngle) {
-        setAngles(xAngle, yAngle, zAngle);
+    public void setXAngle(final double xAngle) {
+        this.setAngles(xAngle, this.yAngle, this.zAngle);
     }
 
     public double getYAngle() {
-        return yAngle;
+        return this.yAngle;
     }
 
-    public void setYAngle(double yAngle) {
-        setAngles(xAngle, yAngle, zAngle);
+    public void setYAngle(final double yAngle) {
+        this.setAngles(this.xAngle, yAngle, this.zAngle);
     }
 
     public double getZAngle() {
-        return zAngle;
+        return this.zAngle;
     }
 
-    public void setZAngle(double zAngle) {
-        setAngles(xAngle, yAngle, zAngle);
+    public void setZAngle(final double zAngle) {
+        this.setAngles(this.xAngle, this.yAngle, zAngle);
     }
 
     @Override
@@ -132,14 +131,14 @@ public class RotatePoint extends Module {
     }
 
     @Override
-    public double getValue(double x, double y, double z) {
-        if (sourceModule[0] == null) {
+    public double getValue(final double x, final double y, final double z) {
+        if (this.sourceModule[0] == null) {
             throw new NoModuleException();
         }
 
-        double nx = (x1Matrix * x) + (y1Matrix * y) + (z1Matrix * z);
-        double ny = (x2Matrix * x) + (y2Matrix * y) + (z2Matrix * z);
-        double nz = (x3Matrix * x) + (y3Matrix * y) + (z3Matrix * z);
-        return sourceModule[0].getValue(nx, ny, nz);
+        final double nx = (this.x1Matrix * x) + (this.y1Matrix * y) + (this.z1Matrix * z);
+        final double ny = (this.x2Matrix * x) + (this.y2Matrix * y) + (this.z2Matrix * z);
+        final double nz = (this.x3Matrix * x) + (this.y3Matrix * y) + (this.z3Matrix * z);
+        return this.sourceModule[0].getValue(nx, ny, nz);
     }
 }

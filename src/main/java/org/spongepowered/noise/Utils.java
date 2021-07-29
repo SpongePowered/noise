@@ -43,10 +43,10 @@ public final class Utils {
      * @param a the alpha value
      * @return the interpolated value
      */
-    public static double cubicInterp(double n0, double n1, double n2, double n3, double a) {
-        double p = (n3 - n2) - (n0 - n1);
-        double q = (n0 - n1) - p;
-        double r = n2 - n0;
+    public static double cubicInterp(final double n0, final double n1, final double n2, final double n3, final double a) {
+        final double p = (n3 - n2) - (n0 - n1);
+        final double q = (n0 - n1) - p;
+        final double r = n2 - n0;
 
         return p * a * a * a + q * a * a + r * a + n1;
     }
@@ -59,7 +59,7 @@ public final class Utils {
      * @param a the alpha value. Should be between 0 and 1.
      * @return the interpolated value
      */
-    public static double linearInterp(double n0, double n1, double a) {
+    public static double linearInterp(final double n0, final double n1, final double a) {
         return (1.0 - a) * n0 + (a * n1);
     }
 
@@ -69,7 +69,7 @@ public final class Utils {
      * @param a the value to map onto a S-Curve
      * @return the mapped value
      */
-    public static double sCurve3(double a) {
+    public static double sCurve3(final double a) {
         return (a * a * (3.0 - 2.0 * a));
     }
 
@@ -79,18 +79,18 @@ public final class Utils {
      * @param a the value to map onto a quitic S-curve
      * @return the mapped value
      */
-    public static double sCurve5(double a) {
-        double a3 = a * a * a;
-        double a4 = a3 * a;
-        double a5 = a4 * a;
+    public static double sCurve5(final double a) {
+        final double a3 = a * a * a;
+        final double a4 = a3 * a;
+        final double a5 = a4 * a;
         return (6.0 * a5) - (15.0 * a4) + (10.0 * a3);
     }
 
-    public static double[] latLonToXYZ(double latitude, double longitude) {
-        double r = Math.cos(Math.toRadians(latitude));
-        double x = r * Math.cos(Math.toRadians(longitude));
-        double y = Math.sin(Math.toRadians(latitude));
-        double z = r * Math.sin(Math.toRadians(longitude));
+    public static double[] latLonToXYZ(final double latitude, final double longitude) {
+        final double r = Math.cos(Math.toRadians(latitude));
+        final double x = r * Math.cos(Math.toRadians(longitude));
+        final double y = Math.sin(Math.toRadians(latitude));
+        final double z = r * Math.sin(Math.toRadians(longitude));
         return new double[]{x, y, z};
     }
 
@@ -111,7 +111,7 @@ public final class Utils {
      * @param n A floating-point number.
      * @return The modified floating-point number.
      */
-    public static double makeInt32Range(double n) {
+    public static double makeInt32Range(final double n) {
         if (n >= 1073741824.0) {
             return (2.0 * n % 1073741824.0) - 1073741824.0;
         } else if (n <= -1073741824.0) {
@@ -129,7 +129,7 @@ public final class Utils {
      * @param high The high bound of the clamp
      * @return the clamped value
      */
-    public static int clamp(int value, int low, int high) {
+    public static int clamp(final int value, final int low, final int high) {
         if (value < low) {
             return low;
         } else if (value > high) {
@@ -144,8 +144,8 @@ public final class Utils {
      * @param x The value to floor
      * @return The closest integer
      */
-    public static int floor(double x) {
-        int y = (int) x;
+    public static int floor(final double x) {
+        final int y = (int) x;
         if (x < y) {
             return y - 1;
         }
@@ -228,9 +228,9 @@ public final class Utils {
             -0.786182, -0.583814, 0.202678, 0.0, -0.565191, 0.821858, -0.0714658, 0.0, 0.437895, 0.152598, -0.885981, 0.0, -0.92394, 0.353436, -0.14635, 0.0,
             0.212189, -0.815162, -0.538969, 0.0, -0.859262, 0.143405, -0.491024, 0.0, 0.991353, 0.112814, 0.0670273, 0.0, 0.0337884, -0.979891, -0.196654, 0.0
     };
-    public static final double[] RANDOM_VECTORS_SIMPLEXSTYLE_STANDARD = new double[RANDOM_VECTORS.length];
-    public static final double[] RANDOM_VECTORS_SIMPLEXSTYLE_SMOOTH = new double[RANDOM_VECTORS.length];
-    public static final double[] RANDOM_VECTORS_PERLIN = new double[RANDOM_VECTORS.length];
+    public static final double[] RANDOM_VECTORS_SIMPLEXSTYLE_STANDARD = new double[Utils.RANDOM_VECTORS.length];
+    public static final double[] RANDOM_VECTORS_SIMPLEXSTYLE_SMOOTH = new double[Utils.RANDOM_VECTORS.length];
+    public static final double[] RANDOM_VECTORS_PERLIN = new double[Utils.RANDOM_VECTORS.length];
 
     // These were computed by gradient ascent using the above gradient set.
     private static final double NORMALIZER_SIMPLEXSTYLE_STANDARD = 0.0185703274687564875;
@@ -238,16 +238,16 @@ public final class Utils {
     private static final double NORMALIZER_PERLIN = 1.7252359327388492;
 
     // Constant multiplier to translate the range back to what it was before the normalization fix, and perform the equivalent for the simplex-style noise.
-    private static final double COMPATIBILITY_RATIO = 2 * Math.sqrt(3.0) / NORMALIZER_PERLIN;
+    private static final double COMPATIBILITY_RATIO = 2 * Math.sqrt(3.0) / Utils.NORMALIZER_PERLIN;
     static {
-        setupLegacyMode(false);
+        Utils.setupLegacyMode(false);
     }
-    public static void setupLegacyMode(boolean enableLegacyRange) {
-        double legacyMultiplier = (enableLegacyRange ? COMPATIBILITY_RATIO : 1.0);
-        for (int i = 0; i < RANDOM_VECTORS.length; i++) {
-            RANDOM_VECTORS_SIMPLEXSTYLE_STANDARD[i] = RANDOM_VECTORS[i] / (legacyMultiplier * NORMALIZER_SIMPLEXSTYLE_STANDARD);
-            RANDOM_VECTORS_SIMPLEXSTYLE_SMOOTH[i] = RANDOM_VECTORS[i] / (legacyMultiplier * NORMALIZER_SIMPLEXSTYLE_SMOOTH);
-            RANDOM_VECTORS_PERLIN[i] = RANDOM_VECTORS[i] / (legacyMultiplier * NORMALIZER_PERLIN);
+    public static void setupLegacyMode(final boolean enableLegacyRange) {
+        final double legacyMultiplier = (enableLegacyRange ? Utils.COMPATIBILITY_RATIO : 1.0);
+        for (int i = 0; i < Utils.RANDOM_VECTORS.length; i++) {
+            Utils.RANDOM_VECTORS_SIMPLEXSTYLE_STANDARD[i] = Utils.RANDOM_VECTORS[i] / (legacyMultiplier * Utils.NORMALIZER_SIMPLEXSTYLE_STANDARD);
+            Utils.RANDOM_VECTORS_SIMPLEXSTYLE_SMOOTH[i] = Utils.RANDOM_VECTORS[i] / (legacyMultiplier * Utils.NORMALIZER_SIMPLEXSTYLE_SMOOTH);
+            Utils.RANDOM_VECTORS_PERLIN[i] = Utils.RANDOM_VECTORS[i] / (legacyMultiplier * Utils.NORMALIZER_PERLIN);
         }
     }
 
@@ -260,7 +260,7 @@ public final class Utils {
     public static final LatticePointBCC[] LOOKUP_SIMPLEXSTYLE_SMOOTH = new LatticePointBCC[8];
     static {
         for (int i = 0; i < 8; i++) {
-            int i1, j1, k1, i2, j2, k2;
+            final int i1, j1, k1, i2, j2, k2;
             i1 = (i >> 0) & 1; j1 = (i >> 1) & 1; k1 = (i >> 2) & 1;
             i2 = i1 ^ 1; j2 = j1 ^ 1; k2 = k1 ^ 1;
 
@@ -269,18 +269,18 @@ public final class Utils {
              */
 
             // The two points within this octant, one from each of the two cubic half-lattices.
-            LatticePointBCC csf0 = new LatticePointBCC(i1, j1, k1, 0);
-            LatticePointBCC csf1 = new LatticePointBCC(i1 + i2, j1 + j2, k1 + k2, 1);
+            final LatticePointBCC csf0 = new LatticePointBCC(i1, j1, k1, 0);
+            final LatticePointBCC csf1 = new LatticePointBCC(i1 + i2, j1 + j2, k1 + k2, 1);
 
             // Each single step away on the first half-lattice.
-            LatticePointBCC csf2 = new LatticePointBCC(i1 ^ 1, j1, k1, 0);
-            LatticePointBCC csf3 = new LatticePointBCC(i1, j1 ^ 1, k1, 0);
-            LatticePointBCC csf4 = new LatticePointBCC(i1, j1, k1 ^ 1, 0);
+            final LatticePointBCC csf2 = new LatticePointBCC(i1 ^ 1, j1, k1, 0);
+            final LatticePointBCC csf3 = new LatticePointBCC(i1, j1 ^ 1, k1, 0);
+            final LatticePointBCC csf4 = new LatticePointBCC(i1, j1, k1 ^ 1, 0);
 
             // Each single step away on the second half-lattice.
-            LatticePointBCC csf5 = new LatticePointBCC(i1 + (i2 ^ 1), j1 + j2, k1 + k2, 1);
-            LatticePointBCC csf6 = new LatticePointBCC(i1 + i2, j1 + (j2 ^ 1), k1 + k2, 1);
-            LatticePointBCC csf7 = new LatticePointBCC(i1 + i2, j1 + j2, k1 + (k2 ^ 1), 1);
+            final LatticePointBCC csf5 = new LatticePointBCC(i1 + (i2 ^ 1), j1 + j2, k1 + k2, 1);
+            final LatticePointBCC csf6 = new LatticePointBCC(i1 + i2, j1 + (j2 ^ 1), k1 + k2, 1);
+            final LatticePointBCC csf7 = new LatticePointBCC(i1 + i2, j1 + j2, k1 + (k2 ^ 1), 1);
 
             // First two are guaranteed.
             csf0.nextOnFailure = csf0.nextOnSuccess = csf1;
@@ -297,39 +297,39 @@ public final class Utils {
             csf6.nextOnFailure = csf7; csf6.nextOnSuccess = null;
             csf7.nextOnFailure = csf7.nextOnSuccess = null;
 
-            LOOKUP_SIMPLEXSTYLE_STANDARD[i] = csf0;
+            Utils.LOOKUP_SIMPLEXSTYLE_STANDARD[i] = csf0;
 
             /*
              * Quality: Smooth. Resolve nearest 8 points.
              */
 
             // The two points within this octant, one from each of the two cubic half-lattices.
-            LatticePointBCC css0 = new LatticePointBCC(i1, j1, k1, 0);
-            LatticePointBCC css1 = new LatticePointBCC(i1 + i2, j1 + j2, k1 + k2, 1);
+            final LatticePointBCC css0 = new LatticePointBCC(i1, j1, k1, 0);
+            final LatticePointBCC css1 = new LatticePointBCC(i1 + i2, j1 + j2, k1 + k2, 1);
 
             // (1, 0, 0) vs (0, 1, 1) away from octant.
-            LatticePointBCC css2 = new LatticePointBCC(i1 ^ 1, j1, k1, 0);
-            LatticePointBCC css3 = new LatticePointBCC(i1, j1 ^ 1, k1 ^ 1, 0);
+            final LatticePointBCC css2 = new LatticePointBCC(i1 ^ 1, j1, k1, 0);
+            final LatticePointBCC css3 = new LatticePointBCC(i1, j1 ^ 1, k1 ^ 1, 0);
 
             // (1, 0, 0) vs (0, 1, 1) away from octant, on second half-lattice.
-            LatticePointBCC css4 = new LatticePointBCC(i1 + (i2 ^ 1), j1 + j2, k1 + k2, 1);
-            LatticePointBCC css5 = new LatticePointBCC(i1 + i2, j1 + (j2 ^ 1), k1 + (k2 ^ 1), 1);
+            final LatticePointBCC css4 = new LatticePointBCC(i1 + (i2 ^ 1), j1 + j2, k1 + k2, 1);
+            final LatticePointBCC css5 = new LatticePointBCC(i1 + i2, j1 + (j2 ^ 1), k1 + (k2 ^ 1), 1);
 
             // (0, 1, 0) vs (1, 0, 1) away from octant.
-            LatticePointBCC css6 = new LatticePointBCC(i1, j1 ^ 1, k1, 0);
-            LatticePointBCC css7 = new LatticePointBCC(i1 ^ 1, j1, k1 ^ 1, 0);
+            final LatticePointBCC css6 = new LatticePointBCC(i1, j1 ^ 1, k1, 0);
+            final LatticePointBCC css7 = new LatticePointBCC(i1 ^ 1, j1, k1 ^ 1, 0);
 
             // (0, 1, 0) vs (1, 0, 1) away from octant, on second half-lattice.
-            LatticePointBCC css8 = new LatticePointBCC(i1 + i2, j1 + (j2 ^ 1), k1 + k2, 1);
-            LatticePointBCC css9 = new LatticePointBCC(i1 + (i2 ^ 1), j1 + j2, k1 + (k2 ^ 1), 1);
+            final LatticePointBCC css8 = new LatticePointBCC(i1 + i2, j1 + (j2 ^ 1), k1 + k2, 1);
+            final LatticePointBCC css9 = new LatticePointBCC(i1 + (i2 ^ 1), j1 + j2, k1 + (k2 ^ 1), 1);
 
             // (0, 0, 1) vs (1, 1, 0) away from octant.
-            LatticePointBCC cssA = new LatticePointBCC(i1, j1, k1 ^ 1, 0);
-            LatticePointBCC cssB = new LatticePointBCC(i1 ^ 1, j1 ^ 1, k1, 0);
+            final LatticePointBCC cssA = new LatticePointBCC(i1, j1, k1 ^ 1, 0);
+            final LatticePointBCC cssB = new LatticePointBCC(i1 ^ 1, j1 ^ 1, k1, 0);
 
             // (0, 0, 1) vs (1, 1, 0) away from octant, on second half-lattice.
-            LatticePointBCC cssC = new LatticePointBCC(i1 + i2, j1 + j2, k1 + (k2 ^ 1), 1);
-            LatticePointBCC cssD = new LatticePointBCC(i1 + (i2 ^ 1), j1 + (j2 ^ 1), k1 + k2, 1);
+            final LatticePointBCC cssC = new LatticePointBCC(i1 + i2, j1 + j2, k1 + (k2 ^ 1), 1);
+            final LatticePointBCC cssD = new LatticePointBCC(i1 + (i2 ^ 1), j1 + (j2 ^ 1), k1 + k2, 1);
 
             // First two points are guaranteed.
             css0.nextOnFailure = css0.nextOnSuccess = css1;
@@ -359,7 +359,7 @@ public final class Utils {
             cssC.nextOnFailure = cssD; cssC.nextOnSuccess = null;
             cssD.nextOnFailure = cssD.nextOnSuccess = null;
 
-            LOOKUP_SIMPLEXSTYLE_SMOOTH[i] = css0;
+            Utils.LOOKUP_SIMPLEXSTYLE_SMOOTH[i] = css0;
 
         }
     }
@@ -371,7 +371,7 @@ public final class Utils {
         public double dxr, dyr, dzr;
         public int xrv, yrv, zrv;
         LatticePointBCC nextOnFailure, nextOnSuccess;
-        public LatticePointBCC(int xrv, int yrv, int zrv, int lattice) {
+        public LatticePointBCC(final int xrv, final int yrv, final int zrv, final int lattice) {
             this.dxr = -xrv + lattice * 0.5; this.dyr = -yrv + lattice * 0.5; this.dzr = -zrv + lattice * 0.5;
             this.xrv = xrv + lattice * 0x8000; this.yrv = yrv + lattice * 0x8000; this.zrv = zrv + lattice * 0x8000;
         }
