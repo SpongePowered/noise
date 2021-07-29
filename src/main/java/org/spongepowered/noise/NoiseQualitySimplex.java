@@ -55,11 +55,11 @@ public enum NoiseQualitySimplex {
         return this.kernelSquaredRadius;
     }
 
-    public double[] getRandomVectors() {
+    double[] getRandomVectors() {
         return this.randomVectors;
     }
 
-    public Utils.LatticePointBCC[] getLookup() {
+    Utils.LatticePointBCC[] getLookup() {
         return this.lookup;
     }
 }

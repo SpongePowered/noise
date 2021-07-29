@@ -162,7 +162,7 @@ public final class Utils {
      * see "GPU Gems", Chapter 5 - Implementing Improved Perlin Noise by
      * Ken Perlin, specifically page 76.</p>
      */
-    public static final double[] RANDOM_VECTORS = {
+    static final double[] RANDOM_VECTORS = {
             -0.763874, -0.596439, -0.246489, 0.0, 0.396055, 0.904518, -0.158073, 0.0, -0.499004, -0.8665, -0.0131631, 0.0, 0.468724, -0.824756, 0.316346, 0.0,
             0.829598, 0.43195, 0.353816, 0.0, -0.454473, 0.629497, -0.630228, 0.0, -0.162349, -0.869962, -0.465628, 0.0, 0.932805, 0.253451, 0.256198, 0.0,
             -0.345419, 0.927299, -0.144227, 0.0, -0.715026, -0.293698, -0.634413, 0.0, -0.245997, 0.717467, -0.651711, 0.0, -0.967409, -0.250435, -0.037451, 0.0,
@@ -228,9 +228,9 @@ public final class Utils {
             -0.786182, -0.583814, 0.202678, 0.0, -0.565191, 0.821858, -0.0714658, 0.0, 0.437895, 0.152598, -0.885981, 0.0, -0.92394, 0.353436, -0.14635, 0.0,
             0.212189, -0.815162, -0.538969, 0.0, -0.859262, 0.143405, -0.491024, 0.0, 0.991353, 0.112814, 0.0670273, 0.0, 0.0337884, -0.979891, -0.196654, 0.0
     };
-    public static final double[] RANDOM_VECTORS_SIMPLEXSTYLE_STANDARD = new double[Utils.RANDOM_VECTORS.length];
-    public static final double[] RANDOM_VECTORS_SIMPLEXSTYLE_SMOOTH = new double[Utils.RANDOM_VECTORS.length];
-    public static final double[] RANDOM_VECTORS_PERLIN = new double[Utils.RANDOM_VECTORS.length];
+    static final double[] RANDOM_VECTORS_SIMPLEXSTYLE_STANDARD = new double[Utils.RANDOM_VECTORS.length];
+    static final double[] RANDOM_VECTORS_SIMPLEXSTYLE_SMOOTH = new double[Utils.RANDOM_VECTORS.length];
+    static final double[] RANDOM_VECTORS_PERLIN = new double[Utils.RANDOM_VECTORS.length];
 
     // These were computed by gradient ascent using the above gradient set.
     private static final double NORMALIZER_SIMPLEXSTYLE_STANDARD = 0.0185703274687564875;
@@ -256,8 +256,8 @@ public final class Utils {
      * The current octant of the current cubic cell of the first lattice corresponds to one cell on the second.
      * From there, at most four ("standard") or eight ("smooth") lattice vertices are found which are in range.
      */
-    public static final LatticePointBCC[] LOOKUP_SIMPLEXSTYLE_STANDARD = new LatticePointBCC[8];
-    public static final LatticePointBCC[] LOOKUP_SIMPLEXSTYLE_SMOOTH = new LatticePointBCC[8];
+    static final LatticePointBCC[] LOOKUP_SIMPLEXSTYLE_STANDARD = new LatticePointBCC[8];
+    static final LatticePointBCC[] LOOKUP_SIMPLEXSTYLE_SMOOTH = new LatticePointBCC[8];
     static {
         for (int i = 0; i < 8; i++) {
             final int i1, j1, k1, i2, j2, k2;
@@ -367,13 +367,17 @@ public final class Utils {
     /**
      * Represents one lattice vertex on the simplex-style noise.
      */
-    public static class LatticePointBCC {
-        public double dxr, dyr, dzr;
-        public int xrv, yrv, zrv;
+    static final class LatticePointBCC {
+        public final double dxr, dyr, dzr;
+        public final int xrv, yrv, zrv;
         LatticePointBCC nextOnFailure, nextOnSuccess;
         public LatticePointBCC(final int xrv, final int yrv, final int zrv, final int lattice) {
-            this.dxr = -xrv + lattice * 0.5; this.dyr = -yrv + lattice * 0.5; this.dzr = -zrv + lattice * 0.5;
-            this.xrv = xrv + lattice * 0x8000; this.yrv = yrv + lattice * 0x8000; this.zrv = zrv + lattice * 0x8000;
+            this.dxr = -xrv + lattice * 0.5;
+            this.dyr = -yrv + lattice * 0.5;
+            this.dzr = -zrv + lattice * 0.5;
+            this.xrv = xrv + lattice * 0x8000;
+            this.yrv = yrv + lattice * 0x8000;
+            this.zrv = zrv + lattice * 0x8000;
         }
     }
 }
