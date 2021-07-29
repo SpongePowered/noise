@@ -32,6 +32,8 @@ package org.spongepowered.noise.model;
 import org.spongepowered.noise.exception.NoModuleException;
 import org.spongepowered.noise.module.Module;
 
+import java.util.Objects;
+
 /**
  * Model that defines the surface of a plane.
  *
@@ -70,10 +72,7 @@ public class Plane {
      * @param module The noise module that is used to generate the output values.
      */
     public void setModule(final Module module) {
-        if (module == null) {
-            throw new IllegalArgumentException("module cannot be null");
-        }
-        this.module = module;
+        this.module = Objects.requireNonNull(module, "Module cannot be null");
     }
 
     /**
@@ -85,7 +84,7 @@ public class Plane {
      */
     public double getValue(final double x, final double z) {
         if (this.module == null) {
-            throw new NoModuleException();
+            throw new NoModuleException(0);
         }
         return this.module.getValue(x, 0, z);
     }

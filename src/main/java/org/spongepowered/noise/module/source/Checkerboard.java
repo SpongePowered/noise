@@ -38,11 +38,6 @@ public class Checkerboard extends Module {
     }
 
     @Override
-    public int getSourceModuleCount() {
-        return 0;
-    }
-
-    @Override
     public double getValue(final double x, final double y, final double z) {
         final int ix = Utils.floor(Utils.makeInt32Range(x));
         final int iy = Utils.floor(Utils.makeInt32Range(y));

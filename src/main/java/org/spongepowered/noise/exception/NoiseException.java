@@ -29,6 +29,18 @@
  */
 package org.spongepowered.noise.exception;
 
+/**
+ * The base class for exceptions thrown by the <em>noise</em> library.
+ */
 public class NoiseException extends RuntimeException {
+
     private static final long serialVersionUID = 1;
+
+    public NoiseException() {
+    }
+
+    public NoiseException(final String message) {
+        super(message);
+    }
+
 }

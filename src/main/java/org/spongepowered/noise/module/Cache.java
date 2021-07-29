@@ -49,11 +49,6 @@ public class Cache extends Module {
     }
 
     @Override
-    public int getSourceModuleCount() {
-        return 1;
-    }
-
-    @Override
     public void setSourceModule(final int index, final Module sourceModule) {
         super.setSourceModule(index, sourceModule);
         this.isCached = false;
@@ -62,7 +57,7 @@ public class Cache extends Module {
     @Override
     public double getValue(final double x, final double y, final double z) {
         if (this.sourceModule[0] == null) {
-            throw new NoModuleException();
+            throw new NoModuleException(0);
         }
 
         if (!(this.isCached && x == this.xCache && y == this.yCache && z == this.zCache)) {

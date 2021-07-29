@@ -33,6 +33,8 @@ import org.spongepowered.noise.Utils;
 import org.spongepowered.noise.exception.NoModuleException;
 import org.spongepowered.noise.module.Module;
 
+import java.util.Objects;
+
 /**
  * Model that defines the surface of a sphere.
  */
@@ -66,10 +68,7 @@ public class Sphere {
      * This noise module must exist for the lifetime of this object, until you pass a new noise module to this method.
      */
     public void setModule(final Module module) {
-        if (module == null) {
-            throw new IllegalArgumentException("module cannot be null");
-        }
-        this.module = module;
+        this.module = Objects.requireNonNull(module, "Module cannot be null");
     }
 
     /**
@@ -81,7 +80,7 @@ public class Sphere {
      */
     public double getValue(final double lat, final double lon) {
         if (this.module == null) {
-            throw new NoModuleException();
+            throw new NoModuleException(0);
         }
         final double[] vec = Utils.latLonToXYZ(lat, lon);
         return this.module.getValue(vec[0], vec[1], vec[2]);

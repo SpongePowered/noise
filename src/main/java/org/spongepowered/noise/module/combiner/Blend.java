@@ -40,7 +40,7 @@ public class Blend extends Module {
 
     public Module getControlModule() {
         if (this.sourceModule[2] == null) {
-            throw new NoModuleException();
+            throw new NoModuleException(2);
         }
         return this.sourceModule[2];
     }
@@ -53,20 +53,15 @@ public class Blend extends Module {
     }
 
     @Override
-    public int getSourceModuleCount() {
-        return 3;
-    }
-
-    @Override
     public double getValue(final double x, final double y, final double z) {
         if (this.sourceModule[0] == null) {
-            throw new NoModuleException();
+            throw new NoModuleException(0);
         }
         if (this.sourceModule[1] == null) {
-            throw new NoModuleException();
+            throw new NoModuleException(1);
         }
         if (this.sourceModule[2] == null) {
-            throw new NoModuleException();
+            throw new NoModuleException(2);
         }
 
         final double v0 = this.sourceModule[0].getValue(x, y, z);

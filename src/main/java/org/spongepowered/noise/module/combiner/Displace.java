@@ -37,28 +37,23 @@ public class Displace extends Module {
         super(4);
     }
 
-    @Override
-    public int getSourceModuleCount() {
-        return 4;
-    }
-
     public Module getXDisplaceModule() {
         if (this.sourceModule == null || this.sourceModule[1] == null) {
-            throw new NoModuleException();
+            throw new NoModuleException(1);
         }
         return this.sourceModule[1];
     }
 
     public Module getYDisplaceModule() {
         if (this.sourceModule == null || this.sourceModule[2] == null) {
-            throw new NoModuleException();
+            throw new NoModuleException(2);
         }
         return this.sourceModule[2];
     }
 
     public Module getZDisplaceModule() {
         if (this.sourceModule == null || this.sourceModule[3] == null) {
-            throw new NoModuleException();
+            throw new NoModuleException(3);
         }
         return this.sourceModule[3];
     }
@@ -93,16 +88,16 @@ public class Displace extends Module {
     @Override
     public double getValue(final double x, final double y, final double z) {
         if (this.sourceModule[0] == null) {
-            throw new NoModuleException();
+            throw new NoModuleException(0);
         }
         if (this.sourceModule[1] == null) {
-            throw new NoModuleException();
+            throw new NoModuleException(1);
         }
         if (this.sourceModule[2] == null) {
-            throw new NoModuleException();
+            throw new NoModuleException(2);
         }
         if (this.sourceModule[3] == null) {
-            throw new NoModuleException();
+            throw new NoModuleException(3);
         }
 
         // Get the output values from the three displacement modules.  Add each

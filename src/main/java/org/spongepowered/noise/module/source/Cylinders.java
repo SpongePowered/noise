@@ -49,11 +49,6 @@ public class Cylinders extends Module {
     }
 
     @Override
-    public int getSourceModuleCount() {
-        return 0;
-    }
-
-    @Override
     public double getValue(final double x, final double y, final double z) {
         double z1 = z;
         double x1 = x;

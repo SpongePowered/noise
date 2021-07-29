@@ -32,39 +32,38 @@ package org.spongepowered.noise.module;
 import org.spongepowered.noise.exception.NoModuleException;
 
 public abstract class Module {
+    private static final Module[] EMPTY_MODULE_ARRAY = new Module[0];
+
     protected Module[] sourceModule;
 
     public Module(final int sourceModuleCount) {
-        // Create an array of pointers to all source modules required by this
-        // noise module.  Set these pointers to NULL.
         if (sourceModuleCount > 0) {
             this.sourceModule = new Module[sourceModuleCount];
-            for (int i = 0; i < sourceModuleCount; i++) {
-                this.sourceModule[i] = null;
-            }
         } else {
-            this.sourceModule = null;
+            this.sourceModule = Module.EMPTY_MODULE_ARRAY;
         }
     }
 
     public Module getSourceModule(final int index) {
-        if (index >= this.getSourceModuleCount() || index < 0 || this.sourceModule[index] == null) {
-            throw new NoModuleException();
+        if (index >= this.sourceModule.length || index < 0 || this.sourceModule[index] == null) {
+            throw new NoModuleException(index);
         }
         return (this.sourceModule[index]);
     }
 
     public void setSourceModule(final int index, final Module sourceModule) {
-        if (this.sourceModule == null) {
+        if (this.sourceModule.length == 0) {
             return;
         }
-        if (index >= this.getSourceModuleCount() || index < 0) {
-            throw new IllegalArgumentException("Index must be between 0 and GetSourceModuleCount()");
+        if (index >= this.sourceModule.length || index < 0) {
+            throw new IllegalArgumentException("Index must be between 0 and " + this.sourceModule.length);
         }
         this.sourceModule[index] = sourceModule;
     }
 
-    public abstract int getSourceModuleCount();
+    public final int getSourceModuleCount() {
+        return this.sourceModule.length;
+    }
 
     public abstract double getValue(double x, double y, double z);
 }

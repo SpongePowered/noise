@@ -29,6 +29,16 @@
  */
 package org.spongepowered.noise.exception;
 
+/**
+ * Thrown when no module is set for a requested index.
+ */
 public class NoModuleException extends NoiseException {
-    private static final long serialVersionUID = 1;
+    private static final long serialVersionUID = -8970000813517481874L;
+
+    private final int missingModule;
+
+    public NoModuleException(final int missingModule) {
+        super("No module was present at index " + missingModule);
+        this.missingModule = missingModule;
+    }
 }

@@ -28,6 +28,7 @@
  * THE SOFTWARE.
  */
 /**
- * Combiner modules, which take two input modules and produce a single output.
+ * Combiner modules, which take two or more input modules and produce a
+ * single output.
  */
 package org.spongepowered.noise.module.combiner;

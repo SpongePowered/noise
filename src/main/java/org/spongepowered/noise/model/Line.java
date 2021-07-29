@@ -32,6 +32,8 @@ package org.spongepowered.noise.model;
 import org.spongepowered.noise.exception.NoModuleException;
 import org.spongepowered.noise.module.Module;
 
+import java.util.Objects;
+
 /**
  * Model that defines the displacement of a line segment.
  *
@@ -144,10 +146,7 @@ public class Line {
      * @param module The noise module that is used to generate the output values.
      */
     public void setModule(final Module module) {
-        if (module == null) {
-            throw new IllegalArgumentException("module cannot be null");
-        }
-        this.module = module;
+        this.module = Objects.requireNonNull(module, "Module cannot be null");
     }
 
     /**
@@ -159,7 +158,7 @@ public class Line {
      */
     public double getValue(final double p) {
         if (this.module == null) {
-            throw new NoModuleException();
+            throw new NoModuleException(0);
         }
 
         final double x = (this.x1 - this.x0) * p + this.x0;

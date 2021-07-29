@@ -38,14 +38,9 @@ public class Abs extends Module {
     }
 
     @Override
-    public int getSourceModuleCount() {
-        return 1;
-    }
-
-    @Override
     public double getValue(final double x, final double y, final double z) {
-        if (this.sourceModule == null) {
-            throw new NoModuleException();
+        if (this.sourceModule[0] == null) {
+            throw new NoModuleException(0);
         }
         return Math.abs(this.sourceModule[0].getValue(x, y, z));
     }

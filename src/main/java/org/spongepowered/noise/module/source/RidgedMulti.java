@@ -132,11 +132,6 @@ public class RidgedMulti extends Module {
     }
 
     @Override
-    public int getSourceModuleCount() {
-        return 0;
-    }
-
-    @Override
     public double getValue(final double x, final double y, final double z) {
         double x1 = x;
         double y1 = y;

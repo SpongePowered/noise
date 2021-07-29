@@ -32,6 +32,8 @@ package org.spongepowered.noise.model;
 import org.spongepowered.noise.exception.NoModuleException;
 import org.spongepowered.noise.module.Module;
 
+import java.util.Objects;
+
 /**
  * Model that defines the surface of a cylinder.
  */
@@ -63,10 +65,7 @@ public class Cylinder {
      * @param mod The noise module that is used to generate the output values.
      */
     public void setModule(final Module mod) {
-        if (mod == null) {
-            throw new IllegalArgumentException("Mod cannot be null");
-        }
-        this.module = mod;
+        this.module = Objects.requireNonNull(mod, "Mod cannot be null");
     }
 
     /**
@@ -78,7 +77,7 @@ public class Cylinder {
      */
     public double getValue(final double angle, final double height) {
         if (this.module == null) {
-            throw new NoModuleException();
+            throw new NoModuleException(0);
         }
 
         final double x = Math.cos(Math.toRadians(angle));
