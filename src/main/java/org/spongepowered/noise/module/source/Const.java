@@ -31,6 +31,16 @@ package org.spongepowered.noise.module.source;
 
 import org.spongepowered.noise.module.Module;
 
+/**
+ * Noise module that outputs a constant value.
+ *
+ * <p>To specify the constant value, call the {@link #setValue(double)} method.</p>
+ *
+ * <p>This noise module is not useful by itself, but is often used as a source
+ * module for other noise modules.</p>
+ *
+ * @sourceModules 0
+ */
 public class Const extends Module {
     public static final double DEFAULT_VALUE = 0;
     private double value = Const.DEFAULT_VALUE;
@@ -39,10 +49,20 @@ public class Const extends Module {
         super(0);
     }
 
+    /**
+     * Get the constant value for this noise module.
+     *
+     * @return the constant output value for this noise module.
+     */
     public double getValue() {
         return this.value;
     }
 
+    /**
+     * Set the constant value for this noise module.
+     *
+     * @param value  the constant output value for this noise module.
+     */
     public void setValue(final double value) {
         this.value = value;
     }

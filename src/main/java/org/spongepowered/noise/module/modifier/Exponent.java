@@ -32,18 +32,54 @@ package org.spongepowered.noise.module.modifier;
 import org.spongepowered.noise.exception.NoModuleException;
 import org.spongepowered.noise.module.Module;
 
+/**
+ * Noise module that maps the output value from a source module onto an
+ * exponential curve.
+ *
+ * <p>Because most noise modules will output values that range from {@code -1.0}
+ * to {@code +1.0}, this module first normalizes the output value (the range
+ * becomes {@code 0.0} to {@code 1.0}), maps that value onto an exponential
+ * curve, then rescales that value back to the original range.</p>
+ *
+ * @sourceModules 1
+ */
 public class Exponent extends Module {
+
+    /**
+     * Default exponent for the {@link Exponent noise module}.
+     */
     public static final double DEFAULT_EXPONENT = 1.0;
+
     private double exponent = Exponent.DEFAULT_EXPONENT;
 
     public Exponent() {
         super(1);
     }
 
+    /**
+     * Get the exponent value to apply to the output value from the source module.
+     *
+     * <p>Because most noise modules will output values that range from {@code -1.0}
+     * to {@code +1.0}, this module first normalizes the output value (the range
+     * becomes {@code 0.0} to {@code 1.0}), maps that value onto an exponential
+     * curve, then rescales that value back to the original range.</p>
+     *
+     * @return the exponent value
+     */
     public double getExponent() {
         return this.exponent;
     }
 
+    /**
+     * Set the exponent value to apply to the output value from the source module.
+     *
+     * <p>Because most noise modules will output values that range from {@code -1.0}
+     * to {@code +1.0}, this module first normalizes the output value (the range
+     * becomes {@code 0.0} to {@code 1.0}), maps that value onto an exponential
+     * curve, then rescales that value back to the original range.</p>
+     *
+     * @param exponent  the exponent value
+     */
     public void setExponent(final double exponent) {
         this.exponent = exponent;
     }

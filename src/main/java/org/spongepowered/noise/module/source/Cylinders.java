@@ -32,18 +32,66 @@ package org.spongepowered.noise.module.source;
 import org.spongepowered.noise.Utils;
 import org.spongepowered.noise.module.Module;
 
+/**
+ * Noise module that outputs concentric cylinders.
+ *
+ * <p>This noise module outputs concentric cylinders centered on the origin.
+ * These cylinders are oriented along the {@code y} axis similar to the
+ * concentric rings of a tree. Each cylinder extends infinitely along the
+ * {@code y} axis.</p>
+ *
+ * <p>By default, the first cylinder has a radius of {@code 1.0}. Each
+ * subsequent cylinder has a radius that is {@code 1.0} unit larger than the
+ * previous cylinder.</p>
+ *
+ * <p>The output value from this noise module is determined by the distance
+ * between the input value and the nearest cylinder surface. The input values
+ * that are located on a cylinder surface are given the output value {@code 1.0}
+ * and the input values that are equidistant from two cylinder surfaces are
+ * given the output value {@code -1.0}.</p>
+ *
+ * <p>An application can change the frequency of the concentric cylinders.
+ * Increasing the frequency reduces the distances between cylinders. To specify
+ * the frequency, call the {@link #setFrequency(double)} method.</p>
+ *
+ * <p>This noise module, modified with some low-frequency, low-power turbulence,
+ * is useful for generating wood-like textures.</p>
+ *
+ * @sourceModules 0
+ */
 public class Cylinders extends Module {
+
+    /**
+     * Default frequency value for the {@link Cylinders} noise module.
+     */
     public static final double DEFAULT_CYLINDERS_FREQUENCY = 1.0;
+
     private double frequency = Cylinders.DEFAULT_CYLINDERS_FREQUENCY;
 
     public Cylinders() {
         super(0);
     }
 
+    /**
+     * Get the frequency of the concentric cylinders.
+     *
+     * <p>Increasing the frequency increases the density of the concentric
+     * cylinders, reducing the distances between them.</p>
+     *
+     * @return the frequency of the concentric cylinders
+     */
     public double getFrequency() {
         return this.frequency;
     }
 
+    /**
+     * Set the frequency of the concentric cylinders.
+     *
+     * <p>Increasing the frequency increases the density of the concentric
+     * cylinders, reducing the distances between them.</p>
+     *
+     * @param frequency the frequency of the concentric cylinders
+     */
     public void setFrequency(final double frequency) {
         this.frequency = frequency;
     }

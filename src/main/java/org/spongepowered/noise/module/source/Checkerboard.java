@@ -32,6 +32,17 @@ package org.spongepowered.noise.module.source;
 import org.spongepowered.noise.Utils;
 import org.spongepowered.noise.module.Module;
 
+/**
+ * Noise module that outputs a checkerboard pattern.
+ *
+ * <p>This noise module outputs unit-sized blocks of alternating values. The
+ * values of these blocks alternate between {@code -1.0} and {@code +1.0}</p>
+ *
+ * <p>This noise module is not really useful by itself, but it is often used for
+ * debugging purposes.</p>
+ *
+ * @sourceModules 0
+ */
 public class Checkerboard extends Module {
     public Checkerboard() {
         super(0);

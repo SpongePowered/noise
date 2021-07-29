@@ -32,6 +32,12 @@ package org.spongepowered.noise.module.combiner;
 import org.spongepowered.noise.exception.NoModuleException;
 import org.spongepowered.noise.module.Module;
 
+/**
+ * Noise module that outputs the sum of the two output values from two
+ * source modules.
+ *
+ * @sourceModules 2
+ */
 public class Add extends Module {
     public Add() {
         super(2);

@@ -33,11 +33,52 @@ import org.spongepowered.noise.Utils;
 import org.spongepowered.noise.exception.NoModuleException;
 import org.spongepowered.noise.module.Module;
 
+/**
+ * Noise module that outputs a weighted blend of the output values of two source
+ * modules given the output of a control module.
+ *
+ * <p>Unlike most other noise modules, the index value assigned to a source
+ * module determines its role in the blending operation:</p>
+ * <dl>
+ *     <dt>Source module 0</dt>
+ *     <dd>Outputs one of the values to blend</dd>
+ *     <dt>Source module 1</dt>
+ *     <dd>Outputs one of the values to blend</dd>
+ *     <dt>Source module 2</dt>
+ *     <dd>Known as the <i>control module</i>. The control module determines the
+ *         weight of the blending operation. Negative values weigh the blend
+ *         towards the output value from the source module with an index value
+ *         of {@code 0}. Positive values weigh the blend towards the output
+ *         value from the source module with an index value of {@code 1}.</dd>
+ * </dl>
+ *
+ * <p>An application can pass the control module to the
+ * {@link #setControlModule(Module)} method instead of the
+ * {@link #setSourceModule(int, Module)} method. This may make the application
+ * code easier to read.</p>
+ *
+ * <p>This noise module uses linear interpolation to perform the
+ * blending operation.</p>
+ *
+ * @sourceModules 3
+ */
 public class Blend extends Module {
     public Blend() {
         super(3);
     }
 
+    /**
+     * Returns the control module.
+     *
+     * <p>The control module determines the weight of the blending operation.
+     * Negative values weigh the blend towards the output value from the source
+     * module with an index value of {@code 0}. Positive values weigh the blend
+     * towards the output value from the source module with an index value
+     * of {@code 1}.</p>
+     *
+     * @return the control module
+     * @throws NoModuleException if no control module has been set yet.
+     */
     public Module getControlModule() {
         if (this.sourceModule[2] == null) {
             throw new NoModuleException(2);
@@ -45,6 +86,22 @@ public class Blend extends Module {
         return this.sourceModule[2];
     }
 
+    /**
+     * Sets the control module.
+     *
+     * <p>The control module determines the weight of the blending operation.
+     * Negative values weigh the blend towards the output value from the source
+     * module with an index value of {@code 0}. Positive values weigh the blend
+     * towards the output value from the source module with an index value
+     * of {@code 1}.</p>
+     *
+     * <p>This method assigns the control module an index value of {@code 2}.
+     * Passing the control module to this method produces the same results as
+     * passing the control module to the {@link #setSourceModule(int, Module)}
+     * method while assigning that noise module an index value of {@code 2}.</p>
+     *
+     * @param module the control module
+     */
     public void setControlModule(final Module module) {
         if (module == null) {
             throw new IllegalArgumentException("Control Module cannot be null");

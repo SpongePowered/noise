@@ -1,3 +1,5 @@
+import org.gradle.external.javadoc.StandardJavadocDocletOptions
+
 plugins {
   id "org.spongepowered.gradle.sponge.dev" version "1.1.1"
   id "net.kyori.indra.publishing.sonatype" version "2.0.6"
@@ -21,18 +23,31 @@ sourceSets {
       moduleName "org.spongepowered.noise"
     }
   }
+  doclet
 }
 
+compileDocletJava {
+  options.release = 11
+}
+
+def taglets = sourceSets.doclet.output
 javadoc {
+  inputs.files(taglets).withPropertyName("tagletPath")
   source("src/main/java9")
   options {
     addStringOption("-patch-module", "org.spongepowered.noise=${sourceSets.main.allJava.srcDirs.collect { it.absolutePath }.join(File.pathSeparator)}")
+    ((StandardJavadocDocletOptions) it).taglets("noise.build.SourceModulesTaglet")
+  }
+
+  doFirst {
+    options.tagletPath(taglets.classesDirs.files.toList())
   }
 }
 
 afterEvaluate {
   javadoc {
     classpath += sourceSets.java9.output
+
     options {
       addStringOption("-release", "9")
     }

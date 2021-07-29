@@ -5,13 +5,13 @@ dependency-reduced-pom.xml
 
 # Compiled #
 ############
-bin
-build
-dist
-lib
-out
-run
-target
+/bin
+/build
+/dist
+/lib
+/out
+/run
+/target
 *.com
 *.class
 *.dll

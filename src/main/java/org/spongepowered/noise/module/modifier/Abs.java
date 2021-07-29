@@ -32,6 +32,12 @@ package org.spongepowered.noise.module.modifier;
 import org.spongepowered.noise.exception.NoModuleException;
 import org.spongepowered.noise.module.Module;
 
+/**
+ * Noise module that outputs the absolute value of the output value from a
+ * source module.
+ *
+ * @sourceModules 1
+ */
 public class Abs extends Module {
     public Abs() {
         super(1);

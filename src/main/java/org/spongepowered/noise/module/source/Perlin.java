@@ -35,20 +35,42 @@ import org.spongepowered.noise.Utils;
 import org.spongepowered.noise.module.Module;
 
 public class Perlin extends Module {
-    // Default frequency for the noise::module::Perlin noise module.
+
+    /**
+     * Default frequency for the {@link Perlin} noise module.
+     */
     public static final double DEFAULT_PERLIN_FREQUENCY = 1.0;
-    // Default lacunarity for the noise::module::Perlin noise module.
+
+    /**
+     * Default lacunarity for the {@link Perlin} noise module.
+     */
     public static final double DEFAULT_PERLIN_LACUNARITY = 2.0;
-    // Default number of octaves for the noise::module::Perlin noise module.
+
+    /**
+     * Default number of octaves for the {@link Perlin} noise module.
+     */
     public static final int DEFAULT_PERLIN_OCTAVE_COUNT = 6;
-    // Default persistence value for the noise::module::Perlin noise module.
+
+    /**
+     * Default persistence value for the {@link Perlin} noise module.
+     */
     public static final double DEFAULT_PERLIN_PERSISTENCE = 0.5;
-    // Default noise quality for the noise::module::Perlin noise module.
+
+    /**
+     * Default noise quality for the {@link Perlin} noise module.
+     */
     public static final NoiseQuality DEFAULT_PERLIN_QUALITY = NoiseQuality.STANDARD;
-    // Default noise seed for the noise::module::Perlin noise module.
+
+    /**
+     * Default noise seed for the {@link Perlin} noise module.
+     */
     public static final int DEFAULT_PERLIN_SEED = 0;
-    // Maximum number of octaves for the noise::module::Perlin noise module.
+
+    /**
+     * Maximum number of octaves for the {@link Perlin} noise module.
+     */
     public static final int PERLIN_MAX_OCTAVE = 30;
+
     // Frequency of the first octave.
     private double frequency = Perlin.DEFAULT_PERLIN_FREQUENCY;
     // Frequency multiplier between successive octaves.

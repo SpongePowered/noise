@@ -35,7 +35,10 @@ import org.spongepowered.noise.Utils;
 import org.spongepowered.noise.module.Module;
 
 public class RidgedMulti extends Module {
-    // Default frequency for the noise::module::RidgedMulti noise module.
+
+    /**
+     * Default frequency for the {@link RidgedMulti} noise module.
+     */
     public static final double DEFAULT_RIDGED_FREQUENCY = 1.0;
     // Default lacunarity for the noise::module::RidgedMulti noise module.
     public static final double DEFAULT_RIDGED_LACUNARITY = 2.0;
@@ -123,11 +126,11 @@ public class RidgedMulti extends Module {
      * @return The maximum possible value for {@link RidgedMulti#getValue(double, double, double)} to return
      */
     public double getMaxValue() {
-    	/*
-    	 * Each successive octave adds (1/lacunarity) ^ current_octaves to max possible output.
-    	 * So (r = lacunarity, o = octave): Max(ridged) = 1 + 1/r + 1/(r*r) + 1/(r*r*r) + ... + (1/r^(o-1))
-    	 * See https://www.wolframalpha.com/input/?i=sum+from+k%3D0+to+n-1+of+1%2Fx%5Ek
-    	 */
+        /*
+         * Each successive octave adds (1/lacunarity) ^ current_octaves to max possible output.
+         * So (r = lacunarity, o = octave): Max(ridged) = 1 + 1/r + 1/(r*r) + 1/(r*r*r) + ... + (1/r^(o-1))
+         * See https://www.wolframalpha.com/input/?i=sum+from+k%3D0+to+n-1+of+1%2Fx%5Ek
+         */
         return (this.getLacunarity() - Math.pow(this.getLacunarity(), 1 - this.getOctaveCount())) / (this.getLacunarity() - 1) / 1.6;
     }
 

@@ -34,8 +34,30 @@ import java.util.List;
 
 import org.spongepowered.noise.Utils;
 import org.spongepowered.noise.exception.NoModuleException;
+import org.spongepowered.noise.exception.NoiseException;
 import org.spongepowered.noise.module.Module;
 
+/**
+ * Noise module that maps the output value from a source module onto an
+ * arbitrary function curve.
+ *
+ * <p>This noise module maps the output value from the source module onto an
+ * application-defined curve. This curve is defined by a number of
+ * <em>control points</em>; each control point has an <em>input value</em> that
+ * maps to an <em>output value.</em></p>
+ *
+ * <p>To add control points to this curve, call the
+ * {@link #addControlPoint(double, double)} method.</p>
+ *
+ * <p>Since this curve is a cubic spline, an application must add a minimum of
+ * four control points to the curve. If this is not done, the
+ * {@link #getValue(double, double, double)} method fails. Each control point
+ * can have any input and output value, although no two control points can have
+ * the same input value. There is no limit to the number of control points that
+ * can be added to the curve.</p>
+ *
+ * @sourceModules 1
+ */
 public class Curve extends Module {
     private final List<ControlPoint> controlPoints = new ArrayList<>();
 
@@ -43,19 +65,52 @@ public class Curve extends Module {
         super(1);
     }
 
+    /**
+     * Adds a control point to the curve.
+     *
+     * <p>No two control points amy have the same input value.</p>
+     *
+     * <p>It does not matter which order these points are added in.</p>
+     *
+     * @param inputValue the input value stored in the control point
+     * @param outputValue the output value stored in the control point
+     * @throws IllegalArgumentException if more than one control point has the
+     *     same input value
+     */
     public void addControlPoint(final double inputValue, final double outputValue) {
         final int index = this.findInsertionPos(inputValue);
         this.insertAtPos(index, inputValue, outputValue);
     }
 
+    /**
+     * Get a copy of the array holding all control points.
+     *
+     * @return a copy of the array of control points
+     */
     public ControlPoint[] getControlPoints() {
         return this.controlPoints.toArray(new ControlPoint[0]);
     }
 
+    /**
+     * Delete all control points on the curve.
+     */
     public void clearAllControlPoints() {
         this.controlPoints.clear();
     }
 
+    /**
+     * Determines the array index in which to insert the control point into the
+     * internal control point array.
+     *
+     * <p>By inserting the control point at the returned array index, this class
+     * ensures that the control point array is sorted by input value. The code
+     * that maps a value onto the curve requires a sorted control
+     * point array.</p>
+     *
+     * @param inputValue the input value of the control point
+     * @return the array index in which to insert the control point
+     * @throws IllegalArgumentException if the input value is non-unique
+     */
     private int findInsertionPos(final double inputValue) {
         int insertionPos;
         for (insertionPos = 0; insertionPos < this.controlPoints.size(); insertionPos++) {
@@ -72,10 +127,22 @@ public class Curve extends Module {
         return insertionPos;
     }
 
+    /**
+     * Inserts the control point at the specified position in the internal
+     * control point array.
+     *
+     * <p>Because the curve mapping algorithm used by this noise module requires
+     * that all control points in the array mut be sorted by input value, the
+     * new control point should be inserted at the position in which the order
+     * is still preserved.</p>
+     *
+     * @param insertionPos the zero-based array position in which to insert the
+     * control point
+     * @param inputValue the input value stored in the control point
+     * @param outputValue the output value stored in the control point
+     */
     private void insertAtPos(final int insertionPos, final double inputValue, final double outputValue) {
-        final ControlPoint newPoint = new ControlPoint();
-        newPoint.inputValue = inputValue;
-        newPoint.outputValue = outputValue;
+        final ControlPoint newPoint = new ControlPoint(inputValue, outputValue);
         this.controlPoints.add(insertionPos, newPoint);
     }
 
@@ -86,7 +153,7 @@ public class Curve extends Module {
         }
         final int size = this.controlPoints.size();
         if (size < 4) {
-            throw new RuntimeException("Curve module must have at least 4 control points");
+            throw new NoiseException("Curve module must have at least 4 control points");
         }
 
         // Get the output value from the source module.
@@ -128,8 +195,34 @@ public class Curve extends Module {
             this.controlPoints.get(index3).outputValue, alpha);
     }
 
-    public static class ControlPoint {
-        private double inputValue;
-        private double outputValue;
+    /**
+     * A control point for defining splines.
+     */
+    public static final class ControlPoint {
+        final double inputValue;
+        final double outputValue;
+
+        public ControlPoint(final double inputValue, final double outputValue) {
+            this.inputValue = inputValue;
+            this.outputValue = outputValue;
+        }
+
+        /**
+         * Get the input value.
+         *
+         * @return the input value
+         */
+        public double getInputValue() {
+            return this.inputValue;
+        }
+
+        /**
+         * Get the output value mapped from the input value.
+         *
+         * @return the output value mapped from the input value.
+         */
+        public double getOutputValue() {
+            return this.outputValue;
+        }
     }
 }

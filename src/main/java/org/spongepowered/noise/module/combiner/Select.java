@@ -34,14 +34,24 @@ import org.spongepowered.noise.exception.NoModuleException;
 import org.spongepowered.noise.module.Module;
 
 public class Select extends Module {
-    // Default edge-falloff value for the noise::module::Select noise module.
+
+    /**
+     * Default edge-falloff value for the {@link Select} noise module.
+     */
     public static final double DEFAULT_SELECT_EDGE_FALLOFF = 0.0;
-    // Default lower bound of the selection range for the
-    // noise::module::Select noise module.
+
+    /**
+     * Default lower bound of the selection range for the
+     * {@link Select} noise module.
+     */
     public static final double DEFAULT_SELECT_LOWER_BOUND = -1.0;
-    // Default upper bound of the selection range for the
-    // noise::module::Select noise module.
+
+    /**
+     * Default upper bound of the selection range for the
+     * {@link Select} noise module.
+     */
     public static final double DEFAULT_SELECT_UPPER_BOUND = 1.0;
+
     // Edge-falloff value.
     private double edgeFalloff = Select.DEFAULT_SELECT_EDGE_FALLOFF;
     // Lower bound of the selection range.

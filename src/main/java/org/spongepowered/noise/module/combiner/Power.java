@@ -32,6 +32,16 @@ package org.spongepowered.noise.module.combiner;
 import org.spongepowered.noise.exception.NoModuleException;
 import org.spongepowered.noise.module.Module;
 
+/**
+ * Noise module that raises the output value from a first source module to the
+ * power of the output value from a second source module.
+ *
+ * <p>The first source module must have an index value of 0.</p>
+ *
+ * <p>The second source module must have an index value of 1.</p>
+ *
+ * @sourceModules 2
+ */
 public class Power extends Module {
     public Power() {
         super(2);

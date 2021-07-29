@@ -34,8 +34,12 @@ import org.spongepowered.noise.module.Module;
 import org.spongepowered.noise.module.source.Perlin;
 
 public class Turbulence extends Module {
-    // Default power for the noise::module::Turbulence noise module.
+
+    /**
+     * Default power for the {@code Turbulence} noise module.
+     */
     public static final double DEFAULT_TURBULENCE_POWER = 1.0;
+
     // The power (scale) of the displacement.
     private double power = Turbulence.DEFAULT_TURBULENCE_POWER;
     // Noise module that displaces the {@code x} coordinate.

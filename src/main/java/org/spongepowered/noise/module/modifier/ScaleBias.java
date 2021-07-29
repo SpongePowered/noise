@@ -33,10 +33,17 @@ import org.spongepowered.noise.exception.NoModuleException;
 import org.spongepowered.noise.module.Module;
 
 public class ScaleBias extends Module {
-    // Default bias for the noise::module::ScaleBias noise module.
+
+    /**
+     * Default bias for the {@link ScaleBias} noise module.
+     */
     public static final double DEFAULT_BIAS = 0.0;
-    // Default scale for the noise::module::ScaleBias noise module.
+
+    /**
+     * Default scale for the {@link ScaleBias} noise module.
+     */
     public static final double DEFAULT_SCALE = 1.0;
+
     // Bias to apply to the scaled output value from the source module.
     private double bias = ScaleBias.DEFAULT_BIAS;
     // Scaling factor to apply to the output value from the source
