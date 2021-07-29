@@ -28,19 +28,6 @@
  * THE SOFTWARE.
  */
 /**
- * Noise generation library for Java.
- *
- * <p><em>noise</em> is based on the <a href="http://libnoise.sourceforge.net/">libnoise</a>
- * C++ library by Jason Bevins. It is used to generate coherent noise, a type
- * of smoothly-changing noise. It can also generate Perlin noise, ridged
- * multifractal noise, simplex noise, and other types of coherent noise.</p>
+ * Exceptions that may be thrown by the <em>noise</em> library.
  */
-module org.spongepowered.noise {
-    exports org.spongepowered.noise.exception;
-    exports org.spongepowered.noise.model;
-    exports org.spongepowered.noise.module;
-    exports org.spongepowered.noise.module.combiner;
-    exports org.spongepowered.noise.module.modifier;
-    exports org.spongepowered.noise.module.source;
-    exports org.spongepowered.noise;
-}
+package org.spongepowered.noise.exception;

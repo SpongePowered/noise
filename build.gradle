@@ -23,6 +23,22 @@ sourceSets {
   }
 }
 
+javadoc {
+  source("src/main/java9")
+  options {
+    addStringOption("-patch-module", "org.spongepowered.noise=${sourceSets.main.allJava.srcDirs.collect { it.absolutePath }.join(File.pathSeparator)}")
+  }
+}
+
+afterEvaluate {
+  javadoc {
+    classpath += sourceSets.java9.output
+    options {
+      addStringOption("-release", "9")
+    }
+  }
+}
+
 cobertura.coverageFormats = ['html', 'xml']
 
 processResources {

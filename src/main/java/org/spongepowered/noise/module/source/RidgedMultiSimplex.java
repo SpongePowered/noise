@@ -36,8 +36,13 @@ import org.spongepowered.noise.Utils;
 import org.spongepowered.noise.module.Module;
 
 /**
- * Generates ridged Simplex-style noise. The base Simplex uses a different formula but produces a similar appearance to classic Simplex.
- * Default lattice orientation is XZ_BEFORE_Y. See {@link org.spongepowered.noise.LatticeOrientation} for recommended usage.
+ * Generates ridged Simplex-style noise.
+ *
+ * <p>The base Simplex uses a different formula but produces a similar
+ * appearance to classic Simplex.</p>
+ *
+ * <p>The default lattice orientation is XZ_BEFORE_Y. See
+ * {@link org.spongepowered.noise.LatticeOrientation} for recommended usage.</p>
  */
 public class RidgedMultiSimplex extends Module {
     // Default frequency for the noise::module::RidgedMultiSimplex noise module.
@@ -136,8 +141,11 @@ public class RidgedMultiSimplex extends Module {
     }
 
     /**
-     * Returns the maximum value the RidgedMultiSimplex module can output in its current configuration
-     * @return The maximum possible value for {@link RidgedMultiSimplex#getValue(double, double, double)} to return
+     * Returns the maximum value the RidgedMultiSimplex module can output in
+     * its current configuration.
+     *
+     * @return The maximum possible value for
+     * {@link RidgedMultiSimplex#getValue(double, double, double)} to return
      */
     public double getMaxValue() {
     	/*
