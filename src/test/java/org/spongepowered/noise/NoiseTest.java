@@ -41,7 +41,7 @@ public class NoiseTest {
 
         // Euclidean norm check
         for (int i = 0; i < Utils.RANDOM_VECTORS.length >> 2; i++) {
-            double gradientMagnitudeSquared =
+            final double gradientMagnitudeSquared =
                     (Utils.RANDOM_VECTORS[i << 2] * Utils.RANDOM_VECTORS[i << 2])
                     + (Utils.RANDOM_VECTORS[(i << 2) + 1] * Utils.RANDOM_VECTORS[(i << 2) + 1])
                     + (Utils.RANDOM_VECTORS[(i << 2) + 2] * Utils.RANDOM_VECTORS[(i << 2) + 2]);
@@ -56,7 +56,7 @@ public class NoiseTest {
         // It would be more difficult to test the actual maximum in here. In favor of better-normalized noise, I loosened up the condition, instead
         // of normalizing the gradient set by the theoretical sqrt(3). ~K.jpg
         for (int i = 0; i < Utils.RANDOM_VECTORS.length >> 2; i++) {
-            double gradientMaximumRampedValue =
+            final double gradientMaximumRampedValue =
                     Math.abs(Utils.RANDOM_VECTORS_PERLIN[i << 2])
                     +  Math.abs(Utils.RANDOM_VECTORS_PERLIN[(i << 2) + 1])
                     +  Math.abs(Utils.RANDOM_VECTORS_PERLIN[(i << 2) + 2]);

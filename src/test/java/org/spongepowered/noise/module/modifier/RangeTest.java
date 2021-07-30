@@ -35,37 +35,41 @@ import org.spongepowered.noise.module.source.Const;
 
 public class RangeTest {
 
-	@Test
-	public void testRangeSanity() {
-		Const constVal = new Const();
-		constVal.setValue(0.75);
-		
-		Range range = new Range(constVal);
-		range.setBounds(0.5, 1f, 1f, 2f);
-		// Arbitrary
-		Assertions.assertEquals(1.5, range.getValue(35, 41, 1), 0f);
-	}
-	
-	@Test
-	public void testRangeIllegalLowersSetter() {
-		Range range = new Range();
+    @Test
+    public void testRangeSanity() {
+        final Const constVal = new Const();
+        constVal.setValue(0.75);
 
-		Assertions.assertThrows(IllegalArgumentException.class,
-			() -> range.setBounds(1, 1, 0.5, 1));
-	}
-	
-	@Test
-	public void testRangeIllegalUppersSetter() {
-		Range range = new Range();
+        final Range range = new Range(constVal);
+        range.setBounds(0.5, 1f, 1f, 2f);
+        // Arbitrary
+        Assertions.assertEquals(1.5, range.getValue(35, 41, 1), 0f);
+    }
 
-		Assertions.assertThrows(IllegalArgumentException.class,
-			() -> range.setBounds(0, 1, 1, 1));
-	}
-	
-	@Test
-	public void testRangeLegalBoundsSetter() {
-		Range range = new Range();
-		range.setBounds(0, 1, 0.5, 1);
-	}
+    @Test
+    public void testRangeIllegalLowersSetter() {
+        final Range range = new Range();
+
+        Assertions.assertThrows(
+            IllegalArgumentException.class,
+            () -> range.setBounds(1, 1, 0.5, 1)
+        );
+    }
+
+    @Test
+    public void testRangeIllegalUppersSetter() {
+        final Range range = new Range();
+
+        Assertions.assertThrows(
+            IllegalArgumentException.class,
+            () -> range.setBounds(0, 1, 1, 1)
+        );
+    }
+
+    @Test
+    public void testRangeLegalBoundsSetter() {
+        final Range range = new Range();
+        range.setBounds(0, 1, 0.5, 1);
+    }
 
 }
