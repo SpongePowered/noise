@@ -79,6 +79,16 @@ public class ScalePoint extends Module {
     }
 
     /**
+     * Create a new ScalePoint module with the source modules pre-configured.
+     *
+     * @param source the input module
+     */
+    public ScalePoint(final Module source) {
+        this();
+        this.setSourceModule(0, source);
+    }
+
+    /**
      * Get the scaling factor applied to the {@code x} coordinate of the
      * input value.
      *

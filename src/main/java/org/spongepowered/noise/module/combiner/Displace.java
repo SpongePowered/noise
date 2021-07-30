@@ -73,6 +73,22 @@ public class Displace extends Module {
     }
 
     /**
+     * Create a new Displace module with the source modules pre-configured.
+     *
+     * @param source the source
+     * @param xDisplace the {@code x} displacement module
+     * @param yDisplace the {@code y} displacement module
+     * @param zDisplace the {@code z} displacement module
+     */
+    public Displace(final Module source, final Module xDisplace, final Module yDisplace, final Module zDisplace) {
+        this();
+        this.setSourceModule(0, source);
+        this.setSourceModule(1, xDisplace);
+        this.setSourceModule(2, yDisplace);
+        this.setSourceModule(3, zDisplace);
+    }
+
+    /**
      * Gets the {@code x} displacement module.
      *
      * <p>The {@link #getValue(double, double, double)} method displaces the

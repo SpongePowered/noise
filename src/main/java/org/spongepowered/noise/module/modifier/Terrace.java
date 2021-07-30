@@ -74,6 +74,16 @@ public class Terrace extends Module {
     }
 
     /**
+     * Create a new Terrace module with the source modules pre-configured.
+     *
+     * @param source the input module
+     */
+    public Terrace(final Module source) {
+        this();
+        this.setSourceModule(0, source);
+    }
+
+    /**
      * Determine if the terrace-forming curve between the control points
      * is inverted.
      *

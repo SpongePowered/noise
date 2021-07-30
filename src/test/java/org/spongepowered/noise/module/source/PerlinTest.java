@@ -36,7 +36,7 @@ public class PerlinTest {
 
 	/**
 	 * Sentry test to make sure future modifications
-	 * wont fudge this method
+	 * won't fudge this method
 	 */
 	@Test
 	public void testGetMaxValue() {

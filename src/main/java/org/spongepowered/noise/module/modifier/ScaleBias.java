@@ -65,6 +65,16 @@ public class ScaleBias extends Module {
     }
 
     /**
+     * Create a new ScaleBias module with the source modules pre-configured.
+     *
+     * @param source the input module
+     */
+    public ScaleBias(final Module source) {
+        this();
+        this.setSourceModule(0, source);
+    }
+
+    /**
      * Get the bias to apply to the scaled output value from the source module.
      *
      * <p>The {@link #getValue(double, double, double)} method retrieves the output

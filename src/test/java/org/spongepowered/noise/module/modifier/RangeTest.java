@@ -29,8 +29,6 @@
  */
 package org.spongepowered.noise.module.modifier;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.spongepowered.noise.module.source.Const;
@@ -42,9 +40,8 @@ public class RangeTest {
 		Const constVal = new Const();
 		constVal.setValue(0.75);
 		
-		Range range = new Range();
+		Range range = new Range(constVal);
 		range.setBounds(0.5, 1f, 1f, 2f);
-		range.setSourceModule(0, constVal);
 		// Arbitrary
 		Assertions.assertEquals(1.5, range.getValue(35, 41, 1), 0f);
 	}

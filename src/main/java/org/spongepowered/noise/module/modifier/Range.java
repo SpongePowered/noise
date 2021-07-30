@@ -34,7 +34,10 @@ import org.spongepowered.noise.module.Module;
 
 /**
  * A modifier module to map a value from one range to another.
- * For example: 0.5 (-1 &lt; x &lt; 1) -&gt; 0.75 (0 &lt; x &lt; 1)
+ *
+ * <p>For example: 0.5 (-1 &lt; x &lt; 1) -&gt; 0.75 (0 &lt; x &lt; 1)</p>
+ *
+ * @sourceModules 1
  */
 public class Range extends Module {
     
@@ -57,6 +60,16 @@ public class Range extends Module {
 
     public Range() {
         super(1);
+    }
+
+    /**
+     * Create a new Range module with the source modules pre-configured.
+     *
+     * @param source the input module
+     */
+    public Range(final Module source) {
+        this();
+        this.setSourceModule(0, source);
     }
 
     public double getCurrentLowerBound() {

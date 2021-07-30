@@ -73,6 +73,17 @@ public class Cache extends Module {
         super(1);
     }
 
+    /**
+     * Create a new Cache module with the source module pre-configured.
+     *
+     * @param source the module to cache
+     */
+    public Cache(final Module source) {
+        this();
+        this.setSourceModule(0, source);
+    }
+
+
     @Override
     public void setSourceModule(final int index, final Module sourceModule) {
         super.setSourceModule(index, sourceModule);

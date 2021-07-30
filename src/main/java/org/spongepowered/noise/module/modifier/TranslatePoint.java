@@ -82,6 +82,16 @@ public class TranslatePoint extends Module {
     }
 
     /**
+     * Create a new TranslatePoint module with the source modules pre-configured.
+     *
+     * @param source the input module
+     */
+    public TranslatePoint(final Module source) {
+        this();
+        this.setSourceModule(0, source);
+    }
+
+    /**
      * Get the translation amount to apply to the {@code x} coordinate of the
      * input value.
      *

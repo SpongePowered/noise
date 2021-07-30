@@ -68,6 +68,20 @@ public class Blend extends Module {
     }
 
     /**
+     * Create a new Blend module with the source modules pre-configured.
+     *
+     * @param left the first source
+     * @param right the second source
+     * @param control the control module
+     */
+    public Blend(final Module left, final Module right, final Module control) {
+        this();
+        this.setSourceModule(0, left);
+        this.setSourceModule(1, right);
+        this.setSourceModule(2, control);
+    }
+
+    /**
      * Returns the control module.
      *
      * <p>The control module determines the weight of the blending operation.

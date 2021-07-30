@@ -66,6 +66,16 @@ public class Curve extends Module {
     }
 
     /**
+     * Create a new Curve module with the source modules pre-configured.
+     *
+     * @param source the input module
+     */
+    public Curve(final Module source) {
+        this();
+        this.setSourceModule(0, source);
+    }
+
+    /**
      * Adds a control point to the curve.
      *
      * <p>No two control points amy have the same input value.</p>

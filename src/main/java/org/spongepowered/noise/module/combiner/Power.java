@@ -47,6 +47,18 @@ public class Power extends Module {
         super(2);
     }
 
+    /**
+     * Create a new Power module with the source modules pre-configured.
+     *
+     * @param base the base
+     * @param exponent the exponent to raise the base to
+     */
+    public Power(final Module base, final Module exponent) {
+        this();
+        this.setSourceModule(0, base);
+        this.setSourceModule(1, exponent);
+    }
+
     @Override
     public double getValue(final double x, final double y, final double z) {
         if (this.sourceModule[0] == null) {

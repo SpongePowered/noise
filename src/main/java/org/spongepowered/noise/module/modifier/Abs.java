@@ -43,6 +43,16 @@ public class Abs extends Module {
         super(1);
     }
 
+    /**
+     * Create a new Abs module with the source modules pre-configured.
+     *
+     * @param source the input module
+     */
+    public Abs(final Module source) {
+        this();
+        this.setSourceModule(0, source);
+    }
+
     @Override
     public double getValue(final double x, final double y, final double z) {
         if (this.sourceModule[0] == null) {

@@ -104,6 +104,16 @@ public class RotatePoint extends Module {
     }
 
     /**
+     * Create a new RotatePoint module with the source modules pre-configured.
+     *
+     * @param source the input module
+     */
+    public RotatePoint(final Module source) {
+        this();
+        this.setSourceModule(0, source);
+    }
+
+    /**
      * Sets the rotation angles around all three axes to apply to the input value.
      *
      * <p>The {@link #getValue(double, double, double)} method rotates the

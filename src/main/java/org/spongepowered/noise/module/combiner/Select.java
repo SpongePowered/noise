@@ -34,7 +34,7 @@ import org.spongepowered.noise.exception.NoModuleException;
 import org.spongepowered.noise.module.Module;
 
 /**
- * Noise module that outputs the vaule selected from one of two source modules
+ * Noise module that outputs the value selected from one of two source modules
  * chosen by the output value from a control module.
  *
  * <p>Unlike most other noise modules, the index value assigned to a source
@@ -95,6 +95,21 @@ public class Select extends Module {
 
     public Select() {
         super(3);
+    }
+
+
+    /**
+     * Create a new Select module with the source modules pre-configured.
+     *
+     * @param a a source module
+     * @param b a source module
+     * @param control the module to select between the two inputs
+     */
+    public Select(final Module a, final Module b, final Module control) {
+        this();
+        this.setSourceModule(0, a);
+        this.setSourceModule(1, b);
+        this.setSourceModule(2, control);
     }
 
     /**

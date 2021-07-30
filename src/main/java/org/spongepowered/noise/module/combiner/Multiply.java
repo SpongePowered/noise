@@ -43,6 +43,18 @@ public class Multiply extends Module {
         super(2);
     }
 
+    /**
+     * Create a new Multiply module with the source modules pre-configured.
+     *
+     * @param left the first operand
+     * @param right the second operand
+     */
+    public Multiply(final Module left, final Module right) {
+        this();
+        this.setSourceModule(0, left);
+        this.setSourceModule(1, right);
+    }
+
     @Override
     public double getValue(final double x, final double y, final double z) {
         if (this.sourceModule[0] == null) {

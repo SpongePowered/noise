@@ -72,6 +72,16 @@ public class Clamp extends Module {
     }
 
     /**
+     * Create a new Clamp module with the source modules pre-configured.
+     *
+     * @param source the input module
+     */
+    public Clamp(final Module source) {
+        this();
+        this.setSourceModule(0, source);
+    }
+
+    /**
      * Get the lower bound of the clamping range.
      *
      * <p>If the output value from the source module is less than the lower

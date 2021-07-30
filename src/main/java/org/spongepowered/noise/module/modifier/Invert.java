@@ -51,6 +51,16 @@ public class Invert extends Module {
     }
 
     /**
+     * Create a new Invert module with the source modules pre-configured.
+     *
+     * @param source the input module
+     */
+    public Invert(final Module source) {
+        this();
+        this.setSourceModule(0, source);
+    }
+
+    /**
      * Get the middle or 'zero' value to invert around.
      *
      * @return the middle value

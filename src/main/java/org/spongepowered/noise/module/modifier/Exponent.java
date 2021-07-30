@@ -57,6 +57,16 @@ public class Exponent extends Module {
     }
 
     /**
+     * Create a new Exponent module with the source modules pre-configured.
+     *
+     * @param source the input module
+     */
+    public Exponent(final Module source) {
+        this();
+        this.setSourceModule(0, source);
+    }
+
+    /**
      * Get the exponent value to apply to the output value from the source module.
      *
      * <p>Because most noise modules will output values that range from {@code -1.0}

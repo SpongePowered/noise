@@ -118,6 +118,16 @@ public class Turbulence extends Module {
     }
 
     /**
+     * Create a new Turbulence module with the source modules pre-configured.
+     *
+     * @param source the input module
+     */
+    public Turbulence(final Module source) {
+        this();
+        this.setSourceModule(0, source);
+    }
+
+    /**
      * Get the power of the turbulence.
      *
      * <p>The power of the turbulence determines the scaling factor that is
