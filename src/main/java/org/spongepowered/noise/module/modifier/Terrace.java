@@ -165,7 +165,7 @@ public class Terrace extends Module {
      * of this curve has a slope of zero; its slope then smoothly increases. At
      * the control points, its slope resets to zero.</p>
      *
-     * @param controlPointCount the number of control points to generate, must be >= 2
+     * @param controlPointCount the number of control points to generate, must be &ge; 2
      */
     public void makeControlPoints(final int controlPointCount) {
         if (controlPointCount < 2) {
