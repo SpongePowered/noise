@@ -32,6 +32,16 @@ package org.spongepowered.noise.module.modifier;
 import org.spongepowered.noise.exception.NoModuleException;
 import org.spongepowered.noise.module.Module;
 
+/**
+ * Noise module that applies a scaling factor and a bias to the output value
+ * from a source module.
+ *
+ * <p>The {@link #getValue(double, double, double)} method retrieves the output
+ * value from the source module, multiplies it with a scaling factor, adds a
+ * bias to it, then outputs the value.</p>
+ *
+ * @sourceModules 1
+ */
 public class ScaleBias extends Module {
 
     /**
@@ -54,18 +64,56 @@ public class ScaleBias extends Module {
         super(1);
     }
 
+    /**
+     * Get the bias to apply to the scaled output value from the source module.
+     *
+     * <p>The {@link #getValue(double, double, double)} method retrieves the output
+     * value from the source module, multiplies it with a scaling factor, adds a
+     * bias to it, then outputs the value.</p>
+     *
+     * @return the bias to apply
+     */
     public double getBias() {
         return this.bias;
     }
 
+    /**
+     * Set the bias to apply to the scaled output value from the source module.
+     *
+     * <p>The {@link #getValue(double, double, double)} method retrieves the output
+     * value from the source module, multiplies it with a scaling factor, adds a
+     * bias to it, then outputs the value.</p>
+     *
+     * @param bias the bias to apply
+     */
     public void setBias(final double bias) {
         this.bias = bias;
     }
 
+    /**
+     * Get the scaling factor to apply to the output value from the
+     * source module.
+     *
+     * <p>The {@link #getValue(double, double, double)} method retrieves the output
+     * value from the source module, multiplies it with a scaling factor, adds a
+     * bias to it, then outputs the value.</p>
+     *
+     * @return the scaling factor to apply
+     */
     public double getScale() {
         return this.scale;
     }
 
+    /**
+     * Set the scaling factor to apply to the output value from the
+     * source module.
+     *
+     * <p>The {@link #getValue(double, double, double)} method retrieves the output
+     * value from the source module, multiplies it with a scaling factor, adds a
+     * bias to it, then outputs the value.</p>
+     *
+     * @param scale the scaling factor to apply
+     */
     public void setScale(final double scale) {
         this.scale = scale;
     }

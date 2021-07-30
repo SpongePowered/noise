@@ -32,6 +32,21 @@ package org.spongepowered.noise.module.modifier;
 import org.spongepowered.noise.exception.NoModuleException;
 import org.spongepowered.noise.module.Module;
 
+/**
+ * Noise module that moves the coordinates of the input value before returning
+ * the output value from a source module.
+ *
+ * <p>The {@link #getValue(double, double, double)} method moves the
+ * {@code (x, y, z)} coordinates of the input value by a translation amount
+ * before returning the output value from the source module. To set the
+ * translation amount, call the {@link #setTranslations(double, double, double)}
+ * method. To set the translation amount to apply to the individual {@code x},
+ * {@code y}, or {@code z} coordinates, call the
+ * {@link #setXTranslation(double)}, {@link #setYTranslation(double)},
+ * or {@link #setZTranslation(double)} methods, respectively.</p>
+ *
+ * @sourceModules 1
+ */
 public class TranslatePoint extends Module {
 
     /**
@@ -66,30 +81,93 @@ public class TranslatePoint extends Module {
         super(1);
     }
 
+    /**
+     * Get the translation amount to apply to the {@code x} coordinate of the
+     * input value.
+     *
+     * @return the translation amount to apply to the {@code x} coordinate
+     * @see #DEFAULT_TRANSLATE_POINT_X
+     */
     public double getXTranslation() {
         return this.xTranslation;
     }
 
+    /**
+     * Set the translation amount to apply to the {@code x} coordinate of the
+     * input value.
+     *
+     * <p>The {@link #getValue(double, double, double)} method moves the
+     * {@code (x, y, z)} coordinates of the input value by a translation amount
+     * before returning the output value from the source module.</p>
+     *
+     * @param xTranslation the translation amount to apply to the {@code x} coordinate
+     */
     public void setXTranslation(final double xTranslation) {
         this.xTranslation = xTranslation;
     }
 
+    /**
+     * Get the translation amount to apply to the {@code y} coordinate of the
+     * input value.
+     *
+     * @return the translation amount to apply to the {@code y} coordinate
+     * @see #DEFAULT_TRANSLATE_POINT_Y
+     */
     public double getYTranslation() {
         return this.yTranslation;
     }
 
+    /**
+     * Set the translation amount to apply to the {@code y} coordinate of the
+     * input value.
+     *
+     * <p>The {@link #getValue(double, double, double)} method moves the
+     * {@code (x, y, z)} coordinates of the input value by a translation amount
+     * before returning the output value from the source module.</p>
+     *
+     * @param yTranslation the translation amount to apply to the {@code y} coordinate
+     */
     public void setYTranslation(final double yTranslation) {
         this.yTranslation = yTranslation;
     }
 
+    /**
+     * Get the translation amount to apply to the {@code z} coordinate of the
+     * input value.
+     *
+     * @return the translation amount to apply to the {@code z} coordinate
+     * @see #DEFAULT_TRANSLATE_POINT_Y
+     */
     public double getZTranslation() {
         return this.zTranslation;
     }
 
+    /**
+     * Set the translation amount to apply to the {@code z} coordinate of the
+     * input value.
+     *
+     * <p>The {@link #getValue(double, double, double)} method moves the
+     * {@code (x, y, z)} coordinates of the input value by a translation amount
+     * before returning the output value from the source module.</p>
+     *
+     * @param zTranslation the translation amount to apply to the {@code z} coordinate
+     */
     public void setZTranslation(final double zTranslation) {
         this.zTranslation = zTranslation;
     }
 
+    /**
+     * Set the translation amount to apply to the {@code (x, y, z)} coordinates
+     * of the input value.
+     *
+     * <p>The {@link #getValue(double, double, double)} method moves the
+     * {@code (x, y, z)} coordinates of the input value by a translation amount
+     * before returning the output value from the source module.</p>
+     *
+     * @param x the translation amount to apply to the {@code x} coordinate
+     * @param y the translation amount to apply to the {@code y} coordinate
+     * @param z the translation amount to apply to the {@code z} coordinate
+     */
     public void setTranslations(final double x, final double y, final double z) {
         this.setXTranslation(x);
         this.setYTranslation(y);

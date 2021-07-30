@@ -33,10 +33,71 @@ import org.spongepowered.noise.exception.NoModuleException;
 import org.spongepowered.noise.module.Module;
 import org.spongepowered.noise.module.source.Perlin;
 
+/**
+ * Noise module that randomly displaces the input value before returning the
+ * output value from a source module.
+ *
+ * <p><em>Turbulence</em> is the pseudo-random displacement of the input value.
+ * The {@link #getValue(double, double, double)} method randomly displaces the
+ * {@code (x, y, z)} coordinates of the input value before retrieving the output
+ * value from the source module. To control the turbulence, an application can
+ * modify its frequency, its power, and its roughness.</p>
+ *
+ * <p>The frequency of the turbulence determines how rapidly the displacement
+ * amount changes. To specify the frequency, call the
+ * {@link #setFrequency(double)} method.</p>
+ *
+ * <p>he power of the turbulence determines the scaling factor that is applied
+ * to the displacement amount. To specify the power, call the
+ * {@link #setPower(double)} method.</p>
+ *
+ * <p>The roughness of the turbulence determines the roughness of the changes
+ * to the displacement amount. Low values smoothly change the displacement
+ * amount. High values roughly change the displacement amount, which produces
+ * more "kinky" changes. To specify the roughness, call the
+ * {@link #setRoughness(int)} method.</p>
+ *
+ * <p>Use of this noise module may require some trial and error. Assuming that
+ * you are using a generator module as the source module, you should first:</p>
+ * <ul>
+ *     <li>Set the frequency to the same frequency as the source module.</li>
+ *     <li>Set the power to the reciprocal of the frequency.</li>
+ * </ul>
+ *
+ * <p>From these initial frequency and power values, modify these values until
+ * this noise module produce the desired changes in your terrain or texture.
+ * For example:</p>
+ * <ul>
+ *     <li>Low frequency (1/8 initial frequency) and low power (1/8 initial
+ *     power) produces very minor, almost unnoticeable changes.</li>
+ *     <li>Low frequency (1/8 initial frequency) and high power (8 times
+ *     initial power) produces "ropey" lava-like terrain or marble-like
+ *     textures.</li>
+ *     <li>High frequency (8 times initial frequency) and low power (1/8
+ *     initial power) produces a noisy version of the initial terrain or
+ *     texture.</li>
+ *     <li>High frequency (8 times initial frequency) and high power (8 times
+ *     initial power) produces nearly pure noise, which isn't entirely
+ *     useful.</li>
+ * </ul>
+ *
+ * <p>Displacing the input values result in more realistic terrain and textures.
+ * If you are generating elevations for terrain height maps, you can use this
+ * noise module to produce more realistic mountain ranges or terrain features
+ * that look like flowing lava rock. If you are generating values for textures,
+ * you can use this noise module to produce realistic marble-like or
+ * "oily" textures.</p>
+ *
+ * <p>Internally, there are three noise::module::Perlin noise modules
+ * that displace the input value; one for the {@code x}, one for the {@code y},
+ * and one for the {@code z} coordinate.</p>
+ *
+ * @sourceModules 1
+ */
 public class Turbulence extends Module {
 
     /**
-     * Default power for the {@code Turbulence} noise module.
+     * Default power for the {@link Turbulence} noise module.
      */
     public static final double DEFAULT_TURBULENCE_POWER = 1.0;
 
@@ -56,42 +117,129 @@ public class Turbulence extends Module {
         this.zDistortModule = new Perlin();
     }
 
+    /**
+     * Get the power of the turbulence.
+     *
+     * <p>The power of the turbulence determines the scaling factor that is
+     * applied to the displacement amount.</p>
+     *
+     * @return the power of the turbulence
+     * @see #DEFAULT_TURBULENCE_POWER
+     */
     public double getPower() {
         return this.power;
     }
 
+    /**
+     * Set the power of the turbulence.
+     *
+     * <p>The power of the turbulence determines the scaling factor that is
+     * applied to the displacement amount.</p>
+     *
+     * @param power the power of the turbulence
+     */
     public void setPower(final double power) {
         this.power = power;
     }
 
+    /**
+     * Get the roughness of the turbulence.
+     *
+     * <p>The roughness of the turbulence determines the roughness of the
+     * changes to the displacement amount. Low values smoothly change the
+     * displacement amount. High values roughly change the displacement amount,
+     * which produces more "kinky" changes.</p>
+     *
+     * @return the roughness of the turbulence
+     */
     public int getRoughnessCount() {
         return this.xDistortModule.getOctaveCount();
     }
 
+    /**
+     * Set the roughness of the turbulence.
+     *
+     * <p>The roughness of the turbulence determines the roughness of the
+     * changes to the displacement amount. Low values smoothly change the
+     * displacement amount. High values roughly change the displacement amount,
+     * which produces more "kinky" changes.</p>
+     *
+     * <p>Internally, there are three {@link Perlin} noise modules that displace
+     * the input value: one for the {@code x}, one for the {@code y}, and one
+     * for the {@code z} coordinates. The roughness value is equal to the number
+     * of octaves used by the {@link Perlin} noise modules.</p>
+     *
+     * @param roughness the roughness of the turbulence
+     */
+    public void setRoughness(final int roughness) {
+        this.xDistortModule.setOctaveCount(roughness);
+        this.yDistortModule.setOctaveCount(roughness);
+        this.zDistortModule.setOctaveCount(roughness);
+    }
+
+    /**
+     * Get the frequency of the turbulence.
+     *
+     * <p>The frequency of the turbulence determines how rapidly the
+     * displacement amount changes.</p>
+     *
+     * @return the frequency of the turbulence
+     */
     public double getFrequency() {
         return this.xDistortModule.getFrequency();
     }
 
-    public int getSeed() {
-        return this.xDistortModule.getSeed();
-    }
-
-    public void setSeed(final int seed) {
-        this.xDistortModule.setSeed(seed);
-        this.yDistortModule.setSeed(seed + 1);
-        this.zDistortModule.setSeed(seed + 2);
-    }
-
+    /**
+     * Set the frequency of the turbulence.
+     *
+     * <p>The frequency of the turbulence determines how rapidly the
+     * displacement amount changes.</p>
+     *
+     * @param frequency  the frequency of the turbulence
+     */
     public void setFrequency(final double frequency) {
         this.xDistortModule.setFrequency(frequency);
         this.yDistortModule.setFrequency(frequency);
         this.zDistortModule.setFrequency(frequency);
     }
 
-    public void setRoughness(final int roughness) {
-        this.xDistortModule.setOctaveCount(roughness);
-        this.yDistortModule.setOctaveCount(roughness);
-        this.zDistortModule.setOctaveCount(roughness);
+    /**
+     * Get the seed of the internal Perlin-noise modules that are used to
+     * displace the input values.
+     *
+     * <p>Internally, there are three {@link Perlin} noise modules that displace
+     * the input value: one for the {@code x}, one for the {@code y}, and one
+     * for the {@code z} coordinates.</p>
+     *
+     * @return the seed value
+     */
+    public int getSeed() {
+        return this.xDistortModule.getSeed();
+    }
+
+    /**
+     * Set the seed of the internal Perlin-noise modules that are used to
+     * displace the input values.
+     *
+     * <p>Internally, there are three {@link Perlin} noise modules that displace
+     * the input value: one for the {@code x}, one for the {@code y}, and one
+     * for the {@code z} coordinates. This noise module assigns the following
+     * seed values to the {@link Perlin} noise modules:</p>
+     * <ul>
+     *     <li>It assigns the seed value {@code seed + 0} to the {@code x}
+     *     noise module.</li>
+     *     <li>It assigns the seed value {@code seed + 1} to the {@code y}
+     *     noise module.</li>
+     *     <li>It assigns the seed value {@code seed + 2} to the {@code z}
+     *     noise module.</li>
+     * </ul>
+     *
+     * @param seed  the seed value
+     */
+    public void setSeed(final int seed) {
+        this.xDistortModule.setSeed(seed);
+        this.yDistortModule.setSeed(seed + 1);
+        this.zDistortModule.setSeed(seed + 2);
     }
 
     @Override
@@ -100,7 +248,7 @@ public class Turbulence extends Module {
             throw new NoModuleException(0);
         }
 
-        // Get the values from the three noise::module::Perlin noise modules and
+        // Get the values from the three Perlin noise modules and
         // add each value to each coordinate of the input value.  There are also
         // some offsets added to the coordinates of the input values.  This prevents
         // the distortion modules from returning zero if the (x, y, z) coordinates,

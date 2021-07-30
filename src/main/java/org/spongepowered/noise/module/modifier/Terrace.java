@@ -33,6 +33,33 @@ import org.spongepowered.noise.Utils;
 import org.spongepowered.noise.exception.NoModuleException;
 import org.spongepowered.noise.module.Module;
 
+/**
+ * Noise module that maps the output value from a source module onto a
+ * terrace-forming curve.
+ *
+ * <p>This noise module maps the output value from the source module onto a
+ * terrace-forming curve. The start of this curve has a slope of zero; its slope
+ * then smoothly increases. This curve also contains <em>control points</em> which
+ * resets the slope to zero at that point, producing a "terracing" effect.</p>
+ *
+ * <p>To add a control point to this noise module, call the
+ * {@link #addControlPoint(double)} method.</p>
+ *
+ * <p>An application must add a minimum of two control points to the curve. If
+ * that is not done, the {@link #getValue(double, double, double)} method
+ * fails. The control points can have any value, although no two control points
+ * can have the same value. There is no limit to the number of control points
+ * that can be a dded to the curve.</p>
+ *
+ * <p>This noise module clamps the output value from the source module if that
+ * value is less than the value of the lowest control point or greater than the
+ * value of the highest control point.</p>
+ *
+ * <p>This noise module is often used to generate terrain features such as your
+ * stereotypical desert canyon.</p>
+ *
+ * @sourceModules 1
+ */
 public class Terrace extends Module {
     // Number of control points stored in this noise module.
     private int controlPointCount = 0;
@@ -46,32 +73,90 @@ public class Terrace extends Module {
         super(1);
     }
 
+    /**
+     * Determine if the terrace-forming curve between the control points
+     * is inverted.
+     *
+     * @return true if the curve between the control points is inverted
+     */
     public boolean isInvertTerraces() {
         return this.invertTerraces;
     }
 
+    /**
+     * Enable or disable the inversion of the terrace-forming curve between
+     * control points.
+     *
+     * @param invertTerraces whether to invert the curve between the
+     *     control points
+     */
     public void setInvertTerraces(final boolean invertTerraces) {
         this.invertTerraces = invertTerraces;
     }
 
+    /**
+     * Get the number of control points on the terrace-forming curve.
+     *
+     * @return the number of control points on the terrace-forming curve
+     */
     public int getControlPointCount() {
         return this.controlPointCount;
     }
 
+    /**
+     * Get the array of control points on the terrace-forming curve.
+     *
+     * <p>Two or more control points define the terrace-forming curve. The start
+     * of this curve has a slope of zero; its slope then smoothly increase. At
+     * the control points, its slope resets to zero.</p>
+     *
+     * <p>It is recommended that an application does not store this array for
+     * later use since the array may be re-allocated if the application calls
+     * another method of this object.</p>
+     *
+     * @return the array of control points in this noise module
+     */
     public double[] getControlPoints() {
         return this.controlPoints;
     }
 
+    /**
+     * Add a control point to the terrace-forming curve.
+     *
+     * <p>Two or more control points define the terrace-forming curve. The start
+     * of this curve has a slope of zero; its slope then smoothly increase. At
+     * the control points, its slope resets to zero.</p>
+     *
+     * <p>It does not matter what order these points are added.</p>
+     *
+     * @param value the value of the control point to add. Must not be the same
+     *     value as any other control point.
+     */
     public void addControlPoint(final double value) {
         final int insertionPos = this.findInsertionPos(value);
         this.insertAtPos(insertionPos, value);
     }
 
+    /**
+     * Deletes all the control points on the terrace-forming curve.
+     */
     public void clearAllControlPoints() {
         this.controlPoints = null;
         this.controlPointCount = 0;
     }
 
+    /**
+     * Creates a number of equally-spaced control points that range from -1 to +1.
+     *
+     * <p>This will replace all existing control points on the
+     * terrace-forming curve.</p>
+     *
+     * <p>Two or more control points define the terrace-forming curve. The start
+     * of this curve has a slope of zero; its slope then smoothly increases. At
+     * the control points, its slope resets to zero.</p>
+     *
+     * @param controlPointCount the number of control points to generate, must be >= 2
+     */
     public void makeControlPoints(final int controlPointCount) {
         if (controlPointCount < 2) {
             throw new IllegalArgumentException("Must have more than 2 control points");

@@ -40,10 +40,13 @@ public final class Noise {
     }
 
     /**
-     * Generates a simplex-style gradient coherent noise value from the coordinates of a three-dimensional input value.
-     * Does not use the classic Simplex noise algorithm, but an alternative. Adapted from the following URLs:
+     * Generates a simplex-style gradient coherent noise value from the
+     * coordinates of a three-dimensional input value.
+     *
+     * <p>Does not use the classic Simplex noise algorithm, but an alternative.
+     * Adapted from the following URLs:
      * https://github.com/KdotJPG/New-Simplex-Style-Gradient-Noise/blob/master/java/FastSimplexStyleNoise.java
-     * https://github.com/KdotJPG/New-Simplex-Style-Gradient-Noise/blob/master/java/SuperSimplexNoise.java
+     * https://github.com/KdotJPG/New-Simplex-Style-Gradient-Noise/blob/master/java/SuperSimplexNoise.java</p>
      *
      * <p>The return value ranges from 0 to 1.</p>
      *
@@ -349,7 +352,8 @@ public final class Noise {
     }
 
     /**
-     * Generates a value-noise value from the coordinates of a three-dimensional input value.
+     * Generates a value-noise value from the coordinates of a three-dimensional
+     * input value.
      *
      * <p>The return value ranges from 0 to 1.</p>
      *

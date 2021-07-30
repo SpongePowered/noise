@@ -27,6 +27,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+import org.spongepowered.noise.module.Module;
+
 /**
  * Noise generation library for Java.
  *
@@ -34,6 +36,8 @@
  * C++ library by Jason Bevins. It is used to generate coherent noise, a type
  * of smoothly-changing noise. It can also generate Perlin noise, ridged
  * multifractal noise, simplex noise, and other types of coherent noise.</p>
+ *
+ * @see Module
  */
 module org.spongepowered.noise {
     exports org.spongepowered.noise.exception;

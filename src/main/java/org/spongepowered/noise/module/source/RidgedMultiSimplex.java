@@ -41,24 +41,49 @@ import org.spongepowered.noise.module.Module;
  * <p>The base Simplex uses a different formula but produces a similar
  * appearance to classic Simplex.</p>
  *
- * <p>The default lattice orientation is XZ_BEFORE_Y. See
+ * <p>The default lattice orientation is {@link LatticeOrientation#XZ_BEFORE_Y}. See
  * {@link org.spongepowered.noise.LatticeOrientation} for recommended usage.</p>
+ *
+ * @sourceModules 0
  */
 public class RidgedMultiSimplex extends Module {
-    // Default frequency for the noise::module::RidgedMultiSimplex noise module.
+
+    /**
+     * Default frequency for the {@link RidgedMultiSimplex} noise module.
+     */
     public static final double DEFAULT_RIDGED_FREQUENCY = 1.0;
-    // Default lacunarity for the noise::module::RidgedMultiSimplex noise module.
+
+    /**
+     * Default lacunarity for the {@link RidgedMultiSimplex} noise module.
+     */
     public static final double DEFAULT_RIDGED_LACUNARITY = 2.0;
-    // Default number of octaves for the noise::module::RidgedMultiSimplex noise module.
+
+    /**
+     * Default number of octaves for the {@link RidgedMultiSimplex} noise module.
+     */
     public static final int DEFAULT_RIDGED_OCTAVE_COUNT = 6;
-    // Default lattice orientation for the noise::module::Simplex noise module.
+
+    /**
+     * Default lattice orientation for the {@link RidgedMultiSimplex} noise module.
+     */
     public static final LatticeOrientation DEFAULT_SIMPLEX_ORIENTATION = LatticeOrientation.XZ_BEFORE_Y;
-    // Default noise quality for the noise::module::RidgedMultiSimplex noise module.
+
+    /**
+     * Default noise quality for the {@link RidgedMultiSimplex} noise module.
+     */
     public static final NoiseQualitySimplex DEFAULT_RIDGED_QUALITY = NoiseQualitySimplex.SMOOTH;
-    // Default noise seed for the noise::module::RidgedMultiSimplex noise module.
+
+    /**
+     * Default noise seed for the {@link RidgedMultiSimplex} noise module.
+     */
     public static final int DEFAULT_RIDGED_SEED = 0;
-    // Maximum number of octaves for the noise::module::RidgedMultiSimplex noise module.
+
+    /**
+     * Maximum number of octaves for the {@link RidgedMultiSimplex} noise module.
+     */
     public static final int RIDGED_MAX_OCTAVE = 30;
+
+    // Frequency of the first octave.
     private double frequency = RidgedMultiSimplex.DEFAULT_RIDGED_FREQUENCY;
     // Frequency multiplier between successive octaves.
     private double lacunarity = RidgedMultiSimplex.DEFAULT_RIDGED_LACUNARITY;
@@ -78,50 +103,145 @@ public class RidgedMultiSimplex extends Module {
         this.calcSpectralWeights();
     }
 
+    /**
+     * Get the frequency of the first octave.
+     *
+     * @return the frequency of the first octave
+     * @see #DEFAULT_RIDGED_FREQUENCY
+     */
     public double getFrequency() {
         return this.frequency;
     }
 
+    /**
+     * Set the frequency of the first octave.
+     *
+     * @param frequency the frequency of the first octave
+     */
     public void setFrequency(final double frequency) {
         this.frequency = frequency;
     }
 
+    /**
+     * Get the lacunarity of the ridged-multifractal noise.
+     *
+     * @return the lacunarity of the ridged-multifractal noise.
+     * @see #DEFAULT_RIDGED_LACUNARITY
+     */
     public double getLacunarity() {
         return this.lacunarity;
     }
 
+    /**
+     * Sets the lacunarity of the ridged-multifractal noise.
+     *
+     * <p>The lacunarity is the frequency multiplier between
+     * successive octaves.</p>
+     *
+     * <p>For best results, set the lacunarity to a number between
+     * 1.5 and 3.5.</p>
+     *
+     * @param lacunarity the lacunarity of the ridged-multifractal noise
+     */
     public void setLacunarity(final double lacunarity) {
         this.lacunarity = lacunarity;
     }
 
+    /**
+     * Get the lattice orientation for the Simplex noise.
+     *
+     * @return the lattice orientation
+     * @see #DEFAULT_SIMPLEX_ORIENTATION
+     */
     public LatticeOrientation getLatticeOrientation() {
         return this.latticeOrientation;
     }
 
+    /**
+     * Set the lattice orientation for the Simplex noise.
+     *
+     * @param latticeOrientation the lattice orientation
+     */
     public void setLatticeOrientation(final LatticeOrientation latticeOrientation) {
         this.latticeOrientation = latticeOrientation;
     }
 
+    /**
+     * Get the quality of the ridged-multifractal noise.
+     *
+     * <p>See {@link NoiseQualitySimplex} for definitions of the various
+     * coherent-noise qualities.</p>
+     *
+     * @return the quality of the ridged-multifractal noise
+     * @see #DEFAULT_RIDGED_QUALITY
+     */
     public NoiseQualitySimplex getNoiseQuality() {
         return this.noiseQuality;
     }
 
+    /**
+     * Set the quality of the ridged-multifractal noise.
+     *
+     * <p>See {@link NoiseQualitySimplex} for definitions of the various
+     * coherent-noise qualities.</p>
+     *
+     * @param noiseQuality the quality of the ridged-multifractal noise
+     */
     public void setNoiseQuality(final NoiseQualitySimplex noiseQuality) {
         this.noiseQuality = noiseQuality;
     }
 
+    /**
+     * Get the number of octaves that generate the ridged-multifractal noise.
+     *
+     * <p>The number of octaves controls the amount of detail in the
+     * ridged-multifractal noise.</p>
+     *
+     * @return the number of octaves that generate the ridged-multifractal noise
+     * @see #DEFAULT_RIDGED_OCTAVE_COUNT
+     */
     public int getOctaveCount() {
         return this.octaveCount;
     }
 
+    /**
+     * Set the number of octaves that generate the ridged-multifractal noise.
+     *
+     * <p>The number of octaves must be between 1 and {@link #RIDGED_MAX_OCTAVE}</p>
+     *
+     * <p>The number of octaves controls the amount of detail in the
+     * ridged-multifractal noise.</p>
+     *
+     * <p>The larger the number of octaves, the more time required to calculate
+     * the ridged-multifractal noise value.</p>
+     *
+     * @param octaveCount the number of octaves that generate the
+     *     ridged-multifractal noise
+     * @throws IllegalArgumentException if the octave count is larger than
+     *     {@link #RIDGED_MAX_OCTAVE}
+     */
     public void setOctaveCount(final int octaveCount) {
-        this.octaveCount = Math.min(octaveCount, RidgedMultiSimplex.RIDGED_MAX_OCTAVE);
+        if (octaveCount < 1 || octaveCount > RidgedMulti.RIDGED_MAX_OCTAVE) {
+            throw new IllegalArgumentException("octaveCount must be between 1 and MAX OCTAVE: " + RidgedMulti.RIDGED_MAX_OCTAVE);
+        }
+        this.octaveCount = octaveCount;
     }
 
+    /**
+     * Get the seed value used by the ridged-multifractal noise function.
+     *
+     * @return the seed value
+     * @see #DEFAULT_RIDGED_SEED
+     */
     public int getSeed() {
         return this.seed;
     }
 
+    /**
+     * Set the seed value used by the ridged-multifractal noise function.
+     *
+     * @param seed the seed value
+     */
     public void setSeed(final int seed) {
         this.seed = seed;
     }
@@ -148,11 +268,11 @@ public class RidgedMultiSimplex extends Module {
      * {@link RidgedMultiSimplex#getValue(double, double, double)} to return
      */
     public double getMaxValue() {
-    	/*
-    	 * Each successive octave adds (1/lacunarity) ^ current_octaves to max possible output.
-    	 * So (r = lacunarity, o = octave): Max(ridged) = 1 + 1/r + 1/(r*r) + 1/(r*r*r) + ... + (1/r^(o-1))
-    	 * See https://www.wolframalpha.com/input/?i=sum+from+k%3D0+to+n-1+of+1%2Fx%5Ek
-    	 */
+        /*
+         * Each successive octave adds (1/lacunarity) ^ current_octaves to max possible output.
+         * So (r = lacunarity, o = octave): Max(ridged) = 1 + 1/r + 1/(r*r) + 1/(r*r*r) + ... + (1/r^(o-1))
+         * See https://www.wolframalpha.com/input/?i=sum+from+k%3D0+to+n-1+of+1%2Fx%5Ek
+         */
         return (this.getLacunarity() - Math.pow(this.getLacunarity(), 1 - this.getOctaveCount())) / (this.getLacunarity() - 1) / 1.6;
     }
 

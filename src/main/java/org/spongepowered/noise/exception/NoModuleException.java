@@ -41,4 +41,8 @@ public class NoModuleException extends NoiseException {
         super("No module was present at index " + missingModule);
         this.missingModule = missingModule;
     }
+
+    public int missingModule() {
+        return this.missingModule;
+    }
 }

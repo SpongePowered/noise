@@ -32,6 +32,22 @@ package org.spongepowered.noise.module.modifier;
 import org.spongepowered.noise.exception.NoModuleException;
 import org.spongepowered.noise.module.Module;
 
+/**
+ * Noise module that scales the coordinates of the input value before returning
+ * the output value from a source module.
+ *
+ * <p>The {@link #getValue(double, double, double)} method multiplies the
+ * {@code (x, y, z)} coordinates of the input value with a scaling factor before
+ * returning the output value from the source module.</p>
+ *
+ * <p>To set the scaling factor, call the {@link #setScale(double)} method. To
+ * set the scaling factor to apply to the individual {@code x}, {@code y},
+ * or {@code z} coordinates, call the {@link #setXScale(double)},
+ * {@link #setYScale(double)}, or {@link #setZScale(double)} methods,
+ * respectively.</p>
+ *
+ * @sourceModules 1
+ */
 public class ScalePoint extends Module {
 
     /**
@@ -62,28 +78,92 @@ public class ScalePoint extends Module {
         super(1);
     }
 
+    /**
+     * Get the scaling factor applied to the {@code x} coordinate of the
+     * input value.
+     *
+     * @return the scaling factor applied to the {@code x} coordinate
+     * @see #DEFAULT_SCALE_POINT_X
+     */
     public double getXScale() {
         return this.xScale;
     }
 
+    /**
+     * Set the scaling factor to apply to the {@code x} coordinate of the
+     * input value.
+     *
+     * <p>The {@link #getValue(double, double, double)} method multiplies the
+     * {@code (x, y, z)} coordinates of the input value with a scaling factor before
+     * returning the output value from the source module.</p>
+     *
+     * @param xScale the scaling factor to apply to the {@code x} coordinate
+     */
     public void setXScale(final double xScale) {
         this.xScale = xScale;
     }
 
+    /**
+     * Get the scaling factor applied to the {@code y} coordinate of the
+     * input value.
+     *
+     * @return the scaling factor applied to the {@code y} coordinate
+     * @see #DEFAULT_SCALE_POINT_Y
+     */
     public double getYScale() {
         return this.yScale;
     }
 
+    /**
+     * Set the scaling factor to apply to the {@code y} coordinate of the
+     * input value.
+     *
+     * <p>The {@link #getValue(double, double, double)} method multiplies the
+     * {@code (x, y, z)} coordinates of the input value with a scaling factor before
+     * returning the output value from the source module.</p>
+     *
+     * @param yScale the scaling factor to apply to the {@code y} coordinate
+     */
     public void setYScale(final double yScale) {
         this.yScale = yScale;
     }
 
+    /**
+     * Get the scaling factor applied to the {@code z} coordinate of the
+     * input value.
+     *
+     * @return the scaling factor applied to the {@code z} coordinate
+     * @see #DEFAULT_SCALE_POINT_Z
+     */
     public double getZScale() {
         return this.zScale;
     }
 
+    /**
+     * Set the scaling factor to apply to the {@code z} coordinate of the
+     * input value.
+     *
+     * <p>The {@link #getValue(double, double, double)} method multiplies the
+     * {@code (x, y, z)} coordinates of the input value with a scaling factor before
+     * returning the output value from the source module.</p>
+     *
+     * @param zScale the scaling factor to apply to the {@code z} coordinate
+     */
     public void setZScale(final double zScale) {
         this.zScale = zScale;
+    }
+
+    /**
+     * Set the scaling factor to apply to the input value.
+     *
+     * <p>The {@link #getValue(double, double, double)} method multiplies the
+     * {@code (x, y, z)} coordinates of the input value with a scaling factor before
+     * returning the output value from the source module.</p>
+     *
+     * @param scale the scaling factor to apply
+     */
+    public void setScale(final double scale) {
+        this.xScale = this.yScale = this.zScale = scale;
     }
 
     @Override

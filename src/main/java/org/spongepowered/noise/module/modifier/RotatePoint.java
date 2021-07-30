@@ -32,6 +32,24 @@ package org.spongepowered.noise.module.modifier;
 import org.spongepowered.noise.exception.NoModuleException;
 import org.spongepowered.noise.module.Module;
 
+/**
+ * Noise module that rotates the input value around the origin before returning
+ * the output value from a source module.
+ *
+ * <p>The {@link #getValue(double, double, double)} method rotates the
+ * coordinates of the input value around the origin before returning the output
+ * value from the source module. To set the rotation angles,
+ * call the {@link #setAngles(double, double, double)} method. To set the
+ * rotation angle around the individual {@code x}, {@code y}, or {@code z} axes,
+ * call the {@link #setXAngle(double)}, {@link #setYAngle(double)},
+ * or {@link #setZAngle(double)} methods, respectively.</p>
+ *
+ * <p>The coordinate system of the input value is assumed to be "left-handed"
+ * ({@code x} increases to the right, {@code y} increases upwards,
+ * and {@code z} increases inward).</p>
+ *
+ * @sourceModules 1
+ */
 public class RotatePoint extends Module {
 
     /**
@@ -85,6 +103,17 @@ public class RotatePoint extends Module {
         this.setAngles(RotatePoint.DEFAULT_ROTATE_X, RotatePoint.DEFAULT_ROTATE_Y, RotatePoint.DEFAULT_ROTATE_Z);
     }
 
+    /**
+     * Sets the rotation angles around all three axes to apply to the input value.
+     *
+     * <p>The {@link #getValue(double, double, double)} method rotates the
+     * coordinates of the input value around the origin before returning the
+     * output value from the source module.</p>
+     *
+     * @param x the rotation angle around the {@code x} axis, in degrees
+     * @param y the rotation angle around the {@code y} axis, in degrees
+     * @param z the rotation angle around the {@code z} axis, in degrees
+     */
     public void setAngles(final double x, final double y, final double z) {
         final double xCos = Math.cos(Math.toRadians(x));
         final double yCos = Math.cos(Math.toRadians(y));
@@ -108,26 +137,77 @@ public class RotatePoint extends Module {
         this.zAngle = z;
     }
 
+    /**
+     * Get the rotation angle around the {@code x} axis to apply to the
+     * input value.
+     *
+     * @return the rotation angle around the {@code x} axis, in degrees.
+     * @see #DEFAULT_ROTATE_X
+     */
     public double getXAngle() {
         return this.xAngle;
     }
 
+    /**
+     * Set the rotation angle around the {@code x} axis to apply to the
+     * input value.
+     *
+     * <p>The {@link #getValue(double, double, double)} method rotates the
+     * coordinates of the input value around the origin before returning the
+     * output value from the source module.</p>
+     *
+     * @param xAngle the rotation angle around the {@code x} axis, in degrees.
+     */
     public void setXAngle(final double xAngle) {
         this.setAngles(xAngle, this.yAngle, this.zAngle);
     }
 
+    /**
+     * Get the rotation angle around the {@code y} axis to apply to the
+     * input value.
+     *
+     * @return the rotation angle around the {@code y} axis, in degrees.
+     * @see #DEFAULT_ROTATE_Y
+     */
     public double getYAngle() {
         return this.yAngle;
     }
 
+    /**
+     * Set the rotation angle around the {@code y} axis to apply to the
+     * input value.
+     *
+     * <p>The {@link #getValue(double, double, double)} method rotates the
+     * coordinates of the input value around the origin before returning the
+     * output value from the source module.</p>
+     *
+     * @param yAngle the rotation angle around the {@code y} axis, in degrees.
+     */
     public void setYAngle(final double yAngle) {
         this.setAngles(this.xAngle, yAngle, this.zAngle);
     }
 
+    /**
+     * Get the rotation angle around the {@code z} axis to apply to the
+     * input value.
+     *
+     * @return the rotation angle around the {@code z} axis, in degrees.
+     * @see #DEFAULT_ROTATE_Z
+     */
     public double getZAngle() {
         return this.zAngle;
     }
 
+    /**
+     * Set the rotation angle around the {@code z} axis to apply to the
+     * input value.
+     *
+     * <p>The {@link #getValue(double, double, double)} method rotates the
+     * coordinates of the input value around the origin before returning the
+     * output value from the source module.</p>
+     *
+     * @param zAngle the rotation angle around the {@code z} axis, in degrees.
+     */
     public void setZAngle(final double zAngle) {
         this.setAngles(this.xAngle, this.yAngle, zAngle);
     }

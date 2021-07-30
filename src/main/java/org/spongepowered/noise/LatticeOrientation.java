@@ -29,28 +29,64 @@
  */
 package org.spongepowered.noise;
 
+import org.spongepowered.noise.module.source.RidgedMultiSimplex;
+
+/**
+ * A lattice orientation for use with Simplex-type noise.
+ *
+ * @see Noise#simplexStyleGradientCoherentNoise3D(double, double, double, int, LatticeOrientation, NoiseQualitySimplex)
+ * @see RidgedMultiSimplex
+ */
 public enum LatticeOrientation {
     /**
-     * Generates the simplex-style coherent noise with the classic lattice orientation. Might be better for texturing 3D models, but less good for generating terrain
-     * which has a vertical direction that works differently than the two horizontal directions. There may be subtle diagonal artifacts, similar to classic Simplex.
+     * Generates the simplex-style coherent noise with the classic lattice orientation.
+     *
+     * <p>Might be better for texturing 3D models, but less good for generating
+     * terrain which has a vertical direction that works differently than the
+     * two horizontal directions. There may be subtle diagonal artifacts,
+     * similar to classic Simplex.</p>
      */
     CLASSIC,
     /**
-     * Generates simplex-style noise with Y pointing up the main diagonal on the noise lattice. If used properly, this can produce better results than CLASSIC,
-     * when generating 3D worlds with vertical direction that works differently than the two horizontal directions. See the following recommended usage patterns:
-     * - If Y is vertical and X/Z are horizontal, call noise(x, Y, z)
-     * - If Z is vertical and X/Y are horizontal, call noise(x, Z, y) or use mode XY_BEFORE_Z
-     * - If T is time and X/Y or X/Z are horizontal, call noise(x, T, y) or noise(x, T, z), or use mode XY_BEFORE_Z
-     * - If only two coordinates are needed for a 2D noise plane, call noise(x, 0, y) or noise(x, 0, z), or use mode XY_BEFORE_Z
+     * Generates simplex-style noise with Y pointing up the main diagonal on the noise lattice.
+     *
+     * <p>If used properly, this can produce better results than CLASSIC, when
+     * generating 3D worlds with vertical direction that works differently than
+     * the two horizontal directions.</p>
+     *
+     * <p>See the following recommended usage patterns:</p>
+     * <ul>
+     * <li>If Y is vertical and X/Z are horizontal, call {@code noise(x, Y, z)}</li>
+     * <li>If Z is vertical and X/Y are horizontal, call {@code noise(x, Z, y)}
+     * or use mode {@link #XY_BEFORE_Z}.</li>
+     * <li>If T is time and X/Y or X/Z are horizontal, call {@code noise(x, T, y)}
+     * or {@code noise(x, T, z)}, or use mode {@link #XY_BEFORE_Z}.</li>
+     * <li>If only two coordinates are needed for a 2D noise plane, call
+     * {@code noise(x, 0, y)} or {@code noise(x, 0, z)},
+     * or use mode {@link #XY_BEFORE_Z}</li>
+     * </ul>
      */
     XZ_BEFORE_Y,
     /**
-     * Generates simplex-style noise with Z pointing up the main diagonal on the noise lattice. If used properly, this can produce better results than CLASSIC,
-     * when generating 3D worlds with vertical direction that works differently than the two horizontal directions. See the following recommended usage patterns:
-     * - If Y is vertical and X/Z are horizontal, call noise(x, z, Y) or use mode XZ_BEFORE_Y
-     * - If Z is vertical and X/Y are horizontal, call noise(x, y, Z)
-     * - If T is time and X/Y or X/Z are horizontal, call noise(x, y, T) or noise(x, z, T), or use mode XY_BEFORE_Z
-     * - If only two coordinates are needed for a 2D noise plane, call noise(x, y, 0) or noise(x, z, 0), or use mode XZ_BEFORE_Y
+     * Generates simplex-style noise with Z pointing up the main diagonal on
+     * the noise lattice.
+     *
+     * <p>If used properly, this can produce better results than CLASSIC,
+     * when generating 3D worlds with vertical direction that works differently
+     * than the two horizontal directions.</p>
+     *
+     * <p>See the following recommended usage patterns:</p>
+     * <ul>
+     * <li>If Y is vertical and X/Z are horizontal, call {@code noise(x, z, Y)}
+     * or use mode {@link #XZ_BEFORE_Y}.</li>
+     * <li>If Z is vertical and X/Y are horizontal, call {@code noise(x, y, Z)}</li>
+     * <li>If T is time and X/Y or X/Z are horizontal, call
+     * {@code noise(x, y, T)} or {@code noise(x, z, T)}, or use
+     * mode {@link #XZ_BEFORE_Y}.</li>
+     * <li>If only two coordinates are needed for a 2D noise plane, call
+     * {@code noise(x, y, 0)} or {@code noise(x, z, 0)}, or use
+     * mode {@link #XZ_BEFORE_Y}.</li>
+     * </ul>
      */
     XY_BEFORE_Z
 }

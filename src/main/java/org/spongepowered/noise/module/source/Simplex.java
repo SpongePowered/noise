@@ -36,25 +36,55 @@ import org.spongepowered.noise.Utils;
 import org.spongepowered.noise.module.Module;
 
 /**
- * Generates summed octave Simplex-style noise. The base Simplex uses a different formula but produces a similar appearance to classic Simplex.
- * Default lattice orientation is XZ_BEFORE_Y. See {@link org.spongepowered.noise.LatticeOrientation} for recommended usage.
+ * Generates summed octave Simplex-style noise.
+ *
+ * <p>The base Simplex uses a different formula but produces a similar
+ * appearance to classic Simplex.</p>
+ * <p>Default lattice orientation is {@link LatticeOrientation#XZ_BEFORE_Y}. See
+ * {@link LatticeOrientation} for recommended usage.</p>
+ *
+ * @sourceModules 0
  */
 public class Simplex extends Module {
-    // Default frequency for the noise::module::Simplex noise module.
+
+    /**
+     * Default frequency for the {@link Simplex} noise module.
+     */
     public static final double DEFAULT_SIMPLEX_FREQUENCY = 1.0;
-    // Default lacunarity for the noise::module::Simplex noise module.
+
+    /**
+     * Default lacunarity for the {@link Simplex} noise module.
+     */
     public static final double DEFAULT_SIMPLEX_LACUNARITY = 2.0;
-    // Default number of octaves for the noise::module::Simplex noise module.
+
+    /**
+     * Default number of octaves for the {@link Simplex} noise module.
+     */
     public static final int DEFAULT_SIMPLEX_OCTAVE_COUNT = 6;
-    // Default persistence value for the noise::module::Simplex noise module.
+
+    /**
+     * Default persistence value for the {@link Simplex} noise module.
+     */
     public static final double DEFAULT_SIMPLEX_PERSISTENCE = 0.5;
-    // Default lattice orientation for the noise::module::Simplex noise module.
+
+    /**
+     * Default lattice orientation for the {@link Simplex} noise module.
+     */
     public static final LatticeOrientation DEFAULT_SIMPLEX_ORIENTATION = LatticeOrientation.XZ_BEFORE_Y;
-    // Default noise quality for the noise::module::Simplex noise module.
+
+    /**
+     * Default noise quality for the {@link Simplex} noise module.
+     */
     public static final NoiseQualitySimplex DEFAULT_SIMPLEX_QUALITY = NoiseQualitySimplex.STANDARD;
-    // Default noise seed for the noise::module::Simplex noise module.
+
+    /**
+     * Default noise seed for the {@link Simplex} noise module.
+     */
     public static final int DEFAULT_SIMPLEX_SEED = 0;
-    // Maximum number of octaves for the noise::module::Simplex noise module.
+
+    /**
+     * Maximum number of octaves for the {@link Simplex} noise module.
+     */
     public static final int SIMPLEX_MAX_OCTAVE = 30;
     // Frequency of the first octave.
     private double frequency = Simplex.DEFAULT_SIMPLEX_FREQUENCY;
@@ -75,42 +105,124 @@ public class Simplex extends Module {
         super(0);
     }
 
+    /**
+     * Get the frequency of the first octave.
+     *
+     * @return the frequency of the first octave
+     * @see #DEFAULT_SIMPLEX_FREQUENCY
+     */
     public double getFrequency() {
         return this.frequency;
     }
 
+    /**
+     * Set the frequency of the first octave.
+     *
+     * @param frequency the frequency of the first octave
+     */
     public void setFrequency(final double frequency) {
         this.frequency = frequency;
     }
 
+    /**
+     * Get the lacunarity of the Simplex noise.
+     *
+     * <p>The lacunarity is the frequency multiplier between successive octaves.</p>
+     *
+     * @return the lacunarity of the Simplex noise
+     * @see #DEFAULT_SIMPLEX_LACUNARITY
+     */
     public double getLacunarity() {
         return this.lacunarity;
     }
 
+    /**
+     * Sets the lacunarity of the Simplex noise.
+     *
+     * <p>The lacunarity is the frequency multiplier between successive
+     * octaves.</p>
+     *
+     * <p>For best results, set the lacunarity to a number between 1.5
+     * and 3.5.</p>
+     *
+     * @param lacunarity the lacunarity of the Simplex noise
+     */
     public void setLacunarity(final double lacunarity) {
         this.lacunarity = lacunarity;
     }
 
+    /**
+     * Get the lattice orientation for the Simplex noise.
+     *
+     * @return the lattice orientation
+     * @see #DEFAULT_SIMPLEX_ORIENTATION
+     */
     public LatticeOrientation getLatticeOrientation() {
         return this.latticeOrientation;
     }
 
+    /**
+     * Set the lattice orientation for the Simplex noise.
+     *
+     * @param latticeOrientation the lattice orientation
+     */
     public void setLatticeOrientation(final LatticeOrientation latticeOrientation) {
         this.latticeOrientation = latticeOrientation;
     }
 
+    /**
+     * Get the quality of the Simplex noise.
+     *
+     * <p>See {@link NoiseQualitySimplex} for definitions of the various
+     * coherent-noise qualities.</p>
+     *
+     * @return the quality of the Simplex noise
+     * @see #DEFAULT_SIMPLEX_QUALITY
+     */
     public NoiseQualitySimplex getNoiseQuality() {
         return this.noiseQuality;
     }
 
+    /**
+     * Set the quality of the Simplex noise.
+     *
+     * <p>See {@link NoiseQualitySimplex} for definitions of the various
+     * coherent-noise qualities.</p>
+     *
+     * @param noiseQuality the quality of the Simplex noise
+     */
     public void setNoiseQuality(final NoiseQualitySimplex noiseQuality) {
         this.noiseQuality = noiseQuality;
     }
 
+    /**
+     * Get the number of octaves that generate the Simplex noise.
+     *
+     * <p>The number of octaves controls the amount of detail in the
+     * Simplex noise.</p>
+     *
+     * @return the number of octaves that generate the Simplex noise
+     * @see #DEFAULT_SIMPLEX_OCTAVE_COUNT
+     */
     public int getOctaveCount() {
         return this.octaveCount;
     }
 
+    /**
+     * Set the number of octaves that generate the Simplex noise.
+     *
+     * <p>The octave count must be between 1 and {@link #SIMPLEX_MAX_OCTAVE},
+     * inclusive.</p>
+     *
+     * <p>The number of octaves controls the amount of detail in the
+     * Simplex noise.</p>
+     *
+     * <p>The larger the number of octaves, the more time required to calculate
+     * the Simplex-noise value.</p>
+     *
+     * @param octaveCount the number of octaves that generate the Simplex noise
+     * @throws IllegalArgumentException if the octave count is out of bounds
+     */
     public void setOctaveCount(final int octaveCount) {
         if (octaveCount < 1 || octaveCount > Simplex.SIMPLEX_MAX_OCTAVE) {
             throw new IllegalArgumentException("octaveCount must be between 1 and MAX OCTAVE: " + Simplex.SIMPLEX_MAX_OCTAVE);
@@ -119,33 +231,65 @@ public class Simplex extends Module {
         this.octaveCount = octaveCount;
     }
 
+    /**
+     * Get the persistence value of the Simplex noise.
+     *
+     * <p>The persistence value controls the roughness of the Simplex noise.</p>
+     *
+     * @return the persistence value
+     * @see #DEFAULT_SIMPLEX_PERSISTENCE
+     */
     public double getPersistence() {
         return this.persistence;
     }
 
+    /**
+     * Sets the persistence value of the Simplex noise.
+     *
+     * <p>The persistence value controls the roughness of the Simplex noise.</p>
+     *
+     * <p>For best results, set the persistence to a number between
+     * 0.0 and 1.0.</p>
+     *
+     * @param persistence the persistence value of the Simplex noise
+     */
     public void setPersistence(final double persistence) {
         this.persistence = persistence;
     }
 
+    /**
+     * Get the seed value used by the Simplex noise function.
+     *
+     * @return the seed value
+     * @see #DEFAULT_SIMPLEX_SEED
+     */
     public int getSeed() {
         return this.seed;
     }
 
+    /**
+     * Set the seed value used by the Simplex-noise function.
+     *
+     * @param seed the seed value
+     */
     public void setSeed(final int seed) {
         this.seed = seed;
     }
     
     /**
-     * Returns the maximum value the simplex module can output in its current configuration
-     * @return The maximum possible value for {@link Simplex#getValue(double, double, double)} to return
+     * Returns the maximum value the simplex module can output in its
+     * current configuration.
+     *
+     * @return The maximum possible value for
+     *     {@link Simplex#getValue(double, double, double)} to return
      */
     public double getMaxValue() {
-    	/*
-    	 * Each successive octave adds persistence ^ current_octaves to max possible output.
-    	 * So (p = persistence, o = octave): Max(simplex) = p + p*p + p*p*p + ... + p^(o-1).
-    	 * Using geometric series formula we can narrow it down to this:
-    	 */
-    	return (Math.pow(this.getPersistence(), this.getOctaveCount()) - 1) / (this.getPersistence() - 1);
+        /*
+         * Each successive octave adds persistence ^ current_octaves to max possible output.
+         * So (p = persistence, o = octave): Max(simplex) = p + p*p + p*p*p + ... + p^(o-1).
+         * Using geometric series formula we can narrow it down to this:
+         */
+        return (Math.pow(this.getPersistence(), this.getOctaveCount()) - 1) / (this.getPersistence() - 1);
     }
 
     @Override
