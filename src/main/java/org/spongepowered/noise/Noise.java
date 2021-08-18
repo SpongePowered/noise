@@ -341,6 +341,7 @@ public final class Noise {
         n1 = Noise.valueNoise3D(x1, y1, z0, seed);
         ix1 = Utils.linearInterp(n0, n1, xs);
         iy0 = Utils.linearInterp(ix0, ix1, ys);
+
         n0 = Noise.valueNoise3D(x0, y0, z1, seed);
         n1 = Noise.valueNoise3D(x1, y0, z1, seed);
         ix0 = Utils.linearInterp(n0, n1, xs);
@@ -348,6 +349,7 @@ public final class Noise {
         n1 = Noise.valueNoise3D(x1, y1, z1, seed);
         ix1 = Utils.linearInterp(n0, n1, xs);
         iy1 = Utils.linearInterp(ix0, ix1, ys);
+
         return Utils.linearInterp(iy0, iy1, zs);
     }
 

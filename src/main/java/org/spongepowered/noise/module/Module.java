@@ -182,7 +182,7 @@ import org.spongepowered.noise.module.source.Voronoi;
  * consider the {@link Select} noise module, which requires three source
  * modules. The control module is the source module assigned an index value of
  * {@code 2}. The control module determines whether the noise module will output
- * the value from the source module assigned an index value of {@coe 0} or the
+ * the value from the source module assigned an index value of {@code 0} or the
  * output value from the source module assigned an index value of {@code 1}.</p>
  *
  * <h2>Generating output values with a noise module</h2>
