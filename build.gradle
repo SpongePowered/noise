@@ -1,10 +1,9 @@
 plugins {
-  id "org.spongepowered.gradle.sponge.dev"
-  id "net.kyori.indra"
-  id "net.kyori.indra.publishing.sonatype"
-  id "net.ltgt.errorprone"
-  id "net.saliman.cobertura" version "4.0.0"
-  id "com.github.kt3k.coveralls" version "2.12.0"
+  id 'org.spongepowered.gradle.sponge.dev'
+  id 'net.kyori.indra'
+  id 'net.kyori.indra.publishing.sonatype'
+  id 'net.ltgt.errorprone'
+  id 'jacoco'
 }
 
 group 'org.spongepowered'
@@ -16,8 +15,8 @@ configurations {
 }
 
 dependencies {
-  testImplementation "org.junit.jupiter:junit-jupiter-api:5.7.2"
-  testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.7.2"
+  testImplementation "org.junit.jupiter:junit-jupiter-api:5.8.2"
+  testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.8.2"
   errorprone "com.google.errorprone:error_prone_core:$errorproneVersion"
   errorprone "com.google.errorprone:error_prone_annotations:$errorproneVersion"
   tagletPath project(':noise-doclet-extras')
@@ -61,7 +60,15 @@ afterEvaluate {
   }
 }
 
-cobertura.coverageFormats = ['html', 'xml']
+
+test {
+    finalizedBy jacocoTestReport // report is always generated after tests run
+}
+
+jacocoTestReport {
+    dependsOn test // tests are required to run before generating the report
+}
+
 
 processResources {
   from(rootProject.rootDir) {
