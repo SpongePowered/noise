@@ -1,0 +1,17 @@
+plugins {
+    id 'net.kyori.indra'
+    id 'net.ltgt.errorprone'
+}
+
+dependencies {
+  errorprone "com.google.errorprone:error_prone_core:$errorproneVersion"
+  errorprone "com.google.errorprone:error_prone_annotations:$errorproneVersion"
+}
+
+indra {
+    javaVersions().target 11
+}
+
+tasks.withType(Javadoc).configureEach {
+    enabled = false
+}

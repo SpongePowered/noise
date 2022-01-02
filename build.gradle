@@ -1,20 +1,26 @@
 plugins {
-  id "org.spongepowered.gradle.sponge.dev" version "1.1.1"
-  id "net.kyori.indra.publishing.sonatype" version "2.0.6"
+  id "org.spongepowered.gradle.sponge.dev"
+  id "net.kyori.indra"
+  id "net.kyori.indra.publishing.sonatype"
+  id "net.ltgt.errorprone"
   id "net.saliman.cobertura" version "4.0.0"
   id "com.github.kt3k.coveralls" version "2.12.0"
-  id "net.ltgt.errorprone" version "2.0.2"
 }
 
 group 'org.spongepowered'
 version '2.0.0-SNAPSHOT'
 description 'Noise generation library for Java, based on the libnoise C++ library.'
 
+configurations {
+  tagletPath
+}
+
 dependencies {
   testImplementation "org.junit.jupiter:junit-jupiter-api:5.7.2"
   testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.7.2"
-  errorprone("com.google.errorprone:error_prone_core:2.8.1")
-  errorprone("com.google.errorprone:error_prone_annotations:2.8.1")
+  errorprone "com.google.errorprone:error_prone_core:$errorproneVersion"
+  errorprone "com.google.errorprone:error_prone_annotations:$errorproneVersion"
+  tagletPath project(':noise-doclet-extras')
 }
 
 sourceSets {
@@ -24,28 +30,23 @@ sourceSets {
       moduleName "org.spongepowered.noise"
     }
   }
-  doclet
-}
-
-compileDocletJava {
-  options.release = 11
 }
 
 tasks.withType(JavaCompile).configureEach {
   options.errorprone.disable("InvalidBlockTag")
 }
 
-def taglets = sourceSets.doclet.output
+def taglets = configurations.named('tagletPath').map { it.incoming.files }
+def javaSrcDirs = sourceSets.named('main').map { it.allJava.srcDirs }
 javadoc {
   inputs.files(taglets).withPropertyName("tagletPath")
   source("src/main/java9")
-  options {
-    addStringOption("-patch-module", "org.spongepowered.noise=${sourceSets.main.allJava.srcDirs.collect { it.absolutePath }.join(File.pathSeparator)}")
-    ((StandardJavadocDocletOptions) it).taglets("noise.build.SourceModulesTaglet")
-  }
+  def patchModuleOption = options.addStringOption('-patch-module')
+  options.taglets("noise.build.SourceModulesTaglet")
 
   doFirst {
-    options.tagletPath(taglets.classesDirs.files.toList())
+    patchModuleOption.setValue("org.spongepowered.noise=${javaSrcDirs.get().collect { it.absolutePath }.join(File.pathSeparator)}".toString())
+    options.tagletPath(taglets.get().files.toList())
   }
 }
 
@@ -65,6 +66,8 @@ cobertura.coverageFormats = ['html', 'xml']
 processResources {
   from(rootProject.rootDir) {
     include 'LICENSE.txt'
+    def projectName = project.name
+    rename { "LICENSE_${projectName}.txt" }
   }
 }
 

@@ -27,8 +27,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-import org.spongepowered.noise.module.Module;
-
 /**
  * Noise generation library for Java.
  *
@@ -37,7 +35,7 @@ import org.spongepowered.noise.module.Module;
  * of smoothly-changing noise. It can also generate Perlin noise, ridged
  * multifractal noise, simplex noise, and other types of coherent noise.</p>
  *
- * @see Module
+ * @see org.spongepowered.noise.module.Module
  */
 module org.spongepowered.noise {
     exports org.spongepowered.noise.exception;
