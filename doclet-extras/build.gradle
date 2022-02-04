@@ -9,7 +9,7 @@ dependencies {
 }
 
 indra {
-    javaVersions().target 11
+    javaVersions().target 17
 }
 
 tasks.withType(Javadoc).configureEach {

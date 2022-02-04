@@ -39,7 +39,7 @@ import java.util.Set;
 
 import javax.lang.model.element.Element;
 
-public class SourceModulesTaglet implements Taglet {
+public final class SourceModulesTaglet implements Taglet {
 
     private static final String NAME = "sourceModules";
 
@@ -83,17 +83,11 @@ public class SourceModulesTaglet implements Taglet {
             throw new IllegalArgumentException("Provided number " + valueText + " was not an integer", ex);
         }
 
-        final String description;
-        switch (value) {
-            case 0:
-                description = "This module does not require any source modules.";
-                break;
-            case 1:
-                description = "This module requires one source module.";
-                break;
-            default:
-                description = "This module requires " + value + " source modules.";
-        }
+        final String description = switch (value) {
+            case 0 -> "This module does not require any source modules.";
+            case 1 -> "This module requires one source module.";
+            default -> "This module requires " + value + " source modules.";
+        };
 
         return "<dt>Source Modules</dt><dd>" + description + "</dd>";
     }
