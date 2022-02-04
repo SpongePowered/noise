@@ -30,7 +30,7 @@
 package org.spongepowered.noise.module.modifier;
 
 import org.spongepowered.noise.exception.NoModuleException;
-import org.spongepowered.noise.module.Module;
+import org.spongepowered.noise.module.NoiseModule;
 import org.spongepowered.noise.module.source.Perlin;
 
 /**
@@ -94,7 +94,7 @@ import org.spongepowered.noise.module.source.Perlin;
  *
  * @sourceModules 1
  */
-public class Turbulence extends Module {
+public class Turbulence extends NoiseModule {
 
     /**
      * Default power for the {@link Turbulence} noise module.
@@ -122,7 +122,7 @@ public class Turbulence extends Module {
      *
      * @param source the input module
      */
-    public Turbulence(final Module source) {
+    public Turbulence(final NoiseModule source) {
         this();
         this.setSourceModule(0, source);
     }

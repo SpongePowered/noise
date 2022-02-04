@@ -30,7 +30,7 @@
 package org.spongepowered.noise.module.modifier;
 
 import org.spongepowered.noise.exception.NoModuleException;
-import org.spongepowered.noise.module.Module;
+import org.spongepowered.noise.module.NoiseModule;
 
 /**
  * Noise module that applies a scaling factor and a bias to the output value
@@ -42,7 +42,7 @@ import org.spongepowered.noise.module.Module;
  *
  * @sourceModules 1
  */
-public class ScaleBias extends Module {
+public class ScaleBias extends NoiseModule {
 
     /**
      * Default bias for the {@link ScaleBias} noise module.
@@ -69,7 +69,7 @@ public class ScaleBias extends Module {
      *
      * @param source the input module
      */
-    public ScaleBias(final Module source) {
+    public ScaleBias(final NoiseModule source) {
         this();
         this.setSourceModule(0, source);
     }

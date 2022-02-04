@@ -47,7 +47,7 @@ import org.spongepowered.noise.exception.NoModuleException;
  * output value without having the source module recalculate the output value.</p>
  *
  * <p>If an application passes a new source module to the
- * {@link #setSourceModule(int, Module)} method, the cache is invalidated.</p>
+ * {@link #setSourceModule(int, NoiseModule)} method, the cache is invalidated.</p>
  *
  * <p>Caching a noise module is useful if it is used as a source module for
  * multiple noise modules. If a source module is not cached, the source module
@@ -56,7 +56,7 @@ import org.spongepowered.noise.exception.NoModuleException;
  *
  * <p>This noise module requires one source module.</p>
  */
-public class Cache extends Module {
+public class Cache extends NoiseModule {
     // The cached output value at the cached input value.
     private double cachedValue;
     // Determines if a cached output value is stored in this noise
@@ -78,14 +78,14 @@ public class Cache extends Module {
      *
      * @param source the module to cache
      */
-    public Cache(final Module source) {
+    public Cache(final NoiseModule source) {
         this();
         this.setSourceModule(0, source);
     }
 
 
     @Override
-    public void setSourceModule(final int index, final Module sourceModule) {
+    public void setSourceModule(final int index, final NoiseModule sourceModule) {
         super.setSourceModule(index, sourceModule);
         this.isCached = false;
     }

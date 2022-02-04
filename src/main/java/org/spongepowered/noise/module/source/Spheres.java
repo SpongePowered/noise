@@ -30,7 +30,7 @@
 package org.spongepowered.noise.module.source;
 
 import org.spongepowered.noise.Utils;
-import org.spongepowered.noise.module.Module;
+import org.spongepowered.noise.module.NoiseModule;
 
 /**
  * Noise module that outputs concentric spheres.
@@ -56,7 +56,7 @@ import org.spongepowered.noise.module.Module;
  *
  * @sourceModules 0
  */
-public class Spheres extends Module {
+public class Spheres extends NoiseModule {
     /**
      * Default frequency value for the {@link Spheres} noise module.
      */

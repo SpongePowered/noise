@@ -30,7 +30,7 @@
 package org.spongepowered.noise.module.modifier;
 
 import org.spongepowered.noise.exception.NoModuleException;
-import org.spongepowered.noise.module.Module;
+import org.spongepowered.noise.module.NoiseModule;
 
 /**
  * Noise module that maps the output value from a source module onto an
@@ -43,7 +43,7 @@ import org.spongepowered.noise.module.Module;
  *
  * @sourceModules 1
  */
-public class Exponent extends Module {
+public class Exponent extends NoiseModule {
 
     /**
      * Default exponent for the {@link Exponent noise module}.
@@ -61,7 +61,7 @@ public class Exponent extends Module {
      *
      * @param source the input module
      */
-    public Exponent(final Module source) {
+    public Exponent(final NoiseModule source) {
         this();
         this.setSourceModule(0, source);
     }

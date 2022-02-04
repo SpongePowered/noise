@@ -35,7 +35,7 @@ import java.util.List;
 import org.spongepowered.noise.Utils;
 import org.spongepowered.noise.exception.NoModuleException;
 import org.spongepowered.noise.exception.NoiseException;
-import org.spongepowered.noise.module.Module;
+import org.spongepowered.noise.module.NoiseModule;
 
 /**
  * Noise module that maps the output value from a source module onto an
@@ -58,7 +58,7 @@ import org.spongepowered.noise.module.Module;
  *
  * @sourceModules 1
  */
-public class Curve extends Module {
+public class Curve extends NoiseModule {
     private final List<ControlPoint> controlPoints = new ArrayList<>();
 
     public Curve() {
@@ -70,7 +70,7 @@ public class Curve extends Module {
      *
      * @param source the input module
      */
-    public Curve(final Module source) {
+    public Curve(final NoiseModule source) {
         this();
         this.setSourceModule(0, source);
     }

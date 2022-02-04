@@ -30,7 +30,7 @@
 package org.spongepowered.noise.model;
 
 import org.spongepowered.noise.exception.NoModuleException;
-import org.spongepowered.noise.module.Module;
+import org.spongepowered.noise.module.NoiseModule;
 
 import java.util.Objects;
 
@@ -38,12 +38,12 @@ import java.util.Objects;
  * Model that defines the surface of a cylinder.
  */
 public class Cylinder {
-    private Module module;
+    private NoiseModule module;
 
     /**
      * @param mod The noise module that is used to generate the output values.
      */
-    public Cylinder(final Module mod) {
+    public Cylinder(final NoiseModule mod) {
         this.module = mod;
     }
 
@@ -52,7 +52,7 @@ public class Cylinder {
      *
      * @return A reference to the noise module.
      */
-    public Module getModule() {
+    public NoiseModule getModule() {
         return this.module;
     }
 
@@ -64,7 +64,7 @@ public class Cylinder {
      *
      * @param mod The noise module that is used to generate the output values.
      */
-    public void setModule(final Module mod) {
+    public void setModule(final NoiseModule mod) {
         this.module = Objects.requireNonNull(mod, "Mod cannot be null");
     }
 

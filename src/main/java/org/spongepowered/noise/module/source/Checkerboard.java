@@ -30,7 +30,7 @@
 package org.spongepowered.noise.module.source;
 
 import org.spongepowered.noise.Utils;
-import org.spongepowered.noise.module.Module;
+import org.spongepowered.noise.module.NoiseModule;
 
 /**
  * Noise module that outputs a checkerboard pattern.
@@ -43,7 +43,7 @@ import org.spongepowered.noise.module.Module;
  *
  * @sourceModules 0
  */
-public class Checkerboard extends Module {
+public class Checkerboard extends NoiseModule {
     public Checkerboard() {
         super(0);
     }

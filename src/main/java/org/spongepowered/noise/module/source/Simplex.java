@@ -33,7 +33,7 @@ import org.spongepowered.noise.Noise;
 import org.spongepowered.noise.LatticeOrientation;
 import org.spongepowered.noise.NoiseQualitySimplex;
 import org.spongepowered.noise.Utils;
-import org.spongepowered.noise.module.Module;
+import org.spongepowered.noise.module.NoiseModule;
 
 /**
  * Generates summed octave Simplex-style noise.
@@ -45,7 +45,7 @@ import org.spongepowered.noise.module.Module;
  *
  * @sourceModules 0
  */
-public class Simplex extends Module {
+public class Simplex extends NoiseModule {
 
     /**
      * Default frequency for the {@link Simplex} noise module.

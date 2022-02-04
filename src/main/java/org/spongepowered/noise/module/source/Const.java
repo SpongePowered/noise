@@ -29,7 +29,7 @@
  */
 package org.spongepowered.noise.module.source;
 
-import org.spongepowered.noise.module.Module;
+import org.spongepowered.noise.module.NoiseModule;
 
 /**
  * Noise module that outputs a constant value.
@@ -41,7 +41,7 @@ import org.spongepowered.noise.module.Module;
  *
  * @sourceModules 0
  */
-public class Const extends Module {
+public class Const extends NoiseModule {
     public static final double DEFAULT_VALUE = 0;
     private double value = Const.DEFAULT_VALUE;
 

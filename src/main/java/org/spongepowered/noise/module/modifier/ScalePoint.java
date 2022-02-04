@@ -30,7 +30,7 @@
 package org.spongepowered.noise.module.modifier;
 
 import org.spongepowered.noise.exception.NoModuleException;
-import org.spongepowered.noise.module.Module;
+import org.spongepowered.noise.module.NoiseModule;
 
 /**
  * Noise module that scales the coordinates of the input value before returning
@@ -48,7 +48,7 @@ import org.spongepowered.noise.module.Module;
  *
  * @sourceModules 1
  */
-public class ScalePoint extends Module {
+public class ScalePoint extends NoiseModule {
 
     /**
      * Default scaling factor applied to the {@code x} coordinate for the
@@ -83,7 +83,7 @@ public class ScalePoint extends Module {
      *
      * @param source the input module
      */
-    public ScalePoint(final Module source) {
+    public ScalePoint(final NoiseModule source) {
         this();
         this.setSourceModule(0, source);
     }

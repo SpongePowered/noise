@@ -30,7 +30,7 @@
 package org.spongepowered.noise.module.source;
 
 import org.spongepowered.noise.Utils;
-import org.spongepowered.noise.module.Module;
+import org.spongepowered.noise.module.NoiseModule;
 
 /**
  * Noise module that outputs concentric cylinders.
@@ -59,7 +59,7 @@ import org.spongepowered.noise.module.Module;
  *
  * @sourceModules 0
  */
-public class Cylinders extends Module {
+public class Cylinders extends NoiseModule {
 
     /**
      * Default frequency value for the {@link Cylinders} noise module.

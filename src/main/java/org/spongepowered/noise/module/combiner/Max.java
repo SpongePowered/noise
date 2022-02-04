@@ -30,7 +30,7 @@
 package org.spongepowered.noise.module.combiner;
 
 import org.spongepowered.noise.exception.NoModuleException;
-import org.spongepowered.noise.module.Module;
+import org.spongepowered.noise.module.NoiseModule;
 
 /**
  * Noise module that outputs the larger of the two output values from two
@@ -38,7 +38,7 @@ import org.spongepowered.noise.module.Module;
  *
  * @sourceModules 2
  */
-public class Max extends Module {
+public class Max extends NoiseModule {
     public Max() {
         super(2);
     }
@@ -49,7 +49,7 @@ public class Max extends Module {
      * @param left the first operand
      * @param right the second operand
      */
-    public Max(final Module left, final Module right) {
+    public Max(final NoiseModule left, final NoiseModule right) {
         this();
         this.setSourceModule(0, left);
         this.setSourceModule(1, right);

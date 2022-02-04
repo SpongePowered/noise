@@ -30,7 +30,7 @@
 package org.spongepowered.noise.module.modifier;
 
 import org.spongepowered.noise.exception.NoModuleException;
-import org.spongepowered.noise.module.Module;
+import org.spongepowered.noise.module.NoiseModule;
 
 /**
  * A modifier module to map a value from one range to another.
@@ -39,7 +39,7 @@ import org.spongepowered.noise.module.Module;
  *
  * @sourceModules 1
  */
-public class Range extends Module {
+public class Range extends NoiseModule {
     
     public static final double DEFAULT_CURRENT_LOWER_BOUND = -1f;
     public static final double DEFAULT_CURRENT_UPPER_BOUND = 1f;
@@ -67,7 +67,7 @@ public class Range extends Module {
      *
      * @param source the input module
      */
-    public Range(final Module source) {
+    public Range(final NoiseModule source) {
         this();
         this.setSourceModule(0, source);
     }

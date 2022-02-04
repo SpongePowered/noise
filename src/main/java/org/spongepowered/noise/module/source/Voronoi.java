@@ -31,7 +31,7 @@ package org.spongepowered.noise.module.source;
 
 import org.spongepowered.noise.Noise;
 import org.spongepowered.noise.Utils;
-import org.spongepowered.noise.module.Module;
+import org.spongepowered.noise.module.NoiseModule;
 
 /**
  * Noise module that outputs Voronoi cells.
@@ -68,7 +68,7 @@ import org.spongepowered.noise.module.Module;
  *
  * @sourceModules 0
  */
-public class Voronoi extends Module {
+public class Voronoi extends NoiseModule {
     private static final double SQRT_3 = 1.7320508075688772935;
     /**
      * Default displacement to apply to each cell for the {@link Voronoi}

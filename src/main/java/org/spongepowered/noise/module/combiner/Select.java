@@ -31,7 +31,7 @@ package org.spongepowered.noise.module.combiner;
 
 import org.spongepowered.noise.Utils;
 import org.spongepowered.noise.exception.NoModuleException;
-import org.spongepowered.noise.module.Module;
+import org.spongepowered.noise.module.NoiseModule;
 
 /**
  * Noise module that outputs the value selected from one of two source modules
@@ -56,8 +56,8 @@ import org.spongepowered.noise.module.Module;
  * {@link #setBounds(double, double)} method.</p>
  *
  * <p>An application can pass the control module to the
- * {@link #setControlModule(Module)} method instead of the
- * {@link #setSourceModule(int, Module)}. This may make the application code
+ * {@link #setControlModule(NoiseModule)} method instead of the
+ * {@link #setSourceModule(int, NoiseModule)}. This may make the application code
  * easier to read.</p>
  *
  * <p>by default, there is an abrupt transition between the output values from
@@ -67,7 +67,7 @@ import org.spongepowered.noise.module.Module;
  *
  * @sourceModules 3
  */
-public class Select extends Module {
+public class Select extends NoiseModule {
 
     /**
      * Default edge-falloff value for the {@link Select} noise module.
@@ -105,7 +105,7 @@ public class Select extends Module {
      * @param b a source module
      * @param control the module to select between the two inputs
      */
-    public Select(final Module a, final Module b, final Module control) {
+    public Select(final NoiseModule a, final NoiseModule b, final NoiseModule control) {
         this();
         this.setSourceModule(0, a);
         this.setSourceModule(1, b);
@@ -125,7 +125,7 @@ public class Select extends Module {
      * @return the control module
      * @throws NoModuleException if no control module has been set yet
      */
-    public Module getControlModule() {
+    public NoiseModule getControlModule() {
         if (this.sourceModule == null || this.sourceModule[2] == null) {
             throw new NoModuleException(2);
         }
@@ -144,12 +144,12 @@ public class Select extends Module {
      *
      * <p>This method assigns the control module an index value of 2. Passing
      * the control module to this method produces the same results as passing
-     * the control module to the {@link #setSourceModule(int, Module)} method
+     * the control module to the {@link #setSourceModule(int, NoiseModule)} method
      * while assigning that noise module an index value of 2.</p>
      *
      * @param m the control module
      */
-    public void setControlModule(final Module m) {
+    public void setControlModule(final NoiseModule m) {
         if (m == null) {
             throw new IllegalArgumentException("the module cannot be null");
         }

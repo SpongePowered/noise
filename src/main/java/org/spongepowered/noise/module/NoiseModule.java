@@ -160,10 +160,10 @@ import org.spongepowered.noise.module.source.Voronoi;
  * <h2>Connecting source modules to a noise module</h2>
  *
  * <p>An application connects a source module to a noise module by passing
- * the source module to the {@link #setSourceModule(int, Module)} method.</p>
+ * the source module to the {@link #setSourceModule(int, NoiseModule)} method.</p>
  *
  * <p>The application must also pass an <em>index value</em> to
- * {@link #setSourceModule(int, Module)}. An index value is a numeric
+ * {@link #setSourceModule(int, NoiseModule)}. An index value is a numeric
  * identifier for that source module. Index values are consecutively numbered
  * starting at zero.</p>
  *
@@ -205,7 +205,7 @@ import org.spongepowered.noise.module.source.Voronoi;
  *
  * <h2>Creating your own noise modules</h2>
  *
- * <p>Create a class that extends from {@link Module}.
+ * <p>Create a class that extends from {@link NoiseModule}.
  *
  * <p>In the constructor, call the base class' constructor while passing the
  * required number of souce modules to it.</p>
@@ -220,7 +220,7 @@ import org.spongepowered.noise.module.source.Voronoi;
  * does not modify any source module or control module connected to it; a
  * noise module can only modify the output value from those source modules. You
  * must also ensure that if an application fails to connect
- * all required source modules via the {@link #setSourceModule(int, Module)}
+ * all required source modules via the {@link #setSourceModule(int, NoiseModule)}
  * method and then attempts to call the {@link #getValue(double, double, double)}
  * method, your module will throw an exception.</p>
  *
@@ -228,14 +228,14 @@ import org.spongepowered.noise.module.source.Voronoi;
  * still have some problems, take a look at the source code for {@link Add},
  * which is a very simple noise module.</p>
  */
-public abstract class Module {
-    private static final Module[] EMPTY_MODULE_ARRAY = new Module[0];
+public abstract class NoiseModule {
+    private static final NoiseModule[] EMPTY_MODULE_ARRAY = new NoiseModule[0];
 
     /**
      * An array containing references to each source module required by this
      * noise module.
      */
-    protected Module[] sourceModule;
+    protected NoiseModule[] sourceModule;
 
     /**
      * Create a new module.
@@ -243,11 +243,11 @@ public abstract class Module {
      * @param sourceModuleCount the number of source modules required by
      * this module
      */
-    public Module(final int sourceModuleCount) {
+    public NoiseModule(final int sourceModuleCount) {
         if (sourceModuleCount > 0) {
-            this.sourceModule = new Module[sourceModuleCount];
+            this.sourceModule = new NoiseModule[sourceModuleCount];
         } else {
-            this.sourceModule = Module.EMPTY_MODULE_ARRAY;
+            this.sourceModule = NoiseModule.EMPTY_MODULE_ARRAY;
         }
     }
 
@@ -264,7 +264,7 @@ public abstract class Module {
      *     index or the index is out of the range from
      *     0 to {@link #getSourceModuleCount()}
      */
-    public Module getSourceModule(final int index) {
+    public NoiseModule getSourceModule(final int index) {
         if (index >= this.sourceModule.length || index < 0 || this.sourceModule[index] == null) {
             throw new NoModuleException(index);
         }
@@ -297,7 +297,7 @@ public abstract class Module {
      * @param sourceModule the source module to attach
      * @throws IllegalArgumentException if the {@code index} is out of bounds
      */
-    public void setSourceModule(final int index, final Module sourceModule) {
+    public void setSourceModule(final int index, final NoiseModule sourceModule) {
         if (this.sourceModule.length == 0) {
             return;
         }
@@ -321,7 +321,7 @@ public abstract class Module {
      * value.
      *
      * <p>All source modules required by this module must have been connected
-     * with the {@link #setSourceModule(int, Module)} method. If these source
+     * with the {@link #setSourceModule(int, NoiseModule)} method. If these source
      * modules are not connected, this method will throw
      * a {@link NoModuleException}.</p>
      *

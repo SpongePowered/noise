@@ -30,7 +30,7 @@
 package org.spongepowered.noise.module.modifier;
 
 import org.spongepowered.noise.exception.NoModuleException;
-import org.spongepowered.noise.module.Module;
+import org.spongepowered.noise.module.NoiseModule;
 
 /**
  * Noise module that clamps the output value from a source module to a range
@@ -50,7 +50,7 @@ import org.spongepowered.noise.module.Module;
  *
  * @sourceModules 1
  */
-public class Clamp extends Module {
+public class Clamp extends NoiseModule {
 
     /**
      * Default lower bound of the clamping range for the {@link Clamp}
@@ -76,7 +76,7 @@ public class Clamp extends Module {
      *
      * @param source the input module
      */
-    public Clamp(final Module source) {
+    public Clamp(final NoiseModule source) {
         this();
         this.setSourceModule(0, source);
     }

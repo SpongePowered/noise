@@ -32,7 +32,7 @@ package org.spongepowered.noise.module.source;
 import org.spongepowered.noise.Noise;
 import org.spongepowered.noise.NoiseQuality;
 import org.spongepowered.noise.Utils;
-import org.spongepowered.noise.module.Module;
+import org.spongepowered.noise.module.NoiseModule;
 
 /**
  * Noise module that outputs 3-dimensional ridged-multifractal noise.
@@ -96,7 +96,7 @@ import org.spongepowered.noise.module.Module;
  *
  * @sourceModules 0
  */
-public class RidgedMulti extends Module {
+public class RidgedMulti extends NoiseModule {
 
     /**
      * Default frequency for the {@link RidgedMulti} noise module.

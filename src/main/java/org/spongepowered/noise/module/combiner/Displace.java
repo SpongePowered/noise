@@ -30,7 +30,7 @@
 package org.spongepowered.noise.module.combiner;
 
 import org.spongepowered.noise.exception.NoModuleException;
-import org.spongepowered.noise.module.Module;
+import org.spongepowered.noise.module.NoiseModule;
 import org.spongepowered.noise.module.modifier.Turbulence;
 import org.spongepowered.noise.module.source.Perlin;
 
@@ -67,7 +67,7 @@ import java.util.Objects;
  *
  * @sourceModules 4
  */
-public class Displace extends Module {
+public class Displace extends NoiseModule {
     public Displace() {
         super(4);
     }
@@ -80,7 +80,7 @@ public class Displace extends Module {
      * @param yDisplace the {@code y} displacement module
      * @param zDisplace the {@code z} displacement module
      */
-    public Displace(final Module source, final Module xDisplace, final Module yDisplace, final Module zDisplace) {
+    public Displace(final NoiseModule source, final NoiseModule xDisplace, final NoiseModule yDisplace, final NoiseModule zDisplace) {
         this();
         this.setSourceModule(0, source);
         this.setSourceModule(1, xDisplace);
@@ -99,7 +99,7 @@ public class Displace extends Module {
      * @return the {@code x} displacement module
      * @throws NoModuleException if this displacement module has not yet been set
      */
-    public Module getXDisplaceModule() {
+    public NoiseModule getXDisplaceModule() {
         if (this.sourceModule == null || this.sourceModule[1] == null) {
             throw new NoModuleException(1);
         }
@@ -117,12 +117,12 @@ public class Displace extends Module {
      * <p>This method assigns an index value of {@code 1} to the {@code x}
      * displacement module. Passing the displacement module to this method
      * produces the same results as passing the displacement module to the
-     * {@link #setSourceModule(int, Module)} method while assigning it an index
+     * {@link #setSourceModule(int, NoiseModule)} method while assigning it an index
      * value of {@code 1}.</p>
      *
      * @param x displacement module that displaces the {@code x} coordinate
      */
-    public void setXDisplaceModule(final Module x) {
+    public void setXDisplaceModule(final NoiseModule x) {
         this.sourceModule[1] = Objects.requireNonNull(x, "x");
     }
 
@@ -137,7 +137,7 @@ public class Displace extends Module {
      * @return the {@code y} displacement module
      * @throws NoModuleException if this displacement module has not yet been set
      */
-    public Module getYDisplaceModule() {
+    public NoiseModule getYDisplaceModule() {
         if (this.sourceModule == null || this.sourceModule[2] == null) {
             throw new NoModuleException(2);
         }
@@ -155,12 +155,12 @@ public class Displace extends Module {
      * <p>This method assigns an index value of {@code 2} to the {@code y}
      * displacement module. Passing the displacement module to this method
      * produces the same results as passing the displacement module to the
-     * {@link #setSourceModule(int, Module)} method while assigning it an index
+     * {@link #setSourceModule(int, NoiseModule)} method while assigning it an index
      * value of {@code 2}.</p>
      *
      * @param y displacement module that displaces the {@code y} coordinate
      */
-    public void setYDisplaceModule(final Module y) {
+    public void setYDisplaceModule(final NoiseModule y) {
         this.sourceModule[2] = Objects.requireNonNull(y, "y");
     }
 
@@ -175,7 +175,7 @@ public class Displace extends Module {
      * @return the {@code z} displacement module
      * @throws NoModuleException if this displacement module has not yet been set
      */
-    public Module getZDisplaceModule() {
+    public NoiseModule getZDisplaceModule() {
         if (this.sourceModule == null || this.sourceModule[3] == null) {
             throw new NoModuleException(3);
         }
@@ -193,12 +193,12 @@ public class Displace extends Module {
      * <p>This method assigns an index value of {@code 3} to the {@code z}
      * displacement module. Passing the displacement module to this method
      * produces the same results as passing the displacement module to the
-     * {@link #setSourceModule(int, Module)} method while assigning it an index
+     * {@link #setSourceModule(int, NoiseModule)} method while assigning it an index
      * value of {@code 3}.</p>
      *
      * @param z displacement module that displaces the {@code z} coordinate
      */
-    public void setZDisplaceModule(final Module z) {
+    public void setZDisplaceModule(final NoiseModule z) {
         this.sourceModule[3] = Objects.requireNonNull(z, "z");
     }
 
@@ -219,7 +219,7 @@ public class Displace extends Module {
      * @param y module that displaces the {@code y} coordinate of the input value
      * @param z module that displaces the {@code z} coordinate of the input value
      */
-    public void setDisplaceModules(final Module x, final Module y, final Module z) {
+    public void setDisplaceModules(final NoiseModule x, final NoiseModule y, final NoiseModule z) {
         this.setXDisplaceModule(x);
         this.setYDisplaceModule(y);
         this.setZDisplaceModule(z);

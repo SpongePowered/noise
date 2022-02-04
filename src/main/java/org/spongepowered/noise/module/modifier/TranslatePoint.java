@@ -30,7 +30,7 @@
 package org.spongepowered.noise.module.modifier;
 
 import org.spongepowered.noise.exception.NoModuleException;
-import org.spongepowered.noise.module.Module;
+import org.spongepowered.noise.module.NoiseModule;
 
 /**
  * Noise module that moves the coordinates of the input value before returning
@@ -47,7 +47,7 @@ import org.spongepowered.noise.module.Module;
  *
  * @sourceModules 1
  */
-public class TranslatePoint extends Module {
+public class TranslatePoint extends NoiseModule {
 
     /**
      * Default translation factor applied to the {@code x} coordinate for the
@@ -86,7 +86,7 @@ public class TranslatePoint extends Module {
      *
      * @param source the input module
      */
-    public TranslatePoint(final Module source) {
+    public TranslatePoint(final NoiseModule source) {
         this();
         this.setSourceModule(0, source);
     }

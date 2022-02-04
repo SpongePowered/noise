@@ -31,7 +31,7 @@ package org.spongepowered.noise.model;
 
 import org.spongepowered.noise.Utils;
 import org.spongepowered.noise.exception.NoModuleException;
-import org.spongepowered.noise.module.Module;
+import org.spongepowered.noise.module.NoiseModule;
 
 import java.util.Objects;
 
@@ -39,14 +39,14 @@ import java.util.Objects;
  * Model that defines the surface of a sphere.
  */
 public class Sphere {
-    private Module module;
+    private NoiseModule module;
 
     /**
      * Constructor
      *
      * @param module The noise module that is used to generate the output values.
      */
-    public Sphere(final Module module) {
+    public Sphere(final NoiseModule module) {
         if (module == null) {
             throw new IllegalArgumentException("module cannot be null");
         }
@@ -56,7 +56,7 @@ public class Sphere {
     /**
      * Returns the noise module that is used to generate the output values.
      */
-    public Module getModule() {
+    public NoiseModule getModule() {
         return this.module;
     }
 
@@ -67,7 +67,7 @@ public class Sphere {
      *
      * This noise module must exist for the lifetime of this object, until you pass a new noise module to this method.
      */
-    public void setModule(final Module module) {
+    public void setModule(final NoiseModule module) {
         this.module = Objects.requireNonNull(module, "Module cannot be null");
     }
 

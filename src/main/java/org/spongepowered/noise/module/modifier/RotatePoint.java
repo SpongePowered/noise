@@ -30,7 +30,7 @@
 package org.spongepowered.noise.module.modifier;
 
 import org.spongepowered.noise.exception.NoModuleException;
-import org.spongepowered.noise.module.Module;
+import org.spongepowered.noise.module.NoiseModule;
 
 /**
  * Noise module that rotates the input value around the origin before returning
@@ -50,7 +50,7 @@ import org.spongepowered.noise.module.Module;
  *
  * @sourceModules 1
  */
-public class RotatePoint extends Module {
+public class RotatePoint extends NoiseModule {
 
     /**
      * Default {@code x} rotation angle for the {@link RotatePoint} noise module.
@@ -108,7 +108,7 @@ public class RotatePoint extends Module {
      *
      * @param source the input module
      */
-    public RotatePoint(final Module source) {
+    public RotatePoint(final NoiseModule source) {
         this();
         this.setSourceModule(0, source);
     }

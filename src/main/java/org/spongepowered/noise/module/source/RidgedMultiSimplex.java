@@ -33,7 +33,7 @@ import org.spongepowered.noise.Noise;
 import org.spongepowered.noise.LatticeOrientation;
 import org.spongepowered.noise.NoiseQualitySimplex;
 import org.spongepowered.noise.Utils;
-import org.spongepowered.noise.module.Module;
+import org.spongepowered.noise.module.NoiseModule;
 
 /**
  * Generates ridged Simplex-style noise.
@@ -46,7 +46,7 @@ import org.spongepowered.noise.module.Module;
  *
  * @sourceModules 0
  */
-public class RidgedMultiSimplex extends Module {
+public class RidgedMultiSimplex extends NoiseModule {
 
     /**
      * Default frequency for the {@link RidgedMultiSimplex} noise module.

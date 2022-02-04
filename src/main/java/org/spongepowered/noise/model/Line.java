@@ -30,7 +30,7 @@
 package org.spongepowered.noise.model;
 
 import org.spongepowered.noise.exception.NoModuleException;
-import org.spongepowered.noise.module.Module;
+import org.spongepowered.noise.module.NoiseModule;
 
 import java.util.Objects;
 
@@ -57,7 +57,7 @@ public class Line {
     // (moved toward 0.0) as the ends of the line segment are approached.
     private boolean attenuate = false;
     // A pointer to the noise module used to generate the output values.
-    private Module module;
+    private NoiseModule module;
     // {@code x} coordinate of the start of the line segment.
     private double x0 = 0;
     // {@code x} coordinate of the end of the line segment.
@@ -74,7 +74,7 @@ public class Line {
     /**
      * @param module The noise module that is used to generate the output values.
      */
-    public Line(final Module module) {
+    public Line(final NoiseModule module) {
         if (module == null) {
             throw new IllegalArgumentException("module cannot be null");
         }
@@ -133,7 +133,7 @@ public class Line {
     /**
      * Returns the noise module that is used to generate the output values.
      */
-    public Module getModule() {
+    public NoiseModule getModule() {
         return this.module;
     }
 
@@ -145,7 +145,7 @@ public class Line {
      *
      * @param module The noise module that is used to generate the output values.
      */
-    public void setModule(final Module module) {
+    public void setModule(final NoiseModule module) {
         this.module = Objects.requireNonNull(module, "Module cannot be null");
     }
 

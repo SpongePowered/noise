@@ -30,7 +30,7 @@
 package org.spongepowered.noise.module.combiner;
 
 import org.spongepowered.noise.exception.NoModuleException;
-import org.spongepowered.noise.module.Module;
+import org.spongepowered.noise.module.NoiseModule;
 
 /**
  * Noise module that raises the output value from a first source module to the
@@ -42,7 +42,7 @@ import org.spongepowered.noise.module.Module;
  *
  * @sourceModules 2
  */
-public class Power extends Module {
+public class Power extends NoiseModule {
     public Power() {
         super(2);
     }
@@ -53,7 +53,7 @@ public class Power extends Module {
      * @param base the base
      * @param exponent the exponent to raise the base to
      */
-    public Power(final Module base, final Module exponent) {
+    public Power(final NoiseModule base, final NoiseModule exponent) {
         this();
         this.setSourceModule(0, base);
         this.setSourceModule(1, exponent);

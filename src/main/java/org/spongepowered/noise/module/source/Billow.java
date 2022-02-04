@@ -32,7 +32,7 @@ package org.spongepowered.noise.module.source;
 import org.spongepowered.noise.Noise;
 import org.spongepowered.noise.NoiseQuality;
 import org.spongepowered.noise.Utils;
-import org.spongepowered.noise.module.Module;
+import org.spongepowered.noise.module.NoiseModule;
 
 /**
  * Noise module that outputs three-dimensional "billowy" noise.
@@ -46,7 +46,7 @@ import org.spongepowered.noise.module.Module;
  *
  * @sourceModules 0
  */
-public class Billow extends Module {
+public class Billow extends NoiseModule {
 
     /**
      * Default frequency for the {@link Billow} noise module.
