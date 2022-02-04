@@ -186,7 +186,7 @@ public class Perlin extends NoiseModule {
      * @return the frequency of the first octave
      * @see #DEFAULT_PERLIN_FREQUENCY
      */
-    public double getFrequency() {
+    public double frequency() {
         return this.frequency;
     }
 
@@ -207,7 +207,7 @@ public class Perlin extends NoiseModule {
      * @return the lacunarity of the Perlin noise
      * @see #DEFAULT_PERLIN_LACUNARITY
      */
-    public double getLacunarity() {
+    public double lacunarity() {
         return this.lacunarity;
     }
 
@@ -235,7 +235,7 @@ public class Perlin extends NoiseModule {
      * @return the quality of the Perlin noise
      * @see #DEFAULT_PERLIN_QUALITY
      */
-    public NoiseQuality getNoiseQuality() {
+    public NoiseQuality noiseQuality() {
         return this.noiseQuality;
     }
 
@@ -260,7 +260,7 @@ public class Perlin extends NoiseModule {
      * @return the number of octaves that generate the Perlin noise
      * @see #DEFAULT_PERLIN_OCTAVE_COUNT
      */
-    public int getOctaveCount() {
+    public int octaveCount() {
         return this.octaveCount;
     }
 
@@ -295,7 +295,7 @@ public class Perlin extends NoiseModule {
      * @return the persistence value
      * @see #DEFAULT_PERLIN_PERSISTENCE
      */
-    public double getPersistence() {
+    public double persistence() {
         return this.persistence;
     }
 
@@ -319,7 +319,7 @@ public class Perlin extends NoiseModule {
      * @return the seed value
      * @see #DEFAULT_PERLIN_SEED
      */
-    public int getSeed() {
+    public int seed() {
         return this.seed;
     }
 
@@ -331,25 +331,25 @@ public class Perlin extends NoiseModule {
     public void setSeed(final int seed) {
         this.seed = seed;
     }
-    
+
     /**
      * Returns the maximum value the perlin module can output in its
      * current configuration.
      *
      * @return The maximum possible value for
-     *     {@link Perlin#getValue(double, double, double)} to return
+     *     {@link Perlin#get(double, double, double)} to return
      */
-    public double getMaxValue() {
+    public double maxValue() {
         /*
          * Each successive octave adds persistence ^ current_octaves to max possible output.
          * So (p = persistence, o = octave): Max(perlin) = p + p*p + p*p*p + ... + p^(o-1).
          * Using geometric series formula we can narrow it down to this:
          */
-        return (Math.pow(this.getPersistence(), this.getOctaveCount()) - 1) / (this.getPersistence() - 1);
+        return (Math.pow(this.persistence(), this.octaveCount()) - 1) / (this.persistence() - 1);
     }
 
     @Override
-    public double getValue(final double x, final double y, final double z) {
+    public double get(final double x, final double y, final double z) {
         double x1 = x;
         double y1 = y;
         double z1 = z;

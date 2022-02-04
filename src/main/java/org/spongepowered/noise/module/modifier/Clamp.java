@@ -90,7 +90,7 @@ public class Clamp extends NoiseModule {
      *
      * @return the lower bound
      */
-    public double getLowerBound() {
+    public double lowerBound() {
         return this.lowerBound;
     }
 
@@ -114,7 +114,7 @@ public class Clamp extends NoiseModule {
      *
      * @return the upper bound
      */
-    public double getUpperBound() {
+    public double upperBound() {
         return this.upperBound;
     }
 
@@ -130,13 +130,13 @@ public class Clamp extends NoiseModule {
     }
 
     @Override
-    public double getValue(final double x, final double y, final double z) {
+    public double get(final double x, final double y, final double z) {
         if (this.sourceModule[0] == null) {
             throw new NoModuleException(0);
         }
         assert this.lowerBound <= this.upperBound;
 
-        final double value = this.sourceModule[0].getValue(x, y, z);
+        final double value = this.sourceModule[0].get(x, y, z);
         if (value < this.lowerBound) {
             return this.lowerBound;
         } else if (value > this.upperBound) {

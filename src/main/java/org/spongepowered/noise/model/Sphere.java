@@ -39,6 +39,7 @@ import java.util.Objects;
  * Model that defines the surface of a sphere.
  */
 public class Sphere {
+
     private NoiseModule module;
 
     /**
@@ -55,8 +56,10 @@ public class Sphere {
 
     /**
      * Returns the noise module that is used to generate the output values.
+     *
+     * @return the module used to generate output values
      */
-    public NoiseModule getModule() {
+    public NoiseModule module() {
         return this.module;
     }
 
@@ -78,11 +81,12 @@ public class Sphere {
      * @param lon The longitude of the input value, in degrees.
      * @return The output value from the noise module.
      */
-    public double getValue(final double lat, final double lon) {
+    public double get(final double lat, final double lon) {
         if (this.module == null) {
             throw new NoModuleException(0);
         }
         final double[] vec = Utils.latLonToXYZ(lat, lon);
-        return this.module.getValue(vec[0], vec[1], vec[2]);
+        return this.module.get(vec[0], vec[1], vec[2]);
     }
+
 }

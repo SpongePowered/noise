@@ -107,7 +107,7 @@ public class Billow extends NoiseModule {
      * @return the number of octaves that generate the billowy noise.
      * @see #DEFAULT_BILLOW_OCTAVE_COUNT
      */
-    public int getOctaveCount() {
+    public int octaveCount() {
         return this.octaveCount;
     }
 
@@ -136,7 +136,7 @@ public class Billow extends NoiseModule {
      * @return the frequency of the first octave
      * @see #DEFAULT_BILLOW_FREQUENCY
      */
-    public double getFrequency() {
+    public double frequency() {
         return this.frequency;
     }
 
@@ -158,7 +158,7 @@ public class Billow extends NoiseModule {
      * @return the lacunarity of the billowy noise
      * @see #DEFAULT_BILLOW_LACUNARITY
      */
-    public double getLacunarity() {
+    public double lacunarity() {
         return this.lacunarity;
     }
 
@@ -186,7 +186,7 @@ public class Billow extends NoiseModule {
      * @return the quality of the billowy noise
      * @see #DEFAULT_BILLOW_QUALITY
      */
-    public NoiseQuality getQuality() {
+    public NoiseQuality quality() {
         return this.quality;
     }
 
@@ -210,7 +210,7 @@ public class Billow extends NoiseModule {
      * @return the persistence value of the billowy noise
      * @see #DEFAULT_BILLOW_PERSISTENCE
      */
-    public double getPersistence() {
+    public double persistence() {
         return this.persistence;
     }
 
@@ -234,7 +234,7 @@ public class Billow extends NoiseModule {
      * @return the seed value
      * @see #DEFAULT_BILLOW_SEED
      */
-    public int getSeed() {
+    public int seed() {
         return this.seed;
     }
 
@@ -248,7 +248,7 @@ public class Billow extends NoiseModule {
     }
 
     @Override
-    public double getValue(final double x, final double y, final double z) {
+    public double get(final double x, final double y, final double z) {
         double z1 = z;
         double y1 = y;
         double x1 = x;

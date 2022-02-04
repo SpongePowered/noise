@@ -40,12 +40,12 @@ import org.spongepowered.noise.module.NoiseModule;
  * @sourceModules 1
  */
 public class Range extends NoiseModule {
-    
+
     public static final double DEFAULT_CURRENT_LOWER_BOUND = -1f;
     public static final double DEFAULT_CURRENT_UPPER_BOUND = 1f;
     public static final double DEFAULT_NEW_LOWER_BOUND = 0f;
     public static final double DEFAULT_NEW_UPPER_BOUND = 1f;
-    
+
     /* Current lower bound */
     private double currentLowerBound = Range.DEFAULT_CURRENT_LOWER_BOUND;
     /* Current upper bound */
@@ -72,32 +72,32 @@ public class Range extends NoiseModule {
         this.setSourceModule(0, source);
     }
 
-    public double getCurrentLowerBound() {
+    public double currentLowerBound() {
         return this.currentLowerBound;
     }
 
-    public double getCurrentUpperBound() {
+    public double currentUpperBound() {
         return this.currentUpperBound;
     }
 
-    public double getNewLowerBound() {
+    public double newLowerBound() {
         return this.newLowerBound;
     }
-    
-    public double getNewUpperBound() {
+
+    public double newUpperBound() {
         return this.newUpperBound;
     }
-    
+
     /*
-     * Calculate the scale and biased to be a applied during Range#getValue(int x, int y, int z)
+     * Calculate the scale and biased to be a applied during Range#get(int x, int y, int z)
      * Should be called when the bounds are modified
      */
     private void recalculateScaleBias() {
-        this.scale = (this.getNewUpperBound() - this.getNewLowerBound()) /
-            (this.getCurrentUpperBound() - this.getCurrentLowerBound());
-        this.bias = this.getNewLowerBound() - this.getCurrentLowerBound() * this.scale;
+        this.scale = (this.newUpperBound() - this.newLowerBound()) /
+            (this.currentUpperBound() - this.currentLowerBound());
+        this.bias = this.newLowerBound() - this.currentLowerBound() * this.scale;
     }
-    
+
     /**
      * Configure bounds for range module
      * @param currentLower current lower bound
@@ -122,12 +122,12 @@ public class Range extends NoiseModule {
     }
 
     @Override
-    public double getValue(final double x, final double y, final double z) {
+    public double get(final double x, final double y, final double z) {
         if (this.sourceModule[0] == null) {
             throw new NoModuleException(0);
         }
-        
-        final double oldVal = this.sourceModule[0].getValue(x, y, z);
+
+        final double oldVal = this.sourceModule[0].get(x, y, z);
         return oldVal * this.scale + this.bias;
     }
 

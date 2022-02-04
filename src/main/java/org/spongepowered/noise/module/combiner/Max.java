@@ -56,7 +56,7 @@ public class Max extends NoiseModule {
     }
 
     @Override
-    public double getValue(final double x, final double y, final double z) {
+    public double get(final double x, final double y, final double z) {
         if (this.sourceModule[0] == null) {
             throw new NoModuleException(0);
         }
@@ -64,8 +64,8 @@ public class Max extends NoiseModule {
             throw new NoModuleException(1);
         }
 
-        final double v0 = this.sourceModule[0].getValue(x, y, z);
-        final double v1 = this.sourceModule[1].getValue(x, y, z);
+        final double v0 = this.sourceModule[0].get(x, y, z);
+        final double v1 = this.sourceModule[1].get(x, y, z);
         return Math.max(v0, v1);
     }
 }

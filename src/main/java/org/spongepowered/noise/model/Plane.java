@@ -42,6 +42,7 @@ import java.util.Objects;
  * {@code (x, z)} plane.</p>
  */
 public class Plane {
+
     private NoiseModule module;
 
     /**
@@ -58,8 +59,10 @@ public class Plane {
 
     /**
      * Returns the noise module that is used to generate the output values.
+     *
+     * @return the module used to generate output values
      */
-    public NoiseModule getModule() {
+    public NoiseModule module() {
         return this.module;
     }
 
@@ -82,10 +85,11 @@ public class Plane {
      * @param z The {@code z} coordinate of the input value.
      * @return The output value from the noise module.
      */
-    public double getValue(final double x, final double z) {
+    public double get(final double x, final double z) {
         if (this.module == null) {
             throw new NoModuleException(0);
         }
-        return this.module.getValue(x, 0, z);
+        return this.module.get(x, 0, z);
     }
+
 }

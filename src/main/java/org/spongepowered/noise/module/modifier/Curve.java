@@ -29,13 +29,13 @@
  */
 package org.spongepowered.noise.module.modifier;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.spongepowered.noise.Utils;
 import org.spongepowered.noise.exception.NoModuleException;
 import org.spongepowered.noise.exception.NoiseException;
 import org.spongepowered.noise.module.NoiseModule;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Noise module that maps the output value from a source module onto an
@@ -51,7 +51,7 @@ import org.spongepowered.noise.module.NoiseModule;
  *
  * <p>Since this curve is a cubic spline, an application must add a minimum of
  * four control points to the curve. If this is not done, the
- * {@link #getValue(double, double, double)} method fails. Each control point
+ * {@link #get(double, double, double)} method fails. Each control point
  * can have any input and output value, although no two control points can have
  * the same input value. There is no limit to the number of control points that
  * can be added to the curve.</p>
@@ -97,14 +97,14 @@ public class Curve extends NoiseModule {
      *
      * @return a copy of the array of control points
      */
-    public ControlPoint[] getControlPoints() {
+    public ControlPoint[] controlPoints() {
         return this.controlPoints.toArray(new ControlPoint[0]);
     }
 
     /**
      * Delete all control points on the curve.
      */
-    public void clearAllControlPoints() {
+    public void clearControlPoints() {
         this.controlPoints.clear();
     }
 
@@ -157,7 +157,7 @@ public class Curve extends NoiseModule {
     }
 
     @Override
-    public double getValue(final double x, final double y, final double z) {
+    public double get(final double x, final double y, final double z) {
         if (this.sourceModule[0] == null) {
             throw new NoModuleException(0);
         }
@@ -167,7 +167,7 @@ public class Curve extends NoiseModule {
         }
 
         // Get the output value from the source module.
-        final double sourceModuleValue = this.sourceModule[0].getValue(x, y, z);
+        final double sourceModuleValue = this.sourceModule[0].get(x, y, z);
 
         // Find the first element in the control point array that has an input value
         // larger than the output value from the source module.
@@ -222,7 +222,7 @@ public class Curve extends NoiseModule {
          *
          * @return the input value
          */
-        public double getInputValue() {
+        public double inputValue() {
             return this.inputValue;
         }
 
@@ -231,7 +231,7 @@ public class Curve extends NoiseModule {
          *
          * @return the output value mapped from the input value.
          */
-        public double getOutputValue() {
+        public double outputValue() {
             return this.outputValue;
         }
     }

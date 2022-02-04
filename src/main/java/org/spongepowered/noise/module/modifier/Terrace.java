@@ -46,7 +46,7 @@ import org.spongepowered.noise.module.NoiseModule;
  * {@link #addControlPoint(double)} method.</p>
  *
  * <p>An application must add a minimum of two control points to the curve. If
- * that is not done, the {@link #getValue(double, double, double)} method
+ * that is not done, the {@link #get(double, double, double)} method
  * fails. The control points can have any value, although no two control points
  * can have the same value. There is no limit to the number of control points
  * that can be a dded to the curve.</p>
@@ -89,7 +89,7 @@ public class Terrace extends NoiseModule {
      *
      * @return true if the curve between the control points is inverted
      */
-    public boolean isInvertTerraces() {
+    public boolean invertTerraces() {
         return this.invertTerraces;
     }
 
@@ -109,7 +109,7 @@ public class Terrace extends NoiseModule {
      *
      * @return the number of control points on the terrace-forming curve
      */
-    public int getControlPointCount() {
+    public int controlPointCount() {
         return this.controlPointCount;
     }
 
@@ -126,7 +126,7 @@ public class Terrace extends NoiseModule {
      *
      * @return the array of control points in this noise module
      */
-    public double[] getControlPoints() {
+    public double[] controlPoints() {
         return this.controlPoints;
     }
 
@@ -150,7 +150,7 @@ public class Terrace extends NoiseModule {
     /**
      * Deletes all the control points on the terrace-forming curve.
      */
-    public void clearAllControlPoints() {
+    public void clearControlPoints() {
         this.controlPoints = null;
         this.controlPointCount = 0;
     }
@@ -172,7 +172,7 @@ public class Terrace extends NoiseModule {
             throw new IllegalArgumentException("Must have more than 2 control points");
         }
 
-        this.clearAllControlPoints();
+        this.clearControlPoints();
 
         final double terraceStep = 2.0 / (controlPointCount - 1.0);
         double curValue = -1.0;
@@ -221,13 +221,13 @@ public class Terrace extends NoiseModule {
     }
 
     @Override
-    public double getValue(final double x, final double y, final double z) {
+    public double get(final double x, final double y, final double z) {
         if (this.sourceModule[0] == null) {
             throw new NoModuleException(0);
         }
 
         // Get the output value from the source module.
-        final double sourceModuleValue = this.sourceModule[0].getValue(x, y, z);
+        final double sourceModuleValue = this.sourceModule[0].get(x, y, z);
 
         // Find the first element in the control point array that has a value
         // larger than the output value from the source module.

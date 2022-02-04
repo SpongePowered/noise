@@ -38,6 +38,7 @@ import org.spongepowered.noise.module.source.RidgedMultiSimplex;
  * @see RidgedMultiSimplex
  */
 public enum LatticeOrientation {
+
     /**
      * Generates the simplex-style coherent noise with the classic lattice orientation.
      *
@@ -89,4 +90,5 @@ public enum LatticeOrientation {
      * </ul>
      */
     XY_BEFORE_Z
+
 }

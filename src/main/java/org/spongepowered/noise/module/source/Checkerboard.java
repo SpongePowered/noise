@@ -49,7 +49,7 @@ public class Checkerboard extends NoiseModule {
     }
 
     @Override
-    public double getValue(final double x, final double y, final double z) {
+    public double get(final double x, final double y, final double z) {
         final int ix = Utils.floor(Utils.makeInt32Range(x));
         final int iy = Utils.floor(Utils.makeInt32Range(y));
         final int iz = Utils.floor(Utils.makeInt32Range(z));

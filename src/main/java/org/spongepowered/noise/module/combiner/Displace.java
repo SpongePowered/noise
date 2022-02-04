@@ -56,7 +56,7 @@ import java.util.Objects;
  *     input value.</dd>
  * </dl>
  *
- * <p>The {@link #getValue(double, double, double)} method modifies the
+ * <p>The {@link #get(double, double, double)} method modifies the
  * {@code (x, y, z)} coordinates of the input value using the output values from
  * the three displacement modules before retrieving the output value from the
  * source module.</p>
@@ -91,7 +91,7 @@ public class Displace extends NoiseModule {
     /**
      * Gets the {@code x} displacement module.
      *
-     * <p>The {@link #getValue(double, double, double)} method displaces the
+     * <p>The {@link #get(double, double, double)} method displaces the
      * input value by adding the output value from this displacement module to
      * the {@code x} coordinate of the input value before returning the output
      * value from the source module.</p>
@@ -99,7 +99,7 @@ public class Displace extends NoiseModule {
      * @return the {@code x} displacement module
      * @throws NoModuleException if this displacement module has not yet been set
      */
-    public NoiseModule getXDisplaceModule() {
+    public NoiseModule xDisplaceModule() {
         if (this.sourceModule == null || this.sourceModule[1] == null) {
             throw new NoModuleException(1);
         }
@@ -109,7 +109,7 @@ public class Displace extends NoiseModule {
     /**
      * Sets the {@code x} displacement module.
      *
-     * <p>The {@link #getValue(double, double, double)} method displaces the
+     * <p>The {@link #get(double, double, double)} method displaces the
      * input value by adding the output value from this displacement module to
      * the {@code x} coordinate of the input value before returning the output
      * value from the source module.</p>
@@ -129,7 +129,7 @@ public class Displace extends NoiseModule {
     /**
      * Gets the {@code y} displacement module.
      *
-     * <p>The {@link #getValue(double, double, double)} method displaces the
+     * <p>The {@link #get(double, double, double)} method displaces the
      * input value by adding the output value from this displacement module to
      * the {@code y} coordinate of the input value before returning the output
      * value from the source module.</p>
@@ -137,7 +137,7 @@ public class Displace extends NoiseModule {
      * @return the {@code y} displacement module
      * @throws NoModuleException if this displacement module has not yet been set
      */
-    public NoiseModule getYDisplaceModule() {
+    public NoiseModule yDisplaceModule() {
         if (this.sourceModule == null || this.sourceModule[2] == null) {
             throw new NoModuleException(2);
         }
@@ -147,7 +147,7 @@ public class Displace extends NoiseModule {
     /**
      * Sets the {@code y} displacement module.
      *
-     * <p>The {@link #getValue(double, double, double)} method displaces the
+     * <p>The {@link #get(double, double, double)} method displaces the
      * input value by adding the output value from this displacement module to
      * the {@code y} coordinate of the input value before returning the output
      * value from the source module.</p>
@@ -167,7 +167,7 @@ public class Displace extends NoiseModule {
     /**
      * Gets the {@code z} displacement module.
      *
-     * <p>The {@link #getValue(double, double, double)} method displaces the
+     * <p>The {@link #get(double, double, double)} method displaces the
      * input value by adding the output value from this displacement module to
      * the {@code z} coordinate of the input value before returning the output
      * value from the source module.</p>
@@ -175,7 +175,7 @@ public class Displace extends NoiseModule {
      * @return the {@code z} displacement module
      * @throws NoModuleException if this displacement module has not yet been set
      */
-    public NoiseModule getZDisplaceModule() {
+    public NoiseModule zDisplaceModule() {
         if (this.sourceModule == null || this.sourceModule[3] == null) {
             throw new NoModuleException(3);
         }
@@ -185,7 +185,7 @@ public class Displace extends NoiseModule {
     /**
      * Sets the {@code z} displacement module.
      *
-     * <p>The {@link #getValue(double, double, double)} method displaces the
+     * <p>The {@link #get(double, double, double)} method displaces the
      * input value by adding the output value from this displacement module to
      * the {@code z} coordinate of the input value before returning the output
      * value from the source module.</p>
@@ -205,7 +205,7 @@ public class Displace extends NoiseModule {
     /**
      * Set the {@code x}, {@code y}, and {@code z} displacement modules.
      *
-     * <p>The {@link #getValue(double, double, double)} method displaces the
+     * <p>The {@link #get(double, double, double)} method displaces the
      * input value by adding the output value from each of the displacement
      * modules to the corresponding coordinates of the input value before
      * returning the output value from the source module.</p>
@@ -226,7 +226,7 @@ public class Displace extends NoiseModule {
     }
 
     @Override
-    public double getValue(final double x, final double y, final double z) {
+    public double get(final double x, final double y, final double z) {
         if (this.sourceModule[0] == null) {
             throw new NoModuleException(0);
         }
@@ -242,12 +242,12 @@ public class Displace extends NoiseModule {
 
         // Get the output values from the three displacement modules.  Add each
         // value to the corresponding coordinate in the input value.
-        final double xDisplace = x + this.sourceModule[1].getValue(x, y, z);
-        final double yDisplace = y + this.sourceModule[2].getValue(x, y, z);
-        final double zDisplace = z + this.sourceModule[3].getValue(x, y, z);
+        final double xDisplace = x + this.sourceModule[1].get(x, y, z);
+        final double yDisplace = y + this.sourceModule[2].get(x, y, z);
+        final double zDisplace = z + this.sourceModule[3].get(x, y, z);
 
         // Retrieve the output value using the offset input value instead of
         // the original input value.
-        return this.sourceModule[0].getValue(xDisplace, yDisplace, zDisplace);
+        return this.sourceModule[0].get(xDisplace, yDisplace, zDisplace);
     }
 }

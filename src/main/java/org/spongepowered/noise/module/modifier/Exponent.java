@@ -76,7 +76,7 @@ public class Exponent extends NoiseModule {
      *
      * @return the exponent value
      */
-    public double getExponent() {
+    public double exponent() {
         return this.exponent;
     }
 
@@ -95,11 +95,12 @@ public class Exponent extends NoiseModule {
     }
 
     @Override
-    public double getValue(final double x, final double y, final double z) {
+    public double get(final double x, final double y, final double z) {
         if (this.sourceModule[0] == null) {
             throw new NoModuleException(0);
         }
-        final double value = this.sourceModule[0].getValue(x, y, z);
+        final double value = this.sourceModule[0].get(x, y, z);
         return Math.pow(value, this.exponent);
     }
+
 }

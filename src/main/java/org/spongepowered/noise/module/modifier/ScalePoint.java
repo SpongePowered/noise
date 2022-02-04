@@ -36,7 +36,7 @@ import org.spongepowered.noise.module.NoiseModule;
  * Noise module that scales the coordinates of the input value before returning
  * the output value from a source module.
  *
- * <p>The {@link #getValue(double, double, double)} method multiplies the
+ * <p>The {@link #get(double, double, double)} method multiplies the
  * {@code (x, y, z)} coordinates of the input value with a scaling factor before
  * returning the output value from the source module.</p>
  *
@@ -95,7 +95,7 @@ public class ScalePoint extends NoiseModule {
      * @return the scaling factor applied to the {@code x} coordinate
      * @see #DEFAULT_SCALE_POINT_X
      */
-    public double getXScale() {
+    public double xScale() {
         return this.xScale;
     }
 
@@ -103,7 +103,7 @@ public class ScalePoint extends NoiseModule {
      * Set the scaling factor to apply to the {@code x} coordinate of the
      * input value.
      *
-     * <p>The {@link #getValue(double, double, double)} method multiplies the
+     * <p>The {@link #get(double, double, double)} method multiplies the
      * {@code (x, y, z)} coordinates of the input value with a scaling factor before
      * returning the output value from the source module.</p>
      *
@@ -120,7 +120,7 @@ public class ScalePoint extends NoiseModule {
      * @return the scaling factor applied to the {@code y} coordinate
      * @see #DEFAULT_SCALE_POINT_Y
      */
-    public double getYScale() {
+    public double yScale() {
         return this.yScale;
     }
 
@@ -128,7 +128,7 @@ public class ScalePoint extends NoiseModule {
      * Set the scaling factor to apply to the {@code y} coordinate of the
      * input value.
      *
-     * <p>The {@link #getValue(double, double, double)} method multiplies the
+     * <p>The {@link #get(double, double, double)} method multiplies the
      * {@code (x, y, z)} coordinates of the input value with a scaling factor before
      * returning the output value from the source module.</p>
      *
@@ -145,7 +145,7 @@ public class ScalePoint extends NoiseModule {
      * @return the scaling factor applied to the {@code z} coordinate
      * @see #DEFAULT_SCALE_POINT_Z
      */
-    public double getZScale() {
+    public double zScale() {
         return this.zScale;
     }
 
@@ -153,7 +153,7 @@ public class ScalePoint extends NoiseModule {
      * Set the scaling factor to apply to the {@code z} coordinate of the
      * input value.
      *
-     * <p>The {@link #getValue(double, double, double)} method multiplies the
+     * <p>The {@link #get(double, double, double)} method multiplies the
      * {@code (x, y, z)} coordinates of the input value with a scaling factor before
      * returning the output value from the source module.</p>
      *
@@ -166,7 +166,7 @@ public class ScalePoint extends NoiseModule {
     /**
      * Set the scaling factor to apply to the input value.
      *
-     * <p>The {@link #getValue(double, double, double)} method multiplies the
+     * <p>The {@link #get(double, double, double)} method multiplies the
      * {@code (x, y, z)} coordinates of the input value with a scaling factor before
      * returning the output value from the source module.</p>
      *
@@ -177,11 +177,11 @@ public class ScalePoint extends NoiseModule {
     }
 
     @Override
-    public double getValue(final double x, final double y, final double z) {
+    public double get(final double x, final double y, final double z) {
         if (this.sourceModule[0] == null) {
             throw new NoModuleException(0);
         }
 
-        return this.sourceModule[0].getValue(x * this.xScale, y * this.yScale, z * this.zScale);
+        return this.sourceModule[0].get(x * this.xScale, y * this.yScale, z * this.zScale);
     }
 }

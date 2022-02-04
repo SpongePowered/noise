@@ -118,14 +118,14 @@ public class Select extends NoiseModule {
      * <p>The control module determines the output value to select. If the
      * output value from the control module is within a range of values known as
      * the <em>selection range</em>, the
-     * {@link #getValue(double, double, double)} method outputs the value from
+     * {@link #get(double, double, double)} method outputs the value from
      * the source module with an index value of 1. Otherwise, this method
      * outputs the value from the source module with an index value of 0.</p>
      *
      * @return the control module
      * @throws NoModuleException if no control module has been set yet
      */
-    public NoiseModule getControlModule() {
+    public NoiseModule controlModule() {
         if (this.sourceModule == null || this.sourceModule[2] == null) {
             throw new NoModuleException(2);
         }
@@ -138,7 +138,7 @@ public class Select extends NoiseModule {
      * <p>The control module determines the output value to select. If the
      * output value from the control module is within a range of values known as
      * the <em>selection range</em>, the
-     * {@link #getValue(double, double, double)} method outputs the value from
+     * {@link #get(double, double, double)} method outputs the value from
      * the source module with an index value of 1. Otherwise, this method
      * outputs the value from the source module with an index value of 0.</p>
      *
@@ -167,7 +167,7 @@ public class Select extends NoiseModule {
      *
      * @return the falloff value at the edge transition
      */
-    public double getEdgeFalloff() {
+    public double edgeFalloff() {
         return this.edgeFalloff;
     }
 
@@ -181,7 +181,7 @@ public class Select extends NoiseModule {
      * two source modules at the boundaries of the selection range.</p>
      *
      * <p>For example, if the selection range is 0.5 to 0.8, and the edge
-     * falloff value is 0.1, then the {@link #getValue(double, double, double)}
+     * falloff value is 0.1, then the {@link #get(double, double, double)}
      * method outputs:</p>
      * <ul>
      *     <li>the output value from the source module with an index value of
@@ -213,14 +213,14 @@ public class Select extends NoiseModule {
      * Get the lower bound of the selection range.
      *
      * <p>If the output value from the control module is within the selection
-     * range, the {@link #getValue(double, double, double)} method outputs the
+     * range, the {@link #get(double, double, double)} method outputs the
      * value from the source module with an index value of 1. Otherwise, this
      * method outputs the value from the source module with an index
      * value of 0.</p>
      *
      * @return the lower bound of the selection range
      */
-    public double getLowerBound() {
+    public double lowerBound() {
         return this.lowerBound;
     }
 
@@ -228,14 +228,14 @@ public class Select extends NoiseModule {
      * Get the upper bound of the selection range.
      *
      * <p>If the output value from the control module is within the selection
-     * range, the {@link #getValue(double, double, double)} method outputs the
+     * range, the {@link #get(double, double, double)} method outputs the
      * value from the source module with an index value of 1. Otherwise, this
      * method outputs the value from the source module with an index
      * value of 0.</p>
      *
      * @return the upper bound of the selection range
      */
-    public double getUpperBound() {
+    public double upperBound() {
         return this.upperBound;
     }
 
@@ -243,7 +243,7 @@ public class Select extends NoiseModule {
      * Set the lower and upper bounds of the selection range.
      *
      * <p>If the output value from the control module is within the selection
-     * range, the {@link #getValue(double, double, double)} method outputs the
+     * range, the {@link #get(double, double, double)} method outputs the
      * value from the source module with an index value of 1. Otherwise, this
      * method outputs the value from the source module with an index
      * value of 0.</p>
@@ -264,7 +264,7 @@ public class Select extends NoiseModule {
     }
 
     @Override
-    public double getValue(final double x, final double y, final double z) {
+    public double get(final double x, final double y, final double z) {
         if (this.sourceModule[0] == null) {
             throw new NoModuleException(0);
         }
@@ -275,13 +275,13 @@ public class Select extends NoiseModule {
             throw new NoModuleException(2);
         }
 
-        final double controlValue = this.sourceModule[2].getValue(x, y, z);
+        final double controlValue = this.sourceModule[2].get(x, y, z);
         final double alpha;
         if (this.edgeFalloff > 0.0) {
             if (controlValue < (this.lowerBound - this.edgeFalloff)) {
                 // The output value from the control module is below the selector
                 // threshold; return the output value from the first source module.
-                return this.sourceModule[0].getValue(x, y, z);
+                return this.sourceModule[0].get(x, y, z);
             } else if (controlValue < (this.lowerBound + this.edgeFalloff)) {
                 // The output value from the control module is near the lower end of the
                 // selector threshold and within the smooth curve. Interpolate between
@@ -289,11 +289,11 @@ public class Select extends NoiseModule {
                 final double lowerCurve = (this.lowerBound - this.edgeFalloff);
                 final double upperCurve = (this.lowerBound + this.edgeFalloff);
                 alpha = Utils.sCurve3((controlValue - lowerCurve) / (upperCurve - lowerCurve));
-                return Utils.linearInterp(this.sourceModule[0].getValue(x, y, z), this.sourceModule[1].getValue(x, y, z), alpha);
+                return Utils.linearInterp(this.sourceModule[0].get(x, y, z), this.sourceModule[1].get(x, y, z), alpha);
             } else if (controlValue < (this.upperBound - this.edgeFalloff)) {
                 // The output value from the control module is within the selector
                 // threshold; return the output value from the second source module.
-                return this.sourceModule[1].getValue(x, y, z);
+                return this.sourceModule[1].get(x, y, z);
             } else if (controlValue < (this.upperBound + this.edgeFalloff)) {
                 // The output value from the control module is near the upper end of the
                 // selector threshold and within the smooth curve. Interpolate between
@@ -301,17 +301,17 @@ public class Select extends NoiseModule {
                 final double lowerCurve = (this.upperBound - this.edgeFalloff);
                 final double upperCurve = (this.upperBound + this.edgeFalloff);
                 alpha = Utils.sCurve3((controlValue - lowerCurve) / (upperCurve - lowerCurve));
-                return Utils.linearInterp(this.sourceModule[1].getValue(x, y, z), this.sourceModule[0].getValue(x, y, z), alpha);
+                return Utils.linearInterp(this.sourceModule[1].get(x, y, z), this.sourceModule[0].get(x, y, z), alpha);
             } else {
                 // Output value from the control module is above the selector threshold;
                 // return the output value from the first source module.
-                return this.sourceModule[0].getValue(x, y, z);
+                return this.sourceModule[0].get(x, y, z);
             }
         } else {
             if (controlValue < this.lowerBound || controlValue > this.upperBound) {
-                return this.sourceModule[0].getValue(x, y, z);
+                return this.sourceModule[0].get(x, y, z);
             } else {
-                return this.sourceModule[1].getValue(x, y, z);
+                return this.sourceModule[1].get(x, y, z);
             }
         }
     }

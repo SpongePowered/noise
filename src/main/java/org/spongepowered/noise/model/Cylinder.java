@@ -38,6 +38,7 @@ import java.util.Objects;
  * Model that defines the surface of a cylinder.
  */
 public class Cylinder {
+
     private NoiseModule module;
 
     /**
@@ -52,7 +53,7 @@ public class Cylinder {
      *
      * @return A reference to the noise module.
      */
-    public NoiseModule getModule() {
+    public NoiseModule module() {
         return this.module;
     }
 
@@ -75,7 +76,7 @@ public class Cylinder {
      * @param height The height along the {@code y} axis.
      * @return The output value from the noise module.
      */
-    public double getValue(final double angle, final double height) {
+    public double get(final double angle, final double height) {
         if (this.module == null) {
             throw new NoModuleException(0);
         }
@@ -83,6 +84,7 @@ public class Cylinder {
         final double x = Math.cos(Math.toRadians(angle));
         final double y = height;
         final double z = Math.sin(Math.toRadians(angle));
-        return this.module.getValue(x, y, z);
+        return this.module.get(x, y, z);
     }
+
 }

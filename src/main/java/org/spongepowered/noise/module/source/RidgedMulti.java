@@ -151,7 +151,7 @@ public class RidgedMulti extends NoiseModule {
      * @return the frequency of the first octave
      * @see #DEFAULT_RIDGED_FREQUENCY
      */
-    public double getFrequency() {
+    public double frequency() {
         return this.frequency;
     }
 
@@ -170,7 +170,7 @@ public class RidgedMulti extends NoiseModule {
      * @return the lacunarity of the ridged-multifractal noise.
      * @see #DEFAULT_RIDGED_LACUNARITY
      */
-    public double getLacunarity() {
+    public double lacunarity() {
         return this.lacunarity;
     }
 
@@ -198,7 +198,7 @@ public class RidgedMulti extends NoiseModule {
      * @return the quality of the ridged-multifractal noise
      * @see #DEFAULT_RIDGED_QUALITY
      */
-    public NoiseQuality getNoiseQuality() {
+    public NoiseQuality noiseQuality() {
         return this.noiseQuality;
     }
 
@@ -223,7 +223,7 @@ public class RidgedMulti extends NoiseModule {
      * @return the number of octaves that generate the ridged-multifractal noise
      * @see #DEFAULT_RIDGED_OCTAVE_COUNT
      */
-    public int getOctaveCount() {
+    public int octaveCount() {
         return this.octaveCount;
     }
 
@@ -256,7 +256,7 @@ public class RidgedMulti extends NoiseModule {
      * @return the seed value
      * @see #DEFAULT_RIDGED_SEED
      */
-    public int getSeed() {
+    public int seed() {
         return this.seed;
     }
 
@@ -288,19 +288,19 @@ public class RidgedMulti extends NoiseModule {
      * current configuration.
      *
      * @return The maximum possible value for
-     *     {@link RidgedMulti#getValue(double, double, double)} to return
+     *     {@link RidgedMulti#get(double, double, double)} to return
      */
-    public double getMaxValue() {
+    public double maxValue() {
         /*
          * Each successive octave adds (1/lacunarity) ^ current_octaves to max possible output.
          * So (r = lacunarity, o = octave): Max(ridged) = 1 + 1/r + 1/(r*r) + 1/(r*r*r) + ... + (1/r^(o-1))
          * See https://www.wolframalpha.com/input/?i=sum+from+k%3D0+to+n-1+of+1%2Fx%5Ek
          */
-        return (this.getLacunarity() - Math.pow(this.getLacunarity(), 1 - this.getOctaveCount())) / (this.getLacunarity() - 1) / 1.6;
+        return (this.lacunarity() - Math.pow(this.lacunarity(), 1 - this.octaveCount())) / (this.lacunarity() - 1) / 1.6;
     }
 
     @Override
-    public double getValue(final double x, final double y, final double z) {
+    public double get(final double x, final double y, final double z) {
         double x1 = x;
         double y1 = y;
         double z1 = z;

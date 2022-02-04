@@ -59,9 +59,9 @@ public final class Noise {
      * @return The generated gradient-coherent-noise value.
      */
     public static double simplexStyleGradientCoherentNoise3D(final double x, final double y, final double z, final int seed, final LatticeOrientation orientation, final NoiseQualitySimplex quality) {
-        final double squaredRadius = quality.getKernelSquaredRadius();
-        final double[] randomVectors = quality.getRandomVectors();
-        final Utils.LatticePointBCC[] lookup = quality.getLookup();
+        final double squaredRadius = quality.kernelSquaredRadius();
+        final double[] randomVectors = quality.randomVectors();
+        final Utils.LatticePointBCC[] lookup = quality.lookup();
 
         // Re-orient the cubic lattices via rotation. These are orthonormal rotations, not skew transforms.
         final double xr, yr, zr;

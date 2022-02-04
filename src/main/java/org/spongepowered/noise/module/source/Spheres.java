@@ -78,7 +78,7 @@ public class Spheres extends NoiseModule {
      * @return the frequency of the concentric spheres
      * @see #DEFAULT_SPHERES_FREQUENCY
      */
-    public double getFrequency() {
+    public double frequency() {
         return this.frequency;
     }
 
@@ -95,7 +95,7 @@ public class Spheres extends NoiseModule {
     }
 
     @Override
-    public double getValue(final double x, final double y, final double z) {
+    public double get(final double x, final double y, final double z) {
         double x1 = x;
         double y1 = y;
         double z1 = z;

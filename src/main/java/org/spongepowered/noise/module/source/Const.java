@@ -54,7 +54,7 @@ public class Const extends NoiseModule {
      *
      * @return the constant output value for this noise module.
      */
-    public double getValue() {
+    public double value() {
         return this.value;
     }
 
@@ -68,7 +68,7 @@ public class Const extends NoiseModule {
     }
 
     @Override
-    public double getValue(final double x, final double y, final double z) {
+    public double get(final double x, final double y, final double z) {
         return this.value;
     }
 }

@@ -93,7 +93,7 @@ public class Blend extends NoiseModule {
      * @return the control module
      * @throws NoModuleException if no control module has been set yet.
      */
-    public NoiseModule getControlModule() {
+    public NoiseModule controlModule() {
         if (this.sourceModule[2] == null) {
             throw new NoModuleException(2);
         }
@@ -124,7 +124,7 @@ public class Blend extends NoiseModule {
     }
 
     @Override
-    public double getValue(final double x, final double y, final double z) {
+    public double get(final double x, final double y, final double z) {
         if (this.sourceModule[0] == null) {
             throw new NoModuleException(0);
         }
@@ -135,9 +135,9 @@ public class Blend extends NoiseModule {
             throw new NoModuleException(2);
         }
 
-        final double v0 = this.sourceModule[0].getValue(x, y, z);
-        final double v1 = this.sourceModule[1].getValue(x, y, z);
-        final double alpha = this.sourceModule[2].getValue(x, y, z);
+        final double v0 = this.sourceModule[0].get(x, y, z);
+        final double v1 = this.sourceModule[1].get(x, y, z);
+        final double alpha = this.sourceModule[2].get(x, y, z);
         return Utils.linearInterp(v0, v1, alpha);
     }
 }

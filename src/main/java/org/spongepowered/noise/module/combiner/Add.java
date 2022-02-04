@@ -56,13 +56,13 @@ public class Add extends NoiseModule {
     }
 
     @Override
-    public double getValue(final double x, final double y, final double z) {
+    public double get(final double x, final double y, final double z) {
         if (this.sourceModule[0] == null) {
             throw new NoModuleException(0);
         }
         if (this.sourceModule[1] == null) {
             throw new NoModuleException(1);
         }
-        return this.sourceModule[0].getValue(x, y, z) + this.sourceModule[1].getValue(x, y, z);
+        return this.sourceModule[0].get(x, y, z) + this.sourceModule[1].get(x, y, z);
     }
 }

@@ -66,7 +66,7 @@ public class Invert extends NoiseModule {
      * @return the middle value
      * @see #DEFAULT_MIDDLE
      */
-    public double getMiddle() {
+    public double middle() {
         return this.middle;
     }
 
@@ -81,10 +81,10 @@ public class Invert extends NoiseModule {
     }
 
     @Override
-    public double getValue(final double x, final double y, final double z) {
+    public double get(final double x, final double y, final double z) {
         if (this.sourceModule[0] == null) {
             throw new NoModuleException(0);
         }
-        return this.middle - this.sourceModule[0].getValue(x, y, z);
+        return this.middle - this.sourceModule[0].get(x, y, z);
     }
 }

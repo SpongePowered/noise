@@ -36,7 +36,7 @@ import org.spongepowered.noise.module.NoiseModule;
  * Noise module that applies a scaling factor and a bias to the output value
  * from a source module.
  *
- * <p>The {@link #getValue(double, double, double)} method retrieves the output
+ * <p>The {@link #get(double, double, double)} method retrieves the output
  * value from the source module, multiplies it with a scaling factor, adds a
  * bias to it, then outputs the value.</p>
  *
@@ -77,20 +77,20 @@ public class ScaleBias extends NoiseModule {
     /**
      * Get the bias to apply to the scaled output value from the source module.
      *
-     * <p>The {@link #getValue(double, double, double)} method retrieves the output
+     * <p>The {@link #get(double, double, double)} method retrieves the output
      * value from the source module, multiplies it with a scaling factor, adds a
      * bias to it, then outputs the value.</p>
      *
      * @return the bias to apply
      */
-    public double getBias() {
+    public double bias() {
         return this.bias;
     }
 
     /**
      * Set the bias to apply to the scaled output value from the source module.
      *
-     * <p>The {@link #getValue(double, double, double)} method retrieves the output
+     * <p>The {@link #get(double, double, double)} method retrieves the output
      * value from the source module, multiplies it with a scaling factor, adds a
      * bias to it, then outputs the value.</p>
      *
@@ -104,13 +104,13 @@ public class ScaleBias extends NoiseModule {
      * Get the scaling factor to apply to the output value from the
      * source module.
      *
-     * <p>The {@link #getValue(double, double, double)} method retrieves the output
+     * <p>The {@link #get(double, double, double)} method retrieves the output
      * value from the source module, multiplies it with a scaling factor, adds a
      * bias to it, then outputs the value.</p>
      *
      * @return the scaling factor to apply
      */
-    public double getScale() {
+    public double scale() {
         return this.scale;
     }
 
@@ -118,7 +118,7 @@ public class ScaleBias extends NoiseModule {
      * Set the scaling factor to apply to the output value from the
      * source module.
      *
-     * <p>The {@link #getValue(double, double, double)} method retrieves the output
+     * <p>The {@link #get(double, double, double)} method retrieves the output
      * value from the source module, multiplies it with a scaling factor, adds a
      * bias to it, then outputs the value.</p>
      *
@@ -129,11 +129,11 @@ public class ScaleBias extends NoiseModule {
     }
 
     @Override
-    public double getValue(final double x, final double y, final double z) {
+    public double get(final double x, final double y, final double z) {
         if (this.sourceModule[0] == null) {
             throw new NoModuleException(0);
         }
 
-        return this.sourceModule[0].getValue(x, y, z) * this.scale + this.bias;
+        return this.sourceModule[0].get(x, y, z) * this.scale + this.bias;
     }
 }
