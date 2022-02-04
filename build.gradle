@@ -84,6 +84,7 @@ spongeConvention {
 }
 
 indra {
+  javaVersions().minimumToolchain 17
   configurePublications {
     pom {
       developers {
