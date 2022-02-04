@@ -7,6 +7,9 @@ on:
   push:
   pull_request:
 
+env:
+  RUNTIME_VERSION: 17
+
 jobs:
   build:
     # Only run on PRs if the source branch is on someone else's repo
@@ -14,17 +17,17 @@ jobs:
 
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/cache@v2
-        with:
-          path: ~/.gradle/caches
-          key: "${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}"
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-      - name: Set up JDK 11
+      - name: Check out
+        uses: actions/checkout@v2
+      - name: "Setup JDK ${{ env.RUNTIME_VERSION }}"
         uses: actions/setup-java@v2
         with:
-          distribution: adopt
-          java-version: 11
-      - name: Build with Gradle
-        run: ./gradlew checkLicenses
+          distribution: temurin
+          java-version: "${{ env.RUNTIME_VERSION }}"
+
+      # Actually build
+      - name: Run Gradle Build
+        uses: gradle/gradle-build-action@v2
+        with:
+          cache-read-only: "${{ !startsWith(github.ref, 'refs/heads/master') || github.event_name == 'pull_request' }}"
+          arguments: checkLicenses

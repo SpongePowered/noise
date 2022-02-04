@@ -6,6 +6,9 @@ on:
   schedule:
     - cron: 12 10 * * 4
 
+env:
+  RUNTIME_VERSION: 17
+
 jobs:
   analyze:
     name: Analyze
@@ -16,11 +19,11 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
-    - name: Setup JDK 11
+    - name: "Setup JDK ${{ env.RUNTIME_VERSION }}"
       uses: actions/setup-java@v2
       with:
-        distribution: adopt
-        java-version: 11
+        distribution: temurin
+        java-version: "${{ env.RUNTIME_VERSION }}"
 
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v1
