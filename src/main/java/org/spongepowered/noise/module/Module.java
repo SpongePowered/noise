@@ -268,7 +268,7 @@ public abstract class Module {
         if (index >= this.sourceModule.length || index < 0 || this.sourceModule[index] == null) {
             throw new NoModuleException(index);
         }
-        return (this.sourceModule[index]);
+        return this.sourceModule[index];
     }
 
     /**
