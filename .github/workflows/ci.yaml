@@ -11,6 +11,7 @@ on:
     types: [released]
 
 env:
+  RUNTIME_VERSION: 11
   PROJECT_NAME: noise
 
 jobs:
@@ -27,23 +28,26 @@ jobs:
       - name: Check out
         uses: actions/checkout@v2
         with:
-          ssh-key: ${{ secrets.SPONGE_JD_DEPLOY_KEY }}
-      - name: Setup JDK 11
+          ssh-key: "${{ secrets.SPONGE_JD_DEPLOY_KEY }}"
+      - name: "Setup JDK ${{ env.RUNTIME_VERSION }}"
         uses: actions/setup-java@v2
         with:
-          distribution: adopt
-          java-version: 11
+          distribution: temurin
+          java-version: "${{ env.RUNTIME_VERSION }}"
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@v1
 
       # Actually build
-      - name: Build with Gradle
-        run: ./gradlew build
+      - name: Run Gradle Build
+        uses: gradle/gradle-build-action@v2
+        with:
+          cache-read-only: "${{ !startsWith(github.ref, 'refs/heads/master') || github.event_name == 'pull_request' }}"
+          arguments: build
       - name: Archive test results
         if: "${{ always() }}"
         uses: actions/upload-artifact@v2
         with:
-          name: test-results
+          name: "${{ runner.os }}-test-results"
           path: |
             build/reports/
             */build/reports/
