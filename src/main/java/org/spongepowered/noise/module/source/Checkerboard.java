@@ -30,7 +30,7 @@
 package org.spongepowered.noise.module.source;
 
 import org.spongepowered.noise.Utils;
-import org.spongepowered.noise.module.Module;
+import org.spongepowered.noise.module.NoiseModule;
 
 /**
  * Noise module that outputs a checkerboard pattern.
@@ -43,13 +43,13 @@ import org.spongepowered.noise.module.Module;
  *
  * @sourceModules 0
  */
-public class Checkerboard extends Module {
+public class Checkerboard extends NoiseModule {
     public Checkerboard() {
         super(0);
     }
 
     @Override
-    public double getValue(final double x, final double y, final double z) {
+    public double get(final double x, final double y, final double z) {
         final int ix = Utils.floor(Utils.makeInt32Range(x));
         final int iy = Utils.floor(Utils.makeInt32Range(y));
         final int iz = Utils.floor(Utils.makeInt32Range(z));

@@ -31,7 +31,7 @@ package org.spongepowered.noise.model;
 
 import org.spongepowered.noise.Utils;
 import org.spongepowered.noise.exception.NoModuleException;
-import org.spongepowered.noise.module.Module;
+import org.spongepowered.noise.module.NoiseModule;
 
 import java.util.Objects;
 
@@ -39,14 +39,15 @@ import java.util.Objects;
  * Model that defines the surface of a sphere.
  */
 public class Sphere {
-    private Module module;
+
+    private NoiseModule module;
 
     /**
      * Constructor
      *
      * @param module The noise module that is used to generate the output values.
      */
-    public Sphere(final Module module) {
+    public Sphere(final NoiseModule module) {
         if (module == null) {
             throw new IllegalArgumentException("module cannot be null");
         }
@@ -55,8 +56,10 @@ public class Sphere {
 
     /**
      * Returns the noise module that is used to generate the output values.
+     *
+     * @return the module used to generate output values
      */
-    public Module getModule() {
+    public NoiseModule module() {
         return this.module;
     }
 
@@ -67,7 +70,7 @@ public class Sphere {
      *
      * This noise module must exist for the lifetime of this object, until you pass a new noise module to this method.
      */
-    public void setModule(final Module module) {
+    public void setModule(final NoiseModule module) {
         this.module = Objects.requireNonNull(module, "Module cannot be null");
     }
 
@@ -78,11 +81,12 @@ public class Sphere {
      * @param lon The longitude of the input value, in degrees.
      * @return The output value from the noise module.
      */
-    public double getValue(final double lat, final double lon) {
+    public double get(final double lat, final double lon) {
         if (this.module == null) {
             throw new NoModuleException(0);
         }
         final double[] vec = Utils.latLonToXYZ(lat, lon);
-        return this.module.getValue(vec[0], vec[1], vec[2]);
+        return this.module.get(vec[0], vec[1], vec[2]);
     }
+
 }

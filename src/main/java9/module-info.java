@@ -35,7 +35,7 @@
  * of smoothly-changing noise. It can also generate Perlin noise, ridged
  * multifractal noise, simplex noise, and other types of coherent noise.</p>
  *
- * @see org.spongepowered.noise.module.Module
+ * @see org.spongepowered.noise.module.NoiseModule
  */
 module org.spongepowered.noise {
     exports org.spongepowered.noise.exception;

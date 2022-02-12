@@ -30,7 +30,7 @@
 package org.spongepowered.noise.model;
 
 import org.spongepowered.noise.exception.NoModuleException;
-import org.spongepowered.noise.module.Module;
+import org.spongepowered.noise.module.NoiseModule;
 
 import java.util.Objects;
 
@@ -48,16 +48,17 @@ import java.util.Objects;
  * </ul>
  *
  * <p>To generate an output value, pass an input value between 0.0 and 1.0 to
- * the {@link #getValue(double)} method. {@code 0.0} represents the start
+ * the {@link #get(double)} method. {@code 0.0} represents the start
  * position of the line segment and {@code 1.0} represents the end position
  * of the line segment.</p>
  */
 public class Line {
+
     // A flag that specifies whether the value is to be attenuated
     // (moved toward 0.0) as the ends of the line segment are approached.
     private boolean attenuate = false;
     // A pointer to the noise module used to generate the output values.
-    private Module module;
+    private NoiseModule module;
     // {@code x} coordinate of the start of the line segment.
     private double x0 = 0;
     // {@code x} coordinate of the end of the line segment.
@@ -74,7 +75,7 @@ public class Line {
     /**
      * @param module The noise module that is used to generate the output values.
      */
-    public Line(final Module module) {
+    public Line(final NoiseModule module) {
         if (module == null) {
             throw new IllegalArgumentException("module cannot be null");
         }
@@ -132,8 +133,10 @@ public class Line {
 
     /**
      * Returns the noise module that is used to generate the output values.
+     *
+     * @return the module used to generate output values
      */
-    public Module getModule() {
+    public NoiseModule module() {
         return this.module;
     }
 
@@ -145,7 +148,7 @@ public class Line {
      *
      * @param module The noise module that is used to generate the output values.
      */
-    public void setModule(final Module module) {
+    public void setModule(final NoiseModule module) {
         this.module = Objects.requireNonNull(module, "Module cannot be null");
     }
 
@@ -156,7 +159,7 @@ public class Line {
      * @param p The distance along the line segment (ranges from 0.0 to 1.0)
      * @return The output value from the noise module.
      */
-    public double getValue(final double p) {
+    public double get(final double p) {
         if (this.module == null) {
             throw new NoModuleException(0);
         }
@@ -164,7 +167,7 @@ public class Line {
         final double x = (this.x1 - this.x0) * p + this.x0;
         final double y = (this.y1 - this.y0) * p + this.y0;
         final double z = (this.z1 - this.z0) * p + this.z0;
-        final double value = this.module.getValue(x, y, z);
+        final double value = this.module.get(x, y, z);
 
         if (this.attenuate) {
             return p * (1.0 - p) * 4 * value;
@@ -172,4 +175,5 @@ public class Line {
             return value;
         }
     }
+
 }

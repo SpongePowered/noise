@@ -30,13 +30,13 @@
 package org.spongepowered.noise.module.modifier;
 
 import org.spongepowered.noise.exception.NoModuleException;
-import org.spongepowered.noise.module.Module;
+import org.spongepowered.noise.module.NoiseModule;
 
 /**
  * Noise module that rotates the input value around the origin before returning
  * the output value from a source module.
  *
- * <p>The {@link #getValue(double, double, double)} method rotates the
+ * <p>The {@link #get(double, double, double)} method rotates the
  * coordinates of the input value around the origin before returning the output
  * value from the source module. To set the rotation angles,
  * call the {@link #setAngles(double, double, double)} method. To set the
@@ -50,7 +50,7 @@ import org.spongepowered.noise.module.Module;
  *
  * @sourceModules 1
  */
-public class RotatePoint extends Module {
+public class RotatePoint extends NoiseModule {
 
     /**
      * Default {@code x} rotation angle for the {@link RotatePoint} noise module.
@@ -108,7 +108,7 @@ public class RotatePoint extends Module {
      *
      * @param source the input module
      */
-    public RotatePoint(final Module source) {
+    public RotatePoint(final NoiseModule source) {
         this();
         this.setSourceModule(0, source);
     }
@@ -116,7 +116,7 @@ public class RotatePoint extends Module {
     /**
      * Sets the rotation angles around all three axes to apply to the input value.
      *
-     * <p>The {@link #getValue(double, double, double)} method rotates the
+     * <p>The {@link #get(double, double, double)} method rotates the
      * coordinates of the input value around the origin before returning the
      * output value from the source module.</p>
      *
@@ -154,7 +154,7 @@ public class RotatePoint extends Module {
      * @return the rotation angle around the {@code x} axis, in degrees.
      * @see #DEFAULT_ROTATE_X
      */
-    public double getXAngle() {
+    public double xAngle() {
         return this.xAngle;
     }
 
@@ -162,7 +162,7 @@ public class RotatePoint extends Module {
      * Set the rotation angle around the {@code x} axis to apply to the
      * input value.
      *
-     * <p>The {@link #getValue(double, double, double)} method rotates the
+     * <p>The {@link #get(double, double, double)} method rotates the
      * coordinates of the input value around the origin before returning the
      * output value from the source module.</p>
      *
@@ -179,7 +179,7 @@ public class RotatePoint extends Module {
      * @return the rotation angle around the {@code y} axis, in degrees.
      * @see #DEFAULT_ROTATE_Y
      */
-    public double getYAngle() {
+    public double yAngle() {
         return this.yAngle;
     }
 
@@ -187,7 +187,7 @@ public class RotatePoint extends Module {
      * Set the rotation angle around the {@code y} axis to apply to the
      * input value.
      *
-     * <p>The {@link #getValue(double, double, double)} method rotates the
+     * <p>The {@link #get(double, double, double)} method rotates the
      * coordinates of the input value around the origin before returning the
      * output value from the source module.</p>
      *
@@ -204,7 +204,7 @@ public class RotatePoint extends Module {
      * @return the rotation angle around the {@code z} axis, in degrees.
      * @see #DEFAULT_ROTATE_Z
      */
-    public double getZAngle() {
+    public double zAngle() {
         return this.zAngle;
     }
 
@@ -212,7 +212,7 @@ public class RotatePoint extends Module {
      * Set the rotation angle around the {@code z} axis to apply to the
      * input value.
      *
-     * <p>The {@link #getValue(double, double, double)} method rotates the
+     * <p>The {@link #get(double, double, double)} method rotates the
      * coordinates of the input value around the origin before returning the
      * output value from the source module.</p>
      *
@@ -223,7 +223,7 @@ public class RotatePoint extends Module {
     }
 
     @Override
-    public double getValue(final double x, final double y, final double z) {
+    public double get(final double x, final double y, final double z) {
         if (this.sourceModule[0] == null) {
             throw new NoModuleException(0);
         }
@@ -231,6 +231,6 @@ public class RotatePoint extends Module {
         final double nx = (this.x1Matrix * x) + (this.y1Matrix * y) + (this.z1Matrix * z);
         final double ny = (this.x2Matrix * x) + (this.y2Matrix * y) + (this.z2Matrix * z);
         final double nz = (this.x3Matrix * x) + (this.y3Matrix * y) + (this.z3Matrix * z);
-        return this.sourceModule[0].getValue(nx, ny, nz);
+        return this.sourceModule[0].get(nx, ny, nz);
     }
 }

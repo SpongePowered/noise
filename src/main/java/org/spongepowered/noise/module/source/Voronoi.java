@@ -31,7 +31,7 @@ package org.spongepowered.noise.module.source;
 
 import org.spongepowered.noise.Noise;
 import org.spongepowered.noise.Utils;
-import org.spongepowered.noise.module.Module;
+import org.spongepowered.noise.module.NoiseModule;
 
 /**
  * Noise module that outputs Voronoi cells.
@@ -68,7 +68,7 @@ import org.spongepowered.noise.module.Module;
  *
  * @sourceModules 0
  */
-public class Voronoi extends Module {
+public class Voronoi extends NoiseModule {
     private static final double SQRT_3 = 1.7320508075688772935;
     /**
      * Default displacement to apply to each cell for the {@link Voronoi}
@@ -113,7 +113,7 @@ public class Voronoi extends Module {
      * @return the displacement value of the Voronoi cells
      * @see #DEFAULT_VORONOI_DISPLACEMENT
      */
-    public double getDisplacement() {
+    public double displacement() {
         return this.displacement;
     }
 
@@ -141,7 +141,7 @@ public class Voronoi extends Module {
      *
      * @return  whether to apply the distance to the output value or not
      */
-    public boolean isEnableDistance() {
+    public boolean enableDistance() {
         return this.enableDistance;
     }
 
@@ -170,7 +170,7 @@ public class Voronoi extends Module {
      *
      * @return the frequency of the seed points
      */
-    public double getFrequency() {
+    public double frequency() {
         return this.frequency;
     }
 
@@ -195,7 +195,7 @@ public class Voronoi extends Module {
      *
      * @return the seed value
      */
-    public int getSeed() {
+    public int seed() {
         return this.seed;
     }
 
@@ -213,7 +213,7 @@ public class Voronoi extends Module {
     }
 
     @Override
-    public double getValue(final double x, final double y, final double z) {
+    public double get(final double x, final double y, final double z) {
         double x1 = x;
         double y1 = y;
         double z1 = z;

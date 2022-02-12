@@ -30,7 +30,7 @@
 package org.spongepowered.noise.module.modifier;
 
 import org.spongepowered.noise.exception.NoModuleException;
-import org.spongepowered.noise.module.Module;
+import org.spongepowered.noise.module.NoiseModule;
 
 /**
  * Noise module that outputs the absolute value of the output value from a
@@ -38,7 +38,7 @@ import org.spongepowered.noise.module.Module;
  *
  * @sourceModules 1
  */
-public class Abs extends Module {
+public class Abs extends NoiseModule {
     public Abs() {
         super(1);
     }
@@ -48,16 +48,16 @@ public class Abs extends Module {
      *
      * @param source the input module
      */
-    public Abs(final Module source) {
+    public Abs(final NoiseModule source) {
         this();
         this.setSourceModule(0, source);
     }
 
     @Override
-    public double getValue(final double x, final double y, final double z) {
+    public double get(final double x, final double y, final double z) {
         if (this.sourceModule[0] == null) {
             throw new NoModuleException(0);
         }
-        return Math.abs(this.sourceModule[0].getValue(x, y, z));
+        return Math.abs(this.sourceModule[0].get(x, y, z));
     }
 }

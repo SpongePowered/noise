@@ -45,10 +45,10 @@ public class PerlinTest {
         perlin.setOctaveCount(8);
 
         double max = 0;
-        for (int i = 0; i < perlin.getOctaveCount(); i++) {
-            max += Math.pow(perlin.getPersistence(), i);
+        for (int i = 0; i < perlin.octaveCount(); i++) {
+            max += Math.pow(perlin.persistence(), i);
         }
-        final double methodVal = perlin.getMaxValue();
+        final double methodVal = perlin.maxValue();
         Assertions.assertEquals(max, methodVal, 5e-16);
     }
 

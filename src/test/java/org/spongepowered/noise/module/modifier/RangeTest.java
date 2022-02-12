@@ -43,7 +43,7 @@ public class RangeTest {
         final Range range = new Range(constVal);
         range.setBounds(0.5, 1f, 1f, 2f);
         // Arbitrary
-        Assertions.assertEquals(1.5, range.getValue(35, 41, 1), 0f);
+        Assertions.assertEquals(1.5, range.get(35, 41, 1), 0f);
     }
 
     @Test

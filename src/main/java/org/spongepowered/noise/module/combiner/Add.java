@@ -30,7 +30,7 @@
 package org.spongepowered.noise.module.combiner;
 
 import org.spongepowered.noise.exception.NoModuleException;
-import org.spongepowered.noise.module.Module;
+import org.spongepowered.noise.module.NoiseModule;
 
 /**
  * Noise module that outputs the sum of the two output values from two
@@ -38,7 +38,7 @@ import org.spongepowered.noise.module.Module;
  *
  * @sourceModules 2
  */
-public class Add extends Module {
+public class Add extends NoiseModule {
     public Add() {
         super(2);
     }
@@ -49,20 +49,20 @@ public class Add extends Module {
      * @param left the first operand
      * @param right the second operand
      */
-    public Add(final Module left, final Module right) {
+    public Add(final NoiseModule left, final NoiseModule right) {
         this();
         this.setSourceModule(0, left);
         this.setSourceModule(1, right);
     }
 
     @Override
-    public double getValue(final double x, final double y, final double z) {
+    public double get(final double x, final double y, final double z) {
         if (this.sourceModule[0] == null) {
             throw new NoModuleException(0);
         }
         if (this.sourceModule[1] == null) {
             throw new NoModuleException(1);
         }
-        return this.sourceModule[0].getValue(x, y, z) + this.sourceModule[1].getValue(x, y, z);
+        return this.sourceModule[0].get(x, y, z) + this.sourceModule[1].get(x, y, z);
     }
 }

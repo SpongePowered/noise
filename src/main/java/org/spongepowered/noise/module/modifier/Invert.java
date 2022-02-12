@@ -30,14 +30,14 @@
 package org.spongepowered.noise.module.modifier;
 
 import org.spongepowered.noise.exception.NoModuleException;
-import org.spongepowered.noise.module.Module;
+import org.spongepowered.noise.module.NoiseModule;
 
 /**
  * Noise module that inverts the output value from a source module.
  *
  * @sourceModules 1
  */
-public class Invert extends Module {
+public class Invert extends NoiseModule {
 
     /**
      * The default middle value for an {@link Invert} module.
@@ -55,7 +55,7 @@ public class Invert extends Module {
      *
      * @param source the input module
      */
-    public Invert(final Module source) {
+    public Invert(final NoiseModule source) {
         this();
         this.setSourceModule(0, source);
     }
@@ -66,7 +66,7 @@ public class Invert extends Module {
      * @return the middle value
      * @see #DEFAULT_MIDDLE
      */
-    public double getMiddle() {
+    public double middle() {
         return this.middle;
     }
 
@@ -81,10 +81,10 @@ public class Invert extends Module {
     }
 
     @Override
-    public double getValue(final double x, final double y, final double z) {
+    public double get(final double x, final double y, final double z) {
         if (this.sourceModule[0] == null) {
             throw new NoModuleException(0);
         }
-        return this.middle - this.sourceModule[0].getValue(x, y, z);
+        return this.middle - this.sourceModule[0].get(x, y, z);
     }
 }

@@ -160,20 +160,20 @@ import org.spongepowered.noise.module.source.Voronoi;
  * <h2>Connecting source modules to a noise module</h2>
  *
  * <p>An application connects a source module to a noise module by passing
- * the source module to the {@link #setSourceModule(int, Module)} method.</p>
+ * the source module to the {@link #setSourceModule(int, NoiseModule)} method.</p>
  *
  * <p>The application must also pass an <em>index value</em> to
- * {@link #setSourceModule(int, Module)}. An index value is a numeric
+ * {@link #setSourceModule(int, NoiseModule)}. An index value is a numeric
  * identifier for that source module. Index values are consecutively numbered
  * starting at zero.</p>
  *
  * <p>To retrieve a reference to a source module, pass its index value to
- * the {@link #getSourceModule(int)} method.</p>
+ * the {@link #sourceModule(int)} method.</p>
  *
  * <p>Each noise module requires the attachment of a certain number of source
  * modules before it can output a value. For example, the {@link Add} module
  * requires two source modules, while the {@link Perlin} module requires none.
- * Call the {@link #getSourceModule(int)} method or consult Javadoc to retrieve
+ * Call the {@link #sourceModule(int)} method or consult Javadoc to retrieve
  * the number of source modules required by that module.</p>
  *
  * <p>For non-selector modules, it usually does not matter which index value an
@@ -192,25 +192,25 @@ import org.spongepowered.noise.module.source.Voronoi;
  * with that noise module.</p>
  *
  * <p>To generate an output value, pass the {@code (x, y, z)} coordinates
- * of an input value to the {@link #getValue(double, double, double)} method.</p>
+ * of an input value to the {@link #get(double, double, double)} method.</p>
  *
  * <h2>Using a noise module to generate terrain height maps or textures</h2>
  *
  * <p>One way to generate a terrain height map or a texture is to first
  * allocate a 2-dimensional array of floating-point values. For each
  * array element, pass the array subscripts as {@code x} and {@code y} coordinates
- * to the {@link #getValue(double, double, double)} method (leaving the
+ * to the {@link #get(double, double, double)} method (leaving the
  * {@code z} coordinate set to zero) and place the resulting output value into
  * the array element.</p>
  *
  * <h2>Creating your own noise modules</h2>
  *
- * <p>Create a class that extends from {@link Module}.
+ * <p>Create a class that extends from {@link NoiseModule}.
  *
  * <p>In the constructor, call the base class' constructor while passing the
  * required number of souce modules to it.</p>
  *
- * <p>Override the {@link #getValue(double, double, double)} method. For
+ * <p>Override the {@link #get(double, double, double)} method. For
  * generator modules, calculate and output a value given the coordinates of
  * the input value. For other modules, retrieve the output values from each
  * source module referenced in the {@link #sourceModule} array, mathematically
@@ -220,22 +220,22 @@ import org.spongepowered.noise.module.source.Voronoi;
  * does not modify any source module or control module connected to it; a
  * noise module can only modify the output value from those source modules. You
  * must also ensure that if an application fails to connect
- * all required source modules via the {@link #setSourceModule(int, Module)}
- * method and then attempts to call the {@link #getValue(double, double, double)}
+ * all required source modules via the {@link #setSourceModule(int, NoiseModule)}
+ * method and then attempts to call the {@link #get(double, double, double)}
  * method, your module will throw an exception.</p>
  *
  * <p>It shouldn't be too difficult to create your own noise module. If you
  * still have some problems, take a look at the source code for {@link Add},
  * which is a very simple noise module.</p>
  */
-public abstract class Module {
-    private static final Module[] EMPTY_MODULE_ARRAY = new Module[0];
+public abstract class NoiseModule {
+    private static final NoiseModule[] EMPTY_MODULE_ARRAY = new NoiseModule[0];
 
     /**
      * An array containing references to each source module required by this
      * noise module.
      */
-    protected Module[] sourceModule;
+    protected NoiseModule[] sourceModule;
 
     /**
      * Create a new module.
@@ -243,11 +243,11 @@ public abstract class Module {
      * @param sourceModuleCount the number of source modules required by
      * this module
      */
-    public Module(final int sourceModuleCount) {
+    public NoiseModule(final int sourceModuleCount) {
         if (sourceModuleCount > 0) {
-            this.sourceModule = new Module[sourceModuleCount];
+            this.sourceModule = new NoiseModule[sourceModuleCount];
         } else {
-            this.sourceModule = Module.EMPTY_MODULE_ARRAY;
+            this.sourceModule = NoiseModule.EMPTY_MODULE_ARRAY;
         }
     }
 
@@ -256,15 +256,15 @@ public abstract class Module {
      *
      * <p>Each noise module requires the attachment of a certain number of
      * source modules before an application can call the
-     * {@link #getValue(double, double, double)} method.</p>
+     * {@link #get(double, double, double)} method.</p>
      *
      * @param index the index value assigned to the source module
      * @return the source module if one is set, or else throws {@link NoModuleException}
      * @throws NoModuleException if no module has been set for the specified
      *     index or the index is out of the range from
-     *     0 to {@link #getSourceModuleCount()}
+     *     0 to {@link #sourceModuleCount()}
      */
-    public Module getSourceModule(final int index) {
+    public NoiseModule sourceModule(final int index) {
         if (index >= this.sourceModule.length || index < 0 || this.sourceModule[index] == null) {
             throw new NoModuleException(index);
         }
@@ -276,7 +276,7 @@ public abstract class Module {
      *
      * <p>A noise module mathematically combines the output values from the
      * source modules to generate the value returned by
-     * {@link #getValue(double, double, double)}.</p>
+     * {@link #get(double, double, double)}.</p>
      *
      * <p>The {@code index} value to assign a source module is a unique
      * identifier for that source module. If an index value has already been
@@ -284,20 +284,20 @@ public abstract class Module {
      * module with the new source module.</p>
      *
      * <p>Before an application can call the
-     * {@link #getValue(double, double, double)} method, it must first connect
+     * {@link #get(double, double, double)} method, it must first connect
      * all the required source modules. To determine the number of source
      * modules required by the noise module, call the
-     * {@link #getSourceModuleCount()} method.</p>
+     * {@link #sourceModuleCount()} method.</p>
      *
      * <p>A noise module does not modify a souce module, it only modifies its
      * output values.</p>
      *
      * @param index an index value to assign to this source module, must be in
-     *     the range [0, {@link #getSourceModuleCount()})
+     *     the range [0, {@link #sourceModuleCount()})
      * @param sourceModule the source module to attach
      * @throws IllegalArgumentException if the {@code index} is out of bounds
      */
-    public void setSourceModule(final int index, final Module sourceModule) {
+    public void setSourceModule(final int index, final NoiseModule sourceModule) {
         if (this.sourceModule.length == 0) {
             return;
         }
@@ -312,7 +312,7 @@ public abstract class Module {
      *
      * @return the number of source modules required by this noise module
      */
-    public final int getSourceModuleCount() {
+    public final int sourceModuleCount() {
         return this.sourceModule.length;
     }
 
@@ -321,18 +321,18 @@ public abstract class Module {
      * value.
      *
      * <p>All source modules required by this module must have been connected
-     * with the {@link #setSourceModule(int, Module)} method. If these source
+     * with the {@link #setSourceModule(int, NoiseModule)} method. If these source
      * modules are not connected, this method will throw
      * a {@link NoModuleException}.</p>
      *
      * <p>To determine the number of source modules required by this noise
-     * module, call the {@link #getSourceModuleCount()} method.</p>
+     * module, call the {@link #sourceModuleCount()} method.</p>
      *
      * @param x the {@code x} coordinate of the input value
      * @param y the {@code y} coordinate of the input value
      * @param z the {@code z} coordinate of the input value
      * @return the output value
      */
-    public abstract double getValue(double x, double y, double z);
+    public abstract double get(double x, double y, double z);
 
 }

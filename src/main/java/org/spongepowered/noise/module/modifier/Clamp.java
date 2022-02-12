@@ -30,7 +30,7 @@
 package org.spongepowered.noise.module.modifier;
 
 import org.spongepowered.noise.exception.NoModuleException;
-import org.spongepowered.noise.module.Module;
+import org.spongepowered.noise.module.NoiseModule;
 
 /**
  * Noise module that clamps the output value from a source module to a range
@@ -50,7 +50,7 @@ import org.spongepowered.noise.module.Module;
  *
  * @sourceModules 1
  */
-public class Clamp extends Module {
+public class Clamp extends NoiseModule {
 
     /**
      * Default lower bound of the clamping range for the {@link Clamp}
@@ -76,7 +76,7 @@ public class Clamp extends Module {
      *
      * @param source the input module
      */
-    public Clamp(final Module source) {
+    public Clamp(final NoiseModule source) {
         this();
         this.setSourceModule(0, source);
     }
@@ -90,7 +90,7 @@ public class Clamp extends Module {
      *
      * @return the lower bound
      */
-    public double getLowerBound() {
+    public double lowerBound() {
         return this.lowerBound;
     }
 
@@ -114,7 +114,7 @@ public class Clamp extends Module {
      *
      * @return the upper bound
      */
-    public double getUpperBound() {
+    public double upperBound() {
         return this.upperBound;
     }
 
@@ -130,13 +130,13 @@ public class Clamp extends Module {
     }
 
     @Override
-    public double getValue(final double x, final double y, final double z) {
+    public double get(final double x, final double y, final double z) {
         if (this.sourceModule[0] == null) {
             throw new NoModuleException(0);
         }
         assert this.lowerBound <= this.upperBound;
 
-        final double value = this.sourceModule[0].getValue(x, y, z);
+        final double value = this.sourceModule[0].get(x, y, z);
         if (value < this.lowerBound) {
             return this.lowerBound;
         } else if (value > this.upperBound) {

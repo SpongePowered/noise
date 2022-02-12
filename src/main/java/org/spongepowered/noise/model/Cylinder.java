@@ -30,7 +30,7 @@
 package org.spongepowered.noise.model;
 
 import org.spongepowered.noise.exception.NoModuleException;
-import org.spongepowered.noise.module.Module;
+import org.spongepowered.noise.module.NoiseModule;
 
 import java.util.Objects;
 
@@ -38,12 +38,13 @@ import java.util.Objects;
  * Model that defines the surface of a cylinder.
  */
 public class Cylinder {
-    private Module module;
+
+    private NoiseModule module;
 
     /**
      * @param mod The noise module that is used to generate the output values.
      */
-    public Cylinder(final Module mod) {
+    public Cylinder(final NoiseModule mod) {
         this.module = mod;
     }
 
@@ -52,7 +53,7 @@ public class Cylinder {
      *
      * @return A reference to the noise module.
      */
-    public Module getModule() {
+    public NoiseModule module() {
         return this.module;
     }
 
@@ -64,7 +65,7 @@ public class Cylinder {
      *
      * @param mod The noise module that is used to generate the output values.
      */
-    public void setModule(final Module mod) {
+    public void setModule(final NoiseModule mod) {
         this.module = Objects.requireNonNull(mod, "Mod cannot be null");
     }
 
@@ -75,7 +76,7 @@ public class Cylinder {
      * @param height The height along the {@code y} axis.
      * @return The output value from the noise module.
      */
-    public double getValue(final double angle, final double height) {
+    public double get(final double angle, final double height) {
         if (this.module == null) {
             throw new NoModuleException(0);
         }
@@ -83,6 +84,7 @@ public class Cylinder {
         final double x = Math.cos(Math.toRadians(angle));
         final double y = height;
         final double z = Math.sin(Math.toRadians(angle));
-        return this.module.getValue(x, y, z);
+        return this.module.get(x, y, z);
     }
+
 }

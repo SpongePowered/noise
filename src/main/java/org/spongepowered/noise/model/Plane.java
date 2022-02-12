@@ -30,7 +30,7 @@
 package org.spongepowered.noise.model;
 
 import org.spongepowered.noise.exception.NoModuleException;
-import org.spongepowered.noise.module.Module;
+import org.spongepowered.noise.module.NoiseModule;
 
 import java.util.Objects;
 
@@ -42,14 +42,15 @@ import java.util.Objects;
  * {@code (x, z)} plane.</p>
  */
 public class Plane {
-    private Module module;
+
+    private NoiseModule module;
 
     /**
      * Constructor
      *
      * @param module The noise module that is used to generate the output values.
      */
-    public Plane(final Module module) {
+    public Plane(final NoiseModule module) {
         if (module == null) {
             throw new IllegalArgumentException("module cannot be null");
         }
@@ -58,8 +59,10 @@ public class Plane {
 
     /**
      * Returns the noise module that is used to generate the output values.
+     *
+     * @return the module used to generate output values
      */
-    public Module getModule() {
+    public NoiseModule module() {
         return this.module;
     }
 
@@ -71,7 +74,7 @@ public class Plane {
      *
      * @param module The noise module that is used to generate the output values.
      */
-    public void setModule(final Module module) {
+    public void setModule(final NoiseModule module) {
         this.module = Objects.requireNonNull(module, "Module cannot be null");
     }
 
@@ -82,10 +85,11 @@ public class Plane {
      * @param z The {@code z} coordinate of the input value.
      * @return The output value from the noise module.
      */
-    public double getValue(final double x, final double z) {
+    public double get(final double x, final double z) {
         if (this.module == null) {
             throw new NoModuleException(0);
         }
-        return this.module.getValue(x, 0, z);
+        return this.module.get(x, 0, z);
     }
+
 }

@@ -30,7 +30,7 @@
 package org.spongepowered.noise.module.modifier;
 
 import org.spongepowered.noise.exception.NoModuleException;
-import org.spongepowered.noise.module.Module;
+import org.spongepowered.noise.module.NoiseModule;
 import org.spongepowered.noise.module.source.Perlin;
 
 /**
@@ -38,7 +38,7 @@ import org.spongepowered.noise.module.source.Perlin;
  * output value from a source module.
  *
  * <p><em>Turbulence</em> is the pseudo-random displacement of the input value.
- * The {@link #getValue(double, double, double)} method randomly displaces the
+ * The {@link #get(double, double, double)} method randomly displaces the
  * {@code (x, y, z)} coordinates of the input value before retrieving the output
  * value from the source module. To control the turbulence, an application can
  * modify its frequency, its power, and its roughness.</p>
@@ -94,7 +94,7 @@ import org.spongepowered.noise.module.source.Perlin;
  *
  * @sourceModules 1
  */
-public class Turbulence extends Module {
+public class Turbulence extends NoiseModule {
 
     /**
      * Default power for the {@link Turbulence} noise module.
@@ -122,7 +122,7 @@ public class Turbulence extends Module {
      *
      * @param source the input module
      */
-    public Turbulence(final Module source) {
+    public Turbulence(final NoiseModule source) {
         this();
         this.setSourceModule(0, source);
     }
@@ -136,7 +136,7 @@ public class Turbulence extends Module {
      * @return the power of the turbulence
      * @see #DEFAULT_TURBULENCE_POWER
      */
-    public double getPower() {
+    public double power() {
         return this.power;
     }
 
@@ -162,8 +162,8 @@ public class Turbulence extends Module {
      *
      * @return the roughness of the turbulence
      */
-    public int getRoughnessCount() {
-        return this.xDistortModule.getOctaveCount();
+    public int roughnessCount() {
+        return this.xDistortModule.octaveCount();
     }
 
     /**
@@ -195,8 +195,8 @@ public class Turbulence extends Module {
      *
      * @return the frequency of the turbulence
      */
-    public double getFrequency() {
-        return this.xDistortModule.getFrequency();
+    public double frequency() {
+        return this.xDistortModule.frequency();
     }
 
     /**
@@ -223,8 +223,8 @@ public class Turbulence extends Module {
      *
      * @return the seed value
      */
-    public int getSeed() {
-        return this.xDistortModule.getSeed();
+    public int seed() {
+        return this.xDistortModule.seed();
     }
 
     /**
@@ -253,7 +253,7 @@ public class Turbulence extends Module {
     }
 
     @Override
-    public double getValue(final double x, final double y, final double z) {
+    public double get(final double x, final double y, final double z) {
         if (this.sourceModule[0] == null) {
             throw new NoModuleException(0);
         }
@@ -277,12 +277,12 @@ public class Turbulence extends Module {
         x2 = x + (53820.0 / 65536.0);
         y2 = y + (11213.0 / 65536.0);
         z2 = z + (44845.0 / 65536.0);
-        final double xDistort = x + (this.xDistortModule.getValue(x0, y0, z0) * this.power);
-        final double yDistort = y + (this.yDistortModule.getValue(x1, y1, z1) * this.power);
-        final double zDistort = z + (this.zDistortModule.getValue(x2, y2, z2) * this.power);
+        final double xDistort = x + (this.xDistortModule.get(x0, y0, z0) * this.power);
+        final double yDistort = y + (this.yDistortModule.get(x1, y1, z1) * this.power);
+        final double zDistort = z + (this.zDistortModule.get(x2, y2, z2) * this.power);
 
         // Retrieve the output value at the offset input value instead of the
         // original input value.
-        return this.sourceModule[0].getValue(xDistort, yDistort, zDistort);
+        return this.sourceModule[0].get(xDistort, yDistort, zDistort);
     }
 }

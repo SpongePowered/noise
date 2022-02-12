@@ -30,13 +30,13 @@
 package org.spongepowered.noise.module.modifier;
 
 import org.spongepowered.noise.exception.NoModuleException;
-import org.spongepowered.noise.module.Module;
+import org.spongepowered.noise.module.NoiseModule;
 
 /**
  * Noise module that moves the coordinates of the input value before returning
  * the output value from a source module.
  *
- * <p>The {@link #getValue(double, double, double)} method moves the
+ * <p>The {@link #get(double, double, double)} method moves the
  * {@code (x, y, z)} coordinates of the input value by a translation amount
  * before returning the output value from the source module. To set the
  * translation amount, call the {@link #setTranslations(double, double, double)}
@@ -47,7 +47,7 @@ import org.spongepowered.noise.module.Module;
  *
  * @sourceModules 1
  */
-public class TranslatePoint extends Module {
+public class TranslatePoint extends NoiseModule {
 
     /**
      * Default translation factor applied to the {@code x} coordinate for the
@@ -86,7 +86,7 @@ public class TranslatePoint extends Module {
      *
      * @param source the input module
      */
-    public TranslatePoint(final Module source) {
+    public TranslatePoint(final NoiseModule source) {
         this();
         this.setSourceModule(0, source);
     }
@@ -98,7 +98,7 @@ public class TranslatePoint extends Module {
      * @return the translation amount to apply to the {@code x} coordinate
      * @see #DEFAULT_TRANSLATE_POINT_X
      */
-    public double getXTranslation() {
+    public double xTranslation() {
         return this.xTranslation;
     }
 
@@ -106,7 +106,7 @@ public class TranslatePoint extends Module {
      * Set the translation amount to apply to the {@code x} coordinate of the
      * input value.
      *
-     * <p>The {@link #getValue(double, double, double)} method moves the
+     * <p>The {@link #get(double, double, double)} method moves the
      * {@code (x, y, z)} coordinates of the input value by a translation amount
      * before returning the output value from the source module.</p>
      *
@@ -123,7 +123,7 @@ public class TranslatePoint extends Module {
      * @return the translation amount to apply to the {@code y} coordinate
      * @see #DEFAULT_TRANSLATE_POINT_Y
      */
-    public double getYTranslation() {
+    public double yTranslation() {
         return this.yTranslation;
     }
 
@@ -131,7 +131,7 @@ public class TranslatePoint extends Module {
      * Set the translation amount to apply to the {@code y} coordinate of the
      * input value.
      *
-     * <p>The {@link #getValue(double, double, double)} method moves the
+     * <p>The {@link #get(double, double, double)} method moves the
      * {@code (x, y, z)} coordinates of the input value by a translation amount
      * before returning the output value from the source module.</p>
      *
@@ -148,7 +148,7 @@ public class TranslatePoint extends Module {
      * @return the translation amount to apply to the {@code z} coordinate
      * @see #DEFAULT_TRANSLATE_POINT_Y
      */
-    public double getZTranslation() {
+    public double zTranslation() {
         return this.zTranslation;
     }
 
@@ -156,7 +156,7 @@ public class TranslatePoint extends Module {
      * Set the translation amount to apply to the {@code z} coordinate of the
      * input value.
      *
-     * <p>The {@link #getValue(double, double, double)} method moves the
+     * <p>The {@link #get(double, double, double)} method moves the
      * {@code (x, y, z)} coordinates of the input value by a translation amount
      * before returning the output value from the source module.</p>
      *
@@ -170,7 +170,7 @@ public class TranslatePoint extends Module {
      * Set the translation amount to apply to the {@code (x, y, z)} coordinates
      * of the input value.
      *
-     * <p>The {@link #getValue(double, double, double)} method moves the
+     * <p>The {@link #get(double, double, double)} method moves the
      * {@code (x, y, z)} coordinates of the input value by a translation amount
      * before returning the output value from the source module.</p>
      *
@@ -185,11 +185,11 @@ public class TranslatePoint extends Module {
     }
 
     @Override
-    public double getValue(final double x, final double y, final double z) {
+    public double get(final double x, final double y, final double z) {
         if (this.sourceModule[0] == null) {
             throw new NoModuleException(0);
         }
 
-        return this.sourceModule[0].getValue(x + this.xTranslation, y + this.yTranslation, z + this.zTranslation);
+        return this.sourceModule[0].get(x + this.xTranslation, y + this.yTranslation, z + this.zTranslation);
     }
 }

@@ -30,7 +30,7 @@
 package org.spongepowered.noise.module.combiner;
 
 import org.spongepowered.noise.exception.NoModuleException;
-import org.spongepowered.noise.module.Module;
+import org.spongepowered.noise.module.NoiseModule;
 import org.spongepowered.noise.module.modifier.Turbulence;
 import org.spongepowered.noise.module.source.Perlin;
 
@@ -56,7 +56,7 @@ import java.util.Objects;
  *     input value.</dd>
  * </dl>
  *
- * <p>The {@link #getValue(double, double, double)} method modifies the
+ * <p>The {@link #get(double, double, double)} method modifies the
  * {@code (x, y, z)} coordinates of the input value using the output values from
  * the three displacement modules before retrieving the output value from the
  * source module.</p>
@@ -67,7 +67,7 @@ import java.util.Objects;
  *
  * @sourceModules 4
  */
-public class Displace extends Module {
+public class Displace extends NoiseModule {
     public Displace() {
         super(4);
     }
@@ -80,7 +80,7 @@ public class Displace extends Module {
      * @param yDisplace the {@code y} displacement module
      * @param zDisplace the {@code z} displacement module
      */
-    public Displace(final Module source, final Module xDisplace, final Module yDisplace, final Module zDisplace) {
+    public Displace(final NoiseModule source, final NoiseModule xDisplace, final NoiseModule yDisplace, final NoiseModule zDisplace) {
         this();
         this.setSourceModule(0, source);
         this.setSourceModule(1, xDisplace);
@@ -91,7 +91,7 @@ public class Displace extends Module {
     /**
      * Gets the {@code x} displacement module.
      *
-     * <p>The {@link #getValue(double, double, double)} method displaces the
+     * <p>The {@link #get(double, double, double)} method displaces the
      * input value by adding the output value from this displacement module to
      * the {@code x} coordinate of the input value before returning the output
      * value from the source module.</p>
@@ -99,7 +99,7 @@ public class Displace extends Module {
      * @return the {@code x} displacement module
      * @throws NoModuleException if this displacement module has not yet been set
      */
-    public Module getXDisplaceModule() {
+    public NoiseModule xDisplaceModule() {
         if (this.sourceModule == null || this.sourceModule[1] == null) {
             throw new NoModuleException(1);
         }
@@ -109,7 +109,7 @@ public class Displace extends Module {
     /**
      * Sets the {@code x} displacement module.
      *
-     * <p>The {@link #getValue(double, double, double)} method displaces the
+     * <p>The {@link #get(double, double, double)} method displaces the
      * input value by adding the output value from this displacement module to
      * the {@code x} coordinate of the input value before returning the output
      * value from the source module.</p>
@@ -117,19 +117,19 @@ public class Displace extends Module {
      * <p>This method assigns an index value of {@code 1} to the {@code x}
      * displacement module. Passing the displacement module to this method
      * produces the same results as passing the displacement module to the
-     * {@link #setSourceModule(int, Module)} method while assigning it an index
+     * {@link #setSourceModule(int, NoiseModule)} method while assigning it an index
      * value of {@code 1}.</p>
      *
      * @param x displacement module that displaces the {@code x} coordinate
      */
-    public void setXDisplaceModule(final Module x) {
+    public void setXDisplaceModule(final NoiseModule x) {
         this.sourceModule[1] = Objects.requireNonNull(x, "x");
     }
 
     /**
      * Gets the {@code y} displacement module.
      *
-     * <p>The {@link #getValue(double, double, double)} method displaces the
+     * <p>The {@link #get(double, double, double)} method displaces the
      * input value by adding the output value from this displacement module to
      * the {@code y} coordinate of the input value before returning the output
      * value from the source module.</p>
@@ -137,7 +137,7 @@ public class Displace extends Module {
      * @return the {@code y} displacement module
      * @throws NoModuleException if this displacement module has not yet been set
      */
-    public Module getYDisplaceModule() {
+    public NoiseModule yDisplaceModule() {
         if (this.sourceModule == null || this.sourceModule[2] == null) {
             throw new NoModuleException(2);
         }
@@ -147,7 +147,7 @@ public class Displace extends Module {
     /**
      * Sets the {@code y} displacement module.
      *
-     * <p>The {@link #getValue(double, double, double)} method displaces the
+     * <p>The {@link #get(double, double, double)} method displaces the
      * input value by adding the output value from this displacement module to
      * the {@code y} coordinate of the input value before returning the output
      * value from the source module.</p>
@@ -155,19 +155,19 @@ public class Displace extends Module {
      * <p>This method assigns an index value of {@code 2} to the {@code y}
      * displacement module. Passing the displacement module to this method
      * produces the same results as passing the displacement module to the
-     * {@link #setSourceModule(int, Module)} method while assigning it an index
+     * {@link #setSourceModule(int, NoiseModule)} method while assigning it an index
      * value of {@code 2}.</p>
      *
      * @param y displacement module that displaces the {@code y} coordinate
      */
-    public void setYDisplaceModule(final Module y) {
+    public void setYDisplaceModule(final NoiseModule y) {
         this.sourceModule[2] = Objects.requireNonNull(y, "y");
     }
 
     /**
      * Gets the {@code z} displacement module.
      *
-     * <p>The {@link #getValue(double, double, double)} method displaces the
+     * <p>The {@link #get(double, double, double)} method displaces the
      * input value by adding the output value from this displacement module to
      * the {@code z} coordinate of the input value before returning the output
      * value from the source module.</p>
@@ -175,7 +175,7 @@ public class Displace extends Module {
      * @return the {@code z} displacement module
      * @throws NoModuleException if this displacement module has not yet been set
      */
-    public Module getZDisplaceModule() {
+    public NoiseModule zDisplaceModule() {
         if (this.sourceModule == null || this.sourceModule[3] == null) {
             throw new NoModuleException(3);
         }
@@ -185,7 +185,7 @@ public class Displace extends Module {
     /**
      * Sets the {@code z} displacement module.
      *
-     * <p>The {@link #getValue(double, double, double)} method displaces the
+     * <p>The {@link #get(double, double, double)} method displaces the
      * input value by adding the output value from this displacement module to
      * the {@code z} coordinate of the input value before returning the output
      * value from the source module.</p>
@@ -193,19 +193,19 @@ public class Displace extends Module {
      * <p>This method assigns an index value of {@code 3} to the {@code z}
      * displacement module. Passing the displacement module to this method
      * produces the same results as passing the displacement module to the
-     * {@link #setSourceModule(int, Module)} method while assigning it an index
+     * {@link #setSourceModule(int, NoiseModule)} method while assigning it an index
      * value of {@code 3}.</p>
      *
      * @param z displacement module that displaces the {@code z} coordinate
      */
-    public void setZDisplaceModule(final Module z) {
+    public void setZDisplaceModule(final NoiseModule z) {
         this.sourceModule[3] = Objects.requireNonNull(z, "z");
     }
 
     /**
      * Set the {@code x}, {@code y}, and {@code z} displacement modules.
      *
-     * <p>The {@link #getValue(double, double, double)} method displaces the
+     * <p>The {@link #get(double, double, double)} method displaces the
      * input value by adding the output value from each of the displacement
      * modules to the corresponding coordinates of the input value before
      * returning the output value from the source module.</p>
@@ -219,14 +219,14 @@ public class Displace extends Module {
      * @param y module that displaces the {@code y} coordinate of the input value
      * @param z module that displaces the {@code z} coordinate of the input value
      */
-    public void setDisplaceModules(final Module x, final Module y, final Module z) {
+    public void setDisplaceModules(final NoiseModule x, final NoiseModule y, final NoiseModule z) {
         this.setXDisplaceModule(x);
         this.setYDisplaceModule(y);
         this.setZDisplaceModule(z);
     }
 
     @Override
-    public double getValue(final double x, final double y, final double z) {
+    public double get(final double x, final double y, final double z) {
         if (this.sourceModule[0] == null) {
             throw new NoModuleException(0);
         }
@@ -242,12 +242,12 @@ public class Displace extends Module {
 
         // Get the output values from the three displacement modules.  Add each
         // value to the corresponding coordinate in the input value.
-        final double xDisplace = x + this.sourceModule[1].getValue(x, y, z);
-        final double yDisplace = y + this.sourceModule[2].getValue(x, y, z);
-        final double zDisplace = z + this.sourceModule[3].getValue(x, y, z);
+        final double xDisplace = x + this.sourceModule[1].get(x, y, z);
+        final double yDisplace = y + this.sourceModule[2].get(x, y, z);
+        final double zDisplace = z + this.sourceModule[3].get(x, y, z);
 
         // Retrieve the output value using the offset input value instead of
         // the original input value.
-        return this.sourceModule[0].getValue(xDisplace, yDisplace, zDisplace);
+        return this.sourceModule[0].get(xDisplace, yDisplace, zDisplace);
     }
 }

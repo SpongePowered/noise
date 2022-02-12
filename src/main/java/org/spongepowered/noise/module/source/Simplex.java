@@ -29,11 +29,11 @@
  */
 package org.spongepowered.noise.module.source;
 
-import org.spongepowered.noise.Noise;
 import org.spongepowered.noise.LatticeOrientation;
+import org.spongepowered.noise.Noise;
 import org.spongepowered.noise.NoiseQualitySimplex;
 import org.spongepowered.noise.Utils;
-import org.spongepowered.noise.module.Module;
+import org.spongepowered.noise.module.NoiseModule;
 
 /**
  * Generates summed octave Simplex-style noise.
@@ -45,7 +45,7 @@ import org.spongepowered.noise.module.Module;
  *
  * @sourceModules 0
  */
-public class Simplex extends Module {
+public class Simplex extends NoiseModule {
 
     /**
      * Default frequency for the {@link Simplex} noise module.
@@ -111,7 +111,7 @@ public class Simplex extends Module {
      * @return the frequency of the first octave
      * @see #DEFAULT_SIMPLEX_FREQUENCY
      */
-    public double getFrequency() {
+    public double frequency() {
         return this.frequency;
     }
 
@@ -132,7 +132,7 @@ public class Simplex extends Module {
      * @return the lacunarity of the Simplex noise
      * @see #DEFAULT_SIMPLEX_LACUNARITY
      */
-    public double getLacunarity() {
+    public double lacunarity() {
         return this.lacunarity;
     }
 
@@ -157,7 +157,7 @@ public class Simplex extends Module {
      * @return the lattice orientation
      * @see #DEFAULT_SIMPLEX_ORIENTATION
      */
-    public LatticeOrientation getLatticeOrientation() {
+    public LatticeOrientation latticeOrientation() {
         return this.latticeOrientation;
     }
 
@@ -179,7 +179,7 @@ public class Simplex extends Module {
      * @return the quality of the Simplex noise
      * @see #DEFAULT_SIMPLEX_QUALITY
      */
-    public NoiseQualitySimplex getNoiseQuality() {
+    public NoiseQualitySimplex noiseQuality() {
         return this.noiseQuality;
     }
 
@@ -204,7 +204,7 @@ public class Simplex extends Module {
      * @return the number of octaves that generate the Simplex noise
      * @see #DEFAULT_SIMPLEX_OCTAVE_COUNT
      */
-    public int getOctaveCount() {
+    public int octaveCount() {
         return this.octaveCount;
     }
 
@@ -239,7 +239,7 @@ public class Simplex extends Module {
      * @return the persistence value
      * @see #DEFAULT_SIMPLEX_PERSISTENCE
      */
-    public double getPersistence() {
+    public double persistence() {
         return this.persistence;
     }
 
@@ -263,7 +263,7 @@ public class Simplex extends Module {
      * @return the seed value
      * @see #DEFAULT_SIMPLEX_SEED
      */
-    public int getSeed() {
+    public int seed() {
         return this.seed;
     }
 
@@ -275,25 +275,25 @@ public class Simplex extends Module {
     public void setSeed(final int seed) {
         this.seed = seed;
     }
-    
+
     /**
      * Returns the maximum value the simplex module can output in its
      * current configuration.
      *
      * @return The maximum possible value for
-     *     {@link Simplex#getValue(double, double, double)} to return
+     *     {@link Simplex#get(double, double, double)} to return
      */
-    public double getMaxValue() {
+    public double maxValue() {
         /*
          * Each successive octave adds persistence ^ current_octaves to max possible output.
          * So (p = persistence, o = octave): Max(simplex) = p + p*p + p*p*p + ... + p^(o-1).
          * Using geometric series formula we can narrow it down to this:
          */
-        return (Math.pow(this.getPersistence(), this.getOctaveCount()) - 1) / (this.getPersistence() - 1);
+        return (Math.pow(this.persistence(), this.octaveCount()) - 1) / (this.persistence() - 1);
     }
 
     @Override
-    public double getValue(final double x, final double y, final double z) {
+    public double get(final double x, final double y, final double z) {
         double x1 = x;
         double y1 = y;
         double z1 = z;

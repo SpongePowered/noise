@@ -31,7 +31,7 @@ package org.spongepowered.noise.module.combiner;
 
 import org.spongepowered.noise.Utils;
 import org.spongepowered.noise.exception.NoModuleException;
-import org.spongepowered.noise.module.Module;
+import org.spongepowered.noise.module.NoiseModule;
 
 /**
  * Noise module that outputs a weighted blend of the output values of two source
@@ -53,8 +53,8 @@ import org.spongepowered.noise.module.Module;
  * </dl>
  *
  * <p>An application can pass the control module to the
- * {@link #setControlModule(Module)} method instead of the
- * {@link #setSourceModule(int, Module)} method. This may make the application
+ * {@link #setControlModule(NoiseModule)} method instead of the
+ * {@link #setSourceModule(int, NoiseModule)} method. This may make the application
  * code easier to read.</p>
  *
  * <p>This noise module uses linear interpolation to perform the
@@ -62,7 +62,7 @@ import org.spongepowered.noise.module.Module;
  *
  * @sourceModules 3
  */
-public class Blend extends Module {
+public class Blend extends NoiseModule {
     public Blend() {
         super(3);
     }
@@ -74,7 +74,7 @@ public class Blend extends Module {
      * @param right the second source
      * @param control the control module
      */
-    public Blend(final Module left, final Module right, final Module control) {
+    public Blend(final NoiseModule left, final NoiseModule right, final NoiseModule control) {
         this();
         this.setSourceModule(0, left);
         this.setSourceModule(1, right);
@@ -93,7 +93,7 @@ public class Blend extends Module {
      * @return the control module
      * @throws NoModuleException if no control module has been set yet.
      */
-    public Module getControlModule() {
+    public NoiseModule controlModule() {
         if (this.sourceModule[2] == null) {
             throw new NoModuleException(2);
         }
@@ -111,12 +111,12 @@ public class Blend extends Module {
      *
      * <p>This method assigns the control module an index value of {@code 2}.
      * Passing the control module to this method produces the same results as
-     * passing the control module to the {@link #setSourceModule(int, Module)}
+     * passing the control module to the {@link #setSourceModule(int, NoiseModule)}
      * method while assigning that noise module an index value of {@code 2}.</p>
      *
      * @param module the control module
      */
-    public void setControlModule(final Module module) {
+    public void setControlModule(final NoiseModule module) {
         if (module == null) {
             throw new IllegalArgumentException("Control Module cannot be null");
         }
@@ -124,7 +124,7 @@ public class Blend extends Module {
     }
 
     @Override
-    public double getValue(final double x, final double y, final double z) {
+    public double get(final double x, final double y, final double z) {
         if (this.sourceModule[0] == null) {
             throw new NoModuleException(0);
         }
@@ -135,9 +135,9 @@ public class Blend extends Module {
             throw new NoModuleException(2);
         }
 
-        final double v0 = this.sourceModule[0].getValue(x, y, z);
-        final double v1 = this.sourceModule[1].getValue(x, y, z);
-        final double alpha = this.sourceModule[2].getValue(x, y, z);
+        final double v0 = this.sourceModule[0].get(x, y, z);
+        final double v1 = this.sourceModule[1].get(x, y, z);
+        final double alpha = this.sourceModule[2].get(x, y, z);
         return Utils.linearInterp(v0, v1, alpha);
     }
 }
