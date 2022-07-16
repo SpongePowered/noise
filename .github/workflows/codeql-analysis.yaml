@@ -8,7 +8,7 @@ on:
 
 jobs:
   call-codeql:
-    uses: SpongePowered/.github/shared-workflows/codeql-analysis.yaml@master
+    uses: SpongePowered/.github/.github/workflows/shared-codeql-analysis.yaml@master
     with:
       runtime_version: 17
     secrets: inherit
