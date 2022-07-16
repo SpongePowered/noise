@@ -1,0 +1,14 @@
+name: Check Spotless
+
+on:
+  push:
+    branches: "**"
+    tags-ignore: ["**"]
+  pull_request:
+
+jobs:
+  call-check:
+    uses: SpongePowered/.github/shared-workflows/check-spotless.yaml@master
+    with:
+      runtime_version: 17
+    secrets: inherit
