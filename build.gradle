@@ -1,7 +1,6 @@
 plugins {
   id 'org.spongepowered.gradle.sponge.dev'
-  id 'net.kyori.indra'
-  id 'net.kyori.indra.publishing.sonatype'
+  id 'com.diffplug.spotless'
   id 'net.ltgt.errorprone'
   id 'jacoco'
 }
@@ -81,6 +80,12 @@ spongeConvention {
     publishing(true)
   }
   mitLicense()
+}
+
+spotless {
+    java {
+        licenseHeaderFile project.file('HEADER.txt')
+    }
 }
 
 indra {
