@@ -1,15 +1,19 @@
 plugins {
-    id 'net.kyori.indra'
-    id 'net.ltgt.errorprone'
+    alias libs.plugins.indra
+    alias libs.plugins.errorprone
 }
 
 dependencies {
-  errorprone "com.google.errorprone:error_prone_core:$errorproneVersion"
-  errorprone "com.google.errorprone:error_prone_annotations:$errorproneVersion"
+  errorprone libs.errorprone
+  compileOnly libs.errorprone.annotations
 }
 
 indra {
     javaVersions().target 17
+}
+
+tasks.withType(AbstractPublishToMaven).configureEach {
+    enabled = false
 }
 
 tasks.withType(Javadoc).configureEach {

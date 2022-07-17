@@ -7,14 +7,6 @@ pluginManagement {
             name = "sponge"
         }
     }
-    
-    plugins {
-        id 'org.spongepowered.gradle.sponge.dev' version '2.0.2'
-        id 'net.kyori.indra' version '2.1.1'
-        id 'net.kyori.indra.publishing.sonatype' version '2.1.1'
-        id 'com.diffplug.spotless' version '6.8.0'
-        id 'net.ltgt.errorprone' version '2.0.2'
-    }
 }
 
 dependencyResolutionManagement {

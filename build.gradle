@@ -1,7 +1,9 @@
 plugins {
-  id 'org.spongepowered.gradle.sponge.dev'
-  id 'com.diffplug.spotless'
-  id 'net.ltgt.errorprone'
+  alias libs.plugins.spongeConvention
+  alias libs.plugins.spotless
+  alias libs.plugins.errorprone
+  alias libs.plugins.indra.sonatype
+  alias libs.plugins.indra
   id 'jacoco'
 }
 
@@ -14,10 +16,10 @@ configurations {
 }
 
 dependencies {
-  testImplementation "org.junit.jupiter:junit-jupiter-api:5.8.2"
-  testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.8.2"
-  errorprone "com.google.errorprone:error_prone_core:$errorproneVersion"
-  errorprone "com.google.errorprone:error_prone_annotations:$errorproneVersion"
+  testImplementation libs.junit.api
+  testRuntimeOnly libs.junit.engine
+  errorprone libs.errorprone
+  errorprone libs.errorprone.annotations
   tagletPath project(':noise-doclet-extras')
 }
 
@@ -47,14 +49,6 @@ javadoc {
 
   doFirst {
     options.tagletPath(taglets.get().files.toList())
-  }
-}
-
-afterEvaluate {
-  javadoc {
-    options {
-      // addBooleanOption("-no-module-directories", false)
-    }
   }
 }
 
