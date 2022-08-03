@@ -7,7 +7,7 @@ errorproneGradle = "2.0.2"
 junit = "5.9.0"
 indra = "2.1.1"
 spongeConvention = "2.0.2"
-spotless = "6.8.0"
+spotless = "6.9.0"
 
 [libraries]
 errorprone = { module = "com.google.errorprone:error_prone_core", version.ref = "errorprone" }
