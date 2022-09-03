@@ -2,7 +2,7 @@
 version = "1.0"
 
 [versions]
-errorprone = "2.14.0"
+errorprone = "2.15.0"
 errorproneGradle = "2.0.2"
 junit = "5.9.0"
 indra = "2.1.1"
