@@ -4,7 +4,7 @@ version = "1.0"
 [versions]
 errorprone = "2.15.0"
 errorproneGradle = "2.0.2"
-junit = "5.9.0"
+junit = "5.9.1"
 indra = "2.1.1"
 spongeConvention = "2.0.2"
 spotless = "6.10.0"
