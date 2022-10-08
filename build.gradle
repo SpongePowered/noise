@@ -83,7 +83,11 @@ spongeConvention {
 
 spotless {
     java {
-        licenseHeaderFile project.file('HEADER.txt')
+        endWithNewline()
+	indentWithSpaces(4)
+	trimTrailingWhitespace()
+	removeUnusedImports()
+	formatAnnotations()
     }
 }
 
