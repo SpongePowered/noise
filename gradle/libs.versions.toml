@@ -5,8 +5,8 @@ version = "1.0"
 errorprone = "2.15.0"
 errorproneGradle = "2.0.2"
 junit = "5.9.1"
-indra = "3.0.0"
-spongeConvention = "2.1.0-SNAPSHOT"
+indra = "3.0.1"
+spongeConvention = "2.1.1"
 spotless = "6.11.0"
 
 [libraries]
