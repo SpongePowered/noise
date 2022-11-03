@@ -3,7 +3,7 @@ version = "1.0"
 
 [versions]
 errorprone = "2.16"
-errorproneGradle = "2.0.2"
+errorproneGradle = "3.0.1"
 junit = "5.9.1"
 indra = "3.0.1"
 spongeConvention = "2.1.1"
